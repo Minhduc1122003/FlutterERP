@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:erp/pages/qc_master/tab1/content.dart';
 
-class TestPlan extends StatefulWidget {
-  const TestPlan({Key? key}) : super(key: key);
+class TestPlanPage extends StatefulWidget {
+  const TestPlanPage({Key? key}) : super(key: key);
 
   @override
-  State<TestPlan> createState() => _TestPlanState();
+  State<TestPlanPage> createState() => _TestPlanPageState();
 }
 
-class _TestPlanState extends State<TestPlan> {
+class _TestPlanPageState extends State<TestPlanPage> {
   Color color1 = const Color(0xFF4AB35E);
 
   @override

@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:erp/pages/qc_master/tab1/unpost_mo.dart';
+import 'package:erp/pages/qc_master/infomation_unpost.dart';
+import 'package:erp/pages/qc_master/unpost_add.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/config/constant.dart';
@@ -9,15 +10,15 @@ import 'package:erp/reusable/cache_image_network.dart';
 import 'package:erp/reusable/global_function.dart';
 import 'package:erp/reusable/shimmer_loading.dart';
 
-class TestPlanTab1 extends StatefulWidget {
-  const TestPlanTab1({super.key});
+class UnpostMO extends StatefulWidget {
+  const UnpostMO({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _TestPlanTab1State createState() => _TestPlanTab1State();
+  _UnpostMOState createState() => _UnpostMOState();
 }
 
-class _TestPlanTab1State extends State<TestPlanTab1>
+class _UnpostMOState extends State<UnpostMO>
     with SingleTickerProviderStateMixin {
   // initialize global function and global widget
   final Color _color1 = const Color(0xff777777);
@@ -25,6 +26,8 @@ class _TestPlanTab1State extends State<TestPlanTab1>
   final _globalFunction = GlobalFunction();
   final _shimmerLoading = ShimmerLoading();
   late AnimationController _animationController;
+  late Animation<Color?> _animateColor;
+  late Animation<double> _animateIcon;
   final Curve _curve = Curves.easeOut;
   bool _loading = true;
   Timer? _timerDummy;
@@ -40,6 +43,19 @@ class _TestPlanTab1State extends State<TestPlanTab1>
       ..addListener(() {
         setState(() {});
       });
+    _animateIcon =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+    _animateColor = ColorTween(
+      begin: Colors.green,
+      end: Colors.red,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(
+        0.00,
+        1.00,
+        curve: _curve,
+      ),
+    ));
     super.initState();
   }
 
@@ -62,7 +78,7 @@ class _TestPlanTab1State extends State<TestPlanTab1>
     _manufacturingOrderData = [
       ManufacturingOrder(
           rowpointer: "1",
-          moNum: "MO2200000168",
+          moNum: "MO2200000168_1",
           qty: 1234,
           qtyConsume: 12,
           desc: "Create from MO Builder",
@@ -70,7 +86,7 @@ class _TestPlanTab1State extends State<TestPlanTab1>
           status: 1),
       ManufacturingOrder(
           rowpointer: "",
-          moNum: "MO2200000169",
+          moNum: "MO2200000168_2",
           qty: 121,
           qtyConsume: 54,
           desc: "Tạo từ bài bình abc",
@@ -78,7 +94,7 @@ class _TestPlanTab1State extends State<TestPlanTab1>
           status: 1),
       ManufacturingOrder(
           rowpointer: "3",
-          moNum: "MO2200000170",
+          moNum: "MO2200000168_3",
           qty: 8765,
           qtyConsume: 541,
           desc: "Create from MO Builder",
@@ -86,60 +102,12 @@ class _TestPlanTab1State extends State<TestPlanTab1>
           status: 2),
       ManufacturingOrder(
           rowpointer: "4",
-          moNum: "MO2200000171",
+          moNum: "MO2200000168_4",
           qty: 764,
           qtyConsume: 54,
           desc: "Create from MO Builder",
           whse: "Kho sản xuất",
           status: 2),
-      ManufacturingOrder(
-          rowpointer: "5",
-          moNum: "MO2200000172",
-          qty: 6754,
-          qtyConsume: 75,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 3),
-      ManufacturingOrder(
-          rowpointer: "6",
-          moNum: "MO2200000173",
-          qty: 864,
-          qtyConsume: 97,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 3),
-      ManufacturingOrder(
-          rowpointer: "7",
-          moNum: "MO2200000174",
-          qty: 6433,
-          qtyConsume: 65,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 4),
-      ManufacturingOrder(
-          rowpointer: "8",
-          moNum: "MO2200000175",
-          qty: 9865,
-          qtyConsume: 643,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 4),
-      ManufacturingOrder(
-          rowpointer: "9",
-          moNum: "MO2200000176",
-          qty: 8265,
-          qtyConsume: 745,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 1),
-      ManufacturingOrder(
-          rowpointer: "10",
-          moNum: "MO2200000177",
-          qty: 3635,
-          qtyConsume: 98,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 2)
     ];
   }
 
@@ -147,6 +115,19 @@ class _TestPlanTab1State extends State<TestPlanTab1>
   Widget build(BuildContext context) {
     final double boxImageSize = (MediaQuery.of(context).size.width / 4);
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => const UnpostNewPage()));
+          },
+          backgroundColor: _animateColor.value,
+          child: AnimatedIcon(
+            icon: AnimatedIcons.add_event,
+            progress: _animateIcon,
+          ),
+        ),
         appBar: AppBar(
           toolbarHeight: 5,
           backgroundColor: const Color(0xFF4AB35E),
@@ -235,7 +216,7 @@ class _TestPlanTab1State extends State<TestPlanTab1>
                     Navigator.push(
                         context,
                         CupertinoPageRoute(
-                            builder: (context) => const UnpostMO()));
+                            builder: (context) => const InfomationUnpostPage()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,

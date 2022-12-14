@@ -1,5 +1,6 @@
+// ignore_for_file: unused_field
+
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,10 +20,11 @@ class _PickImagePageState extends State<PickImagePage> {
   // initialize global widget
   final _globalWidget = GlobalWidget();
 
-  Color _color1 = Color(0xFF0181cc);
-  Color _color2 = Color(0xff777777);
+  final Color _color1 = const Color(0xFF0181cc);
+  final Color _color2 = const Color(0xff777777);
 
   File? _image;
+  List<File> multipleImages = [];
   final _picker = ImagePicker();
   dynamic _selectedFile;
 
@@ -33,12 +35,6 @@ class _PickImagePageState extends State<PickImagePage> {
 
   @override
   void dispose() {
-    if(!kIsWeb){
-      if (_selectedFile != null && _selectedFile!.existsSync()) {
-        _selectedFile!.deleteSync();
-      }
-    }
-    _selectedFile = null;
     super.dispose();
   }
 
@@ -64,7 +60,7 @@ class _PickImagePageState extends State<PickImagePage> {
       if (IO.Platform.isIOS) {
         openAppSettings();
       } else {
-        if(status == PermissionStatus.permanentlyDenied){
+        if (status == PermissionStatus.permanentlyDenied) {
           openAppSettings();
         }
       }
@@ -78,7 +74,7 @@ class _PickImagePageState extends State<PickImagePage> {
       if (IO.Platform.isIOS) {
         openAppSettings();
       } else {
-        if(status == PermissionStatus.permanentlyDenied){
+        if (status == PermissionStatus.permanentlyDenied) {
           openAppSettings();
         }
       }
@@ -88,124 +84,65 @@ class _PickImagePageState extends State<PickImagePage> {
   }
 
   void _getImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: source, maxWidth: 640, imageQuality: 100);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      }
-    });
-
-    if(_image != null){
-      this.setState((){
-        if(!kIsWeb){
-          if(_selectedFile!=null && _selectedFile!.existsSync()){
-            _selectedFile!.deleteSync();
-          }
-        }
-        if(kIsWeb){
-          _selectedFile = pickedFile;
-        } else {
-          _selectedFile = _image;
-        }
-
-        _image = null;
+    if (source == ImageSource.gallery) {
+      List<XFile>? picked = await _picker.pickMultiImage();
+      setState(() {
+        multipleImages.addAll(picked.map((e) => File(e.path)).toList());
       });
+    } else {
+      final XFile? pickedImage =
+          await _picker.pickImage(source: ImageSource.camera);
+      if (pickedImage != null) {
+        setState(() {
+          multipleImages.add(File(pickedImage.path));
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: CupertinoNavigationBar(
-          middle: Text('Error'),
-        ),
-        body: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: <Widget>[
-                  _getImageWidget(),
-                  SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      (!kIsWeb)
-                      ? GestureDetector(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Icon(
-                              Icons.camera_alt,
-                              color: _color2,
-                              size: 40,
-                            ),
-                            SizedBox(width: 10),
-                            Text('Camera'),
-                          ],
-                        ),
-                        onTap: () {
-                          _askPermissionCamera();
-                        },
-                      ) : SizedBox.shrink(),
-                      Container(
-                        width: (!kIsWeb) ? 20 : 0,
-                      ),
-                      GestureDetector(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Icon(
-                              Icons.photo,
-                              color: _color2,
-                              size: 40,
-                            ),
-                            SizedBox(width: 10),
-                            Text('Gallery'),
-                          ],
-                        ),
-                        onTap: () {
-                          if(kIsWeb){
-                            _getImage(ImageSource.gallery);
-                          } else {
-                            if (IO.Platform.isIOS) {
-                              _askPermissionPhotos();
-                            } else {
-                              _askPermissionStorage();
-                            }
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+      appBar: AppBar(
+        title: const Text("CodeWithPatel"),
+      ),
+      body: SizedBox(
+        width: size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  _askPermissionCamera();
+                },
+                child: const Text("Camera")),
+            ElevatedButton(
+                onPressed: () {
+                  if (kIsWeb) {
+                    _getImage(ImageSource.gallery);
+                  } else {
+                    if (IO.Platform.isIOS) {
+                      _askPermissionPhotos();
+                    } else {
+                      _askPermissionStorage();
+                    }
+                  }
+                },
+                child: const Text("Gallery")),
+            Expanded(
+              child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3, mainAxisSpacing: 10),
+                  itemCount: multipleImages.length,
+                  itemBuilder: (context, index) {
+                    return GridTile(child: Image.file(multipleImages[index]));
+                  }),
             )
           ],
-        )
+        ),
+      ),
     );
-  }
-
-  Widget _getImageWidget() {
-    if (_selectedFile != null) {
-      return (kIsWeb)
-          ? Image.network(
-        _selectedFile!.path,
-        width: (kIsWeb) ? 640 : MediaQuery.of(context).size.width-16,
-        fit: BoxFit.fill,
-      ) : Image.file(
-        _selectedFile!,
-        width: (kIsWeb) ? 640 : MediaQuery.of(context).size.width-16,
-        fit: BoxFit.fill,
-      );
-    } else {
-      return Image.asset(
-        'assets/images/placeholder.jpg',
-        width: (kIsWeb) ? 250 : MediaQuery.of(context).size.width-16,
-        fit: BoxFit.fill,
-      );
-    }
   }
 
   // Widget _buttonSave() {

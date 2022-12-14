@@ -1,3 +1,4 @@
+import 'package:erp/model/login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:erp/pages/splash/splash_screen.dart';
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<CheckInBloc>(
             create: (BuildContext context) => CheckInBloc(),
+          ),
+          BlocProvider<LoginBloc>(
+            create: (BuildContext context) => LoginBloc(),
           ),
         ],
         child: MaterialApp(

@@ -37,19 +37,19 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _bannerData.add(
-        BannerSliderModel(id: 1, image: '$GLOBAL_URL/home_banner/1.jpg'));
-    _bannerData.add(
-        BannerSliderModel(id: 2, image: '$GLOBAL_URL/home_banner/2.jpg'));
-    _bannerData.add(
-        BannerSliderModel(id: 3, image: '$GLOBAL_URL/home_banner/3.jpg'));
+    _bannerData
+        .add(BannerSliderModel(id: 1, image: '$GLOBAL_URL/home_banner/1.jpg'));
+    _bannerData
+        .add(BannerSliderModel(id: 2, image: '$GLOBAL_URL/home_banner/2.jpg'));
+    _bannerData
+        .add(BannerSliderModel(id: 3, image: '$GLOBAL_URL/home_banner/3.jpg'));
     // _bannerData.add(
     //     BannerSliderModel(id: 4, image: GLOBAL_URL + '/home_banner/4.jpg'));
     // _bannerData.add(
     //     BannerSliderModel(id: 5, image: GLOBAL_URL + '/home_banner/5.jpg'));
 
-    _categoryData.add(CategoryModel(
-        id: 1, name: 'Pos', image: '$GLOBAL_URL/menu/store.png'));
+    _categoryData.add(
+        CategoryModel(id: 1, name: 'Pos', image: '$GLOBAL_URL/menu/store.png'));
     _categoryData.add(CategoryModel(
         id: 2, name: 'HRM', image: '$GLOBAL_URL/menu/products.png'));
     _categoryData.add(CategoryModel(
@@ -202,8 +202,8 @@ class HomeScreenState extends State<HomeScreen> {
                     },
                     child: Container(
                         margin: const EdgeInsets.only(top: 6),
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 9, vertical: 6),
                         decoration: BoxDecoration(
                             color: Colors.grey[200],
                             borderRadius: BorderRadius.circular(10)),
@@ -326,8 +326,7 @@ class HomeScreenState extends State<HomeScreen> {
               } else if (index == 2) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const TestPlan()),
+                  MaterialPageRoute(builder: (context) => const TestPlanPage()),
                 );
               }
               //Fluttertoast.showToast(msg: 'Click '+_categoryData[index].name.replaceAll('\n', ' '), toastLength: Toast.LENGTH_SHORT);
@@ -411,7 +410,8 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         ListTile(
           leading: const Icon(Icons.person),
-          title: const Text('Thông tin cá nhân', style: TextStyle(fontSize: 17)),
+          title:
+              const Text('Thông tin cá nhân', style: TextStyle(fontSize: 17)),
           //leading: Icon(Icons.arrow_forward),
           onTap: () {
             Navigator.pop(context);
@@ -419,7 +419,8 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         ListTile(
           leading: const Icon(Icons.store),
-          title: const Text('Viếng thăm hôm nay', style: TextStyle(fontSize: 17)),
+          title:
+              const Text('Viếng thăm hôm nay', style: TextStyle(fontSize: 17)),
           onTap: () {
             Navigator.pop(context);
             Navigator.push(

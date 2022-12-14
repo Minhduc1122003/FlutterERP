@@ -1,3 +1,4 @@
+import 'package:erp/pages/qc_master/tab1/test.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -104,10 +105,15 @@ class _CheckListDetailState extends State<CheckListDetail> {
         endActionPane: ActionPane(
           motion: const ScrollMotion(),
           children: [
-            const SlidableAction(
+            SlidableAction(
               // An action can be bigger than the others.
-              onPressed: doNothing,
-              backgroundColor: Color(0xFF7BC043),
+              onPressed: (context) {
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => const TestPage()));
+              },
+              backgroundColor: const Color(0xFF7BC043),
               foregroundColor: Colors.white,
               icon: Icons.archive,
               label: 'Archive',
@@ -117,7 +123,7 @@ class _CheckListDetailState extends State<CheckListDetail> {
                 Navigator.push(
                     context,
                     CupertinoPageRoute(
-                        builder: (context) => PickImagePage()));
+                        builder: (context) => const PickImagePage()));
               },
               backgroundColor: Colors.redAccent,
               foregroundColor: Colors.white,
