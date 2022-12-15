@@ -19,7 +19,7 @@ class SplashScreenState extends State<SplashScreen> {
   int _second = 3; // set timer for 3 second and then direct to next page
 
   void _startTimer() {
-    const period = Duration(seconds: 1);
+    const period = Duration(microseconds: 500);
     _timer = Timer.periodic(period, (timer) {
       setState(() {
         _second--;

@@ -28,7 +28,7 @@
         </intent>
     </queries>
    <application
-        android:label="ERP"
+        android:label="QCMaster"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

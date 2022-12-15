@@ -8,7 +8,7 @@ const String APP_NAME = 'DevKit';
 const Color PRIMARY_COLOR = Color(0xFF0181cc);
 const Color ASSENT_COLOR = Color(0xFFe75f3f);
 
-const Color backgroundColor=Color(0xFFB3C0E0);
+const Color backgroundColor = Color(0xFFB3C0E0);
 
 const Color BLACK21 = Color(0xFF212121);
 const Color BLACK55 = Color(0xFF555555);
@@ -23,7 +23,6 @@ const int STATUS_NOT_AUTHORIZED = 403;
 const int STATUS_NOT_FOUND = 404;
 const int STATUS_INTERNAL_ERROR = 500;
 
-
 const String ERROR_OCCURED = 'Error occured, please try again later';
 
 const int LIMIT_PAGE = 8;
@@ -31,8 +30,10 @@ const int LIMIT_PAGE = 8;
 const String GLOBAL_URL = 'https://ijtechnology.net/assets/images/api/devkit';
 //const String GLOBAL_URL = 'http://192.168.0.4/devkit/assets/images/';
 
-const String SERVER_URL = 'http://api2.khangthanh.com/';
-//const String SERVER_URL = 'http://192.168.0.4/devkit/api';
+const String SERVER_URL_LOGIN = 'http://api2.khangthanh.com/';
+const String SERVER_URL = 'http://192.168.1.14:1998/api';
 
-const String LOGIN_API = "${SERVER_URL}erp/Users/weblogin";
-const String PRODUCT_API = "$SERVER_URL/example/getProduct";
+const String LOGIN_API = "${SERVER_URL_LOGIN}erp/Users/weblogin";
+const String PRODUCT_API = "$SERVER_URL_LOGIN/example/getProduct";
+const String GET_WorkOrder_By_User_Status_API = "$SERVER_URL/WorkOrder";
+const String GET_WorkOrderLine_By_WO = "$SERVER_URL/WorkOrderLine";

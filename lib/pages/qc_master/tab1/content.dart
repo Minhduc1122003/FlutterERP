@@ -1,13 +1,18 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
+import 'package:erp/model/qc_master/work_order/bloc/work_order_bloc.dart';
+import 'package:erp/model/qc_master/work_order/work_order_model.dart';
 import 'package:erp/pages/qc_master/tab1/unpost_mo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/config/constant.dart';
-import 'package:erp/model/qc_master/manufacturing.dart';
 import 'package:erp/reusable/cache_image_network.dart';
 import 'package:erp/reusable/global_function.dart';
 import 'package:erp/reusable/shimmer_loading.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 class TestPlanTab1 extends StatefulWidget {
   const TestPlanTab1({super.key});
@@ -25,15 +30,19 @@ class _TestPlanTab1State extends State<TestPlanTab1>
   final _globalFunction = GlobalFunction();
   final _shimmerLoading = ShimmerLoading();
   late AnimationController _animationController;
-  final Curve _curve = Curves.easeOut;
   bool _loading = true;
   Timer? _timerDummy;
-  List<ManufacturingOrder> _manufacturingOrderData = [];
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
   TextEditingController _etSearch = TextEditingController();
 
+  List<WorkOrderModel> _workOrderModel = [];
+
+  late WorkOrderBloc _workOrderBloc;
+  CancelToken apiToken = CancelToken();
+
   @override
   void initState() {
+    _workOrderBloc = BlocProvider.of<WorkOrderBloc>(context);
     _getData();
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500))
@@ -52,95 +61,7 @@ class _TestPlanTab1State extends State<TestPlanTab1>
   }
 
   void _getData() {
-    // this timer function is just for demo, so after 2 second, the shimmer loading will disappear and show the content
-    _timerDummy = Timer(const Duration(seconds: 2), () {
-      setState(() {
-        _loading = false;
-      });
-    });
-
-    _manufacturingOrderData = [
-      ManufacturingOrder(
-          rowpointer: "1",
-          moNum: "MO2200000168",
-          qty: 1234,
-          qtyConsume: 12,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 1),
-      ManufacturingOrder(
-          rowpointer: "",
-          moNum: "MO2200000169",
-          qty: 121,
-          qtyConsume: 54,
-          desc: "Tạo từ bài bình abc",
-          whse: "Kho sản xuất",
-          status: 1),
-      ManufacturingOrder(
-          rowpointer: "3",
-          moNum: "MO2200000170",
-          qty: 8765,
-          qtyConsume: 541,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 2),
-      ManufacturingOrder(
-          rowpointer: "4",
-          moNum: "MO2200000171",
-          qty: 764,
-          qtyConsume: 54,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 2),
-      ManufacturingOrder(
-          rowpointer: "5",
-          moNum: "MO2200000172",
-          qty: 6754,
-          qtyConsume: 75,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 3),
-      ManufacturingOrder(
-          rowpointer: "6",
-          moNum: "MO2200000173",
-          qty: 864,
-          qtyConsume: 97,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 3),
-      ManufacturingOrder(
-          rowpointer: "7",
-          moNum: "MO2200000174",
-          qty: 6433,
-          qtyConsume: 65,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 4),
-      ManufacturingOrder(
-          rowpointer: "8",
-          moNum: "MO2200000175",
-          qty: 9865,
-          qtyConsume: 643,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 4),
-      ManufacturingOrder(
-          rowpointer: "9",
-          moNum: "MO2200000176",
-          qty: 8265,
-          qtyConsume: 745,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 1),
-      ManufacturingOrder(
-          rowpointer: "10",
-          moNum: "MO2200000177",
-          qty: 3635,
-          qtyConsume: 98,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 2)
-    ];
+    _workOrderBloc.add(WorkOrder("KATA", "admin", "0", apiToken));
   }
 
   @override
@@ -198,24 +119,47 @@ class _TestPlanTab1State extends State<TestPlanTab1>
             ),
           ),
         ),
-        body: RefreshIndicator(
-          onRefresh: refreshData,
-          child: (_loading == true)
-              ? _shimmerLoading.buildShimmerContent()
-              : AnimatedList(
-                  key: _listKey,
-                  initialItemCount: _manufacturingOrderData.length,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (context, index, animation) {
-                    return _buildItem(_manufacturingOrderData[index],
-                        boxImageSize, animation, index);
-                  },
-                ),
+        body: BlocListener<WorkOrderBloc, WorkOrderState>(
+          listener: (context, state) {
+            if (state is GetError) {
+              Navigator.pop(context);
+              Fluttertoast.showToast(
+                  msg: state.errorMessage,
+                  toastLength: Toast.LENGTH_LONG,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 13);
+            }
+            if (state is GetWaiting) {
+              FocusScope.of(context).unfocus();
+              _globalFunction.showProgressDialog(context);
+            }
+            if (state is GetSuccess) {
+              Navigator.pop(context);
+              _workOrderModel.addAll(state.data);
+              setState(() {
+                _loading = false;
+              });
+            }
+          },
+          child: RefreshIndicator(
+            onRefresh: refreshData,
+            child: (_loading == true)
+                ? _shimmerLoading.buildShimmerContent()
+                : AnimatedList(
+                    key: _listKey,
+                    initialItemCount: _workOrderModel.length,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemBuilder: (context, index, animation) {
+                      return _buildItem(_workOrderModel[index], boxImageSize,
+                          animation, index);
+                    },
+                  ),
+          ),
         ));
   }
 
-  Widget _buildItem(
-      ManufacturingOrder manufacturing, boxImageSize, animation, index) {
+  Widget _buildItem(WorkOrderModel workOrder, boxImageSize, animation, index) {
     return SizeTransition(
       sizeFactor: animation,
       child: Container(
@@ -247,8 +191,7 @@ class _TestPlanTab1State extends State<TestPlanTab1>
                           child: buildCacheNetworkImage(
                               width: boxImageSize,
                               height: boxImageSize,
-                              url:
-                                  "https://intietkiem.com/wp-content/uploads/2020/06/giay-in-mau-duoc-su-dung-pho-bien-trong-in-an.jpg")),
+                              url: "${workOrder.imgUrl}")),
                       const SizedBox(
                         width: 15,
                       ),
@@ -256,28 +199,51 @@ class _TestPlanTab1State extends State<TestPlanTab1>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              manufacturing.moNum,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: _color2,
-                                  fontWeight: FontWeight.bold),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  workOrder.woNum!,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: _color2,
+                                      fontWeight: FontWeight.bold),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 5),
+                                  child: Text('15/12/2022',
+                                      style: TextStyle(
+                                          fontSize: 12, color: _color1)),
+                                ),
+                              ],
                             ),
                             Container(
                               margin: const EdgeInsets.only(top: 5),
                               child: Text(
-                                  'Qty: ${_globalFunction.removeDecimalZeroFormat(manufacturing.qty!)}',
+                                  'Qty: ${NumberFormat.decimalPattern().format(workOrder.qty)}',
                                   style:
                                       TextStyle(fontSize: 15, color: _color1)),
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 5),
-                              child: Text(
-                                  'Qty Loss: ${_globalFunction.removeDecimalZeroFormat(manufacturing.qtyConsume!)}',
-                                  style:
-                                      TextStyle(fontSize: 15, color: _color1)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(top: 5),
+                                  child: Text(
+                                      'OK: ${_globalFunction.removeDecimalZeroFormat(1000)}',
+                                      style: TextStyle(
+                                          fontSize: 15, color: _color1)),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 5),
+                                  child: Text(
+                                      'Loss: ${_globalFunction.removeDecimalZeroFormat(100)}',
+                                      style: TextStyle(
+                                          fontSize: 15, color: _color1)),
+                                ),
+                              ],
                             ),
                             Container(
                               margin: const EdgeInsets.only(top: 5),
@@ -286,7 +252,7 @@ class _TestPlanTab1State extends State<TestPlanTab1>
                                   // ignore: prefer_const_constructors
                                   Icon(Icons.location_on,
                                       color: SOFT_GREY, size: 12),
-                                  Text(' ${manufacturing.whse}',
+                                  Text('Xưởng A',
                                       style: TextStyle(
                                           fontSize: 15, color: _color1))
                                 ],
@@ -308,7 +274,7 @@ class _TestPlanTab1State extends State<TestPlanTab1>
 
   Future refreshData() async {
     setState(() {
-      _manufacturingOrderData.clear();
+      _workOrderModel.clear();
       _loading = true;
       _getData();
     });

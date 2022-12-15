@@ -1,4 +1,3 @@
-import 'package:erp/pages/qc_master/tab1/test.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -16,7 +15,6 @@ class CheckListDetail extends StatefulWidget {
 
 class _CheckListDetailState extends State<CheckListDetail> {
   // initialize global widget
-  final Color _bulletColor = const Color(0xff01aed6);
 
   var androidVersions = [
     "All material parts match product specification",
@@ -111,7 +109,7 @@ class _CheckListDetailState extends State<CheckListDetail> {
                 Navigator.push(
                     context,
                     CupertinoPageRoute(
-                        builder: (context) => const TestPage()));
+                        builder: (context) => const PickImagePage()));
               },
               backgroundColor: const Color(0xFF7BC043),
               foregroundColor: Colors.white,

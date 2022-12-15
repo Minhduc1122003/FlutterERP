@@ -1,4 +1,5 @@
 import 'package:erp/model/login/bloc/login_bloc.dart';
+import 'package:erp/model/qc_master/work_order_line/bloc/work_order_line_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:erp/pages/splash/splash_screen.dart';
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
           BlocProvider<LoginBloc>(
             create: (BuildContext context) => LoginBloc(),
           ),
+          BlocProvider<WorkOrderLineBloc>(
+          create: (BuildContext context) => WorkOrderLineBloc(),
+        ),
         ],
         child: MaterialApp(
           title: 'CRM',

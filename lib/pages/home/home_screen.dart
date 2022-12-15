@@ -1,3 +1,4 @@
+import 'package:erp/pages/qc_master/qc_master_main.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +8,6 @@ import 'package:erp/model/banner_slider_model.dart';
 import 'package:erp/model/category_model.dart';
 import 'package:erp/pages/hrm/main_hrm_screen.dart';
 import 'package:erp/pages/pos/main_pos_screen.dart';
-import 'package:erp/pages/qc_master/test_plan.dart';
 import 'package:erp/reusable/cache_image_network.dart';
 import 'package:erp/reusable/global_widget.dart';
 import 'package:erp/pages/visit/visit_today_screen.dart';
@@ -326,7 +326,7 @@ class HomeScreenState extends State<HomeScreen> {
               } else if (index == 2) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const TestPlanPage()),
+                  MaterialPageRoute(builder: (context) => const QCMaster()),
                 );
               }
               //Fluttertoast.showToast(msg: 'Click '+_categoryData[index].name.replaceAll('\n', ' '), toastLength: Toast.LENGTH_SHORT);

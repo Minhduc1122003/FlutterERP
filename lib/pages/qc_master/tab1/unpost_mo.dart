@@ -1,14 +1,20 @@
+// ignore_for_file: prefer_final_fields
+
 import 'dart:async';
 
+import 'package:dio/dio.dart';
+import 'package:erp/model/qc_master/work_order_line/bloc/work_order_line_bloc.dart';
+import 'package:erp/model/qc_master/work_order_line/work_order_line_model.dart';
 import 'package:erp/pages/qc_master/infomation_unpost.dart';
 import 'package:erp/pages/qc_master/unpost_add.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:erp/config/constant.dart';
-import 'package:erp/model/qc_master/manufacturing.dart';
 import 'package:erp/reusable/cache_image_network.dart';
 import 'package:erp/reusable/global_function.dart';
 import 'package:erp/reusable/shimmer_loading.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UnpostMO extends StatefulWidget {
   const UnpostMO({super.key});
@@ -21,6 +27,8 @@ class UnpostMO extends StatefulWidget {
 class _UnpostMOState extends State<UnpostMO>
     with SingleTickerProviderStateMixin {
   // initialize global function and global widget
+  late WorkOrderLineBloc _workOrderLineBloc;
+  
   final Color _color1 = const Color(0xff777777);
   final Color _color2 = const Color(0xFF515151);
   final _globalFunction = GlobalFunction();
@@ -31,12 +39,16 @@ class _UnpostMOState extends State<UnpostMO>
   final Curve _curve = Curves.easeOut;
   bool _loading = true;
   Timer? _timerDummy;
-  List<ManufacturingOrder> _manufacturingOrderData = [];
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
   TextEditingController _etSearch = TextEditingController();
+  List<WorkOrderLineModel> _workOrderLineModel = [];
+  
+  CancelToken apiToken = CancelToken();
 
   @override
   void initState() {
+    _workOrderLineBloc = BlocProvider.of<WorkOrderLineBloc>(context);
+    
     _getData();
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500))
@@ -68,47 +80,7 @@ class _UnpostMOState extends State<UnpostMO>
   }
 
   void _getData() {
-    // this timer function is just for demo, so after 2 second, the shimmer loading will disappear and show the content
-    _timerDummy = Timer(const Duration(seconds: 2), () {
-      setState(() {
-        _loading = false;
-      });
-    });
-
-    _manufacturingOrderData = [
-      ManufacturingOrder(
-          rowpointer: "1",
-          moNum: "MO2200000168_1",
-          qty: 1234,
-          qtyConsume: 12,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 1),
-      ManufacturingOrder(
-          rowpointer: "",
-          moNum: "MO2200000168_2",
-          qty: 121,
-          qtyConsume: 54,
-          desc: "Tạo từ bài bình abc",
-          whse: "Kho sản xuất",
-          status: 1),
-      ManufacturingOrder(
-          rowpointer: "3",
-          moNum: "MO2200000168_3",
-          qty: 8765,
-          qtyConsume: 541,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 2),
-      ManufacturingOrder(
-          rowpointer: "4",
-          moNum: "MO2200000168_4",
-          qty: 764,
-          qtyConsume: 54,
-          desc: "Create from MO Builder",
-          whse: "Kho sản xuất",
-          status: 2),
-    ];
+    _workOrderLineBloc.add(WorkOrderLine("KATA", "WO0000000001", apiToken));
   }
 
   @override
@@ -179,24 +151,48 @@ class _UnpostMOState extends State<UnpostMO>
             ),
           ),
         ),
-        body: RefreshIndicator(
-          onRefresh: refreshData,
-          child: (_loading == true)
-              ? _shimmerLoading.buildShimmerContent()
-              : AnimatedList(
-                  key: _listKey,
-                  initialItemCount: _manufacturingOrderData.length,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (context, index, animation) {
-                    return _buildItem(_manufacturingOrderData[index],
-                        boxImageSize, animation, index);
-                  },
-                ),
+        body: BlocListener<WorkOrderLineBloc, WorkOrderLineState>(
+          listener: (context, state) {
+            if (state is GetError) {
+              Navigator.pop(context);
+              Fluttertoast.showToast(
+                  msg: state.errorMessage,
+                  toastLength: Toast.LENGTH_LONG,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 13);
+            }
+            if (state is GetWaiting) {
+              FocusScope.of(context).unfocus();
+              _globalFunction.showProgressDialog(context);
+            }
+            if (state is GetSuccess) {
+              Navigator.pop(context);
+              _workOrderLineModel.addAll(state.data);
+              setState(() {
+                _loading = false;
+              });
+            }
+          },
+          child: RefreshIndicator(
+            onRefresh: refreshData,
+            child: (_loading == true)
+                ? _shimmerLoading.buildShimmerContent()
+                : AnimatedList(
+                    key: _listKey,
+                    initialItemCount: _workOrderLineModel.length,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemBuilder: (context, index, animation) {
+                      return _buildItem(_workOrderLineModel[index],
+                          boxImageSize, animation, index);
+                    },
+                  ),
+          ),
         ));
   }
 
   Widget _buildItem(
-      ManufacturingOrder manufacturing, boxImageSize, animation, index) {
+      WorkOrderLineModel workOrderLineModel, boxImageSize, animation, index) {
     return SizeTransition(
       sizeFactor: animation,
       child: Container(
@@ -216,7 +212,8 @@ class _UnpostMOState extends State<UnpostMO>
                     Navigator.push(
                         context,
                         CupertinoPageRoute(
-                            builder: (context) => const InfomationUnpostPage()));
+                            builder: (context) =>
+                                const InfomationUnpostPage()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -238,7 +235,7 @@ class _UnpostMOState extends State<UnpostMO>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              manufacturing.moNum,
+                              workOrderLineModel.woLineNum!,
                               style: TextStyle(
                                   fontSize: 16,
                                   color: _color2,
@@ -249,14 +246,14 @@ class _UnpostMOState extends State<UnpostMO>
                             Container(
                               margin: const EdgeInsets.only(top: 5),
                               child: Text(
-                                  'Qty: ${_globalFunction.removeDecimalZeroFormat(manufacturing.qty!)}',
+                                  'Qty: ${_globalFunction.removeDecimalZeroFormat(workOrderLineModel.qtyOK!)}',
                                   style:
                                       TextStyle(fontSize: 15, color: _color1)),
                             ),
                             Container(
                               margin: const EdgeInsets.only(top: 5),
                               child: Text(
-                                  'Qty Loss: ${_globalFunction.removeDecimalZeroFormat(manufacturing.qtyConsume!)}',
+                                  'Qty Loss: ${_globalFunction.removeDecimalZeroFormat(workOrderLineModel.qtyNG!)}',
                                   style:
                                       TextStyle(fontSize: 15, color: _color1)),
                             ),
@@ -267,7 +264,7 @@ class _UnpostMOState extends State<UnpostMO>
                                   // ignore: prefer_const_constructors
                                   Icon(Icons.location_on,
                                       color: SOFT_GREY, size: 12),
-                                  Text(' ${manufacturing.whse}',
+                                  Text(' ${workOrderLineModel.woNum}',
                                       style: TextStyle(
                                           fontSize: 15, color: _color1))
                                 ],
@@ -289,7 +286,7 @@ class _UnpostMOState extends State<UnpostMO>
 
   Future refreshData() async {
     setState(() {
-      _manufacturingOrderData.clear();
+      _workOrderLineModel.clear();
       _loading = true;
       _getData();
     });
