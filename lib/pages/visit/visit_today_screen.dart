@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:erp/config/constant.dart';
-import 'package:erp/model/visit_today_model.dart';
-import 'package:erp/pages/visit/visit_screen.dart';
+
+import '../../config/constant.dart';
+import '../../model/visit_today_model.dart';
+import 'visit_screen.dart';
 
 class VisitTodayScreen extends StatelessWidget {
   const VisitTodayScreen({Key? key}) : super(key: key);

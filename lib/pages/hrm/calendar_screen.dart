@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:erp/config/constant.dart';
-import 'package:erp/pages/hrm/add_personnel_screen.dart';
-import 'package:erp/pages/hrm/create_shift_screen.dart';
+import '../../config/constant.dart';
+import 'absence_screen.dart';
+import 'add_personnel_screen.dart';
 import 'business_screen.dart';
-import 'request_management_screen.dart';
-import 'timekeeping_screen.dart';
+import 'choose_screen.dart';
+import 'company_screen.dart';
+import 'create_shift_screen.dart';
+import 'edit_working_hours_screen.dart';
+import 'on_leave_screen.dart';
+import 'paycheck_screen.dart';
+import 'qr_list_screen.dart';
+import 'report_screen.dart';
+import 'request_management/request_management_screen.dart';
+import 'shift_assignment_screen.dart';
+import 'timekeeping/timekeeping_screen.dart';
 
 class CalendarScreen extends StatelessWidget {
   const CalendarScreen({Key? key}) : super(key: key);
@@ -75,9 +85,13 @@ Widget buildAppbar(BuildContext context) {
                 value: 4,
                 child: Text('Chấm công'),
               ),
-                PopupMenuItem(
+              PopupMenuItem(
                 value: 5,
-                child: Text('Chọn doanh nghiệp'),
+                child: Text('Phân ca làm'),
+              ),
+              PopupMenuItem(
+                value: 6,
+                child: Text('Phiếu lương'),
               ),
             ],
           )
@@ -205,29 +219,16 @@ Widget buildSelectDay(DateTime date) {
 
 onSelectedMenuItem(BuildContext context, int index) {
   if (index == 1) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const AddPersonnelScreen()),
-    );
+    Get.to(() => const AddPersonnelScreen());
   } else if (index == 2) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const CreateShiftSreen()),
-    );
+    Get.to(() => const CreateShiftSreen());
   } else if (index == 3) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const RequestManagementScreen()),
-    );
+    Get.to(() => const RequestManagementScreen());
   } else if (index == 4) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const TimeKeepingScreen()),
-    );
-  }else if(index==5){
-     Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const BusinessScreen()),
-    );
+    Get.to(() => const TimeKeepingScreen());
+  } else if (index == 5) {
+    Get.to(() => const ShiftAssignmentScreen());
+  } else if (index == 6) {
+    Get.to(() => const PayCheckScreen());
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:erp/config/constant.dart';
-import 'package:erp/widget/dropdown_button.dart';
 
+import '../../config/constant.dart';
+import '../../widget/dropdown_button.dart';
 
 class CreateShiftSreen extends StatelessWidget {
   const CreateShiftSreen({Key? key}) : super(key: key);
@@ -12,6 +12,7 @@ class CreateShiftSreen extends StatelessWidget {
     List<String> timeZoneList = ['Asia/Jakarta'];
     List<String> branchList = [];
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
@@ -208,7 +209,7 @@ class CreateShiftSreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
               Container(
                 decoration: BoxDecoration(
                     color: mainColor.withOpacity(0.2),
@@ -250,6 +251,7 @@ class CreateShiftSreen extends StatelessWidget {
                         Icon(
                           Icons.check_box_outline_blank,
                           color: mainColor,
+                          size: 30,
                         ),
                         const SizedBox(width: 5),
                         Text(

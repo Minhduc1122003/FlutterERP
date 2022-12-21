@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:erp/config/constant.dart';
+import 'package:flutter/services.dart';
+
+import '../../config/constant.dart';
+import 'infor_screen.dart';
 
 class AddPersonnelScreen extends StatelessWidget {
   const AddPersonnelScreen({Key? key}) : super(key: key);
@@ -24,7 +27,12 @@ class AddPersonnelScreen extends StatelessWidget {
                       'THÊM',
                       style: TextStyle(color: mainColor),
                     ))),
-            onTap: () {},
+            onTap: () {
+              //       Navigator.push(
+              // context,
+              // MaterialPageRoute(builder: (context) => const InforScreen()),
+            //);
+            },
           )
         ],
       ),

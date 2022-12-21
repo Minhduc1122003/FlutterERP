@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
-import 'package:erp/config/constant.dart';
+
+import '../config/constant.dart';
 
 class QuestionDialog {
   QuestionDialog({
@@ -32,16 +34,13 @@ class QuestionDialog {
                 children: [
                   const SizedBox(height: 10),
                   const Text('Thông báo',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 23),
                       textAlign: TextAlign.center),
                   const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text(conten,
-                        style:
-                            TextStyle(fontSize: 15, color: Colors.grey[600]!),
-                        textAlign: TextAlign.center),
-                  ),
+                  Text(conten,
+                      style:
+                          TextStyle(fontSize: 15, color: Colors.grey[600]!),
+                      textAlign: TextAlign.center),
                   const SizedBox(height: 20),
                   Row(
                     children: [
@@ -50,7 +49,7 @@ class QuestionDialog {
                           height: 50,
                           child: OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                primary: mainColor,
+                               // primary: mainColor,
                                 backgroundColor: Colors.white,
                                 padding: EdgeInsets.zero,
                                 side: BorderSide(color: mainColor, width: 1),
@@ -76,7 +75,8 @@ class QuestionDialog {
                                 shadowColor: Colors.transparent,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8)),
-                                primary: mainColor,
+                               // primary: mainColor,
+                               backgroundColor: mainColor
                               ),
                               onPressed: () {
                                 Navigator.pop(context);

@@ -328,17 +328,17 @@ class GlobalWidget{
 
   Widget buildProgressIndicator(lastData) {
     if(lastData==false){
-      return new Padding(
+      return  Padding(
         padding: const EdgeInsets.all(8.0),
-        child: new Center(
-          child: new Opacity(
+        child:  Center(
+          child:  Opacity(
             opacity: 1,
-            child: new Container(
+            child:  Container(
               height: 20,
               width: 20,
               margin: EdgeInsets.all(5),
               child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(PRIMARY_COLOR),
+                valueColor:  AlwaysStoppedAnimation<Color>(PRIMARY_COLOR),
                 strokeWidth: 2.0,
               ),
             ),

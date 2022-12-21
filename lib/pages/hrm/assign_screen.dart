@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:erp/config/constant.dart';
+import 'package:fluttericon/web_symbols_icons.dart';
+import '../../config/constant.dart';
 
 class AssignScreen extends StatelessWidget {
   const AssignScreen({Key? key}) : super(key: key);
@@ -93,16 +94,17 @@ Widget buildSearchBar() {
       Icon(
         Icons.list_alt,
         color: mainColor,
+        size: 30,
       ),
       const SizedBox(width: 10),
-      const Icon(Icons.date_range_sharp, color: Colors.grey),
+      const Icon(Icons.date_range_sharp, color: Colors.grey,size: 30,),
       const SizedBox(
         width: 10,
       ),
       Expanded(
           child: Container(
-        height: 30,
-        decoration: BoxDecoration(color: backgroundColor.withOpacity(0.3)),
+        height: 40,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: backgroundColor.withOpacity(0.3)),
         child: TextFormField(
           textAlignVertical: TextAlignVertical.center,
           cursorColor: backgroundColor,
@@ -114,7 +116,7 @@ Widget buildSearchBar() {
             //contentPadding: EdgeInsets.only(top: -17),
             contentPadding: EdgeInsets.zero,
             isCollapsed: true,
-            hintText: 'Tên công việc',
+            hintText: 'Tên công việc...',
             hintStyle: TextStyle(color: Colors.grey),
             border: InputBorder.none,
           ),
@@ -124,8 +126,8 @@ Widget buildSearchBar() {
         width: 10,
       ),
       Container(
-        width: 30,
-        height: 30,
+        width: 40,
+        height: 40,
         decoration: BoxDecoration(
             color: backgroundColor, borderRadius: BorderRadius.circular(10)),
         child: const Icon(Icons.tune),
@@ -135,14 +137,17 @@ Widget buildSearchBar() {
 }
 
 Widget listItem(String name) {
-  return Row(
-    children: [
-      const Icon(Icons.arrow_drop_down),
-      Text(
-        name,
-        style: const TextStyle(fontSize: 18),
-      )
-    ],
+  return SizedBox(
+    height: 40,
+    child: Row(
+      children: [
+        const Icon(Icons.arrow_drop_down,size: 30,),
+        Text(
+          name,
+          style: const TextStyle(fontSize: 18),
+        )
+      ],
+    ),
   );
 }
 
@@ -238,9 +243,10 @@ Widget buildModalBottom(BuildContext context) {
               borderRadius: BorderRadius.circular(5),
             ),
             child: TextFormField(
-                autofocus: false,
+                autofocus: false,                
                 decoration: InputDecoration(
                   border: InputBorder.none,
+                  
                   hintText: 'Mô tả',
                   hintStyle: TextStyle(color: Colors.grey[400]!),
                 ),

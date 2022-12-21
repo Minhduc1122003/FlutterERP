@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:erp/config/constant.dart';
+
+import '../../config/constant.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -8,6 +9,7 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
+         Container(height: 10,color: Colors.white,),
         Container(
           padding: const EdgeInsets.only(bottom: 10),
           decoration: const BoxDecoration(
@@ -116,10 +118,10 @@ Widget buildAdvertisement() {
           flex: 1,
           child: Container(
             decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/office.png'),
-                fit: BoxFit.cover,
-              ),
+              // image: DecorationImage(
+              //   image: AssetImage('assets/images/office.png'),
+              //   fit: BoxFit.cover,
+              // ),
             ),
           ),
         )
@@ -130,7 +132,7 @@ Widget buildAdvertisement() {
 
 Widget buildActionItem(IconData icon, String name) {
   return Container(
-    height: 50,
+    height: 55,
     width: double.infinity,
     margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -143,7 +145,7 @@ Widget buildActionItem(IconData icon, String name) {
           color: mainColor,
         ),
         const SizedBox(width: 15),
-        Text(name),
+        Text(name,style: TextStyle(fontSize: 17),),
         const Expanded(child: SizedBox.shrink()),
         Icon(
           Icons.arrow_forward_ios_outlined,

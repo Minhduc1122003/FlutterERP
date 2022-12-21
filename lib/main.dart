@@ -1,9 +1,9 @@
-import 'package:erp/model/login/bloc/login_bloc.dart';
-import 'package:erp/model/qc_master/work_order_line/bloc/work_order_line_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:erp/pages/splash/splash_screen.dart';
-import 'package:erp/pages/visit/bloc/check_in_bloc.dart';
+import 'package:get/get.dart';
+import 'pages/login/login_screen.dart';
+import 'pages/splash/splash_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,28 +15,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider<CheckInBloc>(
-            create: (BuildContext context) => CheckInBloc(),
-          ),
-          BlocProvider<LoginBloc>(
-            create: (BuildContext context) => LoginBloc(),
-          ),
-          BlocProvider<WorkOrderLineBloc>(
-          create: (BuildContext context) => WorkOrderLineBloc(),
-        ),
-        ],
-        child: MaterialApp(
-          title: 'CRM',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            //fontFamily: 'Gilroy',
-            fontFamily: 'Be VietNam',
-            primarySwatch: Colors.blue,
-          ),
-          home: const SplashScreen(),
-          // supportedLocales: const [Locale('vi', 'VN')],
-        ));
+    return GetMaterialApp(
+      getPages: [],
+      title: 'CRM',
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      theme: ThemeData(
+        //fontFamily: 'Gilroy',
+        //fontFamily: 'Be VietNam',
+        primarySwatch: Colors.blue,
+      ),
+      home: const SplashScreen(),
+      locale: const Locale('vn'),
+      supportedLocales: const [Locale('vi', 'VN'), Locale('en', 'US'),],
+    );
   }
 }

@@ -1,16 +1,23 @@
-import 'package:erp/pages/qc_master/qc_master_main.dart';
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
+// import 'package:devkitflutter/config/constant.dart';
+// import 'package:devkitflutter/model/feature/banner_slider_model.dart';
+// import 'package:devkitflutter/model/feature/category_model.dart';
+// import 'package:devkitflutter/ui/reusable/cache_image_network.dart';
+// import 'package:devkitflutter/ui/reusable/global_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:erp/config/constant.dart';
-import 'package:erp/model/banner_slider_model.dart';
-import 'package:erp/model/category_model.dart';
-import 'package:erp/pages/hrm/main_hrm_screen.dart';
-import 'package:erp/pages/pos/main_pos_screen.dart';
-import 'package:erp/reusable/cache_image_network.dart';
-import 'package:erp/reusable/global_widget.dart';
-import 'package:erp/pages/visit/visit_today_screen.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../config/constant.dart';
+import '../../model/banner_slider_model.dart';
+import '../../model/category_model.dart';
+import '../../reusable/cache_image_network.dart';
+import '../../reusable/global_widget.dart';
+import '../hrm/main_hrm_screen.dart';
+import '../pos/main_pos_screen.dart';
+import '../qc_master/main_qc_master_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -32,28 +39,28 @@ class HomeScreenState extends State<HomeScreen> {
 
   int _currentImageSlider = 0;
 
-  final List<BannerSliderModel> _bannerData = [];
-  final List<CategoryModel> _categoryData = [];
+  List<BannerSliderModel> _bannerData = [];
+  List<CategoryModel> _categoryData = [];
 
   @override
   void initState() {
-    _bannerData
-        .add(BannerSliderModel(id: 1, image: '$GLOBAL_URL/home_banner/1.jpg'));
-    _bannerData
-        .add(BannerSliderModel(id: 2, image: '$GLOBAL_URL/home_banner/2.jpg'));
-    _bannerData
-        .add(BannerSliderModel(id: 3, image: '$GLOBAL_URL/home_banner/3.jpg'));
+    _bannerData.add(
+        BannerSliderModel(id: 1, image: GLOBAL_URL + '/home_banner/1.jpg'));
+    _bannerData.add(
+        BannerSliderModel(id: 2, image: GLOBAL_URL + '/home_banner/2.jpg'));
+    _bannerData.add(
+        BannerSliderModel(id: 3, image: GLOBAL_URL + '/home_banner/3.jpg'));
     // _bannerData.add(
     //     BannerSliderModel(id: 4, image: GLOBAL_URL + '/home_banner/4.jpg'));
     // _bannerData.add(
     //     BannerSliderModel(id: 5, image: GLOBAL_URL + '/home_banner/5.jpg'));
 
-    _categoryData.add(
-        CategoryModel(id: 1, name: 'Pos', image: '$GLOBAL_URL/menu/store.png'));
     _categoryData.add(CategoryModel(
-        id: 2, name: 'HRM', image: '$GLOBAL_URL/menu/products.png'));
+        id: 1, name: 'Pos', image: GLOBAL_URL + '/menu/store.png'));
     _categoryData.add(CategoryModel(
-        id: 3, name: 'QC Master', image: '$GLOBAL_URL/menu/buy_online.png'));
+        id: 2, name: 'HRM', image: GLOBAL_URL + '/menu/products.png'));
+    _categoryData.add(CategoryModel(
+        id: 3, name: 'QC Master', image: GLOBAL_URL + '/menu/buy_online.png'));
     // _categoryData.add(CategoryModel(
     //     id: 4,
     //     name: 'Apply for Credit',
@@ -95,7 +102,7 @@ class HomeScreenState extends State<HomeScreen> {
               title: Text(
                 'CRM',
                 style: GoogleFonts.alike(
-                  textStyle: const TextStyle(color: Colors.white),
+                  textStyle: TextStyle(color: Colors.white),
                   fontSize: 35,
                   fontWeight: FontWeight.w700,
                   fontStyle: FontStyle.italic,
@@ -115,7 +122,7 @@ class HomeScreenState extends State<HomeScreen> {
                       //Fluttertoast.showToast(msg: 'Click notification', toastLength: Toast.LENGTH_SHORT);
                     }),
                 IconButton(
-                    icon: const Icon(Icons.settings),
+                    icon: Icon(Icons.settings),
                     onPressed: () {
                       //Fluttertoast.showToast(msg: 'Click setting', toastLength: Toast.LENGTH_SHORT);
                     })
@@ -161,7 +168,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   Widget _buildTop() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       child: Row(
         children: [
           GestureDetector(
@@ -172,13 +179,13 @@ class HomeScreenState extends State<HomeScreen> {
               tag: 'profilePicture',
               child: ClipOval(
                 child: buildCacheNetworkImage(
-                    url: '$GLOBAL_URL/user/avatar.png', width: 50),
+                    url: GLOBAL_URL + '/user/avatar.png', width: 50),
               ),
             ),
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -201,9 +208,9 @@ class HomeScreenState extends State<HomeScreen> {
                       // Fluttertoast.showToast(msg: 'Click platinum member', toastLength: Toast.LENGTH_SHORT);
                     },
                     child: Container(
-                        margin: const EdgeInsets.only(top: 6),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 9, vertical: 6),
+                        margin: EdgeInsets.only(top: 6),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 9, vertical: 6),
                         decoration: BoxDecoration(
                             color: Colors.grey[200],
                             borderRadius: BorderRadius.circular(10)),
@@ -211,7 +218,7 @@ class HomeScreenState extends State<HomeScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.star, color: color2, size: 12),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4),
                             Text('platinum member',
                                 maxLines: 1,
                                 style: TextStyle(
@@ -226,7 +233,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 32),
+            margin: EdgeInsets.symmetric(horizontal: 32),
             width: 1,
             height: 40,
             color: Colors.grey[300],
@@ -326,7 +333,8 @@ class HomeScreenState extends State<HomeScreen> {
               } else if (index == 2) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const QCMaster()),
+                  MaterialPageRoute(
+                      builder: (context) => const MainQCMastercreen()),
                 );
               }
               //Fluttertoast.showToast(msg: 'Click '+_categoryData[index].name.replaceAll('\n', ' '), toastLength: Toast.LENGTH_SHORT);
@@ -384,7 +392,7 @@ class HomeScreenState extends State<HomeScreen> {
           child: Column(children: const [
             CircleAvatar(
               radius: 52,
-              backgroundImage: NetworkImage('$GLOBAL_URL/user/avatar.png'),
+              backgroundImage: NetworkImage(GLOBAL_URL + '/user/avatar.png'),
             ),
             SizedBox(height: 10),
             Text(
@@ -398,8 +406,8 @@ class HomeScreenState extends State<HomeScreen> {
           ]),
         ),
         ListTile(
-          leading: const Icon(Icons.home),
-          title: const Text(
+          leading: Icon(Icons.home),
+          title: Text(
             'Dashboard',
             style: TextStyle(fontSize: 17),
           ),
@@ -409,37 +417,35 @@ class HomeScreenState extends State<HomeScreen> {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.person),
-          title:
-              const Text('Thông tin cá nhân', style: TextStyle(fontSize: 17)),
+          leading: Icon(Icons.person),
+          title: Text('Thông tin cá nhân', style: TextStyle(fontSize: 17)),
           //leading: Icon(Icons.arrow_forward),
           onTap: () {
             Navigator.pop(context);
           },
         ),
         ListTile(
-          leading: const Icon(Icons.store),
-          title:
-              const Text('Viếng thăm hôm nay', style: TextStyle(fontSize: 17)),
+          leading: Icon(Icons.store),
+          title: Text('Viếng thăm hôm nay', style: TextStyle(fontSize: 17)),
           onTap: () {
-            Navigator.pop(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const VisitTodayScreen()));
+            // Navigator.pop(context);
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => const VisitTodayScreen()));
           },
         ),
         ListTile(
-          leading: const Icon(Icons.check_sharp),
-          title: const Text('Khách hàng đã thăm hôm nay',
+          leading: Icon(Icons.check_sharp),
+          title: Text('Khách hàng đã thăm hôm nay',
               style: TextStyle(fontSize: 17)),
           onTap: () {
             Navigator.pop(context);
           },
         ),
         ListTile(
-          leading: const Icon(Icons.exit_to_app),
-          title: const Text('Thoát', style: TextStyle(fontSize: 17)),
+          leading: Icon(Icons.exit_to_app),
+          title: Text('Thoát', style: TextStyle(fontSize: 17)),
           onTap: () {
             Navigator.pop(context);
           },

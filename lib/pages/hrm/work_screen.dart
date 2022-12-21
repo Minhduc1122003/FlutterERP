@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:fluttericon/font_awesome_icons.dart';
 import '../../config/constant.dart';
+import 'hrm_method.dart';
 
 class WorkScreen extends StatelessWidget {
   const WorkScreen({Key? key}) : super(key: key);
@@ -104,7 +105,7 @@ Widget buildDay() {
 // DateTime now=DateTime.utc(2022, 12, 9);
   int firstDayOfWeek = now.weekday;
   // DateTime firstDayOfWeek = now.subtract(Duration(days: now.weekday-1));
-  DateFormat('EEEE').format(now);
+  //DateFormat('EEEE').format(now);
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -112,18 +113,20 @@ Widget buildDay() {
         (now.subtract(Duration(days: firstDayOfWeek - 1 - i)).day != day)
             ? Container(
                 width: 40,
-                height: 60,
+                //height: 60,
                 decoration: BoxDecoration(
                     color: const Color.fromRGBO(232, 251, 236, 1),
                     borderRadius: BorderRadius.circular(10)),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const SizedBox(height: 5),
                       Text(
                         getDay(i + 1),
                         style:
                             const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
+                     // const SizedBox(height: 5),
                       Text(
                         now
                             .subtract(Duration(days: firstDayOfWeek - 1 - i))
@@ -131,27 +134,30 @@ Widget buildDay() {
                             .toString(),
                         style: const TextStyle(fontSize: 16),
                       ),
-                      const Text(
-                        '.',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12),
-                      )
+                      const SizedBox(height: 5),
+                      Container(
+                       height: 4,
+                       width: 4, 
+                       decoration: BoxDecoration(color: Colors.grey,shape: BoxShape.circle),
+                      ),
+                      const SizedBox(height: 5),
                     ]),
               )
             : Container(
                 width: 40,
-                height: 60,
                 decoration: BoxDecoration(
                     border: Border.all(width: 2, color: mainColor),
                     borderRadius: BorderRadius.circular(10)),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const SizedBox(height: 5),
                       Text(
                         getDay(i + 1),
                         style:
                             const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
+                      //const SizedBox(height: 5),
                       Text(
                         now
                             .subtract(Duration(days: firstDayOfWeek - 1 - i))
@@ -159,42 +165,25 @@ Widget buildDay() {
                             .toString(),
                         style: TextStyle(fontSize: 16, color: mainColor),
                       ),
-                      const Text(
-                        '.',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12),
-                      )
+                      const SizedBox(height: 5),
+                       Container(
+                       height: 4,
+                       width: 4, 
+                       decoration: BoxDecoration(color: Colors.grey,shape: BoxShape.circle),
+                      ),
+                      const SizedBox(height: 5),
                     ]),
               )
     ],
   );
 }
 
-String getDay(int d) {
-  switch (d) {
-    case 1:
-      return 'T2';
-    case 2:
-      return 'T3';
-    case 3:
-      return 'T4';
-    case 4:
-      return 'T5';
-    case 5:
-      return 'T6';
-    case 6:
-      return 'T7';
-    default:
-      {
-        return 'CN';
-      }
-  }
-}
+
 
 Widget buildVaoCa() {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-    height: 80,
+    //height: 80,
     width: double.infinity,
     decoration: BoxDecoration(
         color: mainColor, borderRadius: BorderRadius.circular(15)),
@@ -248,7 +237,7 @@ Widget buildManipulation() {
         const SizedBox(height: 15),
         buildManipulationItem(Icons.person_add_alt, 'Thêm nhân viên mới', 1),
         const SizedBox(height: 15),
-        buildManipulationItem(Icons.date_range, 'Tạo ca làm', 2),
+        buildManipulationItem(FontAwesome.calendar_plus_o, 'Tạo ca làm', 2),
         const SizedBox(height: 15),
         buildManipulationItem(
             Icons.description_outlined, 'Duyệt một yêu cầu công việc', 2),
@@ -263,7 +252,7 @@ Widget buildManipulationItem(IconData icon, String name, int day) {
   return Row(
     children: [
       Container(
-        height: 30,
+        height: 40,
         width: 30,
         decoration: BoxDecoration(color: mainColor, shape: BoxShape.circle),
         child: Icon(
@@ -306,15 +295,15 @@ Widget buildFolder() {
           children: [
             buildFolderItem('Yêu cầu', Colors.amber, Icons.beenhere),
             const SizedBox(width: 15),
-            buildFolderItem('Chấm công', Colors.blue, Icons.beenhere),
+            buildFolderItem('Chấm công', Colors.blue, Icons.repeat),
           ],
         ),
         const SizedBox(height: 15),
         Row(
           children: [
-            buildFolderItem('Ứng lương', Colors.green[300]!, Icons.beenhere),
+            buildFolderItem('Ứng lương', Colors.green[300]!, Icons.monetization_on_outlined),
             const SizedBox(width: 15),
-            buildFolderItem('Xếp ca', Colors.deepOrange, Icons.beenhere),
+            buildFolderItem('Xếp ca', Colors.deepOrange, Icons.apps),
           ],
         ),
       ],

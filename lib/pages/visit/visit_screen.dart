@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:erp/model/visit_today_model.dart';
-import 'package:erp/pages/visit/bloc/check_in_bloc.dart';
+import '../../model/visit_today_model.dart';
+import 'check_in_bloc.dart';
 
 class VisitScreen extends StatelessWidget {
   const VisitScreen({Key? key, required this.visitTodayModel})
@@ -256,7 +256,8 @@ class VisitScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.all(0.0),
                         elevation: 0,
-                        primary: Colors.grey,
+                        backgroundColor: Colors.grey,
+                        //primary: Colors.grey,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                       ),

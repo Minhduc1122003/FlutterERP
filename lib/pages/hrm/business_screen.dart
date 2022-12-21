@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:erp/config/constant.dart';
-import 'package:erp/widget/dialog.dart';
+
+import '../../config/constant.dart';
+import '../../widget/dialog.dart';
 
 class BusinessScreen extends StatelessWidget {
   const BusinessScreen({Key? key}) : super(key: key);

@@ -1,11 +1,10 @@
 import 'dart:async';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:erp/config/constant.dart';
-import 'package:erp/pages/login/login_screen.dart';
-import 'package:universal_io/io.dart';
+import '../../config/constant.dart';
+import '../login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -19,7 +18,7 @@ class SplashScreenState extends State<SplashScreen> {
   int _second = 3; // set timer for 3 second and then direct to next page
 
   void _startTimer() {
-    const period = Duration(microseconds: 500);
+    const period = Duration(seconds: 1);
     _timer = Timer.periodic(period, (timer) {
       setState(() {
         _second--;
@@ -27,7 +26,7 @@ class SplashScreenState extends State<SplashScreen> {
       if (_second == 0) {
         _cancelFlashsaleTimer();
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            MaterialPageRoute(builder: (context) => LoginScreen()),
             (Route<dynamic> route) => false);
       }
     });
