@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../config/constant.dart';
 import '../../widget/dropdown_button.dart';
+import 'hrm_method.dart';
 
 class CreateShiftSreen extends StatelessWidget {
   const CreateShiftSreen({Key? key}) : super(key: key);
@@ -270,23 +271,23 @@ class CreateShiftSreen extends StatelessWidget {
   }
 }
 
-String getDay(int d) {
-  switch (d) {
-    case 1:
-      return 'T2';
-    case 2:
-      return 'T3';
-    case 3:
-      return 'T4';
-    case 4:
-      return 'T5';
-    case 5:
-      return 'T6';
-    case 6:
-      return 'T7';
-    default:
-      {
-        return 'CN';
-      }
-  }
-}
+// String getDay(int d) {
+//   switch (d) {
+//     case 1:
+//       return 'T2';
+//     case 2:
+//       return 'T3';
+//     case 3:
+//       return 'T4';
+//     case 4:
+//       return 'T5';
+//     case 5:
+//       return 'T6';
+//     case 6:
+//       return 'T7';
+//     default:
+//       {
+//         return 'CN';
+//       }
+//   }
+// }

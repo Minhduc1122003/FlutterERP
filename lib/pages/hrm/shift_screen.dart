@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'create_shift_screen.dart';
 
 class ShiftScreen extends StatelessWidget {
   const ShiftScreen({Key? key}) : super(key: key);
@@ -15,7 +18,9 @@ class ShiftScreen extends StatelessWidget {
           'Ca làm',
           style: TextStyle(color: Colors.black),
         ),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
+        actions: [IconButton(onPressed: () {
+          Get.to(()=>CreateShiftSreen());
+        }, icon: Icon(Icons.add))],
       ),
       body: Column(children: [
         const SizedBox(height: 15),

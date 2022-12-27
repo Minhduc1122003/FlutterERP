@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../config/constant.dart';
+import '../choose_screen.dart';
 import '../color.dart';
-import '../model/request_management_model.dart';
+import '../hrm_model/request_management_model.dart';
 import '../on_leave/new_on_leave_screen.dart';
+import 'filter_request_management.dart';
 import 'request_management_controller.dart';
 
 class RequestManagementScreen extends StatelessWidget {
@@ -30,7 +32,7 @@ class RequestManagementScreen extends StatelessWidget {
             actions: [
               InkWell(
                 child: const Icon(Icons.tune),
-                onTap: () {},
+                onTap: () => Get.to(() => FilterRequestManagementScreen()),
               ),
               const SizedBox(width: 20),
               InkWell(
@@ -44,44 +46,12 @@ class RequestManagementScreen extends StatelessWidget {
           ),
           body: Column(
             children: [
-              Obx(() => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      buildFromDayToDay(
-                        context,
-                        controller.startDate.value,
-                        controller.endDate.value,
-                        (PickerDateRange pickerDateRange) =>
-                            controller.setDateRange(pickerDateRange),
-                      ),
-                      SizedBox(
-                        height: 40,
-                        child: DropdownButton<RequestManagementKind>(
-                          underline: Container(),
-                          elevation: 0,
-                          dropdownColor: Colors.white,
-                          value: controller.requestManagementKind.value,
-                          icon: const Icon(Icons.arrow_drop_down, size: 30,color: blueGrey1,),
-                          hint: const Text(
-                            'Yêu cầu',
-                            style: TextStyle(color: blueGrey3),
-                          ),
-                          style:
-                              const TextStyle(color: blueBlack, fontSize: 15),
-                          onChanged: (value) {
-                            controller.setSelectedRequestManagementKind(value!);
-                          },
-                          items: controller.requestManagementKindList
-                              .map<DropdownMenuItem<RequestManagementKind>>(
-                                  (RequestManagementKind value) {
-                            return DropdownMenuItem<RequestManagementKind>(
-                              value: value,
-                              child: Text(value.name),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ],
+              Obx(() => buildFromDayToDay(
+                    context,
+                    controller.startDate.value,
+                    controller.endDate.value,
+                    (PickerDateRange pickerDateRange) =>
+                        controller.setDateRange(pickerDateRange),
                   )),
               const SizedBox(height: 10),
               buildTabar([], [], []),
@@ -92,9 +62,11 @@ class RequestManagementScreen extends StatelessWidget {
             elevation: 0,
             heroTag: "btn",
             backgroundColor: mainColor,
-            onPressed: () {if(controller.requestManagementKind.value.id==1){
-              Get.to(() => const NewOnLeaveScreen());
-            }},
+            onPressed: () {
+              if (controller.requestManagementKind.value.id == 1) {
+                Get.to(() => const ChooseScreen());
+              }
+            },
             child: const Icon(Icons.add, size: 25),
           )),
     );
@@ -102,49 +74,54 @@ class RequestManagementScreen extends StatelessWidget {
 }
 
 Widget buildFromDayToDay(BuildContext context, DateTime fromDay, DateTime toDay,
-     Function(PickerDateRange) changedDateRange) {
-  return InkWell(
-    onTap: () async {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Dialog(
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SfDateRangePicker(
-                      headerStyle: const DateRangePickerHeaderStyle(
-                          backgroundColor: Colors.blue,
-                          textAlign: TextAlign.center,
-                          textStyle:
-                              TextStyle(fontSize: 22, color: Colors.white)),
-                      headerHeight: 50,
-                      view: DateRangePickerView.month,
-                      showActionButtons: true,
-                      selectionMode:
-                          DateRangePickerSelectionMode.extendableRange,
-                      onSubmit: (Object? value) {
-                        Navigator.pop(context);
-                        if (value == null) return;                      
-                        changedDateRange(value as PickerDateRange);
-                      },
-                      onCancel: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ));
-          });
-    },
-    child: Row(
-      children: [
-        Text(
-            '${DateFormat('dd.MM.yyyy').format(fromDay)} - ${DateFormat('dd.MM.yyyy').format(toDay)}',
-            style: const TextStyle(color: blueGrey1)),
-        const Icon(Icons.arrow_drop_down, color: blueGrey1, size: 30)
-      ],
+    Function(PickerDateRange) changedDateRange) {
+  return Container(
+    alignment: Alignment.centerLeft,
+    padding: const EdgeInsets.only(left: 50),
+    child: InkWell(
+      onTap: () async {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Dialog(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SfDateRangePicker(
+                        headerStyle: const DateRangePickerHeaderStyle(
+                            backgroundColor: Colors.blue,
+                            textAlign: TextAlign.center,
+                            textStyle:
+                                TextStyle(fontSize: 22, color: Colors.white)),
+                        headerHeight: 50,
+                        view: DateRangePickerView.month,
+                        showActionButtons: true,
+                        selectionMode:
+                            DateRangePickerSelectionMode.extendableRange,
+                        onSubmit: (Object? value) {
+                          Navigator.pop(context);
+                          if (value == null) return;
+                          changedDateRange(value as PickerDateRange);
+                        },
+                        onCancel: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ));
+            });
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+              '${DateFormat('dd.MM.yyyy').format(fromDay)} - ${DateFormat('dd.MM.yyyy').format(toDay)}',
+              style: const TextStyle(color: blueGrey1)),
+          const Icon(Icons.arrow_drop_down, color: blueGrey1, size: 30)
+        ],
+      ),
     ),
   );
 }

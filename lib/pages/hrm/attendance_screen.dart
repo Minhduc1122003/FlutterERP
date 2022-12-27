@@ -9,8 +9,8 @@ class Shift {
   Shift({required this.id, required this.name});
 }
 
-class AbsenceScreen extends StatelessWidget {
-  const AbsenceScreen({super.key});
+class AttendanceScreen extends StatelessWidget {
+  const AttendanceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class AbsenceScreen extends StatelessWidget {
               }).toList(),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Container(
             decoration: BoxDecoration(
                 color: const Color(0xFFF3F6FF),

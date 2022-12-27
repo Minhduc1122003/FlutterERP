@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-import '../model/request_management_model.dart';
+import '../hrm_model/request_management_model.dart';
 
 class RequestManagementController extends GetxController {
   Rx<DateTime> startDate = DateTime.now().obs;

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../config/constant.dart';
+import 'kpi_screen.dart';
+import 'management_setting_screen.dart';
+import 'on_leave_screen.dart';
+import 'paycheck_screen.dart';
+import 'report_screen.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -9,7 +15,10 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
-         Container(height: 10,color: Colors.white,),
+        Container(
+          height: 10,
+          color: Colors.white,
+        ),
         Container(
           padding: const EdgeInsets.only(bottom: 10),
           decoration: const BoxDecoration(
@@ -27,11 +36,11 @@ class AccountScreen extends StatelessWidget {
         const SizedBox(height: 15),
         buildAdvertisement(),
         const SizedBox(height: 15),
-        buildActionItem(Icons.settings, 'Thiết lập quản lý'),
-        buildActionItem(Icons.signal_cellular_alt_sharp, 'Báo cáo'),
-        buildActionItem(Icons.date_range, 'Quản lý phép'),
-        buildActionItem(Icons.description_rounded, 'Phiếu lương'),
-        buildActionItem(Icons.settings_outlined, 'Quản lý KPI'),
+        buildActionItem(1, Icons.settings, 'Thiết lập quản lý'),
+        buildActionItem(2, Icons.signal_cellular_alt_sharp, 'Báo cáo'),
+        buildActionItem(3, Icons.date_range, 'Quản lý phép'),
+        buildActionItem(4, Icons.description_rounded, 'Phiếu lương'),
+        buildActionItem(5, Icons.settings_outlined, 'Quản lý KPI'),
         const SizedBox(height: 15),
         buildLanguage()
       ]),
@@ -118,11 +127,11 @@ Widget buildAdvertisement() {
           flex: 1,
           child: Container(
             decoration: const BoxDecoration(
-              // image: DecorationImage(
-              //   image: AssetImage('assets/images/office.png'),
-              //   fit: BoxFit.cover,
-              // ),
-            ),
+                // image: DecorationImage(
+                //   image: AssetImage('assets/images/office.png'),
+                //   fit: BoxFit.cover,
+                // ),
+                ),
           ),
         )
       ],
@@ -130,29 +139,51 @@ Widget buildAdvertisement() {
   );
 }
 
-Widget buildActionItem(IconData icon, String name) {
-  return Container(
-    height: 55,
-    width: double.infinity,
-    margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
-    padding: EdgeInsets.symmetric(horizontal: 10),
-    decoration: BoxDecoration(color: Colors.white),
-    child: Row(
-      children: [
-        Icon(
-          icon,
-          size: 20,
-          color: mainColor,
-        ),
-        const SizedBox(width: 15),
-        Text(name,style: TextStyle(fontSize: 17),),
-        const Expanded(child: SizedBox.shrink()),
-        Icon(
-          Icons.arrow_forward_ios_outlined,
-          size: 18,
-          color: Colors.grey,
-        )
-      ],
+Widget buildActionItem(int id, IconData icon, String name) {
+  return InkWell(
+    onTap: () {
+      if (id == 1) {
+        Get.to(() => ManagementSettingScreen());
+      } else if (id == 2) {
+        Get.to(() => ReportScreen());
+      } else if (id == 3) {
+        Get.to(() => OnLeaveScreen());
+      } else if (id == 4) {
+        Get.to(() => PayCheckScreen());
+      } else if (id == 5) {
+        Get.to(() => KPIScreen());
+      }
+    },
+    child: Container(
+      height: 55,
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(color: Colors.white),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 20,
+            color: mainColor,
+          ),
+          const SizedBox(width: 15),
+          Text(
+            name,
+            style: TextStyle(fontSize: 17),
+          ),
+          const Expanded(child: SizedBox.shrink()),
+          SizedBox(
+            height: 40,
+            width: 40,
+            child: Icon(
+              Icons.arrow_forward_ios_outlined,
+              size: 18,
+              color: Colors.grey,
+            ),
+          )
+        ],
+      ),
     ),
   );
 }

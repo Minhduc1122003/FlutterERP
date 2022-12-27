@@ -93,41 +93,50 @@ class EditWorkingHoursScreen extends StatelessWidget {
 }
 
 Widget builPersonnel(BuildContext context, String name, String position) {
-  return Container(
-    width: double.infinity,
-    color: Colors.white,
-    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-    child: Row(
-      children: [
-        Container(
-          height: 50,
-          width: 50,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              color: const Color(0xFFB3C0E0),
-              borderRadius: BorderRadius.circular(10)),
-          child: Text(
-            acronymName(name),
-            style: TextStyle(color: Colors.white, fontSize: 17),
+  return InkWell(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CheckInScreen(
+                  name: name,
+                )),
+      );
+    },
+    child: Container(
+      width: double.infinity,
+      color: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: Row(
+        children: [
+          Container(
+            height: 50,
+            width: 50,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: const Color(0xFFB3C0E0),
+                borderRadius: BorderRadius.circular(10)),
+            child: Text(
+              acronymName(name),
+              style: TextStyle(color: Colors.white, fontSize: 17),
+            ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(name),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              position,
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        )),       
-        InkWell(
-          child: Container(
+          const SizedBox(width: 10),
+          Expanded(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(name),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                position,
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          )),
+          Container(
             height: 40,
             width: 40,
             alignment: Alignment.center,
@@ -136,16 +145,9 @@ Widget builPersonnel(BuildContext context, String name, String position) {
               size: 15,
               color: Colors.grey,
             ),
-          ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>  CheckInScreen(name: name,)),
-            );
-          },
-        )
-      ],
+          )
+        ],
+      ),
     ),
   );
 }

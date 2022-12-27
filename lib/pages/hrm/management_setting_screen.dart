@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../config/constant.dart';
+import 'attendance_screen.dart';
+import 'company_screen.dart';
+import 'edit_working_hours_screen.dart';
 import 'shift_screen.dart';
 
 class ManagementSettingScreen extends StatelessWidget {
@@ -22,23 +26,23 @@ class ManagementSettingScreen extends StatelessWidget {
         child: Column(children: [
           const SizedBox(height: 15),
           buildRequestManagementItem(
-              context, 2, Icons.business_outlined, 'Công ty', mainColor),
+              context, 1, Icons.business_outlined, 'Công ty', mainColor),
           Container(height: 1, color: Colors.grey[200]),
           buildRequestManagementItem(
               context, 2, Icons.groups_rounded, 'Nhân viên', mainColor),
           Container(height: 1, color: Colors.grey[200]),
-          buildRequestManagementItem(context, 1, Icons.calendar_month, 'Ca làm',
+          buildRequestManagementItem(context, 3, Icons.calendar_month, 'Ca làm',
               const Color.fromRGBO(120, 168, 237, 1)),
-          buildRequestManagementItem(context, 2, Icons.layers, 'Xếp ca',
+          buildRequestManagementItem(context, 4, Icons.layers, 'Xếp ca',
               const Color.fromRGBO(120, 168, 237, 1)),
           Container(height: 1, color: Colors.grey[200]),
-          buildRequestManagementItem(context, 2, Icons.person_outline,
+          buildRequestManagementItem(context, 5, Icons.person_outline,
               'Điểm danh', const Color.fromRGBO(120, 168, 237, 1)),
           Container(height: 1, color: Colors.grey[200]),
-          buildRequestManagementItem(context, 2, Icons.query_builder,
+          buildRequestManagementItem(context, 6, Icons.query_builder,
               'Chỉnh sửa giờ công', const Color.fromRGBO(120, 168, 237, 1)),
           Container(height: 1, color: Colors.grey[200]),
-          buildRequestManagementItem(context, 2, Icons.desktop_mac, 'Web admin',
+          buildRequestManagementItem(context, 7, Icons.desktop_mac, 'Web admin',
               const Color.fromRGBO(255, 174, 141, 1)),
         ]),
       ),
@@ -48,35 +52,39 @@ class ManagementSettingScreen extends StatelessWidget {
 
 Widget buildRequestManagementItem(
     BuildContext context, int id, IconData icon, String name, Color color) {
-  return Container(
-    color: Colors.white,
-    padding: const EdgeInsets.only(left: 10, right: 15),
-    height: 45,
-    child: Row(children: [
-      Icon(icon, color: color, size: 20),
-      const SizedBox(width: 15),
-      Expanded(
-          child: Text(
-        name,
-        style: const TextStyle(fontSize: 16),
-      )),
-      InkWell(
-        onTap: () {
-          if (id == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const ShiftScreen()),
-            );
+  return InkWell(
+            onTap: () {
+          if (id == 3) {
+            Get.to(() => ShiftScreen());
+          } 
+          else if (id == 1) {
+            Get.to(() => CompanyScreen());
+          }else if (id == 5) {
+            Get.to(() => AttendanceScreen());
+          }
+          else if (id == 6) {
+            Get.to(() => EditWorkingHoursScreen());
           }
         },
-        child: SizedBox(
+    child: Container(
+      color: Colors.white,
+      padding: const EdgeInsets.only(left: 10, right: 15),
+      height: 45,
+      child: Row(children: [
+        Icon(icon, color: color, size: 20),
+        const SizedBox(width: 15),
+        Expanded(
+            child: Text(
+          name,
+          style: const TextStyle(fontSize: 16),
+        )),
+        SizedBox(
           height: 45,
           width: 45,
           child: Icon(Icons.arrow_forward_ios_rounded,
               size: 20, color: Colors.blueGrey[300]!),
-        ),
-      )
-    ]),
+        )
+      ]),
+    ),
   );
 }

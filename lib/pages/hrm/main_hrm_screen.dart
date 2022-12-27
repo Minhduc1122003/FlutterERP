@@ -53,7 +53,7 @@ class _MainHRMScreenState extends State<MainHRMScreen> {
         iconSize: 25,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_filled),
             label: 'Làm việc',
           ),
           BottomNavigationBarItem(

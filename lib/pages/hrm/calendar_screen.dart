@@ -3,13 +3,14 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../../config/constant.dart';
-import 'absence_screen.dart';
+import 'attendance_screen.dart';
 import 'add_personnel_screen.dart';
 import 'business_screen.dart';
 import 'choose_screen.dart';
 import 'company_screen.dart';
 import 'create_shift_screen.dart';
 import 'edit_working_hours_screen.dart';
+import 'hrm_method.dart';
 import 'on_leave_screen.dart';
 import 'paycheck_screen.dart';
 import 'qr_list_screen.dart';
@@ -62,39 +63,40 @@ Widget buildAppbar(BuildContext context) {
           decoration: BoxDecoration(
               color: backgroundColor.withOpacity(0.5),
               borderRadius: BorderRadius.circular(10)),
-          child: PopupMenuButton(
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(Icons.menu, size: 25),
-            onSelected: (int index) {
-              onSelectedMenuItem(context, index);
-            },
-            itemBuilder: (context) => const [
-              PopupMenuItem(
-                value: 1,
-                child: Text('Thêm nhân viên'),
-              ),
-              PopupMenuItem(
-                value: 2,
-                child: Text('Tạo ca'),
-              ),
-              PopupMenuItem(
-                value: 3,
-                child: Text('Quản lý yêu cầu'),
-              ),
-              PopupMenuItem(
-                value: 4,
-                child: Text('Chấm công'),
-              ),
-              PopupMenuItem(
-                value: 5,
-                child: Text('Phân ca làm'),
-              ),
-              PopupMenuItem(
-                value: 6,
-                child: Text('Phiếu lương'),
-              ),
-            ],
-          )
+              child: Icon(Icons.menu, size: 25),
+         // child: PopupMenuButton(
+         //   padding: const EdgeInsets.all(0),
+          //  icon: const Icon(Icons.menu, size: 25),
+         //   onSelected: (int index) {
+           //   onSelectedMenuItem(context, index);
+         //   },
+           // itemBuilder: (context) => const [
+              // PopupMenuItem(
+              //   value: 1,
+              //   child: Text('Thêm nhân viên'),
+              // ),
+              // PopupMenuItem(
+              //   value: 2,
+              //   child: Text('Tạo ca'),
+              // ),
+              // PopupMenuItem(
+              //   value: 3,
+              //   child: Text('Quản lý yêu cầu'),
+              // ),
+              // PopupMenuItem(
+              //   value: 4,
+              //   child: Text('Chấm công'),
+              // ),
+              // PopupMenuItem(
+              //   value: 5,
+              //   child: Text('Phân ca làm'),
+              // ),
+              // PopupMenuItem(
+              //   value: 6,
+              //   child: Text('Phiếu lương'),
+              // ),
+          //  ],
+        //  )
           // child: const Icon(
           //   Icons.menu,
           //   size: 25,
@@ -166,26 +168,6 @@ Widget buildDay() {
   );
 }
 
-String getDay(int d) {
-  switch (d) {
-    case 1:
-      return 'T2';
-    case 2:
-      return 'T3';
-    case 3:
-      return 'T4';
-    case 4:
-      return 'T5';
-    case 5:
-      return 'T6';
-    case 6:
-      return 'T7';
-    default:
-      {
-        return 'CN';
-      }
-  }
-}
 
 Widget buildSelectDay(DateTime date) {
   initializeDateFormatting();
@@ -218,17 +200,17 @@ Widget buildSelectDay(DateTime date) {
 }
 
 onSelectedMenuItem(BuildContext context, int index) {
-  if (index == 1) {
-    Get.to(() => const AddPersonnelScreen());
-  } else if (index == 2) {
-    Get.to(() => const CreateShiftSreen());
-  } else if (index == 3) {
-    Get.to(() => const RequestManagementScreen());
-  } else if (index == 4) {
-    Get.to(() => const TimeKeepingScreen());
-  } else if (index == 5) {
-    Get.to(() => const ShiftAssignmentScreen());
-  } else if (index == 6) {
-    Get.to(() => const PayCheckScreen());
-  }
+  // if (index == 1) {
+  //   Get.to(() => const AddPersonnelScreen());}
+  // else if (index == 2) {
+  //   Get.to(() => const CreateShiftSreen());
+  // } else if (index == 3) {
+  //   Get.to(() => const RequestManagementScreen());
+  // } else if (index == 4) {
+  //   Get.to(() => const TimeKeepingScreen());
+  // } else if (index == 5) {
+  //   Get.to(() => const ShiftAssignmentScreen());
+  // } else if (index == 6) {
+  //   Get.to(() => const PayCheckScreen());
+  // }
 }
