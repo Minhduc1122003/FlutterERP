@@ -42,6 +42,25 @@ class CreateShiftSreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+               Container(
+                decoration: BoxDecoration(
+                    color: mainColor.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(5)),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                height: 50,
+                width: double.infinity,
+                child: TextFormField(
+                  cursorColor: backgroundColor,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.zero,
+                    // contentPadding: EdgeInsets.only(top: -17),
+                    hintText: 'TẠO CA',
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
               Text(
                 'Tên ca làm',
                 style: TextStyle(color: Colors.grey[600]),
@@ -76,6 +95,23 @@ class CreateShiftSreen extends StatelessWidget {
                     return DropdownMenuItem(value: value, child: Text(value));
                   }).toList(),
                   changed: (value) => {}),
+              const SizedBox(height: 20),
+              Text('Giờ nghỉ', style: TextStyle(color: Colors.grey[600])),
+              const SizedBox(height: 10),
+              Container(
+                  decoration: BoxDecoration(
+                      color: backgroundColor.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(5)),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  height: 50,
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Giờ nghỉ'),
+                      Icon(Icons.arrow_forward_ios,size: 20,color: Colors.grey,),
+                    ],
+                  )),
               const SizedBox(height: 20),
               Text('Bắt đầu lúc', style: TextStyle(color: Colors.grey[600])),
               const SizedBox(height: 10),

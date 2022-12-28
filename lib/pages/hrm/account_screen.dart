@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:fluttericon/entypo_icons.dart';
 import '../../config/constant.dart';
 import 'kpi_screen.dart';
 import 'management_setting_screen.dart';
@@ -34,13 +34,13 @@ class AccountScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 15),
-        buildAdvertisement(),
-        const SizedBox(height: 15),
+       // buildAdvertisement(),
+        //const SizedBox(height: 15),
         buildActionItem(1, Icons.settings, 'Thiết lập quản lý'),
         buildActionItem(2, Icons.signal_cellular_alt_sharp, 'Báo cáo'),
         buildActionItem(3, Icons.date_range, 'Quản lý phép'),
         buildActionItem(4, Icons.description_rounded, 'Phiếu lương'),
-        buildActionItem(5, Icons.settings_outlined, 'Quản lý KPI'),
+        buildActionItem(5, Entypo.trophy, 'Quản lý KPI'),
         const SizedBox(height: 15),
         buildLanguage()
       ]),

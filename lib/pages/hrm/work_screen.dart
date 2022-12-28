@@ -7,8 +7,9 @@ import 'add_personnel_screen.dart';
 import 'create_shift_screen.dart';
 import 'hrm_method.dart';
 import 'request_management/request_management_screen.dart';
+import 'salary_advance/salary_advance_info_screen.dart';
 import 'shift_assignment_screen.dart';
-import 'shift_calendar_screen.dart';
+import 'shift_calendar/shift_calendar_screen.dart';
 import 'shift_screen.dart';
 import 'timekeeping/timekeeping_screen.dart';
 
@@ -33,23 +34,23 @@ class WorkScreen extends StatelessWidget {
               children: [
                 buildAppbar('trung nguyen', 'Giám đốc'),
                 const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Lịch làm việc',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
-                    InkWell(
-                      onTap: () {
+                InkWell(
+                   onTap: () {
                         Get.to(() => ShiftCalendarScreen());
                       },
-                      child: Icon(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Lịch làm việc',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      Icon(
                         Icons.arrow_forward_ios_rounded,
                         color: Colors.grey,
                         size: 20,
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 15),
                 buildDay(),
@@ -352,7 +353,7 @@ Widget buildFolderItem(int id, String name, Color color, IconData icon) {
         } else if (id == 2) {
           Get.to(() => TimeKeepingScreen());
         } else if (id == 3) {
-          //Get.to(() => RequestManagementScreen());
+          Get.to(() => SalaryAdvanceInforScreen());
         } else if (id == 4) {
           Get.to(() => ShiftAssignmentScreen());
         }

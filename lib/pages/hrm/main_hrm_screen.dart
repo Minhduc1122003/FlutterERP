@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 
 import '../../config/constant.dart';
 import 'account_screen.dart';
-import 'assign_screen.dart';
-import 'calendar_screen.dart';
+import 'assign/assign_screen.dart';
+import 'calendar/calendar_screen.dart';
 import 'work_screen.dart';
 
 class MainHRMScreen extends StatefulWidget {

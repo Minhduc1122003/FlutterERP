@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../config/constant.dart';
-import '../choose_screen.dart';
+import 'choose_request_screen.dart';
 import '../color.dart';
 import '../hrm_model/request_management_model.dart';
 import '../on_leave/new_on_leave_screen.dart';
-import 'filter_request_management.dart';
+import 'filter_request_screen.dart';
 import 'request_management_controller.dart';
 
 class RequestManagementScreen extends StatelessWidget {
@@ -32,7 +32,7 @@ class RequestManagementScreen extends StatelessWidget {
             actions: [
               InkWell(
                 child: const Icon(Icons.tune),
-                onTap: () => Get.to(() => FilterRequestManagementScreen()),
+                onTap: () => Get.to(() => FilterRequestScreen()),
               ),
               const SizedBox(width: 20),
               InkWell(
@@ -64,7 +64,7 @@ class RequestManagementScreen extends StatelessWidget {
             backgroundColor: mainColor,
             onPressed: () {
               if (controller.requestManagementKind.value.id == 1) {
-                Get.to(() => const ChooseScreen());
+                Get.to(() => const ChooseRequestScreen());
               }
             },
             child: const Icon(Icons.add, size: 25),
@@ -117,8 +117,8 @@ Widget buildFromDayToDay(BuildContext context, DateTime fromDay, DateTime toDay,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-              '${DateFormat('dd.MM.yyyy').format(fromDay)} - ${DateFormat('dd.MM.yyyy').format(toDay)}',
-              style: const TextStyle(color: blueGrey1)),
+              '${DateFormat('dd.MM').format(fromDay)} - ${DateFormat('dd.MM').format(toDay)}',
+              style: const TextStyle(fontSize: 16, color: blueGrey1)),
           const Icon(Icons.arrow_drop_down, color: blueGrey1, size: 30)
         ],
       ),

@@ -108,8 +108,8 @@ Widget buildFromDayToDay(BuildContext context, DateTime fromDay, DateTime toDay,
       child: Row(
         children: [
           Text(
-              '${DateFormat('dd.MM.yyyy').format(fromDay)} - ${DateFormat('dd.MM.yyyy').format(toDay)}',
-              style: const TextStyle(color: Color(0xff828da3))),
+              '${DateFormat('dd.MM').format(fromDay)} - ${DateFormat('dd.MM').format(toDay)}',
+              style: const TextStyle( color: Color(0xff828da3))),
           const Icon(Icons.arrow_drop_down, color: Color(0xffb0c0de), size: 30)
         ],
       ),

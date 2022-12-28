@@ -1,3 +1,4 @@
+import 'package:erp/pages/hrm/color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -23,13 +24,21 @@ class ShiftAssignmentScreen extends StatelessWidget {
         backgroundColor: const Color(0xFFF3F6FF),
         appBar: AppBar(
           backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
+          iconTheme: const IconThemeData(color: blueBlack),
           elevation: 0,
-          title: const Text(
-            'Phân ca làm',
-            style: TextStyle(color: Colors.black),
+          centerTitle: true,
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+
+            children: [
+              const Text(
+                'Vietgoat',
+                style: TextStyle(color: blueBlack),
+              ),
+              Icon(Icons.keyboard_arrow_down)
+            ],
           ),
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.tune))],
+          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.calendar_month))],
         ),
         body: Column(children: [
           // buildShiftItem('Ca hành chính', '08:00-17:30'),
@@ -89,8 +98,9 @@ Widget buildCurentWeek() {
       Row(
         children: [
           Icon(
-            Icons.arrow_back_ios,
-            color: Colors.grey,
+            Icons.keyboard_arrow_left,
+            size: 30,
+            color: blueGrey1,
           ),
           const SizedBox(width: 5),
           Text(
@@ -99,8 +109,10 @@ Widget buildCurentWeek() {
           ),
           const SizedBox(width: 5),
           Icon(
-            Icons.arrow_forward_ios_outlined,
-            color: Colors.grey,
+          
+            Icons.keyboard_arrow_right,
+               size: 30,
+            color: blueGrey1,
           ),
         ],
       )

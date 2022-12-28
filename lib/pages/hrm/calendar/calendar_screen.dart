@@ -2,22 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import '../../config/constant.dart';
-import 'attendance_screen.dart';
-import 'add_personnel_screen.dart';
-import 'business_screen.dart';
-import 'choose_screen.dart';
-import 'company_screen.dart';
-import 'create_shift_screen.dart';
-import 'edit_working_hours_screen.dart';
-import 'hrm_method.dart';
-import 'on_leave_screen.dart';
-import 'paycheck_screen.dart';
-import 'qr_list_screen.dart';
-import 'report_screen.dart';
-import 'request_management/request_management_screen.dart';
-import 'shift_assignment_screen.dart';
-import 'timekeeping/timekeeping_screen.dart';
+import '../../../config/constant.dart';
+import '../hrm_method.dart';
+import 'chosse_calendar_screen.dart';
 
 class CalendarScreen extends StatelessWidget {
   const CalendarScreen({Key? key}) : super(key: key);
@@ -57,51 +44,54 @@ Widget buildAppbar(BuildContext context) {
         style: const TextStyle(fontSize: 18),
       ),
       const Expanded(child: SizedBox.shrink()),
-      Container(
+      InkWell(
+        onTap: () => Get.to(() => ChooseCalendarScreen()),
+        child: Container(
           height: 30,
           width: 30,
           decoration: BoxDecoration(
               color: backgroundColor.withOpacity(0.5),
               borderRadius: BorderRadius.circular(10)),
-              child: Icon(Icons.menu, size: 25),
-         // child: PopupMenuButton(
-         //   padding: const EdgeInsets.all(0),
+          child: Icon(Icons.menu, size: 25),
+          // child: PopupMenuButton(
+          //   padding: const EdgeInsets.all(0),
           //  icon: const Icon(Icons.menu, size: 25),
-         //   onSelected: (int index) {
-           //   onSelectedMenuItem(context, index);
-         //   },
-           // itemBuilder: (context) => const [
-              // PopupMenuItem(
-              //   value: 1,
-              //   child: Text('Thêm nhân viên'),
-              // ),
-              // PopupMenuItem(
-              //   value: 2,
-              //   child: Text('Tạo ca'),
-              // ),
-              // PopupMenuItem(
-              //   value: 3,
-              //   child: Text('Quản lý yêu cầu'),
-              // ),
-              // PopupMenuItem(
-              //   value: 4,
-              //   child: Text('Chấm công'),
-              // ),
-              // PopupMenuItem(
-              //   value: 5,
-              //   child: Text('Phân ca làm'),
-              // ),
-              // PopupMenuItem(
-              //   value: 6,
-              //   child: Text('Phiếu lương'),
-              // ),
+          //   onSelected: (int index) {
+          //   onSelectedMenuItem(context, index);
+          //   },
+          // itemBuilder: (context) => const [
+          // PopupMenuItem(
+          //   value: 1,
+          //   child: Text('Thêm nhân viên'),
+          // ),
+          // PopupMenuItem(
+          //   value: 2,
+          //   child: Text('Tạo ca'),
+          // ),
+          // PopupMenuItem(
+          //   value: 3,
+          //   child: Text('Quản lý yêu cầu'),
+          // ),
+          // PopupMenuItem(
+          //   value: 4,
+          //   child: Text('Chấm công'),
+          // ),
+          // PopupMenuItem(
+          //   value: 5,
+          //   child: Text('Phân ca làm'),
+          // ),
+          // PopupMenuItem(
+          //   value: 6,
+          //   child: Text('Phiếu lương'),
+          // ),
           //  ],
-        //  )
+          //  )
           // child: const Icon(
           //   Icons.menu,
           //   size: 25,
           // ),
-          )
+        ),
+      )
     ],
   );
 }
@@ -167,7 +157,6 @@ Widget buildDay() {
     ],
   );
 }
-
 
 Widget buildSelectDay(DateTime date) {
   initializeDateFormatting();

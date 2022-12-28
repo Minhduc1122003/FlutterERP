@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/entypo_icons.dart';
 
-class ChooseScreen extends StatelessWidget {
-  const ChooseScreen({Key? key}) : super(key: key);
+class ChooseRequestScreen extends StatelessWidget {
+  const ChooseRequestScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +28,13 @@ class ChooseScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Column(children: [
-          buildChooseItem(FontAwesome.money, 'Tạm ứng lương'),
+          buildChooseItem(Entypo.briefcase, 'Công tác/Ra ngoài'),
           Container(height: 1, color: Colors.grey[200]),
           buildChooseItem(Icons.access_time_rounded, 'Làm thêm giờ'),
           Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(Entypo.briefcase, 'Công tác/Ra ngoài'),
+          buildChooseItem(Icons.more_time, 'Thay đổi giờ vào/ra'),
+          Container(height: 1, color: Colors.grey[200]),
+          buildChooseItem(FontAwesome.money, 'Tạm ứng lương'),
           Container(height: 1, color: Colors.grey[200]),
           buildChooseItem(FontAwesome.bed, 'Nghỉ phép'),
         ]),
