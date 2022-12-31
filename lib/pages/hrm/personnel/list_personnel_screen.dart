@@ -1,0 +1,207 @@
+import 'package:erp/pages/hrm/color.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+
+import '../../../config/constant.dart';
+import 'add_personnel_screen.dart';
+import '../hrm_method.dart';
+import 'filter_personnel_screen.dart';
+
+class ListPersonnelScreen extends StatelessWidget {
+  const ListPersonnelScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: blueBlack),
+        elevation: 0.1,
+        title: const Text(
+          'Danh sách nhân viên',
+          style: TextStyle(color: blueBlack),
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                          // shape: const RoundedRectangleBorder(
+                          //     borderRadius:
+                          //         BorderRadius.all(Radius.circular(10.0))),
+                          child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Get.back();
+                              Get.to(() =>const  AddPersonnelScreen());
+                            },
+                            child: ListTile(
+                              title: Text(
+                                'Thêm nhân viên',
+                                style: TextStyle(fontSize: 17),
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            title: Text(
+                              'Thêm từ danh bạ',
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ),
+                          ListTile(
+                            title: Text(
+                              'Mời qua liên kết',
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ),
+                          ListTile(
+                            title: Text('Hủy'),
+                          )
+                        ],
+                      ));
+                    });
+              },
+              icon: Icon(Icons.add))
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: const Color(0xFFF3F6FF),
+                      borderRadius: BorderRadius.circular(10)),
+                  padding: EdgeInsets.only(left: 10),
+                  height: 50,
+                  child: Row(
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.magnifyingGlass,
+                        color: Colors.grey,
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          cursorColor: backgroundColor,
+                          textInputAction: TextInputAction.done,
+                          decoration: const InputDecoration(
+                            //contentPadding: EdgeInsets.zero,
+                            contentPadding: EdgeInsets.only(left: 15),
+                            hintText: 'Tìm kiếm',
+                            hintStyle: TextStyle(color: Colors.grey),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              InkWell(
+                onTap: () {
+                  Get.to(() => FilterPersonnelScreen());
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: const Color(0xFFdce7f9),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Icon(Icons.tune),
+                ),
+              )
+            ],
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  builPersonnel(context, 'trung nguyen', 'Giám đốc'),
+                  Container(
+                      height: 1,
+                      width: double.infinity,
+                      color: Colors.grey[200]),
+                  builPersonnel(context, 'Nhân viên demo', 'Nhân viên'),
+                  Container(
+                      height: 1,
+                      width: double.infinity,
+                      color: Colors.grey[200]),
+                ],
+              ),
+            ),
+          )
+        ]),
+      ),
+    );
+  }
+}
+
+Widget builPersonnel(BuildContext context, String name, String position) {
+  return InkWell(
+    onTap: () {
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //       builder: (context) => CheckInScreen(
+      //             name: name,
+      //           )),
+      // );
+    },
+    child: Container(
+      width: double.infinity,
+      color: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: Row(
+        children: [
+          Container(
+            height: 50,
+            width: 50,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: const Color(0xFFB3C0E0),
+                borderRadius: BorderRadius.circular(10)),
+            child: Text(
+              acronymName(name),
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(name),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                position,
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          )),
+          Container(
+            height: 40,
+            width: 40,
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.phone,
+              size: 25,
+              color: mainColor,
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}

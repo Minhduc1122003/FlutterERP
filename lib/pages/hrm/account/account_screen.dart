@@ -2,14 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fluttericon/entypo_icons.dart';
-import '../../config/constant.dart';
-import 'color.dart';
-import 'hrm_method.dart';
-import 'kpi_screen.dart';
-import 'management_setting_screen.dart';
-import 'on_leave/on_leave_screen.dart';
-import 'paycheck_screen.dart';
-import 'report_screen.dart';
+import '../../../config/constant.dart';
+import '../color.dart';
+import '../hrm_method.dart';
+import '../kpi_screen.dart';
+import '../management_setting_screen.dart';
+import '../on_leave_screen.dart';
+import '../paycheck_screen.dart';
+import '../report_screen.dart';
+import 'edit_account_screen.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -32,6 +33,7 @@ class AccountScreen extends StatelessWidget {
           child: Column(
             children: [
               buildAppbar(),
+              const SizedBox(height: 10),
               buildInfor( 'trung nguyen', 'Quản lý', '+84888888888'),
             ],
           ),
@@ -39,13 +41,16 @@ class AccountScreen extends StatelessWidget {
         const SizedBox(height: 15),
         // buildAdvertisement(),
         //const SizedBox(height: 15),
-        buildActionItem(1, Icons.settings, 'Thiết lập quản lý'),
-        buildActionItem(2, Icons.signal_cellular_alt_sharp, 'Báo cáo'),
-        buildActionItem(3, Icons.date_range, 'Quản lý phép'),
-        buildActionItem(4, Icons.description_rounded, 'Phiếu lương'),
-        buildActionItem(5, Entypo.trophy, 'Quản lý KPI'),
+        buildActionItem(1, Icons.settings,mainColor, 'Thiết lập quản lý'),
+        buildActionItem(2, Icons.signal_cellular_alt_sharp,mainColor, 'Báo cáo'),
+        buildActionItem(3, Icons.date_range,mainColor, 'Quản lý phép'),
+        buildActionItem(4, Icons.description_rounded,mainColor, 'Phiếu lương'),
+        buildActionItem(5, Entypo.trophy,mainColor, 'Quản lý KPI'),
         const SizedBox(height: 15),
         buildLanguage(),
+        buildActionItem(6, Icons.notifications,Colors.blue, 'Cài đặt cảnh báo '),
+        buildActionItem(7, Icons.business_center_outlined,Colors.blue, 'Đổi doanh nghiệp'),
+    
         const SizedBox(height: 30),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -88,7 +93,7 @@ Widget buildAppbar() {
               borderRadius: BorderRadius.circular(10)),
           child: const Icon(Icons.qr_code),
         ),
-        const Text('Sửa', style: TextStyle(fontSize: 18)),
+        InkWell(child: const Text('Sửa', style: TextStyle(fontSize: 18,color: blueBlack)),onTap: ()=>Get.to(()=>EditAccountScreen()),),
       ],
     ),
   );
@@ -102,7 +107,7 @@ Widget buildInfor(String name, String position, String phone) {
         height: 90,
         width: 90,
         decoration: BoxDecoration(
-            color: backgroundColor, borderRadius: BorderRadius.circular(20)),
+            color: backgroundColor, borderRadius: BorderRadius.circular(25)),
         child: Center(
             child: Text(
           acronymName(name),
@@ -165,7 +170,7 @@ Widget buildAdvertisement() {
   );
 }
 
-Widget buildActionItem(int id, IconData icon, String name) {
+Widget buildActionItem(int id, IconData icon,Color color, String name) {
   return InkWell(
     onTap: () {
       if (id == 1) {
@@ -191,7 +196,7 @@ Widget buildActionItem(int id, IconData icon, String name) {
           Icon(
             icon,
             size: 20,
-            color: mainColor,
+            color: color,
           ),
           const SizedBox(width: 15),
           Text(

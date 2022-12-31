@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fluttericon/web_symbols_icons.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../../config/constant.dart';
+import '../hrm_method.dart';
+import 'assign_controller.dart';
 import 'filter_assign_screen.dart';
 
 class AssignScreen extends StatelessWidget {
@@ -10,21 +13,19 @@ class AssignScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AssignController controller = Get.put(AssignController());
     return Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
               buildAppbar(),
-              buildSearchBar(),
+              Obx(() => buildSearchBar(controller.isList.value,
+                  (bool k) => controller.isList.value = k)),
               const SizedBox(height: 10),
-              listItem('Mới giao'),
-              const SizedBox(height: 10),
-              listItem('Hôm nay'),
-              const SizedBox(height: 10),
-              listItem('Sắp tới'),
-              const SizedBox(height: 10),
-              listItem('Chưa làm'),
+              Obx(() => (controller.isList.value)
+                  ? buildListItem()
+                  : buildDayWeek())
             ],
           ),
         ),
@@ -52,6 +53,71 @@ class AssignScreen extends StatelessWidget {
           child: const Icon(Icons.add, size: 25),
         ));
   }
+}
+
+Widget buildDayWeek() {
+  DateTime now = DateTime.now();
+  int day = now.day;
+  int firstDayOfWeek = now.weekday;
+  DateFormat('EEEE').format(now);
+  return Column(
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          for (int i = 0; i < 7; i++)
+            Container(
+              width: 40,
+              height: 60,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      getDay(i + 1),
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                    (now.subtract(Duration(days: firstDayOfWeek - 1 - i)).day !=
+                            day)
+                        ? SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: Center(
+                              child: Text(
+                                now
+                                    .subtract(
+                                        Duration(days: firstDayOfWeek - 1 - i))
+                                    .day
+                                    .toString(),
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            height: 25,
+                            width: 25,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: mainColor),
+                            child: Center(
+                              child: Text(
+                                now
+                                    .subtract(
+                                        Duration(days: firstDayOfWeek - 1 - i))
+                                    .day
+                                    .toString(),
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                  ]),
+            )
+        ],
+      ),
+      // Center(child: Text('Chưa có công việc'),)
+    ],
+  );
 }
 
 Widget buildAppbar() {
@@ -90,19 +156,37 @@ Widget buildAppbar() {
   );
 }
 
-Widget buildSearchBar() {
+Widget buildListItem() {
+  return Column(
+    children: [
+      listItem('Mới giao'),
+      const SizedBox(height: 10),
+      listItem('Hôm nay'),
+      const SizedBox(height: 10),
+      listItem('Sắp tới'),
+      const SizedBox(height: 10),
+      listItem('Chưa làm'),
+    ],
+  );
+}
+
+Widget buildSearchBar(bool k, Function(bool) selectedList) {
   return Row(
     children: [
-      Icon(
-        Icons.list_alt,
-        color: mainColor,
-        size: 30,
+      InkWell(
+        onTap: () {
+          selectedList(true);
+        },
+        child:
+            Icon(Icons.checklist, color: k ? mainColor : Colors.grey, size: 30),
       ),
       const SizedBox(width: 10),
-      const Icon(
-        Icons.date_range_sharp,
-        color: Colors.grey,
-        size: 30,
+      InkWell(
+        onTap: () {
+          selectedList(false);
+        },
+        child: Icon(Icons.calendar_month_outlined,
+            color: !k ? mainColor : Colors.grey, size: 30),
       ),
       const SizedBox(
         width: 10,

@@ -3,15 +3,17 @@ import 'package:get/get.dart';
 import '../../../config/constant.dart';
 import '../color.dart';
 
-import '../hrm_model/assign_model.dart';
-import 'filter_assign_controller.dart';
+import 'filter_personnel_controller.dart';
+import '../hrm_model/personnel_model.dart';
 
-class FilterAssignScreen extends StatelessWidget {
-  const FilterAssignScreen({super.key});
+
+
+class FilterPersonnelScreen extends StatelessWidget {
+  const FilterPersonnelScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    FilterAssignController controller = Get.put(FilterAssignController());
+    FilterPersonnelController controller = Get.put(FilterPersonnelController());
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -33,10 +35,11 @@ class FilterAssignScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Obx(() => buildListFilterAssign(
-                        controller.listFilterAssignModel,
+                    child: Obx(() => buildListFilterPersonnel(
+                        controller.listFilterPersonnelModel,
                         controller.modelID.value,
-                        (int id) => controller.setSelectFilterAssignModel(id))),
+                        (int id) =>
+                            controller.setSelectFilterPersonnelModel(id))),
                   ),
                   Expanded(
                     flex: 2,
@@ -44,12 +47,12 @@ class FilterAssignScreen extends StatelessWidget {
                         height: double.infinity,
                         width: double.infinity,
                         color: Colors.white,
-                        child: Obx(() => buildListFilterAssignDetail(
+                        child: Obx(() => buildListFilterPersonnelDetail(
                             controller.modelID.value,
-                            controller.listFilterAssignDetailModel,
-                            controller.assignGroup.value,
+                            controller.listFilterPersonnelDetailModel,
+                            controller.personnelGroup.value,
                             (int value) => controller
-                                .setSelectFilterAssignDetailModel(value)))),
+                                .setSelectFilterPersonnelDetailModel(value)))),
                   )
                 ],
               )),
@@ -73,7 +76,7 @@ class FilterAssignScreen extends StatelessWidget {
                           child: Text('XÓA LỌC',
                               style: TextStyle(fontSize: 17, color: mainColor)),
                           onPressed: () {
-                            controller.assignGroup.value = 0;
+                            controller.personnelGroup.value = 0;
                           }),
                     ),
                   ),
@@ -106,11 +109,11 @@ class FilterAssignScreen extends StatelessWidget {
   }
 }
 
-Widget buildListFilterAssign(
-    List<FilterAssignModel> listModel, int selectID, Function(int) selected) {
+Widget buildListFilterPersonnel(
+    List<FilterPersonnelModel> listModel, int selectID, Function(int) selected) {
   return Column(
     children: [
-      for (FilterAssignModel frm in listModel)
+      for (FilterPersonnelModel frm in listModel)
         InkWell(
           onTap: () => selected(frm.id),
           child: Container(
@@ -134,19 +137,19 @@ Widget buildListFilterAssign(
   );
 }
 
-Widget buildListFilterAssignDetail(
+Widget buildListFilterPersonnelDetail(
     int selextID,
-    List<FilterAssignDetailModel> listModel,
+    List<FilterPersonnelDetailModel> listModel,
     int groupValue,
     Function(int) selected) {
-  return selextID != 0
+  return selextID != 1
       ? const SizedBox.shrink()
-      : Theme(
-          data: ThemeData(unselectedWidgetColor: mainColor),
-          child: SingleChildScrollView(
+      : SingleChildScrollView(
+          child: Theme(
+            data: ThemeData(unselectedWidgetColor: mainColor),
             child: Column(
               children: [
-                for (FilterAssignDetailModel frm in listModel)
+                for (FilterPersonnelDetailModel frm in listModel)
                   InkWell(
                     onTap: () => selected(frm.id),
                     child: Column(
@@ -165,7 +168,7 @@ Widget buildListFilterAssignDetail(
                                     fontSize: 16, color: blueBlack),
                               ),
                               Radio<int>(
-                                value: frm.id,
+                                value: frm.id,               
                                 activeColor: mainColor,
                                 groupValue: groupValue,
                                 onChanged: (intdex) {

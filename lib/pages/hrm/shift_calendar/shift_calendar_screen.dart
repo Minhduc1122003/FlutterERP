@@ -90,7 +90,7 @@ class ShiftCalendarScreen extends StatelessWidget {
                                 )
                               ],
                             ),
-                            Container(
+                            SizedBox(
                               height: 350,
                               child: SfDateRangePicker(
                                 headerStyle: const DateRangePickerHeaderStyle(
@@ -188,7 +188,7 @@ Widget buildShiftCalendarItem(DateTime date) {
       Expanded(
           child: InkWell(
         onTap: () {
-          Get.to(() => ShiftInformationScreen(date: date));
+          Get.to(() => ShiftInformationScreen(date: date,edit: false,));
         },
         child: Container(
           decoration: BoxDecoration(
@@ -205,14 +205,16 @@ Widget buildShiftCalendarItem(DateTime date) {
                           style: TextStyle(
                               fontSize: 16, color: Colors.blueGrey[700])),
                       Container(
+                       // width: 130,
+                        
                         padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         decoration: BoxDecoration(
-                          color: Colors.blueGrey[300],
+                          color: !date.isAfter(DateTime.now())?Colors.blueGrey[200]:Colors.blueGrey[100],
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Text(
-                          'Chưa vào ra',
+                        child:  Text(
+                          !date.isAfter(DateTime.now())? 'Chưa vào/ra ca':'Chưa đến ca làm',
                           style: TextStyle(color: Colors.white),
                         ),
                       )

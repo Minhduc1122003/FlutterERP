@@ -5,6 +5,8 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../config/constant.dart';
 import '../color.dart';
+import '../hrm_method.dart';
+import '../hrm_model/shift_model.dart';
 import 'timekeeping_controller.dart';
 
 class TimeKeepingScreen extends StatelessWidget {
@@ -26,29 +28,160 @@ class TimeKeepingScreen extends StatelessWidget {
           iconTheme: const IconThemeData(color: blueBlack),
           elevation: 0,
           actions: [
-            InkWell(
-              child: const Icon(Icons.tune),
-              onTap: () {},
-            ),
+            Obx(() => controller.tabIndex.value == 0
+                ? InkWell(
+                    child: const Icon(Icons.tune),
+                    onTap: () {},
+                  )
+                : const SizedBox.shrink()),
             const SizedBox(width: 20),
-            InkWell(
-              child: Container(
-                margin: const EdgeInsets.only(right: 10),
-                child: const Icon(Icons.change_circle_outlined),
-              ),
-              onTap: () {},
-            )
+            Obx(() => controller.tabIndex.value == 0
+                ? InkWell(
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      child: const Icon(Icons.change_circle_outlined),
+                    ),
+                    onTap: () {},
+                  )
+                : InkWell(
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      child: const Icon(Icons.info_outline),
+                    ),
+                    onTap: () {},
+                  ))
           ],
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Obx(
-              () => buildFromDayToDay(
-                context,
-                controller.startDate.value,
-                controller.endDate.value,
-                (PickerDateRange pickerDateRange) =>
-                    controller.setDateRange(pickerDateRange),
+            Container(
+              width: 180,
+              alignment: Alignment.centerRight,
+              child: InkWell(
+                onTap: () async {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0))),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        side: BorderSide(
+                                            color: mainColor, width: 1),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        controller.setSelect(1);
+                                        Get.back();
+                                      },
+                                      child: Text('Hôm nay',
+                                          style: TextStyle(color: mainColor)),
+                                    ),
+                                    OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        side: BorderSide(
+                                            color: mainColor, width: 1),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        controller.setSelect(2);
+                                        Get.back();
+                                      },
+                                      child: Text('Tuần này',
+                                          style: TextStyle(color: mainColor)),
+                                    ),
+                                    OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        side: BorderSide(
+                                            color: mainColor, width: 1),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        controller.setSelect(3);
+                                        Get.back();
+                                      },
+                                      child: Text('Tháng này',
+                                          style: TextStyle(color: mainColor)),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 350,
+                                  child: SfDateRangePicker(
+                                    headerStyle:
+                                        const DateRangePickerHeaderStyle(
+                                            backgroundColor: Colors.white,
+                                            textAlign: TextAlign.center,
+                                            textStyle: TextStyle(
+                                                fontSize: 22,
+                                                color: Colors.black)),
+                                    headerHeight: 50,
+                                    selectionColor: mainColor,
+                                    selectionTextStyle:
+                                        const TextStyle(color: Colors.white),
+                                    rangeTextStyle:
+                                        const TextStyle(color: Colors.white),
+                                    todayHighlightColor: mainColor,
+                                    rangeSelectionColor: mainColor,
+                                    startRangeSelectionColor: mainColor,
+                                    endRangeSelectionColor: mainColor,
+                                    view: DateRangePickerView.month,
+                                    showActionButtons: true,
+                                    initialSelectedRange: controller.showID == 1
+                                        ? null
+                                        : PickerDateRange(controller.startDate,
+                                            controller.endDate),
+                                    selectionMode: DateRangePickerSelectionMode
+                                        .extendableRange,
+                                    allowViewNavigation: false,
+                                    onSubmit: (Object? value) {
+                                      Navigator.pop(context);
+                                      if (value == null) return;
+                                      controller.setDateRange(
+                                          value as PickerDateRange);
+                                    },
+                                    onCancel: () => Navigator.pop(context),
+                                  ),
+                                ),
+                              ],
+                            ));
+                      });
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // const Expanded(child: SizedBox.shrink()),
+                    Center(
+                        child: Obx(() => Text(controller.selectText.value,
+                            style: const TextStyle(
+                                color: blueGrey1, fontSize: 16)))),
+                    const Icon(
+                      Icons.arrow_drop_down,
+                      color: blueGrey2,
+                      size: 30,
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -61,67 +194,13 @@ class TimeKeepingScreen extends StatelessWidget {
   }
 }
 
-Widget buildFromDayToDay(BuildContext context, DateTime fromDay, DateTime toDay,
-    Function(PickerDateRange) changedDateRange) {
-  return InkWell(
-    onTap: () async {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Dialog(
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SfDateRangePicker(
-                      headerStyle: const DateRangePickerHeaderStyle(
-                          backgroundColor: Colors.blue,
-                          textAlign: TextAlign.center,
-                          textStyle: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 25,
-                              letterSpacing: 5,
-                              color: Colors.white)),
-                      headerHeight: 50,
-                      view: DateRangePickerView.month,
-                      showActionButtons: true,
-                      selectionMode:
-                          DateRangePickerSelectionMode.extendableRange,
-                      onSubmit: (Object? value) {
-                        Navigator.pop(context);
-                        if (value == null) return;
-                        changedDateRange(value as PickerDateRange);
-                      },
-                      onCancel: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ));
-          });
-    },
-    child: Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      color: Colors.white,
-      child: Row(
-        children: [
-          Text(
-              '${DateFormat('dd.MM').format(fromDay)} - ${DateFormat('dd.MM').format(toDay)}',
-              style: const TextStyle( color: Color(0xff828da3))),
-          const Icon(Icons.arrow_drop_down, color: Color(0xffb0c0de), size: 30)
-        ],
-      ),
-    ),
-  );
-}
-
 Widget buildTabar() {
+  TimeKeepingController controller = Get.find<TimeKeepingController>();
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30),
     height: 30,
     child: TabBar(
+        onTap: ((value) => controller.setTabIndex(value)),
         labelColor: mainColor,
         indicatorColor: mainColor,
         unselectedLabelColor: blueGrey3,
@@ -145,12 +224,75 @@ Widget buildTabarView(String inOut, String timeSheets) {
       child: Container(
           color: lightGreen1,
           child: TabBarView(children: [
-            Center(
-                child: Text('Trang này chưa có dữ liệu',
-                    style: TextStyle(
-                        fontSize: 18, color: blueBlack.withOpacity(0.8)))),
+            buildInOutItem('trung nguyen', true, ShiftModel.getShiftModel(1),
+                DateTime.now()),
             buildTimeSheetsList(),
           ])));
+}
+
+Widget buildInOutItem(String name, bool isIn, ShiftModel sm, DateTime date) {
+  return SingleChildScrollView(
+    child: Column(
+      children: [
+        Container(
+            margin:const  EdgeInsets.all(20),
+            padding:const  EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(5)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${getTodayAndYesterday(date)}, ${DateFormat('dd.MM').format(date)}',
+                  style: TextStyle(
+                      fontSize: 18, color: blueBlack.withOpacity(0.7)),
+                ),
+                const SizedBox(height: 25),
+                Row(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Colors.lightBlueAccent,
+                          borderRadius: BorderRadius.circular(10)),
+                      padding: const EdgeInsets.all(10),
+                      child: const Icon(
+                        Icons.phone_android,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(width: 15),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(name, style: const TextStyle(fontSize: 16)),
+                          const SizedBox(height: 1),
+                          Text(( isIn?'Vào ca - ':'Ra ca - ')+  sm.name,
+                              style: const TextStyle(color: blueGrey1)),
+                          Text('(${sm.time})',
+                              style: const TextStyle(color: blueGrey1)),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 8),
+                      decoration: BoxDecoration(
+                          color: blueGrey3.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Text(
+                        DateFormat('hh:mm').format(date),
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            )),
+      ],
+    ),
+  );
 }
 
 Widget buildTimeSheetsList() {

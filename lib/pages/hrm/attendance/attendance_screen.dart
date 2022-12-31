@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
-import '../../config/constant.dart';
+import '../../../config/constant.dart';
+import '../color.dart';
+import 'attendance_controller.dart';
+import 'chosse_shift_screen.dart';
 
 class Shift {
   final int id;
@@ -14,19 +18,16 @@ class AttendanceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Shift> list = [
-      Shift(id: 1, name: 'Ca hành chính'),
-      Shift(id: 2, name: 'Ca chủ nhật')
-    ];
+    AttendanceController controller = Get.put(AttendanceController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: blueBlack),
         elevation: 1,
         title: const Text(
           'Điểm danh',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: blueBlack),
         ),
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.tune)),
@@ -34,29 +35,32 @@ class AttendanceScreen extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: DropdownButton<Shift>(
-              underline: const SizedBox.shrink(),
-              elevation: 0,
-              value: list.first,
-              icon: const Icon(
-                Icons.arrow_drop_down,
-                size: 30,
-              ),
-              style: TextStyle(color: Colors.grey[600], fontSize: 17),
-              onChanged: (Shift? value) {},
-              items: list.map<DropdownMenuItem<Shift>>((Shift value) {
-                return DropdownMenuItem<Shift>(
-                  value: value,
-                  child: Text(value.name),
-                );
-              }).toList(),
-            ),
-          ),
-          const SizedBox(height: 5),
+              padding: const EdgeInsets.only(left: 20),
+              child: InkWell(
+                onTap: () => Get.to(() => ChosseShiftScreen()),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Obx(()=>Text(
+                      controller.shiftModel.value == null
+                          ? 'Chọn ca làm'
+                          : controller.shiftModel.value!.name,
+                      style: TextStyle(
+                          fontSize: 17, color: blueBlack.withOpacity(0.7)),
+                    )),
+                    const SizedBox(width: 10),
+                    const Icon(
+                      Icons.arrow_drop_down,
+                      color: blueGrey1,
+                      size: 30,
+                    )
+                  ],
+                ),
+              )),
+          const SizedBox(height: 10),
           Container(
             decoration: BoxDecoration(
                 color: const Color(0xFFF3F6FF),

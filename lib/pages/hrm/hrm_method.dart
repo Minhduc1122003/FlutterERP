@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 int weeksOfYear(DateTime date) {
   final startOfYear = DateTime(date.year, 1, 1, 0, 0);
@@ -22,10 +23,33 @@ String acronymName(String name) {
       listString.last.replaceAll(' ', '').characters.first.toUpperCase();
 }
 
-int daysInMonth(DateTime date){
-  var firstDayThisMonth =  DateTime(date.year, date.month, date.day);
-  var firstDayNextMonth =  DateTime(firstDayThisMonth.year, firstDayThisMonth.month + 1, firstDayThisMonth.day);
+int daysInMonth(DateTime date) {
+  var firstDayThisMonth = DateTime(date.year, date.month, date.day);
+  var firstDayNextMonth = DateTime(firstDayThisMonth.year,
+      firstDayThisMonth.month + 1, firstDayThisMonth.day);
   return firstDayNextMonth.difference(firstDayThisMonth).inDays;
+}
+
+bool checkToday(DateTime date) {
+  DateTime now = DateTime.now();
+  if (now.year != date.year) return false;
+  if (now.month != date.month) return false;
+  if (now.day != date.day) return false;
+  return true;
+}
+
+bool checkYesterday(DateTime date) {
+  DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
+  if (yesterday.year != date.year) return false;
+  if (yesterday.month != date.month) return false;
+  if (yesterday.day != date.day) return false;
+  return true;
+}
+
+String getTodayAndYesterday(DateTime date) {
+  if (checkToday(date)) return 'Hôm nay';
+  if (checkYesterday(date)) return 'Hôm qua';
+  return DateFormat('EEEE', 'vi').format(date);
 }
 
 String getDay(int d) {
@@ -48,8 +72,9 @@ String getDay(int d) {
       }
   }
 }
- int daysBetween(DateTime from, DateTime to) {
-     from = DateTime(from.year, from.month, from.day);
-     to = DateTime(to.year, to.month, to.day);
-   return (to.difference(from).inHours / 24).round();
-  }
+
+int daysBetween(DateTime from, DateTime to) {
+  from = DateTime(from.year, from.month, from.day);
+  to = DateTime(to.year, to.month, to.day);
+  return (to.difference(from).inHours / 24).round();
+}

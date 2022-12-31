@@ -1,3 +1,4 @@
+import 'package:erp/pages/hrm/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -36,215 +37,238 @@ class CreateShiftSreen extends StatelessWidget {
         ],
       ),
       body: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         color: Colors.white,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Container(
+              Container(
                 decoration: BoxDecoration(
                     color: mainColor.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(5)),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 height: 50,
                 width: double.infinity,
-                child: TextFormField(
-                  cursorColor: backgroundColor,
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.zero,
-                    // contentPadding: EdgeInsets.only(top: -17),
-                    hintText: 'TẠO CA',
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                    border: InputBorder.none,
-                  ),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'TẠO CA',
+                  style: TextStyle(color: blueBlack.withOpacity(0.7)),
                 ),
               ),
               const SizedBox(height: 20),
-              Text(
-                'Tên ca làm',
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                decoration: BoxDecoration(
-                    color: backgroundColor.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(5)),
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                height: 50,
-                width: double.infinity,
-                child: TextFormField(
-                  cursorColor: backgroundColor,
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.zero,
-                    // contentPadding: EdgeInsets.only(top: -17),
-                    hintText: 'Nhập chữ',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: InputBorder.none,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tên ca làm',
+                      style: TextStyle(color: Colors.grey[600]),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: backgroundColor.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 50,
+                      width: double.infinity,
+                      child: TextFormField(
+                        cursorColor: backgroundColor,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.zero,
+                          // contentPadding: EdgeInsets.only(top: -17),
+                          hintText: 'Nhập chữ',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text('Múi giờ', style: TextStyle(color: Colors.grey[600])),
+                    const SizedBox(height: 10),
+                    Container(
+                        decoration: BoxDecoration(
+                            color: backgroundColor.withOpacity(0.4),
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        height: 50,
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Asia/Jakarta',style: TextStyle(fontSize: 16, color: blueBlack)),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 20,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        )),
+                    const SizedBox(height: 20),
+                    Text('Giờ nghỉ', style: TextStyle(color: Colors.grey[600])),
+                    const SizedBox(height: 10),
+                    Container(
+                        decoration: BoxDecoration(
+                            color: backgroundColor.withOpacity(0.4),
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        height: 50,
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Giờ nghỉ',style: TextStyle(fontSize: 16, color: blueBlack.withOpacity(0.7))),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 20,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        )),
+                    const SizedBox(height: 20),
+                    Text('Bắt đầu lúc',
+                        style: TextStyle(color: Colors.grey[600])),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: backgroundColor.withOpacity(0.4),
+                                borderRadius: BorderRadius.circular(5)),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            height: 50,
+                            width: double.infinity,
+                            child: TextFormField(
+                              textAlign: TextAlign.center,
+                              cursorColor: backgroundColor,
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                // contentPadding: EdgeInsets.only(top: -17),
+                                hintText: 'Giờ',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: InputBorder.none,
+                              ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9]')),
+                                LengthLimitingTextInputFormatter(2),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 40,
+                          child: Center(
+                              child: Text(
+                            ':',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                        ),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: backgroundColor.withOpacity(0.4),
+                                borderRadius: BorderRadius.circular(5)),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            height: 50,
+                            width: double.infinity,
+                            child: TextFormField(
+                              textAlign: TextAlign.center,
+                              cursorColor: backgroundColor,
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                // contentPadding: EdgeInsets.only(top: -17),
+                                hintText: 'Phút',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: InputBorder.none,
+                              ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9]')),
+                                LengthLimitingTextInputFormatter(2),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Text('Kết thúc lúc',
+                        style: TextStyle(color: Colors.grey[600])),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: backgroundColor.withOpacity(0.4),
+                                borderRadius: BorderRadius.circular(5)),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            height: 50,
+                            width: double.infinity,
+                            child: TextFormField(
+                              textAlign: TextAlign.center,
+                              cursorColor: backgroundColor,
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                // contentPadding: EdgeInsets.only(top: -17),
+                                hintText: 'Giờ',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: InputBorder.none,
+                              ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9]')),
+                                LengthLimitingTextInputFormatter(2),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 40,
+                          child: Center(
+                              child: Text(
+                            ':',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                        ),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: backgroundColor.withOpacity(0.4),
+                                borderRadius: BorderRadius.circular(5)),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            height: 50,
+                            width: double.infinity,
+                            child: TextFormField(
+                              textAlign: TextAlign.center,
+                              cursorColor: backgroundColor,
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                // contentPadding: EdgeInsets.only(top: -17),
+                                hintText: 'Phút',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: InputBorder.none,
+                              ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9]')),
+                                LengthLimitingTextInputFormatter(2),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 20),
-              Text('Múi giờ', style: TextStyle(color: Colors.grey[600])),
-              const SizedBox(height: 10),
-              CustomDropdownButton(
-                  hintText: 'Múi giờ',
-                  color: backgroundColor.withOpacity(0.4),
-                  currentValue: 'Asia/Jakarta',
-                  items: timeZoneList.map((value) {
-                    return DropdownMenuItem(value: value, child: Text(value));
-                  }).toList(),
-                  changed: (value) => {}),
-              const SizedBox(height: 20),
-              Text('Giờ nghỉ', style: TextStyle(color: Colors.grey[600])),
-              const SizedBox(height: 10),
-              Container(
-                  decoration: BoxDecoration(
-                      color: backgroundColor.withOpacity(0.4),
-                      borderRadius: BorderRadius.circular(5)),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  height: 50,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Giờ nghỉ'),
-                      Icon(Icons.arrow_forward_ios,size: 20,color: Colors.grey,),
-                    ],
-                  )),
-              const SizedBox(height: 20),
-              Text('Bắt đầu lúc', style: TextStyle(color: Colors.grey[600])),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: backgroundColor.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 50,
-                      width: double.infinity,
-                      child: TextFormField(
-                        textAlign: TextAlign.center,
-                        cursorColor: backgroundColor,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.zero,
-                          // contentPadding: EdgeInsets.only(top: -17),
-                          hintText: 'Giờ',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-                          LengthLimitingTextInputFormatter(2),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 40,
-                    child: Center(
-                        child: Text(
-                      ':',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: backgroundColor.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 50,
-                      width: double.infinity,
-                      child: TextFormField(
-                        textAlign: TextAlign.center,
-                        cursorColor: backgroundColor,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.zero,
-                          // contentPadding: EdgeInsets.only(top: -17),
-                          hintText: 'Phút',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-                          LengthLimitingTextInputFormatter(2),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Text('Kết thúc lúc', style: TextStyle(color: Colors.grey[600])),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: backgroundColor.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 50,
-                      width: double.infinity,
-                      child: TextFormField(
-                        textAlign: TextAlign.center,
-                        cursorColor: backgroundColor,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.zero,
-                          // contentPadding: EdgeInsets.only(top: -17),
-                          hintText: 'Giờ',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-                          LengthLimitingTextInputFormatter(2),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 40,
-                    child: Center(
-                        child: Text(
-                      ':',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: backgroundColor.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 50,
-                      width: double.infinity,
-                      child: TextFormField(
-                        textAlign: TextAlign.center,
-                        cursorColor: backgroundColor,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.zero,
-                          // contentPadding: EdgeInsets.only(top: -17),
-                          hintText: 'Phút',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-                          LengthLimitingTextInputFormatter(2),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
               ),
               const SizedBox(height: 15),
               Container(
@@ -253,30 +277,42 @@ class CreateShiftSreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5)),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 height: 50,
+                alignment: Alignment.centerLeft,
                 width: double.infinity,
-                child: TextFormField(
-                  cursorColor: backgroundColor,
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.zero,
-                    // contentPadding: EdgeInsets.only(top: -17),
-                    hintText: 'PHÂN CA',
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                    border: InputBorder.none,
-                  ),
+                child: Text('PHÂN CA',
+                    style: TextStyle(color: blueBlack.withOpacity(0.7))),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Chi nhánh',
+                        style: TextStyle(color: Colors.grey[600])),
+                    const SizedBox(height: 10),
+                    Container(
+                        decoration: BoxDecoration(
+                            color: backgroundColor.withOpacity(0.4),
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        height: 50,
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Chọn một hoặc nhiều chi nhánh',style: TextStyle(fontSize: 16, color: blueBlack.withOpacity(0.7))),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 20,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        )),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
-              Text('Chi nhánh', style: TextStyle(color: Colors.grey[600])),
-              const SizedBox(height: 10),
-              CustomDropdownButton(
-                  hintText: 'Chọn một hoặc nhiều chi nhánh',
-                  color: backgroundColor.withOpacity(0.4),
-                  currentValue: '',
-                  items: branchList.map((value) {
-                    return DropdownMenuItem(value: value, child: Text(value));
-                  }).toList(),
-                  changed: (value) => {}),
-              const SizedBox(height: 30),
               Wrap(
                 spacing: 20.0,
                 runSpacing: 20.0,
@@ -285,15 +321,20 @@ class CreateShiftSreen extends StatelessWidget {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          Icons.check_box_outline_blank,
-                          color: mainColor,
-                          size: 30,
-                        ),
-                        const SizedBox(width: 5),
+                        Theme(
+                            data: Theme.of(context)
+                                .copyWith(unselectedWidgetColor: mainColor),
+                            child:
+                                Checkbox(value: false, onChanged: (value) {})),
+                        // Icon(
+                        //   Icons.check_box_outline_blank,
+                        //   color: mainColor,
+                        //   size: 30,
+                        // ),
+                        //const SizedBox(width: 5),
                         Text(
                           getDay(i),
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18, color: blueBlack),
                         )
                       ],
                     )

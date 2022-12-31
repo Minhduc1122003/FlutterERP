@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../config/constant.dart';
-import 'attendance_screen.dart';
+import 'attendance/attendance_screen.dart';
 import 'company_screen.dart';
 import 'edit_working_hours_screen.dart';
+import 'personnel/list_personnel_screen.dart';
+import 'shift_assignment/shift_assignment_screen.dart';
 import 'shift_screen.dart';
 
 class ManagementSettingScreen extends StatelessWidget {
@@ -53,19 +55,23 @@ class ManagementSettingScreen extends StatelessWidget {
 Widget buildRequestManagementItem(
     BuildContext context, int id, IconData icon, String name, Color color) {
   return InkWell(
-            onTap: () {
-          if (id == 3) {
-            Get.to(() => ShiftScreen());
-          } 
-          else if (id == 1) {
-            Get.to(() => CompanyScreen());
-          }else if (id == 5) {
-            Get.to(() => AttendanceScreen());
-          }
-          else if (id == 6) {
-            Get.to(() => EditWorkingHoursScreen());
-          }
-        },
+    onTap: () {
+      if (id == 3) {
+        Get.to(() => ShiftScreen());
+      } else if (id == 1) {
+        Get.to(() => CompanyScreen());
+      } 
+      else if (id == 4) {
+        Get.to(() => ShiftAssignmentScreen());
+      }
+      else if (id == 5) {
+        Get.to(() => AttendanceScreen());
+      } else if (id == 6) {
+        Get.to(() => EditWorkingHoursScreen());
+      } else if (id == 2) {
+        Get.to(() => ListPersonnelScreen());
+      }
+    },
     child: Container(
       color: Colors.white,
       padding: const EdgeInsets.only(left: 10, right: 15),

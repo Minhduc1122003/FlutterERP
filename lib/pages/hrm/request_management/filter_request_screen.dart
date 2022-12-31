@@ -140,44 +140,47 @@ Widget buildListFilterRequestDetail(
     int groupValue,
     Function(int) selected) {
   return selextID != 1
-      ?const SizedBox.shrink()
+      ? const SizedBox.shrink()
       : SingleChildScrollView(
-        child: Column(
-            children: [
-              for (FilterRequestDetailModel frm in listModel)
-                InkWell(
-                  onTap: () => selected(frm.id),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 45,
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              frm.name,
-                              overflow: TextOverflow.ellipsis,
-                              style:const  TextStyle(fontSize: 16, color: blueBlack),
-                            ),
-                            Radio<int>(
-                              value: frm.id,
-                              focusColor: mainColor,
-                              activeColor: mainColor,
-                              groupValue: groupValue,
-                              onChanged: (intdex) {
-                                selected(frm.id);
-                              },
-                            ),
-                          ],
+          child: Theme(
+            data: ThemeData(unselectedWidgetColor: mainColor),
+            child: Column(
+              children: [
+                for (FilterRequestDetailModel frm in listModel)
+                  InkWell(
+                    onTap: () => selected(frm.id),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 45,
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                frm.name,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 16, color: blueBlack),
+                              ),
+                              Radio<int>(
+                                value: frm.id,               
+                                activeColor: mainColor,
+                                groupValue: groupValue,
+                                onChanged: (intdex) {
+                                  selected(frm.id);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(height: 1, color: Colors.grey[200]),
-                    ],
+                        Container(height: 1, color: Colors.grey[200]),
+                      ],
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
-      );
+        );
 }

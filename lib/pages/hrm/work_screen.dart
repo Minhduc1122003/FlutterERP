@@ -3,12 +3,13 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import '../../config/constant.dart';
-import 'add_personnel_screen.dart';
+import 'chosse_shift_screen.dart';
+import 'personnel/add_personnel_screen.dart';
 import 'create_shift_screen.dart';
 import 'hrm_method.dart';
 import 'request_management/request_management_screen.dart';
 import 'salary_advance/salary_advance_info_screen.dart';
-import 'shift_assignment_screen.dart';
+import 'shift_assignment/shift_assignment_screen.dart';
 import 'shift_calendar/shift_calendar_screen.dart';
 import 'shift_screen.dart';
 import 'timekeeping/timekeeping_screen.dart';
@@ -200,38 +201,43 @@ Widget buildDay() {
 }
 
 Widget buildVaoCa() {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-    //height: 80,
-    width: double.infinity,
-    decoration: BoxDecoration(
-        color: mainColor, borderRadius: BorderRadius.circular(15)),
-    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text(
-            'Vào ca',
-            style: TextStyle(fontSize: 30, color: Colors.white),
-          ),
-          Text(
-            '23:31',
-            style: TextStyle(color: Colors.white),
-          ),
-        ],
-      ),
-      Container(
-        height: 50,
-        width: 50,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15), color: Colors.white),
-        child: const Icon(
-          //Icons.wifi_tethering,size: 30,
-          IconData(0xe287, fontFamily: 'MaterialIcons'), size: 30,
+  return InkWell(
+    onTap: (){
+      Get.to(()=>ChosseShiftScreen());
+    },
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      //height: 80,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: mainColor, borderRadius: BorderRadius.circular(15)),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              'Vào ca',
+              style: TextStyle(fontSize: 30, color: Colors.white),
+            ),
+            Text(
+              '23:31',
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
         ),
-      )
-    ]),
+        Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15), color: Colors.white),
+          child: const Icon(
+            //Icons.wifi_tethering,size: 30,
+            IconData(0xe287, fontFamily: 'MaterialIcons'), size: 30,
+          ),
+        )
+      ]),
+    ),
   );
 }
 
