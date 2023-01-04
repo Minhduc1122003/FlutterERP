@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../config/constant.dart';
 import '../color.dart';
 import 'attendance_controller.dart';
-import 'chosse_shift_screen.dart';
+import 'filter_shift_screen.dart';
 
 class Shift {
   final int id;
@@ -40,7 +40,7 @@ class AttendanceScreen extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.only(left: 20),
               child: InkWell(
-                onTap: () => Get.to(() => ChosseShiftScreen()),
+                onTap: () => Get.to(() => FilterShiftScreen()),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

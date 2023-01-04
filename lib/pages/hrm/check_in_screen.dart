@@ -212,7 +212,7 @@ Widget buildCheckInItem(BuildContext context, DateTime date) {
                                       child: OutlinedButton(
                                           style: OutlinedButton.styleFrom(
                                             //primary: mainColor,
-                                            backgroundColor: mainColor,
+                                           // backgroundColor: mainColor,
                                             padding: EdgeInsets.zero,
                                             side: BorderSide(
                                                 color: mainColor, width: 1),

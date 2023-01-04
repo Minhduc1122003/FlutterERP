@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import '../color.dart';
 import 'attendance_controller.dart';
 
-class ChosseShiftScreen extends StatelessWidget {
-  const ChosseShiftScreen({super.key});
+class FilterShiftScreen extends StatelessWidget {
+  const FilterShiftScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

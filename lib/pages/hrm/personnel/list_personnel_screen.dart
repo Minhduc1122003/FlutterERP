@@ -2,6 +2,7 @@ import 'package:erp/pages/hrm/color.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/constant.dart';
 import 'add_personnel_screen.dart';
@@ -190,14 +191,24 @@ Widget builPersonnel(BuildContext context, String name, String position) {
               ),
             ],
           )),
-          Container(
-            height: 40,
-            width: 40,
-            alignment: Alignment.center,
-            child: Icon(
-              Icons.phone,
-              size: 25,
-              color: mainColor,
+          InkWell(
+            onTap: ()async{
+                final call = Uri.parse('tel:+84987654321');
+                    if (await canLaunchUrl(call)) {
+                      launchUrl(call);
+                    } else {
+                      throw 'Could not launch $call';
+                    }
+            },
+            child: Container(
+              height: 40,
+              width: 40,
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.phone,
+                size: 25,
+                color: mainColor,
+              ),
             ),
           )
         ],

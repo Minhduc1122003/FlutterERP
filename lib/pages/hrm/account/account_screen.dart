@@ -10,6 +10,7 @@ import '../management_setting_screen.dart';
 import '../on_leave_screen.dart';
 import '../paycheck_screen.dart';
 import '../report_screen.dart';
+import '../warning_setting_screen.dart';
 import 'edit_account_screen.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -183,6 +184,8 @@ Widget buildActionItem(int id, IconData icon,Color color, String name) {
         Get.to(() => PayCheckScreen());
       } else if (id == 5) {
         Get.to(() => KPIScreen());
+      }else if(id==6){
+         Get.to(() => WarningSettingScreen());
       }
     },
     child: Container(

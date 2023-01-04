@@ -72,7 +72,45 @@ class ShiftAssignmentScreen extends StatelessWidget {
                   controller.filterKind.value == 1
                       ? const SizedBox.shrink()
                       : IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Dialog(
+                                      child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      InkWell(
+                                        onTap: () => Get.back(),
+                                        child: ListTile(
+                                          title: Text(
+                                            'Thêm ca làm',
+                                            style: TextStyle(fontSize: 17),
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () => Get.back(),
+                                        child: ListTile(
+                                          title: Text(
+                                            'Danh sách ca',
+                                            style: TextStyle(fontSize: 17),
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () => Get.back(),
+                                        child: ListTile(
+                                          title: Text(
+                                            'Hủy',
+                                            style: TextStyle(fontSize: 17),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ));
+                                });
+                          },
                           icon: Icon(
                             Icons.add,
                             size: 30,
@@ -479,25 +517,25 @@ Widget buildListShift(double w) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, false),
+                'trung nguyen', ShiftModel.getShiftModel(1), w, 1, false),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, false),
+                'trung nguyen', ShiftModel.getShiftModel(1), w, 2, false),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, true),
+                'trung nguyen', ShiftModel.getShiftModel(1), w, 3, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, true),
+                'trung nguyen', ShiftModel.getShiftModel(1), w, 4, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, true),
+                'trung nguyen', ShiftModel.getShiftModel(1), w, 5, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, true),
+                'trung nguyen', ShiftModel.getShiftModel(1), w, 6, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(2), w, false),
+                'trung nguyen', ShiftModel.getShiftModel(2), w, 7, false),
           ],
         ),
         const SizedBox(height: 2),
@@ -505,25 +543,25 @@ Widget buildListShift(double w) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, false),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 1, false),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, false),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 2, false),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, true),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 3, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, true),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 4, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, true),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 5, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, true),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 6, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(2), w, false),
+                'Nhan vien demo', ShiftModel.getShiftModel(2), w, 7, false),
           ],
         ),
         const SizedBox(height: 2),
@@ -531,25 +569,25 @@ Widget buildListShift(double w) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, true),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 1, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, true),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 2, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, true),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 3, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, true),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 4, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, true),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 5, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, true),
+                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 6, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(2), w, true),
+                'Nhan vien demo', ShiftModel.getShiftModel(2), w, 7, true),
           ],
         )
       ],
@@ -557,41 +595,55 @@ Widget buildListShift(double w) {
   );
 }
 
-Widget buildShiftItem(String name, ShiftModel sm, double w, bool empty) {
+Widget buildShiftItem(String name, ShiftModel sm, double w, int d, bool empty) {
+  int dayOfWeek = DateTime.now().weekday;
   return Expanded(
     child: InkWell(
-      onTap: () {
-        if (!empty) {
-          Get.to(() => ShiftInformationScreen(
-                date: DateTime.now(),
-                edit: true,
-              ));
-        }
-      },
-      child: Container(
-          height: (w - 12) / 7 * 1.5,
-          padding: const EdgeInsets.only(left: 5, top: 5),
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(3)),
-          child: !empty
-              ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const Text('08:00', style: TextStyle(fontSize: 12)),
-                  Text(sm.id == 2 ? '12:00' : '17:30',
-                      style: TextStyle(fontSize: 12)),
-                  const SizedBox(height: 5),
-                  Center(
-                      child: Text(
-                    name,
-                    style: const TextStyle(fontSize: 8),
-                  ))
-                ])
-              : Center(
+        onTap: () {
+          if (!empty) {
+            Get.to(() => ShiftInformationScreen(
+                  date: DateTime.now(),
+                  edit: true,
+                ));
+          }
+        },
+        child: !empty
+            ? Container(
+                height: (w - 12) / 7 * 1.5,
+                padding: const EdgeInsets.only(left: 5, top: 5),
+                decoration: BoxDecoration(
+                    color: dayOfWeek == d
+                        ? backgroundColor.withOpacity(0.2)
+                        : Colors.grey[200],
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(3)),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('08:00', style: TextStyle(fontSize: 12)),
+                      Text(sm.id == 2 ? '12:00' : '17:30',
+                          style: const TextStyle(fontSize: 12)),
+                      const SizedBox(height: 5),
+                      Center(
+                          child: Text(
+                        name,
+                        style: const TextStyle(fontSize: 8),
+                      ))
+                    ]))
+            : Container(
+                height: (w - 12) / 7 * 1.5,
+                padding: const EdgeInsets.only(left: 5, top: 5),
+                decoration: BoxDecoration(
+                    color: dayOfWeek == d
+                        ? backgroundColor.withOpacity(0.2)
+                        : Colors.white,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(3)),
+                child: const Center(
                   child: Icon(
                     Icons.add,
                     color: Colors.grey,
                   ),
-                )),
-    ),
+                ))),
   );
 }

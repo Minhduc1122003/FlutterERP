@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/entypo_icons.dart';
+import 'package:get/get.dart';
+
+import '../on_leave/new_on_leave_screen.dart';
 
 class ChooseRequestScreen extends StatelessWidget {
   const ChooseRequestScreen({Key? key}) : super(key: key);
@@ -28,47 +32,55 @@ class ChooseRequestScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Column(children: [
-          buildChooseItem(Entypo.briefcase, 'Công tác/Ra ngoài'),
+          // buildChooseItem(1,Entypo.briefcase, 'Công tác/Ra ngoài'),
+          // Container(height: 1, color: Colors.grey[200]),
+          // buildChooseItem(2,Icons.access_time_rounded, 'Làm thêm giờ'),
+          // Container(height: 1, color: Colors.grey[200]),
+          // buildChooseItem(3,Icons.more_time, 'Thay đổi giờ vào/ra'),
+          // Container(height: 1, color: Colors.grey[200]),
+          buildChooseItem(1,FontAwesome.money, 'Tạm ứng lương'),
           Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(Icons.access_time_rounded, 'Làm thêm giờ'),
+          buildChooseItem(2,FontAwesome.bed, 'Nghỉ phép'),
           Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(Icons.more_time, 'Thay đổi giờ vào/ra'),
-          Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(FontAwesome.money, 'Tạm ứng lương'),
-          Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(FontAwesome.bed, 'Nghỉ phép'),
+          buildChooseItem(3,FontAwesome5.fill, 'Bù công'),
         ]),
       ),
     );
   }
 }
 
-Widget buildChooseItem(IconData icon, String name) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 15),
-    child: Row(
-      children: [
-        Container(
-          width: 60,
-          alignment: Alignment.centerLeft,
-          child: Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color(0xFFe4ecff)),
-            child: Icon(
-              icon,
-              color: Colors.blueGrey,
-              size: 22,
+Widget buildChooseItem(int id,IconData icon, String name) {
+  return InkWell(
+    onTap: (){
+      Get.back();
+     if(id==2) Get.to(()=>NewOnLeaveScreen());
+    },
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Row(
+        children: [
+          Container(
+            width: 60,
+            alignment: Alignment.centerLeft,
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color(0xFFe4ecff)),
+              child: Icon(
+                icon,
+                color: Colors.blueGrey,
+                size: 22,
+              ),
             ),
           ),
-        ),
-        Text(
-          name,
-          style: const TextStyle(fontSize: 17),
-        )
-      ],
+          Text(
+            name,
+            style: const TextStyle(fontSize: 17),
+          )
+        ],
+      ),
     ),
   );
 }

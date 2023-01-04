@@ -1,3 +1,4 @@
+import 'package:erp/pages/hrm/color.dart';
 import 'package:flutter/material.dart';
 
 import '../../config/constant.dart';
@@ -21,7 +22,7 @@ class NotificationScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  child: Icon(Icons.clear,color: Colors.grey[600],),
+                  child: Icon(Icons.clear,color: blueBlack.withOpacity(0.5),size: 30,),
                   onTap: () {
                     Navigator.pop(context);
                   },

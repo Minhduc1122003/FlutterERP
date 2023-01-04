@@ -78,3 +78,5 @@ int daysBetween(DateTime from, DateTime to) {
   to = DateTime(to.year, to.month, to.day);
   return (to.difference(from).inHours / 24).round();
 }
+
+String capitalize(String s) => s[0].toUpperCase() + s.substring(1).toLowerCase();

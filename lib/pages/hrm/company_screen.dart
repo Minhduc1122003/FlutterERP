@@ -4,6 +4,7 @@ import '../../config/constant.dart';
 import 'infor_screen.dart';
 import 'notification_screen.dart';
 import 'qr_list_screen.dart';
+import 'wan_ip_list_screen.dart';
 import 'wan_ip_screen.dart';
 
 class CompanyScreen extends StatelessWidget {
@@ -47,54 +48,54 @@ class CompanyScreen extends StatelessWidget {
 
 Widget buildCompanyItem(
     BuildContext context, int id, IconData icon, String name) {
-  return Container(
-    color: Colors.white,
-    padding: const EdgeInsets.only(left: 10, right: 5),
-    height: 50,
-    child: Row(children: [
-      Icon(
-        icon,
-        color: mainColor,
-        size: 20,
-      ),
-      const SizedBox(width: 15),
-      Expanded(
-          child: Text(
-        name,
-        style: const TextStyle(fontSize: 16),
-      )),
-      InkWell(
-        onTap: () {
-          if (id == 5) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const NotificationScreen()),
-            );
-          } else if (id == 6) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const InforScreen()),
-            );
-          } else if (id == 7) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const QRListScreen()),
-            );
-          } else if (id == 8) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const WanIPScreen()),
-            );
-          }
-        },
-        child: SizedBox(
+  return InkWell(
+    onTap: () {
+      if (id == 5) {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       builder: (context) => const NotificationScreen()),
+        // );
+      } else if (id == 6) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const InforScreen()),
+        );
+      } else if (id == 7) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const QRListScreen()),
+        );
+      } else if (id == 8) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const WanIPListScreen()),
+        );
+      }
+    },
+    child: Container(
+      color: Colors.white,
+      padding: const EdgeInsets.only(left: 10, right: 5),
+      height: 50,
+      child: Row(children: [
+        Icon(
+          icon,
+          color: mainColor,
+          size: 20,
+        ),
+        const SizedBox(width: 15),
+        Expanded(
+            child: Text(
+          name,
+          style: const TextStyle(fontSize: 16),
+        )),
+        SizedBox(
           height: 50,
           width: 50,
           child: Icon(Icons.arrow_forward_ios_rounded,
               size: 20, color: Colors.blueGrey[300]!),
-        ),
-      )
-    ]),
+        )
+      ]),
+    ),
   );
 }

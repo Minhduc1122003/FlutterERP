@@ -1,3 +1,4 @@
+import 'package:erp/pages/hrm/notification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -36,9 +37,9 @@ class WorkScreen extends StatelessWidget {
                 buildAppbar('trung nguyen', 'Giám đốc'),
                 const SizedBox(height: 15),
                 InkWell(
-                   onTap: () {
-                        Get.to(() => ShiftCalendarScreen());
-                      },
+                  onTap: () {
+                    Get.to(() => ShiftCalendarScreen());
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -100,16 +101,19 @@ Widget buildAppbar(String name, String position) {
         ),
       ),
       const Expanded(child: SizedBox.shrink()),
-      Container(
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-              color: Colors.blueGrey[100],
-              borderRadius: BorderRadius.circular(10)),
-          child: const Icon(
-            Icons.notifications_none_outlined,
-            size: 25,
-          ))
+      InkWell(
+        onTap: () => Get.to(() => NotificationScreen()),
+        child: Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+                color: Colors.blueGrey[100],
+                borderRadius: BorderRadius.circular(10)),
+            child: const Icon(
+              Icons.notifications_none_outlined,
+              size: 25,
+            )),
+      )
     ],
   );
 }
@@ -202,8 +206,8 @@ Widget buildDay() {
 
 Widget buildVaoCa() {
   return InkWell(
-    onTap: (){
-      Get.to(()=>ChosseShiftScreen());
+    onTap: () {
+      Get.to(() => ChosseShiftScreen());
     },
     child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),

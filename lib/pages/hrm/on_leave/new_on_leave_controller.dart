@@ -1,106 +1,144 @@
+import 'package:erp/pages/hrm/hrm_model/on_leave_model.dart';
+import 'package:erp/pages/hrm/hrm_model/user_model.dart';
+import 'package:erp/pages/hrm/hrm_widget/dialog.dart';
+import 'package:erp/pages/hrm/network/api_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../hrm_method.dart';
 
 class NewOnleaveController extends GetxController {
-  DateTime? expirationDate;
-  DateTime? startDate;
-  DateTime? endDate;
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
-  TextEditingController expirationDateController = TextEditingController();
-  TextEditingController startDateController = TextEditingController();
-  TextEditingController endDateController = TextEditingController();
-  TextEditingController startTimeController = TextEditingController();
-  TextEditingController endTimeController = TextEditingController();
+  List<OnLeaveKindModel> listOnLeaveKindModel = [];
+  Rx<OnLeaveKindModel?> onLeaveKindModel = Rxn<OnLeaveKindModel?>();
+  Rx<DateTime?> expirationDate = Rxn<DateTime?>();
+  Rx<DateTime?> fromDate = Rxn<DateTime?>();
+  Rx<DateTime?> toDate = Rxn<DateTime?>();
+  DateTime expirationDateChange = DateTime.now();
+  DateTime fromDateChange = DateTime.now();
+  DateTime toDateChange = DateTime.now();
+
   TextEditingController noteController = TextEditingController();
+  RxInt totalDay = 0.obs;
+  RxInt onDay = 0.obs;
+  RxBool isSending = false.obs;
+  SiteModel siteModel = SiteModel(id: 1, code: 'KIA', name: 'KIA');
+  getOnLeaveKind() async {
+    listOnLeaveKindModel = await ApiProvider().getOnLeaveKind(siteModel, '');
+  }
 
-  RxInt numberDay = 0.obs;
-  RxInt numberHour = 0.obs;
+  setSelectOnLeaveKind(int id) async {
+    onLeaveKindModel.value = listOnLeaveKindModel[id];
+  }
+
   selectExpirationDate(DateTime date) {
-    expirationDate = date;
-    expirationDateController.text = DateFormat('dd/MM/yyyy').format(date);
+    expirationDate.value = date;
   }
 
-  selectStartDate(DateTime date) {
-    startDate = date;
-    startDateController.text = DateFormat('dd/MM/yyyy').format(date);
-    if (endDate != null) {
-      numberDay.value = daysBetween(startDate!, endDate!);
-    }
-  }
-
-  selectEndDate(DateTime date) {
-    endDate = date;
-    endDateController.text = DateFormat('dd/MM/yyyy').format(date);
-    if (startDate != null) {
-      numberDay.value = daysBetween(startDate!, endDate!);
+  selectFromDate(DateTime date) {
+    fromDate.value = date;
+    if (toDate.value != null) {
+      totalDay.value = daysBetween(date, toDate.value!);
+      if (totalDay >= 0) totalDay.value += 1;
+      if (totalDay.value == 1) {
+        onDay.value = 1;
+      } else {
+        onDay.value = 0;
+      }
     }
   }
 
-  selectStartTime(TimeOfDay time) {
-    startTime = time;
-    startTimeController.text =
-        DateFormat('HH:mm').format(DateTime(1, 1, 1, time.hour, time.minute));
-    if (endTime != null) {
-      numberHour.value = DateTime(1, 1, 1, endTime!.hour, endTime!.minute)
-          .difference(DateTime(1, 1, 1, time.hour, time.minute))
-          .inHours;
+  selectToDate(DateTime date) {
+    toDate.value = date;
+    if (fromDate.value != null) {
+      totalDay.value = daysBetween(fromDate.value!, date);
+      if (totalDay >= 0) totalDay.value += 1;
+      if (totalDay.value == 1) {
+        onDay.value = 1;
+      } else {
+        onDay.value = 0;
+      }
     }
   }
 
-  selectEndTime(TimeOfDay time) {
-    endTime = time;
-    endTimeController.text =
-        DateFormat('HH:mm').format(DateTime(1, 1, 1, time.hour, time.minute));
-    if (endTime != null) {
-      numberHour.value = DateTime(1, 1, 1, time.hour, time.minute)
-          .difference(DateTime(1, 1, 1, startTime!.hour, startTime!.minute))
-          .inHours;
-    }
+  // selectExpirationDateChamge() {
+  //   expirationDate.value = expirationDateChange;
+  // }
+
+  // selectFromDateChamge() {
+  //   fromDate.value = fromDateChange;
+  // }
+
+  // selectToDateChamge() {
+  //   toDate.value = toDateChange;
+  // }
+
+  setIsDay(int value) {
+    if (totalDay.value != 1) return;
+    onDay.value = value;
   }
 
-  createNewOnLeave() {
-    if (expirationDateController.text.length != 10) {
+  sendRequestOnLeave() async {
+    if (isSending.value) return;
+    if (onLeaveKindModel.value == null ||
+        expirationDate.value == null ||
+        toDate.value == null ||
+        toDate.value == null) {
+      Get.dialog(
+          barrierDismissible: false,
+          closeDialog('Thông báo', 'Vui lòng điền đầy đủ thông tin'));
       return;
     }
-    if (startDateController.text.length != 10) {
+    if (totalDay < 0) {
+      Get.dialog(
+          barrierDismissible: false,
+          closeDialog('Thông báo', 'Tổng số ngày nghỉ không hợp lệ'));
       return;
     }
-    if (endDateController.text.length != 10) {
-      return;
+    isSending.value = true;
+    Map<String, dynamic> data = {
+      'permissionType': onLeaveKindModel.value!.id,
+      'employeeID': 1167,
+      'expired': expirationDate.value!.toIso8601String(),
+      'fromDate': fromDate.value!.toIso8601String(),
+      'toDate': toDate.value!.toIso8601String(),
+      'totalDay': totalDay.value,
+      'isHalfDay': onDay.value == 1,
+      'isOneDay': onDay.value == 2,
+      'status': 0,
+      'description': noteController.text,
+      'year': DateTime.now().year
+    };
+    String result = await ApiProvider().sendOnLeaveRequest(data, '');
+    if (result == "ADD") {
+      Fluttertoast.showToast(
+          msg: 'Đã gửi yêu cầu thành công',
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.white,
+          textColor: Colors.black);
+      Get.back();
     }
-    if (startTimeController.text.length != 5) {
-      return;
-    }
-    if (endTimeController.text.length != 5) {
-      return;
-    }
-    expirationDate =
-        DateFormat("dd/MM/yyyy").parse(expirationDateController.text);
-    startDate = DateFormat("dd/MM/yyyy").parse(startDateController.text);
-    endDate = DateFormat("dd/MM/yyyy").parse(endDateController.text);
 
-    DateTime dateTime = DateFormat("HH:mm").parse(startTimeController.text);
-    startTime = TimeOfDay.fromDateTime(dateTime);
-    dateTime = DateFormat("HH:mm").parse(endTimeController.text);
-    endTime = TimeOfDay.fromDateTime(dateTime);
+    isSending.value = false;
   }
 
   @override
   void onInit() {
+    getOnLeaveKind();
     super.onInit();
   }
 
   @override
   void onClose() {
+    noteController.dispose();
     super.onClose();
   }
 
   @override
   void dispose() {
+    noteController.dispose();
     super.dispose();
   }
 }
