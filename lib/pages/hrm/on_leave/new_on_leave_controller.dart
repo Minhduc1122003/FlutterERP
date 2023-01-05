@@ -26,7 +26,7 @@ class NewOnleaveController extends GetxController {
   RxBool isSending = false.obs;
   SiteModel siteModel = SiteModel(id: 1, code: 'KIA', name: 'KIA');
   getOnLeaveKind() async {
-    listOnLeaveKindModel = await ApiProvider().getOnLeaveKind(siteModel, '');
+    listOnLeaveKindModel = await ApiProvider().getListOnLeaveKind(siteModel, '');
   }
 
   setSelectOnLeaveKind(int id) async {
@@ -115,7 +115,8 @@ class NewOnleaveController extends GetxController {
     if (result == "ADD") {
       Fluttertoast.showToast(
           msg: 'Đã gửi yêu cầu thành công',
-          toastLength: Toast.LENGTH_SHORT,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
           backgroundColor: Colors.white,
           textColor: Colors.black);
       Get.back();

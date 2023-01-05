@@ -1,14 +1,35 @@
-class ShiftModel{
+class WorkShiftModel {
   final int id;
   final String name;
   final String time;
-  ShiftModel({required this.id, required this.name,required this.time});
+  WorkShiftModel({required this.id, required this.name, required this.time});
 
-  static ShiftModel getShiftModel(int kind){
-    if(kind==1) {
-      return ShiftModel(id: 1,name: 'Ca hành chính',time: '08:00 - 17:30');
+  static WorkShiftModel getWorkShiftModel(int kind) {
+    if (kind == 1) {
+      return WorkShiftModel(
+          id: 1, name: 'Ca hành chính', time: '08:00 - 17:30');
     } else {
-      return ShiftModel(id: 2,name: 'Ca chủ nhật',time: '08:00 - 12:00');
+      return WorkShiftModel(id: 2, name: 'Ca chủ nhật', time: '08:00 - 12:00');
     }
   }
+}
+
+class ShiftModel {
+  final int id;
+  final String name;
+  final String code;
+  final DateTime fromTime;
+  final DateTime toTime;
+  ShiftModel(
+      {required this.id,
+      required this.name,
+      required this.code,
+      required this.fromTime,
+      required this.toTime});
+  ShiftModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['title'],
+        code = json['code'],
+        fromTime =  DateTime.parse(json['fromTime']),
+        toTime =  DateTime.parse(json['toTime']);
 }

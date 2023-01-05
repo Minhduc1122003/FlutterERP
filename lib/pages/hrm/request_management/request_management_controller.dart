@@ -10,10 +10,10 @@ class RequestManagementController extends GetxController {
   RxList<RequestManagementKind> requestManagementKindList =
       <RequestManagementKind>[
     RequestManagementKind(id: 1, name: 'Nghỉ phép'),
-    RequestManagementKind(id: 2, name: 'Nghỉ việc'),
-    RequestManagementKind(id: 3, name: 'Tăng ca'),
-    RequestManagementKind(id: 4, name: 'Ứng lương'),
-    RequestManagementKind(id: 5, name: 'Bù công')
+    //RequestManagementKind(id: 2, name: 'Nghỉ việc'),
+    //RequestManagementKind(id: 3, name: 'Tăng ca'),
+    RequestManagementKind(id: 2, name: 'Ứng lương'),
+    RequestManagementKind(id: 3, name: 'Bù công')
   ].obs;
   Rx<RequestManagementKind> requestManagementKind =
       RequestManagementKind(id: 1, name: 'Nghỉ phép').obs;

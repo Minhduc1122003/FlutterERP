@@ -24,11 +24,11 @@ class FilterShiftScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          buildChooseShiftItem(ShiftModel.getShiftModel(1),
-              (ShiftModel sm) => controller.setChosseShift(sm)),
+          buildChooseShiftItem(WorkShiftModel.getWorkShiftModel(1),
+              (WorkShiftModel sm) => controller.setChosseShift(sm)),
           Container(height: 1, color: Colors.grey[100]),
-          buildChooseShiftItem(ShiftModel.getShiftModel(2),
-              (ShiftModel sm) => controller.setChosseShift(sm)),
+          buildChooseShiftItem(WorkShiftModel.getWorkShiftModel(2),
+              (WorkShiftModel sm) => controller.setChosseShift(sm)),
           Container(height: 1, color: Colors.grey[100]),
         ]),
       ),
@@ -37,16 +37,16 @@ class FilterShiftScreen extends StatelessWidget {
 }
 
 Widget buildChooseShiftItem(
-    ShiftModel shiftModel, Function(ShiftModel shiftModel) chosse) {
+    WorkShiftModel WorkShiftModel, Function(WorkShiftModel WorkShiftModel) chosse) {
   return InkWell(
     onTap: () {
       Get.back();
-      chosse(shiftModel);
+      chosse(WorkShiftModel);
     },
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       child: Text(
-        '${shiftModel.name} (${shiftModel.time})',
+        '${WorkShiftModel.name} (${WorkShiftModel.time})',
         style: const TextStyle(fontSize: 17),
       ),
     ),

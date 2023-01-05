@@ -517,25 +517,25 @@ Widget buildListShift(double w) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, 1, false),
+                'trung nguyen', WorkShiftModel.getWorkShiftModel(1), w, 1, false),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, 2, false),
+                'trung nguyen', WorkShiftModel.getWorkShiftModel(1), w, 2, false),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, 3, true),
+                'trung nguyen', WorkShiftModel.getWorkShiftModel(1), w, 3, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, 4, true),
+                'trung nguyen', WorkShiftModel.getWorkShiftModel(1), w, 4, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, 5, true),
+                'trung nguyen', WorkShiftModel.getWorkShiftModel(1), w, 5, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(1), w, 6, true),
+                'trung nguyen', WorkShiftModel.getWorkShiftModel(1), w, 6, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'trung nguyen', ShiftModel.getShiftModel(2), w, 7, false),
+                'trung nguyen', WorkShiftModel.getWorkShiftModel(2), w, 7, false),
           ],
         ),
         const SizedBox(height: 2),
@@ -543,25 +543,25 @@ Widget buildListShift(double w) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 1, false),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 1, false),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 2, false),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 2, false),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 3, true),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 3, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 4, true),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 4, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 5, true),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 5, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 6, true),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 6, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(2), w, 7, false),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(2), w, 7, false),
           ],
         ),
         const SizedBox(height: 2),
@@ -569,25 +569,25 @@ Widget buildListShift(double w) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 1, true),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 1, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 2, true),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 2, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 3, true),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 3, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 4, true),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 4, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 5, true),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 5, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(1), w, 6, true),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(1), w, 6, true),
             const SizedBox(width: 2),
             buildShiftItem(
-                'Nhan vien demo', ShiftModel.getShiftModel(2), w, 7, true),
+                'Nhan vien demo', WorkShiftModel.getWorkShiftModel(2), w, 7, true),
           ],
         )
       ],
@@ -595,7 +595,7 @@ Widget buildListShift(double w) {
   );
 }
 
-Widget buildShiftItem(String name, ShiftModel sm, double w, int d, bool empty) {
+Widget buildShiftItem(String name, WorkShiftModel sm, double w, int d, bool empty) {
   int dayOfWeek = DateTime.now().weekday;
   return Expanded(
     child: InkWell(

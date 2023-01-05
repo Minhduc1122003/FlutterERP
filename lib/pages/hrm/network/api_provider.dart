@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 
 import '../hrm_config/hrm_constant.dart';
 import '../hrm_model/on_leave_model.dart';
+import '../hrm_model/shift_model.dart';
 
 class ApiProvider {
   late Response response;
@@ -30,7 +31,6 @@ class ApiProvider {
     final uri = Uri.parse(url);
     var body = jsonEncode(map);
     final encoding = Encoding.getByName('utf-8');
-
     try {
       return await post(
         uri,
@@ -43,12 +43,23 @@ class ApiProvider {
     }
   }
 
-  Future<List<OnLeaveKindModel>> getOnLeaveKind(
+  Future<List<OnLeaveKindModel>> getListOnLeaveKind(
       SiteModel siteModel, String token) async {
     response = await getConnect(getOnLeaveKindAPI + siteModel.code, token);
     if (response.statusCode == statusOk) {
       List responseList = json.decode(response.body);
       return responseList.map((val) => OnLeaveKindModel.fromJson(val)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<ShiftModel>> getListShiftModel(
+      SiteModel siteModel, String token) async {
+    response = await getConnect(getListShiftModelAPI + siteModel.code, token);
+    if (response.statusCode == statusOk) {
+      List responseList = json.decode(response.body);
+      return responseList.map((val) => ShiftModel.fromJson(val)).toList();
     } else {
       return [];
     }
@@ -66,7 +77,19 @@ class ApiProvider {
   Future<String> sendOnLeaveRequest(
       Map<String, dynamic> map, String token) async {
     response = await postConnect(sendOnLeaveRequestAPI, map, token);
-    if (response.statusCode == statusOk||response.statusCode == statusCreated) {
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      return response.body;
+    } else {
+      return '';
+    }
+  }
+
+  Future<String> sendWorkdayCompensationRequest(
+      Map<String, dynamic> map, String token) async {
+    response = await postConnect(sendWorkdayCompensationRequestAPI, map, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
       return response.body;
     } else {
       return '';

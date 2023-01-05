@@ -12,6 +12,10 @@ const String serverURL = 'http://api2.khangthanh.com';
 
 const String getOnLeaveKindAPI = '$serverURL/hrm/api/permissionType/getAll/';
 const String sendOnLeaveRequestAPI = '$serverURL/hrm/api/onLeaveFileLine';
+
+const String getListShiftModelAPI = '$serverURL/hrm/api/shift/';
+const String sendWorkdayCompensationRequestAPI = '$serverURL/hrm/api/timekeepingOffset';
+
 //const String loginAPI = '$serverURL/api/Users/Login';
 //const String searchTailoringOrdersAPI = '$serverURL/api/Order/GetListOrder/';
 //const String sellerAPI='$serverURL/api/Human/GetListSeller/';

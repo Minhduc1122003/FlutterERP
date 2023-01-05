@@ -224,13 +224,13 @@ Widget buildTabarView(String inOut, String timeSheets) {
       child: Container(
           color: lightGreen1,
           child: TabBarView(children: [
-            buildInOutItem('trung nguyen', true, ShiftModel.getShiftModel(1),
+            buildInOutItem('trung nguyen', true, WorkShiftModel.getWorkShiftModel(1),
                 DateTime.now()),
             buildTimeSheetsList(),
           ])));
 }
 
-Widget buildInOutItem(String name, bool isIn, ShiftModel sm, DateTime date) {
+Widget buildInOutItem(String name, bool isIn, WorkShiftModel sm, DateTime date) {
   return SingleChildScrollView(
     child: Column(
       children: [

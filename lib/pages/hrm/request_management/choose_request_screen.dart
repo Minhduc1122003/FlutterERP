@@ -6,6 +6,7 @@ import 'package:fluttericon/entypo_icons.dart';
 import 'package:get/get.dart';
 
 import '../on_leave/new_on_leave_screen.dart';
+import '../workday_compensation/new_workday_compensation_screen.dart';
 
 class ChooseRequestScreen extends StatelessWidget {
   const ChooseRequestScreen({Key? key}) : super(key: key);
@@ -38,22 +39,23 @@ class ChooseRequestScreen extends StatelessWidget {
           // Container(height: 1, color: Colors.grey[200]),
           // buildChooseItem(3,Icons.more_time, 'Thay đổi giờ vào/ra'),
           // Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(1,FontAwesome.money, 'Tạm ứng lương'),
+          buildChooseItem(1, FontAwesome.bed, 'Nghỉ phép'),
           Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(2,FontAwesome.bed, 'Nghỉ phép'),
+          buildChooseItem(2, FontAwesome.money, 'Tạm ứng lương'),
           Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(3,FontAwesome5.fill, 'Bù công'),
+          buildChooseItem(3, FontAwesome5.fill, 'Bù công'),
         ]),
       ),
     );
   }
 }
 
-Widget buildChooseItem(int id,IconData icon, String name) {
+Widget buildChooseItem(int id, IconData icon, String name) {
   return InkWell(
-    onTap: (){
+    onTap: () {
       Get.back();
-     if(id==2) Get.to(()=>NewOnLeaveScreen());
+      if (id == 1) Get.to(() => NewOnLeaveScreen());
+      if (id == 3) Get.to(() => NewWorkdayCompensationScreen());
     },
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),

@@ -1,3 +1,4 @@
+import 'package:erp/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -178,12 +179,12 @@ Widget buildTabar(List<String> requestList, List<String> acceptanceList,
                   height: 20,
                   width: 20,
                   decoration: BoxDecoration(
-                      color: Colors.blue[100],
+                      color: mainColor.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(3)),
                   child: Center(
                       child: Text(
                     '${acceptanceList.length}',
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: mainColor),
                   )),
                 )
               ],
@@ -219,16 +220,235 @@ Widget buildTabarView(
     List<String> request, List<String> acceptance, List<String> refuse) {
   return Expanded(
       child: Container(
-          color: mainColor.withOpacity(0.15),
-          child: const TabBarView(children: [
-            Center(
-                child: Text('Chưa có yêu cầu nào',
-                    style: TextStyle(fontSize: 18))),
-            Center(
-                child: Text('Chưa có chấp thuận nào',
-                    style: TextStyle(fontSize: 18))),
-            Center(
-                child:
-                    Text('Chưa có từ chối nào', style: TextStyle(fontSize: 18)))
+          color: mainColor.withOpacity(0.1),
+          child: TabBarView(children: [
+            ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemCount: 1,
+                itemBuilder: (BuildContext context, int index) {
+                  return buildOnLeaveRequestItem(0);
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(height: 5)),
+            // Center(
+            //     child: Text('Chưa có yêu cầu nào',
+            //         style: TextStyle(fontSize: 18))),
+            ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemCount: 1,
+                itemBuilder: (BuildContext context, int index) {
+                  return buildWorkdayCompensationRequestItem(1);
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(height: 5)),
+            // Center(
+            //     child: Text('Chưa có chấp thuận nào',
+            //         style: TextStyle(fontSize: 18))),
+            // Center(
+            //     child:
+            //         Text('Chưa có từ chối nào', style: TextStyle(fontSize: 18)))
+            ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemCount: 1,
+                itemBuilder: (BuildContext context, int index) {
+                  return buildWorkdayCompensationRequestItem(2);
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(height: 5)),
           ])));
+}
+
+Widget buildOnLeaveRequestItem(int kind) {
+  return Card(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Column(children: [
+        Stack(children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Nghỉ phép',
+                    style: TextStyle(
+                        color: blueBlack,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17)),
+                Text(DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                    style: TextStyle(color: blueBlack, fontSize: 12)),
+              ],
+            ),
+          ),
+          Positioned(
+            child: Container(width: 4, height: 40, color: getColor(kind)),
+            top: 0,
+            left: 1,
+          )
+        ]),
+        const SizedBox(height: 10),
+        Container(height: 1, color: Colors.grey[200], width: double.infinity),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('NGÀY HẾT HẠN',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    Text(DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                        overflow: TextOverflow.ellipsis,
+                        style:const TextStyle(color: blueBlack, fontSize: 14)),
+                    const SizedBox(height: 10),
+                    Text('THỜI GIAN ',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    Text(
+                        '${DateFormat('dd/MM/yyyy').format(DateTime.now())} - ${DateFormat('dd/MM/yyyy').format(DateTime.now())}'
+                            .replaceAll("", "\u{200B}"),
+                        overflow: TextOverflow.ellipsis,
+                        style:const TextStyle(color: blueBlack, fontSize: 14)),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('LOẠI PHÉP',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    Text('Phép không lương'.replaceAll("", "\u{200B}"),
+                        style:const TextStyle(color: blueBlack, fontSize: 14),
+                        overflow: TextOverflow.ellipsis),
+                    const SizedBox(height: 10),
+                    Text('GHI CHÚ ',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    const Text('abc',
+                        //overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: blueBlack, fontSize: 14)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ]),
+    ),
+  );
+}
+
+Widget buildWorkdayCompensationRequestItem(int kind) {
+  return Card(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Column(children: [
+        Stack(children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Bù công',
+                    style: TextStyle(
+                        color: blueBlack,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17)),
+                Text(DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                    style:const TextStyle(color: blueBlack, fontSize: 12)),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 1,
+            child: Container(width: 4, height: 40, color: getColor(kind)),
+          )
+        ]),
+        const SizedBox(height: 10),
+        Container(height: 1, color: Colors.grey[200], width: double.infinity),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('NGÀY',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    Text(DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(color: blueBlack, fontSize: 14)),
+                    const SizedBox(height: 10),
+                    Text('GIỜ',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    Text(
+                        '${DateFormat('HH:mm').format(DateTime.now())} - ${DateFormat('HH:mm').format(DateTime.now())}'
+                            .replaceAll("", "\u{200B}"),
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(color: blueBlack, fontSize: 14)),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('CA',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    const Text('Ca văn phòng',
+                        style: TextStyle(color: blueBlack, fontSize: 14),
+                        overflow: TextOverflow.ellipsis),
+                    const SizedBox(height: 10),
+                    Text('LÝ DO',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    const Text('abc',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: blueBlack, fontSize: 14)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ]),
+    ),
+  );
+}
+
+Color getColor(int kind) {
+  if (kind == 0) {
+    return Colors.orange[600]!;
+  } else if (kind == 1) {
+    return mainColor;
+  }
+  return Colors.red;
 }

@@ -43,7 +43,7 @@ class NewOnLeaveScreen extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: SingleChildScrollView(
+          child: Obx(()=>controller.isSending.value?const Center(child: CircularProgressIndicator()):SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text('Loại phép', style: TextStyle(color: blueGrey1)),
@@ -311,7 +311,7 @@ class NewOnLeaveScreen extends StatelessWidget {
                         Expanded(
                           child: Obx(() => controller.fromDate.value == null
                               ? const Text(
-                                  'ChblueGrey1ọn ngày bắt đầu',
+                                  'Chọn ngày bắt đầu',
                                   style:
                                       TextStyle(color: blueGrey2, fontSize: 16),
                                 )
@@ -525,7 +525,7 @@ class NewOnLeaveScreen extends StatelessWidget {
                   keyboardType: TextInputType.multiline,
                   maxLines: 5,
                   decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 15),
+                    contentPadding: EdgeInsets.only(left: 15,top: 5),
                     hintText: '',
                     hintStyle: TextStyle(color: blueGrey2, fontSize: 16),
                     border: InputBorder.none,
@@ -537,6 +537,6 @@ class NewOnLeaveScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }

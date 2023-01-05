@@ -17,16 +17,18 @@ class FilterRequestController extends GetxController {
         .add(FilterRequestDetailModel(groupID: 0, id: 2, name: 'Nhân viên 2'));
     FilterRequestModel filterRequestModel2 =
         FilterRequestModel(id: 1, name: 'Loại yêu cầu');
-    filterRequestModel2.listFilterRequestDetailModel
-        .add(FilterRequestDetailModel(groupID: 1, id: 1, name: 'Công tác/Ra ngoài'));
-    filterRequestModel2.listFilterRequestDetailModel
-        .add(FilterRequestDetailModel(groupID: 1, id: 2, name: 'Làm thêm giờ'));
+    // filterRequestModel2.listFilterRequestDetailModel
+    //     .add(FilterRequestDetailModel(groupID: 1, id: 1, name: 'Công tác/Ra ngoài'));
+    // filterRequestModel2.listFilterRequestDetailModel
+    //     .add(FilterRequestDetailModel(groupID: 1, id: 2, name: 'Làm thêm giờ'));
+        //     filterRequestModel2.listFilterRequestDetailModel
+        // .add(FilterRequestDetailModel(groupID: 1, id: 3, name: 'Thay đổi giờ vào/ra'));
+                    filterRequestModel2.listFilterRequestDetailModel
+        .add(FilterRequestDetailModel(groupID: 1, id: 1, name: 'Nghỉ phép'));
             filterRequestModel2.listFilterRequestDetailModel
-        .add(FilterRequestDetailModel(groupID: 1, id: 3, name: 'Thay đổi giờ vào/ra'));
+        .add(FilterRequestDetailModel(groupID: 1, id: 2, name: 'Tạm ứng lương'));
             filterRequestModel2.listFilterRequestDetailModel
-        .add(FilterRequestDetailModel(groupID: 1, id: 4, name: 'Tạm ứng lương'));
-            filterRequestModel2.listFilterRequestDetailModel
-        .add(FilterRequestDetailModel(groupID: 1, id: 5, name: 'Nghỉ phép'));
+        .add(FilterRequestDetailModel(groupID: 1, id: 3, name: 'Bù công'));
     FilterRequestModel filterRequestModel3 =
         FilterRequestModel(id: 2, name: 'Phòng ban');
     filterRequestModel3.listFilterRequestDetailModel
