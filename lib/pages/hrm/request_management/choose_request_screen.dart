@@ -6,7 +6,7 @@ import 'package:fluttericon/entypo_icons.dart';
 import 'package:get/get.dart';
 
 import '../on_leave/new_on_leave_screen.dart';
-import '../workday_compensation/new_workday_compensation_screen.dart';
+import '../timekeeping_offset/new_timekeeping_offset_screen.dart';
 
 class ChooseRequestScreen extends StatelessWidget {
   const ChooseRequestScreen({Key? key}) : super(key: key);
@@ -55,7 +55,7 @@ Widget buildChooseItem(int id, IconData icon, String name) {
     onTap: () {
       Get.back();
       if (id == 1) Get.to(() => NewOnLeaveScreen());
-      if (id == 3) Get.to(() => NewWorkdayCompensationScreen());
+      if (id == 3) Get.to(() => NewTimekeepingOffsetScreen());
     },
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),

@@ -9,9 +9,10 @@ import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../hrm_method.dart';
+import '../request_management/request_management_controller.dart';
 
 class NewOnleaveController extends GetxController {
-  List<OnLeaveKindModel> listOnLeaveKindModel = [];
+  RxList<OnLeaveKindModel> listOnLeaveKindModel = <OnLeaveKindModel>[].obs;
   Rx<OnLeaveKindModel?> onLeaveKindModel = Rxn<OnLeaveKindModel?>();
   Rx<DateTime?> expirationDate = Rxn<DateTime?>();
   Rx<DateTime?> fromDate = Rxn<DateTime?>();
@@ -19,14 +20,27 @@ class NewOnleaveController extends GetxController {
   DateTime expirationDateChange = DateTime.now();
   DateTime fromDateChange = DateTime.now();
   DateTime toDateChange = DateTime.now();
-
+  DateTime now = DateTime.now();
   TextEditingController noteController = TextEditingController();
   RxInt totalDay = 0.obs;
   RxInt onDay = 0.obs;
   RxBool isSending = false.obs;
   SiteModel siteModel = SiteModel(id: 1, code: 'KIA', name: 'KIA');
+
+  RequestManagementController controller =
+      Get.find<RequestManagementController>();
+
+  checkListOnLeaveKindModel() {
+    if (listOnLeaveKindModel.isEmpty) getOnLeaveKind();
+  }
+
   getOnLeaveKind() async {
-    listOnLeaveKindModel = await ApiProvider().getListOnLeaveKind(siteModel, '');
+    if (controller.listOnLeaveKindModel.isEmpty) {
+      listOnLeaveKindModel.value =
+          await ApiProvider().getListOnLeaveKind(siteModel, '');
+    } else {
+      listOnLeaveKindModel.value = controller.listOnLeaveKindModel;
+    }
   }
 
   setSelectOnLeaveKind(int id) async {
@@ -100,7 +114,7 @@ class NewOnleaveController extends GetxController {
     isSending.value = true;
     Map<String, dynamic> data = {
       'permissionType': onLeaveKindModel.value!.id,
-      'employeeID': 1167,
+      'employeeID': 8758,
       'expired': expirationDate.value!.toIso8601String(),
       'fromDate': fromDate.value!.toIso8601String(),
       'toDate': toDate.value!.toIso8601String(),
@@ -108,18 +122,20 @@ class NewOnleaveController extends GetxController {
       'isHalfDay': onDay.value == 1,
       'isOneDay': onDay.value == 2,
       'status': 0,
+      'siteID': 'KIA',
       'description': noteController.text,
-      'year': DateTime.now().year
+      'year': DateTime.now().year,
     };
     String result = await ApiProvider().sendOnLeaveRequest(data, '');
     if (result == "ADD") {
+      Get.back();
       Fluttertoast.showToast(
           msg: 'Đã gửi yêu cầu thành công',
-          toastLength: Toast.LENGTH_LONG,
+          toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           backgroundColor: Colors.white,
           textColor: Colors.black);
-      Get.back();
+      controller.loadRequest();
     }
 
     isSending.value = false;

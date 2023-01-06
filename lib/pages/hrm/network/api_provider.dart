@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 
 import '../hrm_config/hrm_constant.dart';
 import '../hrm_model/on_leave_model.dart';
+import '../hrm_model/request_management_model.dart';
 import '../hrm_model/shift_model.dart';
 
 class ApiProvider {
@@ -54,25 +55,35 @@ class ApiProvider {
     }
   }
 
-  Future<List<ShiftModel>> getListShiftModel(
-      SiteModel siteModel, String token) async {
-    response = await getConnect(getListShiftModelAPI + siteModel.code, token);
+  Future<List<OnLeaveRequestModel>> getListOnLeaveRequestModel(
+      SiteModel siteModel, int employeeID, int year, String token) async {
+    response = await getConnect(
+        '$getListOnLeaveRequestAPI$employeeID/$year/${siteModel.code}',
+        token);
     if (response.statusCode == statusOk) {
       List responseList = json.decode(response.body);
-      return responseList.map((val) => ShiftModel.fromJson(val)).toList();
+      return responseList
+          .map((val) => OnLeaveRequestModel.fromJson(val))
+          .toList();
     } else {
       return [];
     }
   }
 
-  // Future<Map<String, dynamic>> login(Map<String, dynamic> map) async {
-  //   response = await postConnect(loginAPI, map, '');
-  //   if (response.statusCode == statusOk) {
-  //     return json.decode(response.body);
-  //   } else {
-  //     return {};
-  //   }
-  // }
+  Future<List<TimekeepingOffsetRequestModel>> getListTimekeepingOffsetRequest(
+      SiteModel siteModel, int employeeID, String token) async {
+    response = await getConnect(
+        '$getListTimekeepingOffsetRequestAPI$employeeID/${siteModel.code}',
+        token);
+    if (response.statusCode == statusOk) {
+      List responseList = json.decode(response.body);
+      return responseList
+          .map((val) => TimekeepingOffsetRequestModel.fromJson(val))
+          .toList();
+    } else {
+      return [];
+    }
+  }
 
   Future<String> sendOnLeaveRequest(
       Map<String, dynamic> map, String token) async {
@@ -85,9 +96,29 @@ class ApiProvider {
     }
   }
 
-  Future<String> sendWorkdayCompensationRequest(
+  // Future<Map<String, dynamic>> login(Map<String, dynamic> map) async {
+  //   response = await postConnect(loginAPI, map, '');
+  //   if (response.statusCode == statusOk) {
+  //     return json.decode(response.body);
+  //   } else {
+  //     return {};
+  //   }
+  // }
+
+  Future<List<ShiftModel>> getListShiftModel(
+      SiteModel siteModel, String token) async {
+    response = await getConnect(getListShiftModelAPI + siteModel.code, token);
+    if (response.statusCode == statusOk) {
+      List responseList = json.decode(response.body);
+      return responseList.map((val) => ShiftModel.fromJson(val)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<String> sendTimekeepingOffsetRequest(
       Map<String, dynamic> map, String token) async {
-    response = await postConnect(sendWorkdayCompensationRequestAPI, map, token);
+    response = await postConnect(sendTimekeepingOffsetRequestAPI, map, token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       return response.body;

@@ -1,13 +1,12 @@
-import 'package:erp/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../config/constant.dart';
+import '../hrm_method.dart';
 import 'choose_request_screen.dart';
 import '../color.dart';
 import '../hrm_model/request_management_model.dart';
-import '../on_leave/new_on_leave_screen.dart';
 import 'filter_request_screen.dart';
 import 'request_management_controller.dart';
 
@@ -33,7 +32,7 @@ class RequestManagementScreen extends StatelessWidget {
             actions: [
               InkWell(
                 child: const Icon(Icons.tune),
-                onTap: () => Get.to(() => FilterRequestScreen()),
+                onTap: () => Get.to(() => const FilterRequestScreen()),
               ),
               const SizedBox(width: 20),
               InkWell(
@@ -55,8 +54,15 @@ class RequestManagementScreen extends StatelessWidget {
                         controller.setDateRange(pickerDateRange),
                   )),
               const SizedBox(height: 10),
-              buildTabar([], [], []),
-              buildTabarView([], [], [])
+              Obx(() => buildTabar(
+                  controller.listRequestNew.length,
+                  controller.listRequestApprove.length,
+                  controller.listRequestReject.length)),
+              Obx(() => buildTabarView(
+                  controller.listRequestNew,
+                  controller.listRequestApprove,
+                  controller.listRequestReject,
+                  controller.isLoading.value))
             ],
           ),
           floatingActionButton: FloatingActionButton(
@@ -127,12 +133,14 @@ Widget buildFromDayToDay(BuildContext context, DateTime fromDay, DateTime toDay,
   );
 }
 
-Widget buildTabar(List<String> requestList, List<String> acceptanceList,
-    List<String> refuseList) {
+Widget buildTabar(
+  int listNewLength,
+  int listApproveLength,
+  int listRejectLength,
+) {
   return SizedBox(
     height: 30,
     child: TabBar(
-
         //labelColor: appColor,
         //unselectedLabelColor: Colors.white,
         labelColor: mainColor,
@@ -151,7 +159,7 @@ Widget buildTabar(List<String> requestList, List<String> acceptanceList,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Yêu cầu', style: TextStyle(fontSize: 16)),
+                const Text('Yêu cầu', style: TextStyle(fontSize: 16)),
                 const SizedBox(width: 5),
                 Container(
                   height: 20,
@@ -161,8 +169,8 @@ Widget buildTabar(List<String> requestList, List<String> acceptanceList,
                       borderRadius: BorderRadius.circular(3)),
                   child: Center(
                       child: Text(
-                    '${requestList.length}',
-                    style: TextStyle(color: Colors.orange),
+                    '$listNewLength',
+                    style: const TextStyle(color: Colors.orange),
                   )),
                 )
               ],
@@ -173,7 +181,7 @@ Widget buildTabar(List<String> requestList, List<String> acceptanceList,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Chấp thuận', style: TextStyle(fontSize: 16)),
+                const Text('Chấp thuận', style: TextStyle(fontSize: 16)),
                 const SizedBox(width: 5),
                 Container(
                   height: 20,
@@ -183,7 +191,7 @@ Widget buildTabar(List<String> requestList, List<String> acceptanceList,
                       borderRadius: BorderRadius.circular(3)),
                   child: Center(
                       child: Text(
-                    '${acceptanceList.length}',
+                    '$listApproveLength',
                     style: TextStyle(color: mainColor),
                   )),
                 )
@@ -195,7 +203,7 @@ Widget buildTabar(List<String> requestList, List<String> acceptanceList,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Từ chối', style: TextStyle(fontSize: 16)),
+                const Text('Từ chối', style: TextStyle(fontSize: 16)),
                 const SizedBox(width: 5),
                 Container(
                   height: 20,
@@ -205,8 +213,8 @@ Widget buildTabar(List<String> requestList, List<String> acceptanceList,
                       borderRadius: BorderRadius.circular(3)),
                   child: Center(
                       child: Text(
-                    '${refuseList.length}',
-                    style: TextStyle(color: Colors.red),
+                    '$listRejectLength',
+                    style: const TextStyle(color: Colors.red),
                   )),
                 )
               ],
@@ -216,49 +224,73 @@ Widget buildTabar(List<String> requestList, List<String> acceptanceList,
   );
 }
 
-Widget buildTabarView(
-    List<String> request, List<String> acceptance, List<String> refuse) {
+Widget buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
+    List<dynamic> listReject, bool isLoading) {
   return Expanded(
       child: Container(
           color: mainColor.withOpacity(0.1),
           child: TabBarView(children: [
-            ListView.separated(
-                padding: const EdgeInsets.all(8),
-                itemCount: 1,
-                itemBuilder: (BuildContext context, int index) {
-                  return buildOnLeaveRequestItem(0);
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    const SizedBox(height: 5)),
-            // Center(
-            //     child: Text('Chưa có yêu cầu nào',
-            //         style: TextStyle(fontSize: 18))),
-            ListView.separated(
-                padding: const EdgeInsets.all(8),
-                itemCount: 1,
-                itemBuilder: (BuildContext context, int index) {
-                  return buildWorkdayCompensationRequestItem(1);
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    const SizedBox(height: 5)),
-            // Center(
-            //     child: Text('Chưa có chấp thuận nào',
-            //         style: TextStyle(fontSize: 18))),
-            // Center(
-            //     child:
-            //         Text('Chưa có từ chối nào', style: TextStyle(fontSize: 18)))
-            ListView.separated(
-                padding: const EdgeInsets.all(8),
-                itemCount: 1,
-                itemBuilder: (BuildContext context, int index) {
-                  return buildWorkdayCompensationRequestItem(2);
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    const SizedBox(height: 5)),
+            LayoutBuilder(builder: (context, constraints) {
+              if (isLoading) {
+                return Center(
+                    child: CircularProgressIndicator(color: mainColor));
+              } else if (listNew.isNotEmpty) {
+                return ListView.separated(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: listNew.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return listNew[index] is OnLeaveRequestModel
+                          ? buildOnLeaveRequestItem(listNew[index])
+                          : buildTimekeepingRequestItem(listNew[index]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(height: 5));
+              } else {
+                return const SizedBox.shrink();
+              }
+            }),
+            LayoutBuilder(builder: (context, constraints) {
+              if (isLoading) {
+                return Center(
+                    child: CircularProgressIndicator(color: mainColor));
+              } else if (listApprove.isNotEmpty) {
+                return ListView.separated(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: listNew.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return listNew[index] is OnLeaveRequestModel
+                          ? buildOnLeaveRequestItem(listApprove[index])
+                          : buildTimekeepingRequestItem(listApprove[index]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(height: 5));
+              } else {
+                return const SizedBox.shrink();
+              }
+            }),
+            LayoutBuilder(builder: (context, constraints) {
+              if (isLoading) {
+                return Center(
+                    child: CircularProgressIndicator(color: mainColor));
+              } else if (listReject.isNotEmpty) {
+                return ListView.separated(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: listNew.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return listNew[index] is OnLeaveRequestModel
+                          ? buildOnLeaveRequestItem(listReject[index])
+                          : buildTimekeepingRequestItem(listReject[index]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(height: 5));
+              } else {
+                return const SizedBox.shrink();
+              }
+            }),
           ])));
 }
 
-Widget buildOnLeaveRequestItem(int kind) {
+Widget buildOnLeaveRequestItem(OnLeaveRequestModel model) {
   return Card(
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
@@ -274,15 +306,16 @@ Widget buildOnLeaveRequestItem(int kind) {
                         color: blueBlack,
                         fontWeight: FontWeight.bold,
                         fontSize: 17)),
-                Text(DateFormat('dd/MM/yyyy').format(DateTime.now()),
-                    style: TextStyle(color: blueBlack, fontSize: 12)),
+                Text(DateFormat('dd/MM/yyyy').format(model.createDate),
+                    style: const TextStyle(color: blueBlack, fontSize: 12)),
               ],
             ),
           ),
           Positioned(
-            child: Container(width: 4, height: 40, color: getColor(kind)),
             top: 0,
             left: 1,
+            child:
+                Container(width: 4, height: 40, color: getColor(model.status)),
           )
         ]),
         const SizedBox(height: 10),
@@ -302,19 +335,19 @@ Widget buildOnLeaveRequestItem(int kind) {
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
-                    Text(DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                    Text(DateFormat('dd/MM/yyyy').format(model.expired),
                         overflow: TextOverflow.ellipsis,
-                        style:const TextStyle(color: blueBlack, fontSize: 14)),
+                        style: const TextStyle(color: blueBlack, fontSize: 14)),
                     const SizedBox(height: 10),
                     Text('THỜI GIAN ',
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
                     Text(
-                        '${DateFormat('dd/MM/yyyy').format(DateTime.now())} - ${DateFormat('dd/MM/yyyy').format(DateTime.now())}'
+                        '${DateFormat('dd/MM/yyyy').format(model.fromDate)} - ${DateFormat('dd/MM/yyyy').format(model.toDate)}'
                             .replaceAll("", "\u{200B}"),
                         overflow: TextOverflow.ellipsis,
-                        style:const TextStyle(color: blueBlack, fontSize: 14)),
+                        style: const TextStyle(color: blueBlack, fontSize: 14)),
                   ],
                 ),
               ),
@@ -329,17 +362,19 @@ Widget buildOnLeaveRequestItem(int kind) {
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
-                    Text('Phép không lương'.replaceAll("", "\u{200B}"),
-                        style:const TextStyle(color: blueBlack, fontSize: 14),
+                    Text(
+                        capitalize(model.permissionName)
+                            .replaceAll("", "\u{200B}"),
+                        style: const TextStyle(color: blueBlack, fontSize: 14),
                         overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 10),
                     Text('GHI CHÚ ',
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
-                    const Text('abc',
+                    Text(model.description,
                         //overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: blueBlack, fontSize: 14)),
+                        style: const TextStyle(color: blueBlack, fontSize: 14)),
                   ],
                 ),
               ),
@@ -351,7 +386,7 @@ Widget buildOnLeaveRequestItem(int kind) {
   );
 }
 
-Widget buildWorkdayCompensationRequestItem(int kind) {
+Widget buildTimekeepingRequestItem(TimekeepingOffsetRequestModel model) {
   return Card(
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
@@ -367,15 +402,16 @@ Widget buildWorkdayCompensationRequestItem(int kind) {
                         color: blueBlack,
                         fontWeight: FontWeight.bold,
                         fontSize: 17)),
-                Text(DateFormat('dd/MM/yyyy').format(DateTime.now()),
-                    style:const TextStyle(color: blueBlack, fontSize: 12)),
+                Text(DateFormat('dd/MM/yyyy').format(model.createDate),
+                    style: const TextStyle(color: blueBlack, fontSize: 12)),
               ],
             ),
           ),
           Positioned(
             top: 0,
             left: 1,
-            child: Container(width: 4, height: 40, color: getColor(kind)),
+            child:
+                Container(width: 4, height: 40, color: getColor(model.status)),
           )
         ]),
         const SizedBox(height: 10),
@@ -395,7 +431,7 @@ Widget buildWorkdayCompensationRequestItem(int kind) {
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
-                    Text(DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                    Text(DateFormat('dd/MM/yyyy').format(model.dateApply),
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: blueBlack, fontSize: 14)),
                     const SizedBox(height: 10),
@@ -404,7 +440,7 @@ Widget buildWorkdayCompensationRequestItem(int kind) {
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
                     Text(
-                        '${DateFormat('HH:mm').format(DateTime.now())} - ${DateFormat('HH:mm').format(DateTime.now())}'
+                        '${DateFormat('HH:mm').format(model.fromTime)} - ${DateFormat('HH:mm').format(model.toTime)}'
                             .replaceAll("", "\u{200B}"),
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: blueBlack, fontSize: 14)),
@@ -422,17 +458,17 @@ Widget buildWorkdayCompensationRequestItem(int kind) {
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
-                    const Text('Ca văn phòng',
-                        style: TextStyle(color: blueBlack, fontSize: 14),
+                    Text(capitalize(model.shiftName).replaceAll("", "\u{200B}"),
+                        style: const TextStyle(color: blueBlack, fontSize: 14),
                         overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 10),
                     Text('LÝ DO',
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
-                    const Text('abc',
+                    Text(model.reason,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: blueBlack, fontSize: 14)),
+                        style: const TextStyle(color: blueBlack, fontSize: 14)),
                   ],
                 ),
               ),

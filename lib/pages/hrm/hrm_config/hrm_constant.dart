@@ -10,11 +10,18 @@ const String errorOccured = 'Error occured, please try again later';
 
 const String serverURL = 'http://api2.khangthanh.com';
 
+const String getListOnLeaveRequestAPI = '$serverURL/hrm/api/onLeaveFileLine/';
+const String getListTimekeepingOffsetRequestAPI =
+    '$serverURL/hrm/api/TimekeepingOffset/getByEmployee/';
+
 const String getOnLeaveKindAPI = '$serverURL/hrm/api/permissionType/getAll/';
 const String sendOnLeaveRequestAPI = '$serverURL/hrm/api/onLeaveFileLine';
 
 const String getListShiftModelAPI = '$serverURL/hrm/api/shift/';
-const String sendWorkdayCompensationRequestAPI = '$serverURL/hrm/api/timekeepingOffset';
+const String sendTimekeepingOffsetRequestAPI =
+    '$serverURL/hrm/api/timekeepingOffset';
+
+
 
 //const String loginAPI = '$serverURL/api/Users/Login';
 //const String searchTailoringOrdersAPI = '$serverURL/api/Order/GetListOrder/';

@@ -10,9 +10,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../hrm_method.dart';
 import '../hrm_model/shift_model.dart';
+import '../request_management/request_management_controller.dart';
 
-class NewWorkdayCompensationController extends GetxController {
-  List<ShiftModel> listShiftModel = [];
+class TimekeepingOffsetController extends GetxController {
+  RxList<ShiftModel> listShiftModel = <ShiftModel>[].obs;
   Rx<ShiftModel?> shiftModel = Rxn<ShiftModel?>();
   Rx<DateTime?> applyDate = Rxn<DateTime?>();
   Rx<DateTime?> fromTime = Rxn<DateTime?>();
@@ -25,8 +26,17 @@ class NewWorkdayCompensationController extends GetxController {
   TextEditingController reasonController = TextEditingController();
   RxBool isSending = false.obs;
   SiteModel siteModel = SiteModel(id: 1, code: 'KIA', name: 'KIA');
-  getOnLeaveKind() async {
-    listShiftModel = await ApiProvider().getListShiftModel(siteModel, '');
+
+  RequestManagementController controller =
+      Get.find<RequestManagementController>();
+
+  getShiftModel() async {
+    if (controller.listShiftModel.isEmpty) {
+      listShiftModel.value =
+          await ApiProvider().getListShiftModel(siteModel, '');
+    } else {
+      listShiftModel.value = controller.listShiftModel;
+    }
   }
 
   setSelectShiftKind(int id) async {
@@ -47,7 +57,11 @@ class NewWorkdayCompensationController extends GetxController {
     toTime.value = date;
   }
 
-  sendRequestWorkdayCompensation() async {
+  checkListShiftModel() {
+    if (listShiftModel.isEmpty) getShiftModel();
+  }
+
+  sendTimekeepingOffsetRequest() async {
     if (isSending.value) return;
     if (shiftModel.value == null ||
         applyDate.value == null ||
@@ -67,24 +81,25 @@ class NewWorkdayCompensationController extends GetxController {
     isSending.value = true;
     Map<String, dynamic> data = {
       'shiftID': shiftModel.value!.id,
-      'employeeID': 1167,
+      'employeeID': 8758,
       'dateApply': applyDate.value!.toIso8601String(),
       'fromTime': fromTime.value!.toIso8601String(),
       'toTime': toTime.value!.toIso8601String(),
       'status': 0,
       'reason': reasonController.text,
-      'description': noteController.text,
+      'note': noteController.text,
+      'siteID': 'KIA',
     };
-    String result =
-        await ApiProvider().sendWorkdayCompensationRequest(data, '');
+    String result = await ApiProvider().sendTimekeepingOffsetRequest(data, '');
     if (result == "ADD") {
       Get.back();
       Fluttertoast.showToast(
           msg: 'Đã gửi yêu cầu thành công',
-          toastLength: Toast.LENGTH_LONG,
+          toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Colors.white,
           gravity: ToastGravity.CENTER,
           textColor: Colors.black);
+      controller.loadRequest();
     }
 
     isSending.value = false;
@@ -92,7 +107,7 @@ class NewWorkdayCompensationController extends GetxController {
 
   @override
   void onInit() {
-    getOnLeaveKind();
+    getShiftModel();
     super.onInit();
   }
 

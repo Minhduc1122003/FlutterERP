@@ -6,14 +6,15 @@ import 'package:get/get.dart';
 import '../color.dart';
 import '../hrm_method.dart';
 
-import 'new_workday_compensation_controller.dart';
+import 'timekeeping_offset_controller.dart';
 
-class ChooseShiftKindScreen extends StatelessWidget {
-  const ChooseShiftKindScreen({Key? key}) : super(key: key);
+class ChosseTimekeepingOffsetShiftScreen extends StatelessWidget {
+  const ChosseTimekeepingOffsetShiftScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    NewWorkdayCompensationController controller = Get.find<NewWorkdayCompensationController>();
+    TimekeepingOffsetController controller = Get.find<TimekeepingOffsetController>();
+    controller.checkListShiftModel();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

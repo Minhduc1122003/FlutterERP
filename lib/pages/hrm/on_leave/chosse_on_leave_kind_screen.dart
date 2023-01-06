@@ -14,6 +14,7 @@ class ChooseOnLeaveKindScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NewOnleaveController controller = Get.find<NewOnleaveController>();
+    controller.checkListOnLeaveKindModel();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -33,7 +34,7 @@ class ChooseOnLeaveKindScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: ListView.separated(
+        child: Obx(()=>ListView.separated(
           padding: const EdgeInsets.all(8),
           itemCount: controller.listOnLeaveKindModel.length,
           itemBuilder: (BuildContext context, int index) {
@@ -45,7 +46,7 @@ class ChooseOnLeaveKindScreen extends StatelessWidget {
           separatorBuilder: (BuildContext context, int index) =>
               Container(height: 1, color: Colors.grey[200])
         ),
-      ),
+      )),
     );
   }
 }
