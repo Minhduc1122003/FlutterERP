@@ -4,17 +4,38 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../hrm_method.dart';
+import '../hrm_model/attendance_model.dart';
+import '../hrm_model/user_model.dart';
+import '../network/api_provider.dart';
 
 class ShiftCalendarController extends GetxController {
   DateTime now = DateTime.now();
-  late DateTime startDate;
-  late DateTime endDate;
+  DateTime fromDate = DateTime.now();
+  DateTime toDate = DateTime.now();
 
   RxList<DateTime> listDate = <DateTime>[].obs;
+  RxList<AttendanceModel> listAttendanceModel = <AttendanceModel>[].obs;
+
   List<DateTime> listDateOfWeek = [];
   List<DateTime> listDateOfMonth = [];
   RxString selectText = ''.obs;
   int showID = 1;
+  SiteModel siteModel = SiteModel(id: 1, code: 'KIA', name: 'KIA');
+
+  getListAttendance() async {
+    Map<String, dynamic> data = {
+      'employeeId': 6978,
+      'fromDate': DateTime(2022, 1, 1).toIso8601String(),
+      'toDate': toDate.toIso8601String(),
+    };
+    listAttendanceModel.value =
+        await ApiProvider().getListAttendance(siteModel, data, '');
+    for (int i = 0; i < listAttendanceModel.length; i++) {
+      int ss = checkShiftStatus(listAttendanceModel[i]);
+      listAttendanceModel[i].shiftStatus = ss;
+    }
+    print(listAttendanceModel.length);
+  }
 
   setSelect(int id) {
     showID = id;
@@ -23,19 +44,19 @@ class ShiftCalendarController extends GetxController {
           '${getDay(now.weekday)}, ${DateFormat('dd.MM').format(now)}';
       listDate.value = [now];
     } else if (id == 2) {
-      startDate = now.subtract(Duration(days: now.weekday - 1));
-      endDate = DateTime(startDate.year, startDate.month, startDate.day)
+      fromDate = now.subtract(Duration(days: now.weekday - 1));
+      toDate = DateTime(fromDate.year, fromDate.month, fromDate.day)
           .add(Duration(days: 6));
 
       selectText.value =
-          '${DateFormat('dd.MM').format(startDate)} - ${DateFormat('dd.MM').format(endDate)}';
+          '${DateFormat('dd.MM').format(fromDate)} - ${DateFormat('dd.MM').format(toDate)}';
       listDate.value = listDateOfWeek;
     } else if (id == 3) {
       int numberDay = daysInMonth(now);
-      startDate = DateTime(now.year, now.month, 1);
-      endDate = DateTime(now.year, now.month, numberDay);
+      fromDate = DateTime(now.year, now.month, 1);
+      toDate = DateTime(now.year, now.month, numberDay);
       selectText.value =
-          '${DateFormat('dd.MM').format(startDate)} - ${DateFormat('dd.MM').format(endDate)}';
+          '${DateFormat('dd.MM').format(fromDate)} - ${DateFormat('dd.MM').format(toDate)}';
       listDate.value = listDateOfMonth;
     }
   }
@@ -45,13 +66,13 @@ class ShiftCalendarController extends GetxController {
       return;
     }
     showID = 4;
-    startDate = pickerDateRange.startDate!;
-    endDate = pickerDateRange.endDate!;
+    fromDate = pickerDateRange.startDate!;
+    toDate = pickerDateRange.endDate!;
     selectText.value =
-        '${DateFormat('dd.MM').format(startDate)} - ${DateFormat('dd.MM').format(endDate)}';
+        '${DateFormat('dd.MM').format(fromDate)} - ${DateFormat('dd.MM').format(toDate)}';
     List<DateTime> days = [];
-    for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
-      days.add(startDate.add(Duration(days: i)));
+    for (int i = 0; i <= toDate.difference(fromDate).inDays; i++) {
+      days.add(fromDate.add(Duration(days: i)));
     }
     listDate.value = days;
   }
@@ -73,6 +94,7 @@ class ShiftCalendarController extends GetxController {
 
   @override
   void onInit() {
+    getListAttendance();
     selectText.value =
         '${getDay(now.weekday)}, ${DateFormat('dd.MM').format(now)}';
     getListDateOfWeek();

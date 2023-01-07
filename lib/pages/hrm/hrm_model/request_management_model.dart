@@ -28,7 +28,7 @@ class RequestStatusModel {
     if (kind == 0) {
       return RequestStatusModel(id: 0, name: 'Chờ phê duyệt');
     } else if (kind == 1) {
-      return RequestStatusModel(id: 2, name: 'Đã phê duyệt');
+      return RequestStatusModel(id: 1, name: 'Đã phê duyệt');
     } else {
       return RequestStatusModel(id: 2, name: 'Từ chối');
     }
@@ -46,17 +46,19 @@ class TimekeepingOffsetRequestModel {
   final int status;
   final DateTime dateApply;
   final int shiftID;
+  final String shiftName;
   final String reason;
   final String note;
   final DateTime fromTime;
   final DateTime toTime;
   final DateTime createDate;
-  String shiftName = '';
+
   TimekeepingOffsetRequestModel({
     required this.id,
     required this.status,
     required this.dateApply,
     required this.shiftID,
+    required this.shiftName,
     required this.reason,
     required this.note,
     required this.fromTime,
@@ -66,13 +68,14 @@ class TimekeepingOffsetRequestModel {
   TimekeepingOffsetRequestModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         status = json['status'],
-        dateApply = DateTime.parse(json['dateApply']),
+        dateApply = DateTime.parse(json['dateApply']).toLocal(),
         shiftID = json['shiftID'],
-        fromTime = DateTime.parse(json['fromTime']),
-        toTime = DateTime.parse(json['toTime']),
+        shiftName = json['shiftName'],
+        fromTime = DateTime.parse(json['fromTime']).toLocal(),
+        toTime = DateTime.parse(json['toTime']).toLocal(),
         createDate = json['createDate'] == null
             ? DateTime.now()
-            : DateTime.parse(json['createDate']),
+            : DateTime.parse(json['createDate']).toLocal(),
         reason = json['reason'],
         note = json['note'];
 }
@@ -82,6 +85,7 @@ class OnLeaveRequestModel {
   final int status;
   final DateTime expired;
   final int permissionType;
+  final String permissionName;
   final String description;
   final DateTime fromDate;
   final DateTime toDate;
@@ -89,12 +93,12 @@ class OnLeaveRequestModel {
   final bool isHalfDay;
   final bool isOneDay;
   final int totalDay;
-  String permissionName = '';
   OnLeaveRequestModel(
       {required this.id,
       required this.status,
       required this.expired,
       required this.permissionType,
+      required this.permissionName,
       required this.fromDate,
       required this.toDate,
       required this.isHalfDay,
@@ -105,15 +109,16 @@ class OnLeaveRequestModel {
   OnLeaveRequestModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         status = json['status'],
-        expired = DateTime.parse(json['expired']),
+        expired = DateTime.parse(json['expired']).toLocal(),
         permissionType = json['permissionType'],
-        fromDate = DateTime.parse(json['fromDate']),
-        toDate = DateTime.parse(json['toDate']),
+        permissionName = json['permissionName'],
+        fromDate = DateTime.parse(json['fromDate']).toLocal(),
+        toDate = DateTime.parse(json['toDate']).toLocal(),
         isHalfDay = json['isHalfDay'],
         isOneDay = json['isOneDay'],
         totalDay = json['totalDay'],
         createDate = json['createDate'] == null
             ? DateTime.now()
-            : DateTime.parse(json['createDate']),
+            : DateTime.parse(json['createDate']).toLocal(),
         description = json['description'];
 }

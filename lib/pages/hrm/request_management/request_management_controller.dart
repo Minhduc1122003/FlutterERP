@@ -36,15 +36,6 @@ class RequestManagementController extends GetxController {
     endDate.value = pickerDateRange.endDate!;
   }
 
-  getOnLeaveKind() async {
-    listOnLeaveKindModel.value =
-        await ApiProvider().getListOnLeaveKind(siteModel, '');
-  }
-
-  getShiftModel() async {
-    listShiftModel.value = await ApiProvider().getListShiftModel(siteModel, '');
-  }
-
   setSelectedRequestManagementKind(RequestManagementKind kind) {
     requestManagementKind.value = kind;
   }
@@ -57,11 +48,7 @@ class RequestManagementController extends GetxController {
     isLoading.value = true;
     await getListOnLeaveRequest();
     await getListTimekeepingOffsetRequest();
-    listRequestAll.sort((a, b) {
-      int aDate = a.id;
-      int bDate = b.id;
-      return aDate.compareTo(bDate);
-    });
+
     await classifyRequest();
     isLoading.value = false;
   }
@@ -79,40 +66,13 @@ class RequestManagementController extends GetxController {
   }
 
   classifyRequest() async {
-    await getOnLeaveKind();
-    await getShiftModel();
     for (int i = 0; i < listRequestAll.length; i++) {
-      if (listRequestAll[i] is OnLeaveRequestModel) {
-        OnLeaveRequestModel onLeaveRequestModel = listRequestAll[i];
-        for (var model in listOnLeaveKindModel) {
-          if (model.id == onLeaveRequestModel.permissionType) {
-            onLeaveRequestModel.permissionName = model.name;
-            break;
-          }
-        }
-        if (onLeaveRequestModel.status == 0) {
-          listRequestNew.add(onLeaveRequestModel);
-        } else if (onLeaveRequestModel.status == 1) {
-          listRequestApprove.add(onLeaveRequestModel);
-        } else {
-          listRequestReject.add(onLeaveRequestModel);
-        }
-      } else if (listRequestAll[i] is TimekeepingOffsetRequestModel) {
-        TimekeepingOffsetRequestModel timekeepingOffsetRequestModel =
-            listRequestAll[i];
-        for (var model in listShiftModel) {
-          if (model.id == timekeepingOffsetRequestModel.shiftID) {
-            timekeepingOffsetRequestModel.shiftName = model.name;
-            break;
-          }
-        }
-        if (timekeepingOffsetRequestModel.status == 0) {
-          listRequestNew.add(timekeepingOffsetRequestModel);
-        } else if (timekeepingOffsetRequestModel.status == 1) {
-          listRequestApprove.add(timekeepingOffsetRequestModel);
-        } else {
-          listRequestReject.add(timekeepingOffsetRequestModel);
-        }
+      if (listRequestAll[i].status == 0) {
+        listRequestNew.add(listRequestAll[i]);
+      } else if (listRequestAll[i].status == 1) {
+        listRequestApprove.add(listRequestAll[i]);
+      } else {
+        listRequestReject.add(listRequestAll[i]);
       }
     }
   }

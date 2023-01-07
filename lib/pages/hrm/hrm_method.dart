@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'hrm_model/attendance_model.dart';
+
 int weeksOfYear(DateTime date) {
   final startOfYear = DateTime(date.year, 1, 1, 0, 0);
   final firstMonday = startOfYear.weekday;
@@ -79,4 +81,29 @@ int daysBetween(DateTime from, DateTime to) {
   return (to.difference(from).inHours / 24).round();
 }
 
-String capitalize(String s) => s[0].toUpperCase() + s.substring(1).toLowerCase();
+String capitalize(String s) =>
+    s[0].toUpperCase() + s.substring(1).toLowerCase();
+
+int checkShiftStatus(AttendanceModel attendanceModel) {
+  DateTime now = DateTime.now();
+  DateTime startShift =
+      DateFormat("HH:mm:ss").parse(attendanceModel.startShift);
+  DateTime endShift = DateFormat("HH:mm:ss").parse(attendanceModel.endShift);
+
+  if (attendanceModel.day.isAfter(now)) {
+    return 0; //chua den ca lam
+  }
+  if (attendanceModel.checkin == null && attendanceModel.checkin == null) {
+    return 1; //chua vao/ra ca
+  }
+
+  if (attendanceModel.checkin != null && attendanceModel.checkin == null) {
+    return 2; //chua ra ca
+  }
+
+  if (attendanceModel.checkin!.isAfter(startShift) ||
+      endShift.isAfter(attendanceModel.checkout!)) {
+    return 3; //tre gio , ve som
+  }
+  return 4;//dung gio
+}

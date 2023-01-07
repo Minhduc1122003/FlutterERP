@@ -256,9 +256,9 @@ Widget buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
               } else if (listApprove.isNotEmpty) {
                 return ListView.separated(
                     padding: const EdgeInsets.all(8),
-                    itemCount: listNew.length,
+                    itemCount: listApprove.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return listNew[index] is OnLeaveRequestModel
+                      return listApprove[index] is OnLeaveRequestModel
                           ? buildOnLeaveRequestItem(listApprove[index])
                           : buildTimekeepingRequestItem(listApprove[index]);
                     },
@@ -275,9 +275,9 @@ Widget buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
               } else if (listReject.isNotEmpty) {
                 return ListView.separated(
                     padding: const EdgeInsets.all(8),
-                    itemCount: listNew.length,
+                    itemCount: listReject.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return listNew[index] is OnLeaveRequestModel
+                      return listReject[index] is OnLeaveRequestModel
                           ? buildOnLeaveRequestItem(listReject[index])
                           : buildTimekeepingRequestItem(listReject[index]);
                     },

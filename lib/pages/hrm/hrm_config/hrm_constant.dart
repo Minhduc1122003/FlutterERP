@@ -21,7 +21,7 @@ const String getListShiftModelAPI = '$serverURL/hrm/api/shift/';
 const String sendTimekeepingOffsetRequestAPI =
     '$serverURL/hrm/api/timekeepingOffset';
 
-
+const String getListAttendanceAPI = '$serverURL/hrm/api/attendance/ByEmployee/';
 
 //const String loginAPI = '$serverURL/api/Users/Login';
 //const String searchTailoringOrdersAPI = '$serverURL/api/Order/GetListOrder/';

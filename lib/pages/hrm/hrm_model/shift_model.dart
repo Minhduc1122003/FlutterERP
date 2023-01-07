@@ -30,6 +30,6 @@ class ShiftModel {
       : id = json['id'],
         name = json['title'],
         code = json['code'],
-        fromTime =  DateTime.parse(json['fromTime']),
-        toTime =  DateTime.parse(json['toTime']);
+        fromTime =  DateTime.parse(json['fromTime']).toLocal(),
+        toTime =  DateTime.parse(json['toTime']).toLocal();
 }
