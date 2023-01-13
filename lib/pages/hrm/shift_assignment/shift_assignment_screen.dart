@@ -601,10 +601,10 @@ Widget buildShiftItem(String name, WorkShiftModel sm, double w, int d, bool empt
     child: InkWell(
         onTap: () {
           if (!empty) {
-            Get.to(() => ShiftInformationScreen(
-                  date: DateTime.now(),
-                  edit: true,
-                ));
+            // Get.to(() => ShiftInformationScreen(
+            //       date: DateTime.now(),
+            //       edit: true,
+            //     ));
           }
         },
         child: !empty

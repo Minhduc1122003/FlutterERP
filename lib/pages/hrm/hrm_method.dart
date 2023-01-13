@@ -100,10 +100,11 @@ int checkShiftStatus(AttendanceModel attendanceModel) {
   if (attendanceModel.checkin != null && attendanceModel.checkin == null) {
     return 2; //chua ra ca
   }
+  DateTime checkin = DateFormat("HH:mm:ss").parse(attendanceModel.checkin!);
+  DateTime checkout = DateFormat("HH:mm:ss").parse(attendanceModel.checkout!);
 
-  if (attendanceModel.checkin!.isAfter(startShift) ||
-      endShift.isAfter(attendanceModel.checkout!)) {
+  if (checkin.isAfter(startShift) || endShift.isAfter(checkout)) {
     return 3; //tre gio , ve som
   }
-  return 4;//dung gio
+  return 4; //dung gio
 }

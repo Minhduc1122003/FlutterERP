@@ -48,8 +48,7 @@ class RequestManagementController extends GetxController {
     isLoading.value = true;
     await getListOnLeaveRequest();
     await getListTimekeepingOffsetRequest();
-
-    await classifyRequest();
+    classifyRequest();
     isLoading.value = false;
   }
 
@@ -65,7 +64,7 @@ class RequestManagementController extends GetxController {
     listRequestAll.addAll(list);
   }
 
-  classifyRequest() async {
+  classifyRequest() {
     for (int i = 0; i < listRequestAll.length; i++) {
       if (listRequestAll[i].status == 0) {
         listRequestNew.add(listRequestAll[i]);

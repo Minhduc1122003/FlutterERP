@@ -134,130 +134,46 @@ class ShiftCalendarScreen extends StatelessWidget {
             },
             child: Row(
               children: [
-                Icon(Icons.calendar_today, color: mainColor),
+                Icon(Icons.calendar_today_outlined, color: mainColor, size: 22),
                 const SizedBox(width: 5),
                 Center(
                     child: Obx(() => Text(controller.selectText.value,
-                        style: TextStyle(color: Colors.grey[600])))),
-                Icon(Icons.arrow_drop_down, color: Colors.grey[600]),
+                        style:
+                            TextStyle(fontSize: 16, color: Colors.grey[600])))),
+                Icon(Icons.arrow_drop_down, color: Colors.grey[600], size: 27),
                 const SizedBox(width: 10),
               ],
             ),
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-              child: SingleChildScrollView(
-            child: Obx(() => Column(
-                  children: [
-                    for (int i = 0; i < controller.listDate.length; i++)
-                      buildShiftCalendarItem(controller.listDate[i])
-                  ],
-                )),
-          )),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Column(
+          children: [
+            Expanded(
+                child: Obx(
+              () => controller.isLoading.value
+                  ? Center(child: CircularProgressIndicator(color: mainColor))
+                  : SingleChildScrollView(
+                      child: Column(
+                      children: [
+                        for (int i = 0;
+                            i < controller.listAttendanceModel.length;
+                            i++)
+                          buildShiftCalendarItem(
+                              controller.listAttendanceModel[i])
+                      ],
+                    )),
+            )),
+          ],
+        ),
       ),
     );
   }
 }
 
-Widget buildShiftCalendarItem(DateTime date) {
-  int d = date.weekday;
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-    child: Row(children: [
-      Column(
-        children: [
-          Text(
-            getDay(d),
-            style: const TextStyle(color: Colors.grey),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            DateFormat('dd').format(date),
-            style: const TextStyle(
-                color: Color(0xff30c47f),
-                fontSize: 27,
-                fontWeight: FontWeight.bold),
-          )
-        ],
-      ),
-      const SizedBox(width: 20),
-      Expanded(
-          child: InkWell(
-        onTap: () {
-          Get.to(() => ShiftInformationScreen(
-                date: date,
-                edit: false,
-              ));
-        },
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-          child: Column(
-            children: [
-              Row(crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(color: mainColor, width: 3, height: 40),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(d != 7 ? 'Ca hành chính' : 'Ca chủ nhật',
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.blueGrey[700])),
-                          Text('08:00 - 17:30',
-                              style: TextStyle(fontSize: 16, color: mainColor)),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      // width: 130,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: !date.isAfter(DateTime.now())
-                            ? Colors.blueGrey[200]
-                            : Colors.blueGrey[100],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        !date.isAfter(DateTime.now())
-                            ? 'Chưa vào/ra ca'
-                            : 'Chưa đến ca làm',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    )
-                  ]),
-              const SizedBox(height: 10),
-              Container(height: 1, color: Colors.grey[300]),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  //const Icon(Icons.pin_drop, size: 17, color: Colors.grey),
-                  const SizedBox(width: 5),
-                  const Expanded(
-                      child: Text('', style: TextStyle(fontSize: 13))),
-                  const Icon(Icons.access_time, color: Colors.grey, size: 17),
-                  const SizedBox(width: 5),
-                  Text(d != 7 ? '08:00-17:30' : '08:00-12:00',
-                      style: const TextStyle(fontSize: 13)),
-                ],
-              )
-            ],
-          ),
-        ),
-      ))
-    ]),
-  );
-}
-
-Widget buildShiftCalendarItem2(AttendanceModel attendanceModel) {
+Widget buildShiftCalendarItem(AttendanceModel attendanceModel) {
   int d = attendanceModel.day.weekday;
   return Padding(
     padding: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
@@ -283,41 +199,58 @@ Widget buildShiftCalendarItem2(AttendanceModel attendanceModel) {
           child: InkWell(
         onTap: () {
           Get.to(() => ShiftInformationScreen(
-                date: attendanceModel.day,
+                attendanceModel: attendanceModel,
                 edit: false,
               ));
         },
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.grey.withOpacity(0.5),
+            //     spreadRadius: 1,
+            //     blurRadius: 1,
+            //     offset: Offset(1, 1), // changes position of shadow
+            //   ),
+            //         BoxShadow(
+            //     color: Colors.grey.withOpacity(0.5),
+            //     spreadRadius: 1,
+            //     blurRadius: 1,
+            //     offset: Offset(-1, -1), // changes position of shadow
+            //   ),
+            // ],
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [
+              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Container(color: mainColor, width: 3, height: 40),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(attendanceModel.shift.replaceAll("", "\u{200B}"),
+                      Text(
+                          capitalize(attendanceModel.shift)
+                              .replaceAll("", "\u{200B}"),
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 16, color: Colors.blueGrey[700])),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Text(
                               attendanceModel.checkin == null
                                   ? ''
-                                  : DateFormat('HH:mm')
-                                      .format(attendanceModel.checkin!),
+                                  : attendanceModel.checkin!.substring(0, 5),
                               style: TextStyle(fontSize: 16, color: mainColor)),
                           Text(
-                              attendanceModel.checkin == null
-                                  ? ' - '
-                                  : DateFormat('HH:mm')
-                                      .format(attendanceModel.checkout!),
+                              attendanceModel.checkout == null
+                                  ? ''
+                                  : ' - ${attendanceModel.checkout!.substring(0, 5)}',
                               style: TextStyle(fontSize: 16, color: mainColor)),
                         ],
                       )
@@ -353,7 +286,7 @@ Widget buildShiftCalendarItem2(AttendanceModel attendanceModel) {
                     const Icon(Icons.access_time, color: Colors.grey, size: 17),
                     const SizedBox(width: 5),
                     Text(
-                        '${attendanceModel.startShift}-${attendanceModel.endShift}',
+                        '${attendanceModel.startShift.substring(0, 5)}-${attendanceModel.endShift.substring(0, 5)}',
                         style: const TextStyle(fontSize: 13)),
                   ],
                 ),
@@ -367,7 +300,7 @@ Widget buildShiftCalendarItem2(AttendanceModel attendanceModel) {
 }
 
 String getShiftStatusText(int id) {
-  if (id == 0) return 'Chư đến ca làm';
+  if (id == 0) return 'Chưa đến ca làm';
   if (id == 1) return 'Chưa vào/ra ca';
   if (id == 2) return 'Chưa ra ca';
   if (id == 3) return 'Trễ giờ,về sớm';
@@ -379,5 +312,5 @@ Color getShiftStatusColor(int id) {
   if (id == 1) return Colors.blueGrey[200]!;
   if (id == 2) return Colors.blueGrey[300]!;
   if (id == 3) return Colors.orange;
-  return mainColor;
+  return mainColor.withOpacity(0.8);
 }
