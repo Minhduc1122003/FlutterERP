@@ -10,6 +10,7 @@ class AttendanceModel {
   final String? checkin;
   final String? checkout;
   final bool isAbsent;
+  final bool test;
   int shiftStatus = 0;
 
   AttendanceModel({
@@ -24,6 +25,7 @@ class AttendanceModel {
     required this.checkin,
     required this.checkout,
     required this.isAbsent,
+    required this.test
   });
   AttendanceModel.fromJson(Map<String, dynamic> json)
       : code = json['code'],
@@ -36,5 +38,6 @@ class AttendanceModel {
         endShift = json['endShift'],
         checkin = json['checkin'],
         checkout = json['checkout'],
-        isAbsent = json['isAbsent'];
+        isAbsent = json['isAbsent'],
+        test = json['test']??true;
 }

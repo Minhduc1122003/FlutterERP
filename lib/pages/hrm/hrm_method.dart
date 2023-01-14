@@ -86,8 +86,10 @@ int daysBetween(DateTime from, DateTime to) {
   return (to.difference(from).inHours / 24).round();
 }
 
-String capitalize(String s) =>
-    s[0].toUpperCase() + s.substring(1).toLowerCase();
+String capitalize(String s) {
+  if (s.isEmpty) return s;
+  return s[0].toUpperCase() + s.substring(1).toLowerCase();
+}
 
 int checkShiftStatus(AttendanceModel attendanceModel) {
   DateTime now = DateTime.now();

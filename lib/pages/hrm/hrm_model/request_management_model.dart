@@ -111,7 +111,7 @@ class OnLeaveRequestModel {
         status = json['status'],
         expired = DateTime.parse(json['expired']).toLocal(),
         permissionType = json['permissionType'],
-        permissionName = json['permissionName'],
+        permissionName = json['permissionName']??'',
         fromDate = DateTime.parse(json['fromDate']).toLocal(),
         toDate = DateTime.parse(json['toDate']).toLocal(),
         isHalfDay = json['isHalfDay'],

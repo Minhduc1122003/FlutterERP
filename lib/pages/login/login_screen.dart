@@ -46,7 +46,10 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
     return Scaffold(
+      //appBar: AppBar(toolbarHeight: 0,elevation: 0,backgroundColor: gradientTop,),
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: AnnotatedRegion<SystemUiOverlayStyle>(
           value: Platform.isIOS
@@ -57,7 +60,7 @@ class LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               // top blue background gradient
               Container(
-                height: MediaQuery.of(context).size.height / 3.5,
+                height: height / 3.5,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         colors: [gradientTop, gradientBottom],
@@ -66,21 +69,23 @@ class LoginScreenState extends State<LoginScreen> {
               ),
               // set your logo here
               Container(
-                margin: EdgeInsets.fromLTRB(
-                    0, MediaQuery.of(context).size.height / 10, 0, 0),
+                margin:  EdgeInsets.fromLTRB(0, height / 14, 0, 0),
                 alignment: Alignment.topCenter,
                 //child: Image.asset('assets/images/logo_dark.png', height: 120),
-                child: Text(
-                  'CRM',
-                  style: GoogleFonts.gotu(
-                    textStyle:const TextStyle(color: Colors.white),
-                    fontSize: 35,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
+                child: Image.network(
+                    "http://kiena.vietgoat.com:8080/Resources/Documents/logo.jpg",
+                    height: height/7),
+                // child: Text(
+                //   'CRM',
+                //   style: GoogleFonts.gotu(
+                //     textStyle:const TextStyle(color: Colors.white),
+                //     fontSize: 35,
+                //     fontWeight: FontWeight.w700,
+                //     fontStyle: FontStyle.italic,
+                //   ),
+                // ),
               ),
-              ListView(
+              Column(
                 children: <Widget>[
                   // create form login
                   Card(
@@ -89,7 +94,7 @@ class LoginScreenState extends State<LoginScreen> {
                     ),
                     elevation: 5,
                     margin: EdgeInsets.fromLTRB(32,
-                        MediaQuery.of(context).size.height / 3.5 - 72, 32, 0),
+                       height / 4 , 32, 0),
                     color: Colors.white,
                     child: Container(
                         margin: const EdgeInsets.fromLTRB(24, 0, 24, 20),
@@ -216,7 +221,6 @@ class LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
                 ],
               )
             ],
