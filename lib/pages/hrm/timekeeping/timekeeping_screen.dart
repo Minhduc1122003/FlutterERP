@@ -6,6 +6,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../config/constant.dart';
 import '../color.dart';
 import '../hrm_method.dart';
+import '../hrm_model/attendance_model.dart';
 import '../hrm_model/shift_model.dart';
 import 'timekeeping_controller.dart';
 
@@ -149,8 +150,8 @@ class TimeKeepingScreen extends StatelessWidget {
                                     showActionButtons: true,
                                     initialSelectedRange: controller.showID == 1
                                         ? null
-                                        : PickerDateRange(controller.startDate,
-                                            controller.endDate),
+                                        : PickerDateRange(controller.fromDate,
+                                            controller.toDate),
                                     selectionMode: DateRangePickerSelectionMode
                                         .extendableRange,
                                     allowViewNavigation: false,
@@ -186,7 +187,17 @@ class TimeKeepingScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             buildTabar(),
-            buildTabarView('', '')
+            Expanded(
+                child: Container(
+                    color: lightGreen1,
+                    child: TabBarView(children: [
+                      Obx(() => controller.isLoading.value
+                          ? Center(
+                              child:
+                                  CircularProgressIndicator(color: mainColor))
+                          : buildInOutItem(controller.listAttendanceModel)),
+                      buildTimeSheetsList(),
+                    ])))
           ],
         ),
       ),
@@ -219,77 +230,122 @@ Widget buildTabar() {
   );
 }
 
-Widget buildTabarView(String inOut, String timeSheets) {
-  return Expanded(
-      child: Container(
-          color: lightGreen1,
-          child: TabBarView(children: [
-            buildInOutItem('trung nguyen', true, WorkShiftModel.getWorkShiftModel(1),
-                DateTime.now()),
-            buildTimeSheetsList(),
-          ])));
-}
-
-Widget buildInOutItem(String name, bool isIn, WorkShiftModel sm, DateTime date) {
+Widget buildInOutItem(List<AttendanceModel> listAttendanceModel) {
   return SingleChildScrollView(
     child: Column(
       children: [
-        Container(
-            margin:const  EdgeInsets.all(20),
-            padding:const  EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(5)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${getTodayAndYesterday(date)}, ${DateFormat('dd.MM').format(date)}',
-                  style: TextStyle(
-                      fontSize: 18, color: blueBlack.withOpacity(0.7)),
-                ),
-                const SizedBox(height: 25),
-                Row(
+        for (var attendanceModel in listAttendanceModel)
+          if (attendanceModel.checkin != null ||
+              attendanceModel.checkout != null)
+            Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Colors.lightBlueAccent,
-                          borderRadius: BorderRadius.circular(10)),
-                      padding: const EdgeInsets.all(10),
-                      child: const Icon(
-                        Icons.phone_android,
-                        color: Colors.white,
-                      ),
+                    Text(
+                      '${getToday(attendanceModel.day)}, ${DateFormat('dd.MM').format(attendanceModel.day)}',
+                      style: TextStyle(
+                          fontSize: 18, color: blueBlack.withOpacity(0.7)),
                     ),
-                    const SizedBox(width: 15),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(height: 25),
+                    if (attendanceModel.checkout != null)
+                      Row(
                         children: [
-                          Text(name, style: const TextStyle(fontSize: 16)),
-                          const SizedBox(height: 1),
-                          Text(( isIn?'Vào ca - ':'Ra ca - ')+  sm.name,
-                              style: const TextStyle(color: blueGrey1)),
-                          Text('(${sm.time})',
-                              style: const TextStyle(color: blueGrey1)),
+                          Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.lightBlueAccent,
+                                borderRadius: BorderRadius.circular(10)),
+                            padding: const EdgeInsets.all(10),
+                            child: const Icon(
+                              Icons.phone_android,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(attendanceModel.fullName,
+                                    style: const TextStyle(fontSize: 16)),
+                                const SizedBox(height: 1),
+                                Text(
+                                    'Ra ca - ${capitalize(attendanceModel.shift)}',
+                                    style: const TextStyle(color: blueGrey1)),
+                                Text(
+                                    '(${attendanceModel.startShift.substring(0, 5)}-${attendanceModel.endShift.substring(0, 5)})',
+                                    style: const TextStyle(color: blueGrey1)),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 8),
+                            decoration: BoxDecoration(
+                                color: blueGrey3.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(
+                              attendanceModel.checkout!.substring(0, 5),
+                              style: const TextStyle(fontSize: 17),
+                            ),
+                          )
                         ],
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 8),
-                      decoration: BoxDecoration(
-                          color: blueGrey3.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Text(
-                        DateFormat('hh:mm').format(date),
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    )
+                    if (attendanceModel.checkin != null)
+                      const SizedBox(height: 10),
+                    if (attendanceModel.checkin != null)
+                      Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.lightBlueAccent,
+                                borderRadius: BorderRadius.circular(10)),
+                            padding: const EdgeInsets.all(10),
+                            child: const Icon(
+                              Icons.phone_android,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(attendanceModel.fullName,
+                                    style: const TextStyle(fontSize: 16)),
+                                const SizedBox(height: 1),
+                                Text(
+                                    'Vào ca - ${capitalize(attendanceModel.shift)}',
+                                    style: const TextStyle(color: blueGrey1)),
+                                Text(
+                                    '(${attendanceModel.startShift.substring(0, 5)}-${attendanceModel.endShift.substring(0, 5)})',
+                                    style: const TextStyle(color: blueGrey1)),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 8),
+                            decoration: BoxDecoration(
+                                color: blueGrey3.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(
+                              attendanceModel.checkin!.substring(0, 5),
+                              style: const TextStyle(fontSize: 17),
+                            ),
+                          )
+                        ],
+                      )
                   ],
-                )
-              ],
-            )),
+                )),
       ],
     ),
   );

@@ -17,9 +17,10 @@ class ShiftCalendarController extends GetxController {
   int showID = 1;
   SiteModel siteModel = SiteModel(id: 1, code: 'KIA', name: 'KIA');
   RxBool isLoading = false.obs;
+  int employeeID = 8941; //8857;
   getListAttendance() async {
     Map<String, dynamic> data = {
-      'employeeId': 8857,
+      'employeeId': employeeID,
       'fromDate': DateFormat('yyyy-MM-dd').format(fromDate),
       'toDate': DateFormat('yyyy-MM-dd').format(toDate)
     };
@@ -31,7 +32,7 @@ class ShiftCalendarController extends GetxController {
     }
   }
 
-  setSelect(int id)async {
+  setSelect(int id) async {
     showID = id;
     if (isLoading.value) return;
     isLoading.value = true;

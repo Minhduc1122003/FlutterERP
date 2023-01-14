@@ -27,6 +27,7 @@ class RequestManagementController extends GetxController {
   RxList<dynamic> listRequestNew = <dynamic>[].obs;
   RxList<dynamic> listRequestApprove = <dynamic>[].obs;
   RxList<dynamic> listRequestReject = <dynamic>[].obs;
+  int employeeID=8941;//8758;
 
   setDateRange(PickerDateRange pickerDateRange) {
     if (pickerDateRange.startDate == null || pickerDateRange.endDate == null) {
@@ -54,13 +55,13 @@ class RequestManagementController extends GetxController {
 
   getListTimekeepingOffsetRequest() async {
     List<TimekeepingOffsetRequestModel> list = await ApiProvider()
-        .getListTimekeepingOffsetRequest(siteModel, 8758, '');
+        .getListTimekeepingOffsetRequest(siteModel, employeeID, '');
     listRequestAll.addAll(list);
   }
 
   getListOnLeaveRequest() async {
     List<OnLeaveRequestModel> list = await ApiProvider()
-        .getListOnLeaveRequestModel(siteModel, 8758, DateTime.now().year, '');
+        .getListOnLeaveRequestModel(siteModel, employeeID, DateTime.now().year, '');
     listRequestAll.addAll(list);
   }
 

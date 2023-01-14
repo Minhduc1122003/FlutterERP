@@ -54,6 +54,11 @@ String getTodayAndYesterday(DateTime date) {
   return DateFormat('EEEE', 'vi').format(date);
 }
 
+String getToday(DateTime date) {
+  if (checkToday(date)) return 'Hôm nay';
+  return DateFormat('EEEE', 'vi').format(date);
+}
+
 String getDay(int d) {
   switch (d) {
     case 1:
