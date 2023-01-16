@@ -34,7 +34,7 @@ class WorkScreen extends StatelessWidget {
                     bottomRight: Radius.circular(10))),
             child: Column(
               children: [
-                buildAppbar('trung nguyen', 'Giám đốc'),
+                _buildAppbar('trung nguyen', 'Giám đốc'),
                 const SizedBox(height: 15),
                 InkWell(
                   onTap: () {
@@ -55,16 +55,16 @@ class WorkScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 15),
-                buildDay(),
+                _buildDay(),
                 const SizedBox(height: 15),
-                buildVaoCa()
+                _buildVaoCa()
               ],
             ),
           ),
           const SizedBox(height: 15),
-          buildManipulation(),
+          _buildManipulation(),
           const SizedBox(height: 15),
-          buildFolder(),
+          _buildFolder(context),
           buildCheckWork(),
         ],
       ),
@@ -72,7 +72,7 @@ class WorkScreen extends StatelessWidget {
   }
 }
 
-Widget buildAppbar(String name, String position) {
+Widget _buildAppbar(String name, String position) {
   return Row(
     children: [
       Container(
@@ -118,7 +118,7 @@ Widget buildAppbar(String name, String position) {
   );
 }
 
-Widget buildDay() {
+Widget _buildDay() {
   DateTime now = DateTime.now();
   int day = now.day;
 // DateTime now=DateTime.utc(2022, 12, 9);
@@ -204,7 +204,7 @@ Widget buildDay() {
   );
 }
 
-Widget buildVaoCa() {
+Widget _buildVaoCa() {
   return InkWell(
     onTap: () {
       Get.to(() => ChosseShiftScreen());
@@ -245,7 +245,7 @@ Widget buildVaoCa() {
   );
 }
 
-Widget buildManipulation() {
+Widget _buildManipulation() {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10),
     child: Container(
@@ -264,20 +264,23 @@ Widget buildManipulation() {
         //   style: TextStyle(fontSize: 15, color: Colors.grey[600]),
         // ),
         const SizedBox(height: 15),
-        buildManipulationItem(1, Icons.person_add_alt, 'Thêm nhân viên mới', 1),
+        __buildManipulationItem(
+            1, Icons.person_add_alt, 'Thêm nhân viên mới', 1),
         const SizedBox(height: 15),
-        buildManipulationItem(2, FontAwesome.calendar_plus_o, 'Tạo ca làm', 2),
+        __buildManipulationItem(
+            2, FontAwesome.calendar_plus_o, 'Tạo ca làm', 2),
         const SizedBox(height: 15),
-        buildManipulationItem(
+        __buildManipulationItem(
             3, Icons.description_outlined, 'Duyệt một yêu cầu công việc', 2),
         const SizedBox(height: 15),
-        buildManipulationItem(4, Icons.date_range_outlined, 'Đặt lịch Demo', 2)
+        __buildManipulationItem(
+            4, Icons.date_range_outlined, 'Đặt lịch Demo', 2)
       ]),
     ),
   );
 }
 
-Widget buildManipulationItem(int id, IconData icon, String name, int day) {
+Widget __buildManipulationItem(int id, IconData icon, String name, int day) {
   return InkWell(
     onTap: () {
       if (id == 1) {
@@ -322,7 +325,7 @@ Widget buildManipulationItem(int id, IconData icon, String name, int day) {
   );
 }
 
-Widget buildFolder() {
+Widget _buildFolder(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: Column(
@@ -335,18 +338,21 @@ Widget buildFolder() {
         const SizedBox(height: 15),
         Row(
           children: [
-            buildFolderItem(1, 'Yêu cầu', Colors.amber, Icons.beenhere),
+            _buildFolderItem(
+                context, 1, 'Yêu cầu', Colors.amber, Icons.beenhere),
             const SizedBox(width: 15),
-            buildFolderItem(2, 'Chấm công', Colors.blue, Icons.repeat),
+            _buildFolderItem(
+                context, 2, 'Chấm công', Colors.blue, Icons.repeat),
           ],
         ),
         const SizedBox(height: 15),
         Row(
           children: [
-            buildFolderItem(3, 'Ứng lương', Colors.green[300]!,
+            _buildFolderItem(context, 3, 'Ứng lương', Colors.green[300]!,
                 Icons.monetization_on_outlined),
             const SizedBox(width: 15),
-            buildFolderItem(4, 'Xếp ca', Colors.deepOrange, Icons.apps),
+            _buildFolderItem(
+                context, 4, 'Xếp ca', Colors.deepOrange, Icons.apps),
           ],
         ),
       ],
@@ -354,18 +360,31 @@ Widget buildFolder() {
   );
 }
 
-Widget buildFolderItem(int id, String name, Color color, IconData icon) {
+Widget _buildFolderItem(
+    BuildContext context, int id, String name, Color color, IconData icon) {
   return Expanded(
     child: InkWell(
       onTap: () {
         if (id == 1) {
-          Get.to(() => RequestManagementScreen());
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const RequestManagementScreen()));
         } else if (id == 2) {
-          Get.to(() => TimeKeepingScreen());
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const TimeKeepingScreen()),
+          );
         } else if (id == 3) {
-          Get.to(() => SalaryAdvanceInforScreen());
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const SalaryAdvanceInforScreen()));
         } else if (id == 4) {
-          Get.to(() => ShiftAssignmentScreen());
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ShiftAssignmentScreen()));
         }
       },
       child: Container(
@@ -425,21 +444,21 @@ Widget buildCheckWork() {
         const SizedBox(height: 15),
         Row(
           children: [
-            buildCheckWorkItem(0, 'Đã vào', Colors.black),
+            _buildCheckWorkItem(0, 'Đã vào', Colors.black),
             const SizedBox(width: 15),
-            buildCheckWorkItem(0, 'Đi muộn', Colors.orange),
+            _buildCheckWorkItem(0, 'Đi muộn', Colors.orange),
             const SizedBox(width: 15),
-            buildCheckWorkItem(0, 'Đúng giờ', Colors.green),
+            _buildCheckWorkItem(0, 'Đúng giờ', Colors.green),
           ],
         ),
         const SizedBox(height: 15),
         Row(
           children: [
-            buildCheckWorkItem(0, 'Chưa vào', Colors.red),
+            _buildCheckWorkItem(0, 'Chưa vào', Colors.red),
             const SizedBox(width: 15),
-            buildCheckWorkItem(0, 'Nghỉ phép', Colors.purple),
+            _buildCheckWorkItem(0, 'Nghỉ phép', Colors.purple),
             const SizedBox(width: 15),
-            buildCheckWorkItem(0, 'Chia sẻ vị trí', Colors.yellow),
+            _buildCheckWorkItem(0, 'Chia sẻ vị trí', Colors.yellow),
           ],
         ),
       ],
@@ -447,7 +466,7 @@ Widget buildCheckWork() {
   );
 }
 
-Widget buildCheckWorkItem(int amount, String name, Color color) {
+Widget _buildCheckWorkItem(int amount, String name, Color color) {
   return Expanded(
     child: Container(
       padding: const EdgeInsets.symmetric(vertical: 15),

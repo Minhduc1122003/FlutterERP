@@ -1,22 +1,37 @@
-import 'package:erp/main.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
 import '../../../config/constant.dart';
 import '../color.dart';
 import '../hrm_method.dart';
 import '../hrm_model/attendance_model.dart';
+import 'bloc/shift_calendar_bloc.dart';
 import 'shift_information_screen.dart';
-import 'shift_calendar_controller.dart';
 
-class ShiftCalendarScreen extends StatelessWidget {
+class ShiftCalendarScreen extends StatefulWidget {
   const ShiftCalendarScreen({super.key});
 
   @override
+  State<ShiftCalendarScreen> createState() => _ShiftCalendarScreenState();
+}
+
+class _ShiftCalendarScreenState extends State<ShiftCalendarScreen> {
+  late ShiftCalendarBloc shiftCalendarBloc;
+  @override
+  void initState() {
+    shiftCalendarBloc = BlocProvider.of<ShiftCalendarBloc>(context);
+    shiftCalendarBloc.add(ShiftCalendarLoadWeek());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ShiftCalendarController controller = Get.put(ShiftCalendarController());
     return Scaffold(
       backgroundColor: const Color(0xFFf0fff6),
       appBar: AppBar(
@@ -29,122 +44,142 @@ class ShiftCalendarScreen extends StatelessWidget {
           style: TextStyle(color: blueBlack),
         ),
         actions: [
-          InkWell(
-            onTap: () async {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Dialog(
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0))),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    side:
-                                        BorderSide(color: mainColor, width: 1),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
+          BlocBuilder<ShiftCalendarBloc, ShiftCalendarState>(
+              builder: (context, state) {
+            return InkWell(
+              onTap: () async {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0))),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(
+                                          color: mainColor, width: 1),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
                                     ),
+                                    onPressed: () {
+                                      shiftCalendarBloc
+                                          .add(ShiftCalendarLoadToday());
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Hôm nay',
+                                        style: TextStyle(color: mainColor)),
                                   ),
-                                  onPressed: () {
-                                    controller.setSelect(1);
-                                    Get.back();
-                                  },
-                                  child: Text('Hôm nay',
-                                      style: TextStyle(color: mainColor)),
-                                ),
-                                OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    side:
-                                        BorderSide(color: mainColor, width: 1),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
+                                  OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(
+                                          color: mainColor, width: 1),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
                                     ),
+                                    onPressed: () {
+                                      shiftCalendarBloc
+                                          .add(ShiftCalendarLoadWeek());
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Tuần này',
+                                        style: TextStyle(color: mainColor)),
                                   ),
-                                  onPressed: () {
-                                    controller.setSelect(2);
-                                    Get.back();
-                                  },
-                                  child: Text('Tuần này',
-                                      style: TextStyle(color: mainColor)),
-                                ),
-                                OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    side:
-                                        BorderSide(color: mainColor, width: 1),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
+                                  OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(
+                                          color: mainColor, width: 1),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
                                     ),
-                                  ),
-                                  onPressed: () {
-                                    controller.setSelect(3);
-                                    Get.back();
-                                  },
-                                  child: Text('Tháng này',
-                                      style: TextStyle(color: mainColor)),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 350,
-                              child: SfDateRangePicker(
-                                headerStyle: const DateRangePickerHeaderStyle(
-                                    backgroundColor: Colors.white,
-                                    textAlign: TextAlign.center,
-                                    textStyle: TextStyle(
-                                        fontSize: 22, color: Colors.black)),
-                                headerHeight: 50,
-                                selectionColor: mainColor,
-                                selectionTextStyle:
-                                    const TextStyle(color: Colors.white),
-                                rangeTextStyle:
-                                    const TextStyle(color: Colors.white),
-                                todayHighlightColor: mainColor,
-                                rangeSelectionColor: mainColor,
-                                startRangeSelectionColor: mainColor,
-                                endRangeSelectionColor: mainColor,
-                                view: DateRangePickerView.month,
-                                showActionButtons: true,
-                                initialSelectedRange: controller.showID == 1
-                                    ? null
-                                    : PickerDateRange(
-                                        controller.fromDate, controller.toDate),
-                                selectionMode: DateRangePickerSelectionMode
-                                    .extendableRange,
-                                allowViewNavigation: false,
-                                onSubmit: (Object? value) {
-                                  Navigator.pop(context);
-                                  if (value == null) return;
-                                  controller
-                                      .setDateRange(value as PickerDateRange);
-                                },
-                                onCancel: () => Navigator.pop(context),
+                                    onPressed: () {
+                                      shiftCalendarBloc
+                                          .add(ShiftCalendarLoadMonth());
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Tháng này',
+                                        style: TextStyle(color: mainColor)),
+                                  )
+                                ],
                               ),
-                            ),
-                          ],
-                        ));
-                  });
-            },
-            child: Row(
-              children: [
-                Icon(Icons.calendar_today_outlined, color: mainColor, size: 22),
-                const SizedBox(width: 5),
-                Center(
-                    child: Obx(() => Text(controller.selectText.value,
-                        style:
-                            TextStyle(fontSize: 16, color: Colors.grey[600])))),
-                Icon(Icons.arrow_drop_down, color: Colors.grey[600], size: 27),
-                const SizedBox(width: 10),
-              ],
-            ),
-          ),
+                              SizedBox(
+                                height: 350,
+                                child: SfDateRangePicker(
+                                  headerStyle: const DateRangePickerHeaderStyle(
+                                      backgroundColor: Colors.white,
+                                      textAlign: TextAlign.center,
+                                      textStyle: TextStyle(
+                                          fontSize: 22, color: Colors.black)),
+                                  headerHeight: 50,
+                                  selectionColor: mainColor,
+                                  selectionTextStyle:
+                                      const TextStyle(color: Colors.white),
+                                  rangeTextStyle:
+                                      const TextStyle(color: Colors.white),
+                                  todayHighlightColor: mainColor,
+                                  rangeSelectionColor: mainColor,
+                                  startRangeSelectionColor: mainColor,
+                                  endRangeSelectionColor: mainColor,
+                                  view: DateRangePickerView.month,
+                                  showActionButtons: true,
+                                  initialSelectedRange:
+                                      (state is ShiftCalendarLoaded)
+                                          ? PickerDateRange(
+                                              state.fromDate, state.toDate)
+                                          : PickerDateRange(
+                                              DateTime.now(), DateTime.now()),
+                                  selectionMode: DateRangePickerSelectionMode
+                                      .extendableRange,
+                                  allowViewNavigation: false,
+                                  onSubmit: (Object? value) {
+                                    Navigator.pop(context);
+                                    if (value == null) return;
+                                    PickerDateRange pickerDateRange =
+                                        value as PickerDateRange;
+
+                                    shiftCalendarBloc.add(
+                                        ShiftCalendarLoadRangeDate(
+                                            fromDate:
+                                                pickerDateRange.startDate!,
+                                            toDate: pickerDateRange.endDate!));
+                                  },
+                                  onCancel: () => Navigator.pop(context),
+                                ),
+                              ),
+                            ],
+                          ));
+                    });
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.calendar_today_outlined,
+                      color: mainColor, size: 22),
+                  const SizedBox(width: 5),
+                  Center(
+                      child: Text(
+                          (state is ShiftCalendarLoaded)
+                              ? state.selectDateText
+                              : '',
+                          style:
+                              const TextStyle(color: blueGrey1, fontSize: 16))),
+                  Icon(Icons.arrow_drop_down,
+                      color: Colors.grey[600], size: 27),
+                  const SizedBox(width: 10),
+                ],
+              ),
+            );
+          })
         ],
       ),
       body: Padding(
@@ -152,20 +187,25 @@ class ShiftCalendarScreen extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-                child: Obx(
-              () => controller.isLoading.value
-                  ? Center(child: CircularProgressIndicator(color: mainColor))
-                  : SingleChildScrollView(
+              child: BlocBuilder<ShiftCalendarBloc, ShiftCalendarState>(
+                  // buildWhen: (previous, current) => current is ShiftCalendarLoaded && previous != current,
+                  builder: (context, state) {
+                if (state is ShiftCalendarLoaded) {
+                  return SingleChildScrollView(
                       child: Column(
-                      children: [
-                        for (int i = 0;
-                            i < controller.listAttendanceModel.length;
-                            i++)
-                          buildShiftCalendarItem(
-                              controller.listAttendanceModel[i])
-                      ],
-                    )),
-            )),
+                    children: [
+                      for (var item in state.listAttendanceModel)
+                        buildShiftCalendarItem(context, item)
+                    ],
+                  ));
+                } else if (state is ShiftCalendarLoading) {
+                  return Center(
+                      child: CircularProgressIndicator(color: mainColor));
+                } else {
+                  return const SizedBox.shrink();
+                }
+              }),
+            ),
           ],
         ),
       ),
@@ -173,7 +213,8 @@ class ShiftCalendarScreen extends StatelessWidget {
   }
 }
 
-Widget buildShiftCalendarItem(AttendanceModel attendanceModel) {
+Widget buildShiftCalendarItem(
+    BuildContext context, AttendanceModel attendanceModel) {
   int d = attendanceModel.day.weekday;
   return Padding(
     padding: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
@@ -198,29 +239,17 @@ Widget buildShiftCalendarItem(AttendanceModel attendanceModel) {
       Expanded(
           child: InkWell(
         onTap: () {
-          Get.to(() => ShiftInformationScreen(
-                attendanceModel: attendanceModel,
-                edit: false,
-              ));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ShiftInformationScreen(
+                    attendanceModel: attendanceModel, edit: false)),
+          );
         },
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(5),
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Colors.grey.withOpacity(0.5),
-            //     spreadRadius: 1,
-            //     blurRadius: 1,
-            //     offset: Offset(1, 1), // changes position of shadow
-            //   ),
-            //         BoxShadow(
-            //     color: Colors.grey.withOpacity(0.5),
-            //     spreadRadius: 1,
-            //     blurRadius: 1,
-            //     offset: Offset(-1, -1), // changes position of shadow
-            //   ),
-            // ],
           ),
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: Column(

@@ -1,21 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+//import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
 import '../../../config/constant.dart';
 import '../color.dart';
 import '../hrm_method.dart';
 import '../hrm_model/attendance_model.dart';
-import '../hrm_model/shift_model.dart';
-import 'timekeeping_controller.dart';
+import 'bloc/timekeeping_bloc.dart';
 
-class TimeKeepingScreen extends StatelessWidget {
-  const TimeKeepingScreen({Key? key}) : super(key: key);
+class TimeKeepingScreen extends StatefulWidget {
+  const TimeKeepingScreen({super.key});
+
+  @override
+  State<TimeKeepingScreen> createState() => _TimeKeepingScreenState();
+}
+
+class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
+  late TimekeepingBloc timekeepingBloc;
+  @override
+  void initState() {
+    timekeepingBloc = BlocProvider.of<TimekeepingBloc>(context);
+    timekeepingBloc.add(TimekeepingLoadWeek());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    TimeKeepingController controller = Get.put(TimeKeepingController());
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -29,28 +45,18 @@ class TimeKeepingScreen extends StatelessWidget {
           iconTheme: const IconThemeData(color: blueBlack),
           elevation: 0,
           actions: [
-            Obx(() => controller.tabIndex.value == 0
-                ? InkWell(
-                    child: const Icon(Icons.tune),
-                    onTap: () {},
-                  )
-                : const SizedBox.shrink()),
+            InkWell(
+              child: const Icon(Icons.tune),
+              onTap: () {},
+            ),
             const SizedBox(width: 20),
-            Obx(() => controller.tabIndex.value == 0
-                ? InkWell(
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: const Icon(Icons.change_circle_outlined),
-                    ),
-                    onTap: () {},
-                  )
-                : InkWell(
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: const Icon(Icons.info_outline),
-                    ),
-                    onTap: () {},
-                  ))
+            InkWell(
+              child: Container(
+                margin: const EdgeInsets.only(right: 10),
+                child: const Icon(Icons.change_circle_outlined),
+              ),
+              onTap: () {},
+            )
           ],
         ),
         body: Column(
@@ -59,130 +65,151 @@ class TimeKeepingScreen extends StatelessWidget {
             Container(
               width: 180,
               alignment: Alignment.centerRight,
-              child: InkWell(
-                onTap: () async {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Dialog(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0))),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+              child: BlocBuilder<TimekeepingBloc, TimekeepingState>(
+                builder: (context, state) {
+                  return InkWell(
+                    onTap: () async {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        side: BorderSide(
-                                            color: mainColor, width: 1),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                            side: BorderSide(
+                                                color: mainColor, width: 1),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            timekeepingBloc
+                                                .add(TimekeepingLoadToday());
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Hôm nay',
+                                              style:
+                                                  TextStyle(color: mainColor)),
                                         ),
-                                      ),
-                                      onPressed: () {
-                                        controller.setSelect(1);
-                                        Get.back();
-                                      },
-                                      child: Text('Hôm nay',
-                                          style: TextStyle(color: mainColor)),
+                                        OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                            side: BorderSide(
+                                                color: mainColor, width: 1),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            BlocProvider.of<TimekeepingBloc>(
+                                                    context)
+                                                .add(TimekeepingLoadWeek());
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Tuần này',
+                                              style:
+                                                  TextStyle(color: mainColor)),
+                                        ),
+                                        OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                            side: BorderSide(
+                                                color: mainColor, width: 1),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            timekeepingBloc
+                                                .add(TimekeepingLoadMonth());
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Tháng này',
+                                              style:
+                                                  TextStyle(color: mainColor)),
+                                        )
+                                      ],
                                     ),
-                                    OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        side: BorderSide(
-                                            color: mainColor, width: 1),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
+                                    SizedBox(
+                                      height: 350,
+                                      child: SfDateRangePicker(
+                                        headerStyle:
+                                            const DateRangePickerHeaderStyle(
+                                                backgroundColor: Colors.white,
+                                                textAlign: TextAlign.center,
+                                                textStyle: TextStyle(
+                                                    fontSize: 22,
+                                                    color: Colors.black)),
+                                        headerHeight: 50,
+                                        selectionColor: mainColor,
+                                        selectionTextStyle: const TextStyle(
+                                            color: Colors.white),
+                                        rangeTextStyle: const TextStyle(
+                                            color: Colors.white),
+                                        todayHighlightColor: mainColor,
+                                        rangeSelectionColor: mainColor,
+                                        startRangeSelectionColor: mainColor,
+                                        endRangeSelectionColor: mainColor,
+                                        view: DateRangePickerView.month,
+                                        showActionButtons: true,
+                                        initialSelectedRange: (state
+                                                is TimekeepingLoaded)
+                                            ? PickerDateRange(
+                                                state.fromDate, state.toDate)
+                                            : PickerDateRange(
+                                                DateTime.now(), DateTime.now()),
+                                        selectionMode:
+                                            DateRangePickerSelectionMode
+                                                .extendableRange,
+                                        allowViewNavigation: false,
+                                        onSubmit: (Object? value) {
+                                          Navigator.pop(context);
+                                          if (value == null) return;
+                                          PickerDateRange pickerDateRange =
+                                              value as PickerDateRange;
+                                          // controller.setDateRange(
+                                          //     value as PickerDateRange);
+                                          timekeepingBloc.add(
+                                              TimekeepingLoadRangeDate(
+                                                  fromDate: pickerDateRange
+                                                      .startDate!,
+                                                  toDate: pickerDateRange
+                                                      .endDate!));
+                                        },
+                                        onCancel: () => Navigator.pop(context),
                                       ),
-                                      onPressed: () {
-                                        controller.setSelect(2);
-                                        Get.back();
-                                      },
-                                      child: Text('Tuần này',
-                                          style: TextStyle(color: mainColor)),
                                     ),
-                                    OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        side: BorderSide(
-                                            color: mainColor, width: 1),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        controller.setSelect(3);
-                                        Get.back();
-                                      },
-                                      child: Text('Tháng này',
-                                          style: TextStyle(color: mainColor)),
-                                    )
                                   ],
-                                ),
-                                SizedBox(
-                                  height: 350,
-                                  child: SfDateRangePicker(
-                                    headerStyle:
-                                        const DateRangePickerHeaderStyle(
-                                            backgroundColor: Colors.white,
-                                            textAlign: TextAlign.center,
-                                            textStyle: TextStyle(
-                                                fontSize: 22,
-                                                color: Colors.black)),
-                                    headerHeight: 50,
-                                    selectionColor: mainColor,
-                                    selectionTextStyle:
-                                        const TextStyle(color: Colors.white),
-                                    rangeTextStyle:
-                                        const TextStyle(color: Colors.white),
-                                    todayHighlightColor: mainColor,
-                                    rangeSelectionColor: mainColor,
-                                    startRangeSelectionColor: mainColor,
-                                    endRangeSelectionColor: mainColor,
-                                    view: DateRangePickerView.month,
-                                    showActionButtons: true,
-                                    initialSelectedRange: controller.showID == 1
-                                        ? null
-                                        : PickerDateRange(controller.fromDate,
-                                            controller.toDate),
-                                    selectionMode: DateRangePickerSelectionMode
-                                        .extendableRange,
-                                    allowViewNavigation: false,
-                                    onSubmit: (Object? value) {
-                                      Navigator.pop(context);
-                                      if (value == null) return;
-                                      controller.setDateRange(
-                                          value as PickerDateRange);
-                                    },
-                                    onCancel: () => Navigator.pop(context),
-                                  ),
-                                ),
-                              ],
-                            ));
-                      });
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // const Expanded(child: SizedBox.shrink()),
-                    Center(
-                        child: Obx(() => Text(controller.selectText.value,
-                            style: const TextStyle(
-                                color: blueGrey1, fontSize: 16)))),
-                    const Icon(
-                      Icons.arrow_drop_down,
-                      color: blueGrey2,
-                      size: 30,
+                                ));
+                          });
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(
+                            child: Text(
+                                (state is TimekeepingLoaded)
+                                    ? state.selectDateText
+                                    : '',
+                                style: const TextStyle(
+                                    color: blueGrey1, fontSize: 16))),
+                        const Icon(Icons.arrow_drop_down,
+                            color: blueGrey2, size: 30),
+                      ],
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 10),
@@ -191,11 +218,18 @@ class TimeKeepingScreen extends StatelessWidget {
                 child: Container(
                     color: lightGreen1,
                     child: TabBarView(children: [
-                      Obx(() => controller.isLoading.value
-                          ? Center(
+                      BlocBuilder<TimekeepingBloc, TimekeepingState>(
+                          builder: (context, state) {
+                        if (state is TimekeepingLoaded) {
+                          return buildInOutItem(state.listAttendanceModel);
+                        } else if (state is TimekeepingLoading) {
+                          return Center(
                               child:
-                                  CircularProgressIndicator(color: mainColor))
-                          : buildInOutItem(controller.listAttendanceModel)),
+                                  CircularProgressIndicator(color: mainColor));
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      }),
                       buildTimeSheetsList(),
                     ])))
           ],
@@ -206,12 +240,12 @@ class TimeKeepingScreen extends StatelessWidget {
 }
 
 Widget buildTabar() {
-  TimeKeepingController controller = Get.find<TimeKeepingController>();
+  //TimeKeepingController controller = Get.find<TimeKeepingController>();
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30),
     height: 30,
     child: TabBar(
-        onTap: ((value) => controller.setTabIndex(value)),
+        // onTap: ((value) => controller.setTabIndex(value)),
         labelColor: mainColor,
         indicatorColor: mainColor,
         unselectedLabelColor: blueGrey3,
@@ -401,7 +435,7 @@ Widget buildTimeSheetsItem(String name, String value, bool edit) {
         const Expanded(child: SizedBox.shrink()),
         Text(
           value,
-          style: TextStyle(color: blueBlack),
+          style: const TextStyle(color: blueBlack),
         ),
         edit
             ? Container(

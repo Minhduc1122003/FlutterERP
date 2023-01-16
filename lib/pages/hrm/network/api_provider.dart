@@ -97,8 +97,8 @@ class ApiProvider {
   }
 
   Future<List<ShiftModel>> getListShiftModel(
-      SiteModel siteModel, String token) async {
-    response = await getConnect(getListShiftModelAPI + siteModel.code, token);
+      String siteName, String token) async {
+    response = await getConnect(getListShiftModelAPI + siteName, token);
     if (response.statusCode == statusOk) {
       List responseList = json.decode(response.body);
       return responseList.map((val) => ShiftModel.fromJson(val)).toList();
@@ -119,9 +119,9 @@ class ApiProvider {
   }
 
   Future<List<AttendanceModel>> getListAttendance(
-      SiteModel siteModel, Map<String, dynamic> map, String token) async {
+      String siteName, Map<String, dynamic> map, String token) async {
     response =
-        await postConnect(getListAttendanceAPI + siteModel.code, map, token);
+        await postConnect(getListAttendanceAPI + siteName, map, token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);

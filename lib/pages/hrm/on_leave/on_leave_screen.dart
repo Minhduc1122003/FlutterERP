@@ -19,8 +19,8 @@ class OnLeaveScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: Container(
-        margin: EdgeInsets.only(top: 15),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        margin:const EdgeInsets.only(top: 15),
+        padding:const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         color: Colors.white,
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           buildOnLeaveItem(Elusive.calendar, 'Số ngày nghỉ còn lại'),

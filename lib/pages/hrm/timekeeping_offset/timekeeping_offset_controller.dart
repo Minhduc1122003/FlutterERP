@@ -33,7 +33,7 @@ class TimekeepingOffsetController extends GetxController {
   getShiftModel() async {
     if (controller.listShiftModel.isEmpty) {
       listShiftModel.value =
-          await ApiProvider().getListShiftModel(siteModel, '');
+          await ApiProvider().getListShiftModel(siteModel.name, '');
     } else {
       listShiftModel.value = controller.listShiftModel;
     }

@@ -1,20 +1,24 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:fluttericon/entypo_icons.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import '../color.dart';
 import '../hrm_method.dart';
 
+import '../hrm_model/shift_model.dart';
+import 'bloc/timekeeping_offset_bloc.dart';
 import 'timekeeping_offset_controller.dart';
 
 class ChosseTimekeepingOffsetShiftScreen extends StatelessWidget {
-  const ChosseTimekeepingOffsetShiftScreen({Key? key}) : super(key: key);
+  const ChosseTimekeepingOffsetShiftScreen(
+      {Key? key, required this.listShiftModel})
+      : super(key: key);
+  final List<ShiftModel> listShiftModel;
 
   @override
   Widget build(BuildContext context) {
-    TimekeepingOffsetController controller = Get.find<TimekeepingOffsetController>();
-    controller.checkListShiftModel();
+    // TimekeepingOffsetController controller =
+    //     Get.find<TimekeepingOffsetController>();
+    // controller.checkListShiftModel();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -27,41 +31,40 @@ class ChosseTimekeepingOffsetShiftScreen extends StatelessWidget {
         iconTheme: const IconThemeData(color: blueBlack),
         elevation: 0,
         leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.clear)),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: ListView.separated(
-          padding: const EdgeInsets.all(8),
-          itemCount: controller.listShiftModel.length,
-          itemBuilder: (BuildContext context, int index) {
-            return buildChooseItem(
-                index,
-                controller.listShiftModel[index].name,
-                (int id) => controller.setSelectShiftKind(id));
-          },
-          separatorBuilder: (BuildContext context, int index) =>
-              Container(height: 1, color: Colors.grey[200])
-        ),
+            padding: const EdgeInsets.all(8),
+            itemCount: listShiftModel.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _buildChooseItem(
+                  context, index, listShiftModel[index].name, (int id) {
+                BlocProvider.of<TimekeepingOffsetBloc>(context)
+                    .add(ChoosseShiftEvent(shiftModel: listShiftModel[id]));
+              });
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                Container(height: 1, color: Colors.grey[200])),
       ),
     );
   }
 }
 
-Widget buildChooseItem(int id, String name, Function(int) selected) {
+Widget _buildChooseItem(
+    BuildContext context, int id, String name, Function(int) selected) {
   return InkWell(
     onTap: () {
-      Get.back();
+      Navigator.pop(context);
       selected(id);
     },
     child: Container(
       height: 50,
       alignment: Alignment.centerLeft,
       child: Text(
-          capitalize(name),
+        capitalize(name),
         style: const TextStyle(fontSize: 17, color: blueBlack),
       ),
     ),
