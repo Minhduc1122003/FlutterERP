@@ -1,10 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/entypo_icons.dart';
-import 'package:get/get.dart';
-
 import '../color.dart';
 
 class ChooseCalendarScreen extends StatelessWidget {
@@ -31,33 +28,28 @@ class ChooseCalendarScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          buildChooseItem(Entypo.briefcase, 'Ngày'),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          buildChooseItem(context,Entypo.briefcase, 'Ngày'),
           Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(Icons.access_time_rounded, 'Tuần'),
+          buildChooseItem(context,Icons.access_time_rounded, 'Tuần'),
           Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(Icons.more_time, 'Tháng'),
+          buildChooseItem(context,Icons.more_time, 'Tháng'),
           Container(height: 1, color: Colors.grey[200]),
-
         ]),
       ),
     );
   }
 }
 
-Widget buildChooseItem(IconData icon, String name) {
+Widget buildChooseItem(BuildContext context, IconData icon, String name) {
   return InkWell(
-    onTap: (){
-      Get.back();
-    },
+    onTap: () => Navigator.pop(context),
     child: Container(
       height: 50,
       alignment: Alignment.centerLeft,
       child: Text(
         name,
-        style: const TextStyle(fontSize: 17,color: blueBlack),
+        style: const TextStyle(fontSize: 17, color: blueBlack),
       ),
     ),
   );

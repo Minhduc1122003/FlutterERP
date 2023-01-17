@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import 'create_shift_screen.dart';
 
 class ShiftScreen extends StatelessWidget {
@@ -19,7 +17,10 @@ class ShiftScreen extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
         actions: [IconButton(onPressed: () {
-          Get.to(()=>CreateShiftSreen());
+          Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>CreateShiftSreen()));
         }, icon: Icon(Icons.add))],
       ),
       body: Column(children: [

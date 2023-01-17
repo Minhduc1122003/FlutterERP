@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/entypo_icons.dart';
-import 'package:get/get.dart';
 
 import '../on_leave/new_on_leave_screen.dart';
 import '../timekeeping_offset/new_timekeeping_offset_screen.dart';
@@ -39,23 +38,34 @@ class ChooseRequestScreen extends StatelessWidget {
           // Container(height: 1, color: Colors.grey[200]),
           // buildChooseItem(3,Icons.more_time, 'Thay đổi giờ vào/ra'),
           // Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(1, FontAwesome.bed, 'Nghỉ phép'),
+          buildChooseItem(context, 1, FontAwesome.bed, 'Nghỉ phép'),
           Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(2, FontAwesome.money, 'Tạm ứng lương'),
+          buildChooseItem(context, 2, FontAwesome.money, 'Tạm ứng lương'),
           Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(3, FontAwesome5.fill, 'Bù công'),
+          buildChooseItem(context, 3, FontAwesome5.fill, 'Bù công'),
         ]),
       ),
     );
   }
 }
 
-Widget buildChooseItem(int id, IconData icon, String name) {
+Widget buildChooseItem(
+    BuildContext context, int id, IconData icon, String name) {
   return InkWell(
     onTap: () {
-      Get.back();
-      if (id == 1) Get.to(() => NewOnLeaveScreen());
-      if (id == 3) Get.to(() => NewTimekeepingOffsetScreen());
+      Navigator.pop(context);
+      if (id == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const NewOnLeaveScreen()),
+        );
+      } else if (id == 3) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const NewTimekeepingOffsetScreen()),
+        );
+      }
     },
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),

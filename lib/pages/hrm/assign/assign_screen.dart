@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fluttericon/web_symbols_icons.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../../config/constant.dart';
 import '../hrm_method.dart';
-import 'assign_controller.dart';
 import 'filter_assign_screen.dart';
 
 class AssignScreen extends StatelessWidget {
@@ -13,19 +11,16 @@ class AssignScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AssignController controller = Get.put(AssignController());
+    // AssignController controller = Get.put(AssignController());
     return Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              buildAppbar(),
-              Obx(() => buildSearchBar(controller.isList.value,
-                  (bool k) => controller.isList.value = k)),
+              _buildAppbar(),
+              buildSearchBar(true, (bool k) => {}),
               const SizedBox(height: 10),
-              Obx(() => (controller.isList.value)
-                  ? buildListItem()
-                  : buildDayWeek())
+              buildListItem()
             ],
           ),
         ),
@@ -55,7 +50,7 @@ class AssignScreen extends StatelessWidget {
   }
 }
 
-Widget buildDayWeek() {
+Widget _buildDayWeek() {
   DateTime now = DateTime.now();
   int day = now.day;
   int firstDayOfWeek = now.weekday;
@@ -120,7 +115,7 @@ Widget buildDayWeek() {
   );
 }
 
-Widget buildAppbar() {
+Widget _buildAppbar() {
   return Row(
     children: [
       Container(
@@ -219,7 +214,7 @@ Widget buildSearchBar(bool k, Function(bool) selectedList) {
       ),
       InkWell(
         onTap: () {
-          Get.to(() => FilterAssignScreen());
+         // Get.to(() => FilterAssignScreen());
         },
         child: Container(
           width: 40,

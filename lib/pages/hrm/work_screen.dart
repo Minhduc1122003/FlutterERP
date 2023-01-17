@@ -1,6 +1,5 @@
 import 'package:erp/pages/hrm/notification_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import '../../config/constant.dart';
@@ -34,11 +33,14 @@ class WorkScreen extends StatelessWidget {
                     bottomRight: Radius.circular(10))),
             child: Column(
               children: [
-                _buildAppbar('trung nguyen', 'Giám đốc'),
+                _buildAppbar(context, 'trung nguyen', 'Giám đốc'),
                 const SizedBox(height: 15),
                 InkWell(
                   onTap: () {
-                    Get.to(() => ShiftCalendarScreen());
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShiftCalendarScreen()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,14 +57,14 @@ class WorkScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 15),
-                _buildDay(),
+                _buildDay(context),
                 const SizedBox(height: 15),
-                _buildVaoCa()
+                _buildVaoCa(context)
               ],
             ),
           ),
           const SizedBox(height: 15),
-          _buildManipulation(),
+          _buildManipulation(context),
           const SizedBox(height: 15),
           _buildFolder(context),
           buildCheckWork(),
@@ -72,7 +74,7 @@ class WorkScreen extends StatelessWidget {
   }
 }
 
-Widget _buildAppbar(String name, String position) {
+Widget _buildAppbar(BuildContext context, String name, String position) {
   return Row(
     children: [
       Container(
@@ -102,7 +104,8 @@ Widget _buildAppbar(String name, String position) {
       ),
       const Expanded(child: SizedBox.shrink()),
       InkWell(
-        onTap: () => Get.to(() => NotificationScreen()),
+        onTap: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NotificationScreen())),
         child: Container(
             height: 40,
             width: 40,
@@ -118,7 +121,7 @@ Widget _buildAppbar(String name, String position) {
   );
 }
 
-Widget _buildDay() {
+Widget _buildDay(BuildContext context) {
   DateTime now = DateTime.now();
   int day = now.day;
 // DateTime now=DateTime.utc(2022, 12, 9);
@@ -127,7 +130,8 @@ Widget _buildDay() {
   //DateFormat('EEEE').format(now);
   return InkWell(
     onTap: () {
-      Get.to(() => ShiftCalendarScreen());
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ShiftCalendarScreen()));
     },
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -204,10 +208,11 @@ Widget _buildDay() {
   );
 }
 
-Widget _buildVaoCa() {
+Widget _buildVaoCa(BuildContext context) {
   return InkWell(
     onTap: () {
-      Get.to(() => ChosseShiftScreen());
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ChosseShiftScreen()));
     },
     child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -245,7 +250,7 @@ Widget _buildVaoCa() {
   );
 }
 
-Widget _buildManipulation() {
+Widget _buildManipulation(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10),
     child: Container(
@@ -265,30 +270,34 @@ Widget _buildManipulation() {
         // ),
         const SizedBox(height: 15),
         __buildManipulationItem(
-            1, Icons.person_add_alt, 'Thêm nhân viên mới', 1),
+            context, 1, Icons.person_add_alt, 'Thêm nhân viên mới', 1),
         const SizedBox(height: 15),
         __buildManipulationItem(
-            2, FontAwesome.calendar_plus_o, 'Tạo ca làm', 2),
+            context, 2, FontAwesome.calendar_plus_o, 'Tạo ca làm', 2),
+        const SizedBox(height: 15),
+        __buildManipulationItem(context, 3, Icons.description_outlined,
+            'Duyệt một yêu cầu công việc', 2),
         const SizedBox(height: 15),
         __buildManipulationItem(
-            3, Icons.description_outlined, 'Duyệt một yêu cầu công việc', 2),
-        const SizedBox(height: 15),
-        __buildManipulationItem(
-            4, Icons.date_range_outlined, 'Đặt lịch Demo', 2)
+            context, 4, Icons.date_range_outlined, 'Đặt lịch Demo', 2)
       ]),
     ),
   );
 }
 
-Widget __buildManipulationItem(int id, IconData icon, String name, int day) {
+Widget __buildManipulationItem(
+    BuildContext context, int id, IconData icon, String name, int day) {
   return InkWell(
     onTap: () {
       if (id == 1) {
-        Get.to(() => AddPersonnelScreen());
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => AddPersonnelScreen()));
       } else if (id == 2) {
-        Get.to(() => CreateShiftSreen());
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => CreateShiftSreen()));
       } else if (id == 3) {
-        Get.to(() => RequestManagementScreen());
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => RequestManagementScreen()));
       } else if (id == 4) {
         // Get.to(() => AddPersonnelScreen());
       }

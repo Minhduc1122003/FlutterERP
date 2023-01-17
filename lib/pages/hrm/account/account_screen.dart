@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:fluttericon/entypo_icons.dart';
 import '../../../config/constant.dart';
 import '../color.dart';
@@ -33,25 +31,31 @@ class AccountScreen extends StatelessWidget {
                   bottomRight: Radius.circular(15))),
           child: Column(
             children: [
-              buildAppbar(),
+              _buildAppbar(context),
               const SizedBox(height: 10),
-              buildInfor( 'trung nguyen', 'Quản lý', '+84888888888'),
+              buildInfor('trung nguyen', 'Quản lý', '+84888888888'),
             ],
           ),
         ),
         const SizedBox(height: 15),
         // buildAdvertisement(),
         //const SizedBox(height: 15),
-        buildActionItem(1, Icons.settings,mainColor, 'Thiết lập quản lý'),
-        buildActionItem(2, Icons.signal_cellular_alt_sharp,mainColor, 'Báo cáo'),
-        buildActionItem(3, Icons.date_range,mainColor, 'Quản lý phép'),
-        buildActionItem(4, Icons.description_rounded,mainColor, 'Phiếu lương'),
-        buildActionItem(5, Entypo.trophy,mainColor, 'Quản lý KPI'),
+        _buildActionItem(
+            context, 1, Icons.settings, mainColor, 'Thiết lập quản lý'),
+        _buildActionItem(
+            context, 2, Icons.signal_cellular_alt_sharp, mainColor, 'Báo cáo'),
+        _buildActionItem(
+            context, 3, Icons.date_range, mainColor, 'Quản lý phép'),
+        _buildActionItem(
+            context, 4, Icons.description_rounded, mainColor, 'Phiếu lương'),
+        _buildActionItem(context, 5, Entypo.trophy, mainColor, 'Quản lý KPI'),
         const SizedBox(height: 15),
         buildLanguage(),
-        buildActionItem(6, Icons.notifications,Colors.blue, 'Cài đặt cảnh báo '),
-        buildActionItem(7, Icons.business_center_outlined,Colors.blue, 'Đổi doanh nghiệp'),
-    
+        _buildActionItem(
+            context, 6, Icons.notifications, Colors.blue, 'Cài đặt cảnh báo '),
+        _buildActionItem(context, 7, Icons.business_center_outlined,
+            Colors.blue, 'Đổi doanh nghiệp'),
+
         const SizedBox(height: 30),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -67,20 +71,20 @@ class AccountScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-
                 //Get.back();
               },
-              child: Text('Đăng xuất', style: TextStyle(color: Colors.red,fontSize: 22)),
+              child: Text('Đăng xuất',
+                  style: TextStyle(color: Colors.red, fontSize: 22)),
             ),
           ),
         ),
-        const SizedBox(height:20),
+        const SizedBox(height: 20),
       ]),
     );
   }
 }
 
-Widget buildAppbar() {
+Widget _buildAppbar(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10),
     child: Row(
@@ -94,7 +98,11 @@ Widget buildAppbar() {
               borderRadius: BorderRadius.circular(10)),
           child: const Icon(Icons.qr_code),
         ),
-        InkWell(child: const Text('Sửa', style: TextStyle(fontSize: 18,color: blueBlack)),onTap: ()=>Get.to(()=>EditAccountScreen()),),
+        InkWell(
+            child: const Text('Sửa',
+                style: TextStyle(fontSize: 18, color: blueBlack)),
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => EditAccountScreen()))),
       ],
     ),
   );
@@ -116,7 +124,7 @@ Widget buildInfor(String name, String position, String phone) {
         )),
       ),
       const SizedBox(height: 10),
-      Text(name, style: const TextStyle(fontSize: 17,color: blueBlack)),
+      Text(name, style: const TextStyle(fontSize: 17, color: blueBlack)),
       const SizedBox(height: 10),
       Row(
         mainAxisSize: MainAxisSize.min,
@@ -171,21 +179,28 @@ Widget buildAdvertisement() {
   );
 }
 
-Widget buildActionItem(int id, IconData icon,Color color, String name) {
+Widget _buildActionItem(
+    BuildContext context, int id, IconData icon, Color color, String name) {
   return InkWell(
     onTap: () {
       if (id == 1) {
-        Get.to(() => ManagementSettingScreen());
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ManagementSettingScreen()));
       } else if (id == 2) {
-        Get.to(() => ReportScreen());
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ReportScreen()));
       } else if (id == 3) {
-        Get.to(() => OnLeaveScreen());
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => OnLeaveScreen()));
       } else if (id == 4) {
-        Get.to(() => PayCheckScreen());
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PayCheckScreen()));
       } else if (id == 5) {
-        Get.to(() => KPIScreen());
-      }else if(id==6){
-         Get.to(() => WarningSettingScreen());
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => KPIScreen()));
+      } else if (id == 6) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => WarningSettingScreen()));
       }
     },
     child: Container(

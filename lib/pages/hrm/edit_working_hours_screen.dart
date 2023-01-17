@@ -72,12 +72,12 @@ class EditWorkingHoursScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  builPersonnel(context, 'trung nguyen', 'Giám đốc'),
+                  _builPersonnel(context, 'trung nguyen', 'Giám đốc'),
                   Container(
                       height: 1,
                       width: double.infinity,
                       color: Colors.grey[300]),
-                  builPersonnel(context, 'Nhân viên demo', 'Nhân viên'),
+                  _builPersonnel(context, 'Nhân viên demo', 'Nhân viên'),
                   Container(
                       height: 1,
                       width: double.infinity,
@@ -92,7 +92,7 @@ class EditWorkingHoursScreen extends StatelessWidget {
   }
 }
 
-Widget builPersonnel(BuildContext context, String name, String position) {
+Widget _builPersonnel(BuildContext context, String name, String position) {
   return InkWell(
     onTap: () {
       Navigator.push(

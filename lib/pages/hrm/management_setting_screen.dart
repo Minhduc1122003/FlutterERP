@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import '../../config/constant.dart';
 import 'attendance/attendance_screen.dart';
 import 'company_screen.dart';
@@ -57,19 +55,23 @@ Widget buildRequestManagementItem(
   return InkWell(
     onTap: () {
       if (id == 3) {
-        Get.to(() => ShiftScreen());
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ShiftScreen()));
       } else if (id == 1) {
-        Get.to(() => CompanyScreen());
-      } 
-      else if (id == 4) {
-        Get.to(() => ShiftAssignmentScreen());
-      }
-      else if (id == 5) {
-        Get.to(() => AttendanceScreen());
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => CompanyScreen()));
+      } else if (id == 4) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ShiftAssignmentScreen()));
+      } else if (id == 5) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => AttendanceScreen()));
       } else if (id == 6) {
-        Get.to(() => EditWorkingHoursScreen());
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => EditWorkingHoursScreen()));
       } else if (id == 2) {
-        Get.to(() => ListPersonnelScreen());
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ListPersonnelScreen()));
       }
     },
     child: Container(

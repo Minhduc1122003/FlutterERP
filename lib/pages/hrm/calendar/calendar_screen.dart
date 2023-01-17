@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../../../config/constant.dart';
@@ -45,7 +44,8 @@ Widget buildAppbar(BuildContext context) {
       ),
       const Expanded(child: SizedBox.shrink()),
       InkWell(
-        onTap: () => Get.to(() => ChooseCalendarScreen()),
+        onTap: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ChooseCalendarScreen())),
         child: Container(
           height: 30,
           width: 30,

@@ -1,7 +1,7 @@
 import 'package:erp/pages/hrm/color.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
+//import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/constant.dart';
@@ -39,8 +39,14 @@ class ListPersonnelScreen extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              Get.back();
-                              Get.to(() =>const  AddPersonnelScreen());
+                              Navigator.pop(context);
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AddPersonnelScreen()),
+                              );
                             },
                             child: ListTile(
                               title: Text(
@@ -110,7 +116,11 @@ class ListPersonnelScreen extends StatelessWidget {
               const SizedBox(width: 10),
               InkWell(
                 onTap: () {
-                  Get.to(() => FilterPersonnelScreen());
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => const FilterPersonnelScreen()),
+                  // );
                 },
                 child: Container(
                   height: 50,
@@ -192,13 +202,13 @@ Widget builPersonnel(BuildContext context, String name, String position) {
             ],
           )),
           InkWell(
-            onTap: ()async{
-                final call = Uri.parse('tel:+84987654321');
-                    if (await canLaunchUrl(call)) {
-                      launchUrl(call);
-                    } else {
-                      throw 'Could not launch $call';
-                    }
+            onTap: () async {
+              final call = Uri.parse('tel:+84987654321');
+              if (await canLaunchUrl(call)) {
+                launchUrl(call);
+              } else {
+                throw 'Could not launch $call';
+              }
             },
             child: Container(
               height: 40,

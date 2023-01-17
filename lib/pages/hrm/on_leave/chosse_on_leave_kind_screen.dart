@@ -1,20 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:fluttericon/entypo_icons.dart';
-import 'package:get/get.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+//import 'package:get/get.dart';
 import '../color.dart';
 import '../hrm_method.dart';
-import 'new_on_leave_controller.dart';
+import '../hrm_model/on_leave_model.dart';
+import 'bloc/on_leave_bloc.dart';
+
 
 class ChooseOnLeaveKindScreen extends StatelessWidget {
-  const ChooseOnLeaveKindScreen({Key? key}) : super(key: key);
-
+  const ChooseOnLeaveKindScreen({Key? key,required this.listOnLeaveKindModel}) : super(key: key);
+   final List<OnLeaveKindModel> listOnLeaveKindModel;
   @override
   Widget build(BuildContext context) {
-    NewOnleaveController controller = Get.find<NewOnleaveController>();
-    controller.checkListOnLeaveKindModel();
+    //NewOnleaveController controller = Get.find<NewOnleaveController>();
+    //controller.checkListOnLeaveKindModel();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -34,27 +33,30 @@ class ChooseOnLeaveKindScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Obx(()=>ListView.separated(
+        child:ListView.separated(
           padding: const EdgeInsets.all(8),
-          itemCount: controller.listOnLeaveKindModel.length,
+          itemCount: listOnLeaveKindModel.length,
           itemBuilder: (BuildContext context, int index) {
-            return buildChooseItem(
+            return buildChooseItem(context,
                 index,
-                controller.listOnLeaveKindModel[index].name,
-                (int id) => controller.setSelectOnLeaveKind(id));
+                listOnLeaveKindModel[index].name,
+                (int id){
+                   BlocProvider.of<OnLeaveBloc>(context)
+                    .add(ChoosseOnLeaveKindEvent(onLeaveKind: listOnLeaveKindModel[id]));
+                });
           },
           separatorBuilder: (BuildContext context, int index) =>
               Container(height: 1, color: Colors.grey[200])
         ),
-      )),
+      ),
     );
   }
 }
 
-Widget buildChooseItem(int id, String name, Function(int) selected) {
+Widget buildChooseItem(BuildContext context, int id, String name, Function(int) selected) {
   return InkWell(
     onTap: () {
-      Get.back();
+      Navigator.pop(context);
       selected(id);
     },
     child: Container(

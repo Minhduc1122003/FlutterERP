@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../config/constant.dart';
 import '../hrm_method.dart';
+import 'bloc/request_management_bloc.dart';
 import 'choose_request_screen.dart';
 import '../color.dart';
 import '../hrm_model/request_management_model.dart';
 import 'filter_request_screen.dart';
-import 'request_management_controller.dart';
 
-class RequestManagementScreen extends StatelessWidget {
-  const RequestManagementScreen({Key? key}) : super(key: key);
+class RequestManagementScreen extends StatefulWidget {
+  const RequestManagementScreen({super.key});
+
+  @override
+  State<RequestManagementScreen> createState() =>
+      _RequestManagementScreenState();
+}
+
+class _RequestManagementScreenState extends State<RequestManagementScreen> {
+  late RequestManagementBloc requestManagementBloc;
+  @override
+  void initState() {
+    requestManagementBloc = BlocProvider.of<RequestManagementBloc>(context);
+    requestManagementBloc.add(RequestManagementLoadEvent());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    RequestManagementController controller =
-        Get.put(RequestManagementController());
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -31,9 +48,15 @@ class RequestManagementScreen extends StatelessWidget {
             elevation: 0,
             actions: [
               InkWell(
-                child: const Icon(Icons.tune),
-                onTap: () => Get.to(() => const FilterRequestScreen()),
-              ),
+                  child: const Icon(Icons.tune),
+                  // onTap: () => Get.to(() => const FilterRequestScreen()),
+                  onTap: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => const FilterRequestScreen()),
+                    // );
+                  }),
               const SizedBox(width: 20),
               InkWell(
                 child: Container(
@@ -44,35 +67,50 @@ class RequestManagementScreen extends StatelessWidget {
               )
             ],
           ),
-          body: Column(
-            children: [
-              Obx(() => buildFromDayToDay(
-                    context,
-                    controller.startDate.value,
-                    controller.endDate.value,
-                    (PickerDateRange pickerDateRange) =>
-                        controller.setDateRange(pickerDateRange),
-                  )),
-              const SizedBox(height: 10),
-              Obx(() => buildTabar(
-                  controller.listRequestNew.length,
-                  controller.listRequestApprove.length,
-                  controller.listRequestReject.length)),
-              Obx(() => buildTabarView(
-                  controller.listRequestNew,
-                  controller.listRequestApprove,
-                  controller.listRequestReject,
-                  controller.isLoading.value))
-            ],
+          body: BlocBuilder<RequestManagementBloc, RequestManagementState>(
+            builder: (context, state) {
+              if (state is RequestManagementLoaded) {
+                return Column(
+                  children: [
+                    // _buildFromDayToDay(
+                    //   context,
+                    //   controller.startDate.value,
+                    //   controller.endDate.value,
+                    //   (PickerDateRange pickerDateRange) =>
+                    //       controller.setDateRange(pickerDateRange),
+                    // ),
+                    const SizedBox(height: 10),
+                    _buildTabar(
+                        state.listRequestNew.length,
+                        state.listRequestApprove.length,
+                        state.listRequestReject.length),
+                    _buildTabarView(
+                        state.listRequestNew,
+                        state.listRequestApprove,
+                        state.listRequestReject,
+                        false)
+                  ],
+                );
+              } else {
+                return Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    _buildTabar(0, 0, 0),
+                    _buildTabarView([], [], [], true)
+                  ],
+                );
+              }
+            },
           ),
           floatingActionButton: FloatingActionButton(
             elevation: 0,
             heroTag: "btn",
             backgroundColor: mainColor,
             onPressed: () {
-              if (controller.requestManagementKind.value.id == 1) {
-                Get.to(() => const ChooseRequestScreen());
-              }
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ChooseRequestScreen()));
             },
             child: const Icon(Icons.add, size: 25),
           )),
@@ -80,8 +118,8 @@ class RequestManagementScreen extends StatelessWidget {
   }
 }
 
-Widget buildFromDayToDay(BuildContext context, DateTime fromDay, DateTime toDay,
-    Function(PickerDateRange) changedDateRange) {
+Widget _buildFromDayToDay(BuildContext context, DateTime fromDay,
+    DateTime toDay, Function(PickerDateRange) changedDateRange) {
   return Container(
     alignment: Alignment.centerLeft,
     padding: const EdgeInsets.only(left: 50),
@@ -133,7 +171,7 @@ Widget buildFromDayToDay(BuildContext context, DateTime fromDay, DateTime toDay,
   );
 }
 
-Widget buildTabar(
+Widget _buildTabar(
   int listNewLength,
   int listApproveLength,
   int listRejectLength,
@@ -224,7 +262,7 @@ Widget buildTabar(
   );
 }
 
-Widget buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
+Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
     List<dynamic> listReject, bool isLoading) {
   return Expanded(
       child: Container(
@@ -240,8 +278,8 @@ Widget buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
                     itemCount: listNew.length,
                     itemBuilder: (BuildContext context, int index) {
                       return listNew[index] is OnLeaveRequestModel
-                          ? buildOnLeaveRequestItem(listNew[index])
-                          : buildTimekeepingRequestItem(listNew[index]);
+                          ? _buildOnLeaveRequestItem(listNew[index])
+                          : _buildTimekeepingRequestItem(listNew[index]);
                     },
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 5));
@@ -259,8 +297,8 @@ Widget buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
                     itemCount: listApprove.length,
                     itemBuilder: (BuildContext context, int index) {
                       return listApprove[index] is OnLeaveRequestModel
-                          ? buildOnLeaveRequestItem(listApprove[index])
-                          : buildTimekeepingRequestItem(listApprove[index]);
+                          ? _buildOnLeaveRequestItem(listApprove[index])
+                          : _buildTimekeepingRequestItem(listApprove[index]);
                     },
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 5));
@@ -278,8 +316,8 @@ Widget buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
                     itemCount: listReject.length,
                     itemBuilder: (BuildContext context, int index) {
                       return listReject[index] is OnLeaveRequestModel
-                          ? buildOnLeaveRequestItem(listReject[index])
-                          : buildTimekeepingRequestItem(listReject[index]);
+                          ? _buildOnLeaveRequestItem(listReject[index])
+                          : _buildTimekeepingRequestItem(listReject[index]);
                     },
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 5));
@@ -290,7 +328,7 @@ Widget buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
           ])));
 }
 
-Widget buildOnLeaveRequestItem(OnLeaveRequestModel model) {
+Widget _buildOnLeaveRequestItem(OnLeaveRequestModel model) {
   return Card(
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
@@ -386,7 +424,7 @@ Widget buildOnLeaveRequestItem(OnLeaveRequestModel model) {
   );
 }
 
-Widget buildTimekeepingRequestItem(TimekeepingOffsetRequestModel model) {
+Widget _buildTimekeepingRequestItem(TimekeepingOffsetRequestModel model) {
   return Card(
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),

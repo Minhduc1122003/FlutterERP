@@ -1,6 +1,5 @@
 import 'package:erp/config/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../color.dart';
 import 'salary_advance_history_screen.dart';
 
@@ -31,7 +30,7 @@ class SalaryAdvanceInforScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Số ngày chấm công',
-                    style: TextStyle(fontSize: 20,color: blueBlack),
+                    style: TextStyle(fontSize: 20, color: blueBlack),
                   ),
                   const SizedBox(height: 20),
                   Container(
@@ -78,19 +77,30 @@ class SalaryAdvanceInforScreen extends StatelessWidget {
             children: [
               Text(
                 "LỊCH SỬ TẠM ỨNG",
-                style: TextStyle(fontSize: 17, color: blueBlack.withOpacity(0.7)),
+                style:
+                    TextStyle(fontSize: 17, color: blueBlack.withOpacity(0.7)),
               ),
               InkWell(
-                onTap: (){
-                  Get.to(()=>SalaryAdvanceHistoryScreen());
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SalaryAdvanceHistoryScreen()));
                 },
                 child: Text(
                   "Xem tất cả >",
-                  style: TextStyle(fontStyle: FontStyle.italic, color: mainColor),
+                  style:
+                      TextStyle(fontStyle: FontStyle.italic, color: mainColor),
                 ),
               )
             ],
-          ),Expanded(child:Center(child: Text('Chưa có lịch sử',style: TextStyle(fontSize: 20),)))
+          ),
+          Expanded(
+              child: Center(
+                  child: Text(
+            'Chưa có lịch sử',
+            style: TextStyle(fontSize: 20),
+          )))
         ]),
       ),
     );

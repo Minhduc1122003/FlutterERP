@@ -46,8 +46,8 @@ class ApiProvider {
   }
 
   Future<List<OnLeaveKindModel>> getListOnLeaveKind(
-      SiteModel siteModel, String token) async {
-    response = await getConnect(getOnLeaveKindAPI + siteModel.code, token);
+      String siteName, String token) async {
+    response = await getConnect(getOnLeaveKindAPI + siteName, token);
     if (response.statusCode == statusOk) {
       List responseList = json.decode(response.body);
       return responseList.map((val) => OnLeaveKindModel.fromJson(val)).toList();
@@ -57,9 +57,9 @@ class ApiProvider {
   }
 
   Future<List<OnLeaveRequestModel>> getListOnLeaveRequestModel(
-      SiteModel siteModel, int employeeID, int year, String token) async {
+      String siteName, int employeeID, int year, String token) async {
     response = await getConnect(
-        '$getListOnLeaveRequestAPI$employeeID/$year/${siteModel.code}', token);
+        '$getListOnLeaveRequestAPI$employeeID/$year/$siteName', token);
     if (response.statusCode == statusOk) {
       List responseList = json.decode(response.body);
       return responseList
@@ -71,9 +71,9 @@ class ApiProvider {
   }
 
   Future<List<TimekeepingOffsetRequestModel>> getListTimekeepingOffsetRequest(
-      SiteModel siteModel, int employeeID, String token) async {
+      String siteName, int employeeID, String token) async {
     response = await getConnect(
-        '$getListTimekeepingOffsetRequestAPI$employeeID/${siteModel.code}',
+        '$getListTimekeepingOffsetRequestAPI$employeeID/$siteName',
         token);
     if (response.statusCode == statusOk) {
       List responseList = json.decode(response.body);

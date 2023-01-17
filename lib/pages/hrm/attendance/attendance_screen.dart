@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
-
 import '../../../config/constant.dart';
 import '../color.dart';
-import 'attendance_controller.dart';
+
 import 'filter_shift_screen.dart';
 
 class Shift {
@@ -18,7 +16,6 @@ class AttendanceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AttendanceController controller = Get.put(AttendanceController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -40,17 +37,19 @@ class AttendanceScreen extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.only(left: 20),
               child: InkWell(
-                onTap: () => Get.to(() => FilterShiftScreen()),
+                // onTap: () => Get.to(() => FilterShiftScreen()),
+                onTap: (() => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const FilterShiftScreen()))),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Obx(()=>Text(
-                      controller.shiftModel.value == null
-                          ? 'Chọn ca làm'
-                          : controller.shiftModel.value!.name,
+                    Text(
+                      'Chọn ca làm',
                       style: TextStyle(
                           fontSize: 17, color: blueBlack.withOpacity(0.7)),
-                    )),
+                    ),
                     const SizedBox(width: 10),
                     const Icon(
                       Icons.arrow_drop_down,

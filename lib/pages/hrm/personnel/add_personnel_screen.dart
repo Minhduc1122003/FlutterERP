@@ -1,19 +1,20 @@
 import 'package:erp/pages/hrm/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-
 import '../../../config/constant.dart';
 import '../infor_screen.dart';
-import 'add_personnel_controller.dart';
 
-class AddPersonnelScreen extends StatelessWidget {
-  const AddPersonnelScreen({Key? key}) : super(key: key);
+class AddPersonnelScreen extends StatefulWidget {
+  const AddPersonnelScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    AddPersonnelController controller = Get.put(AddPersonnelController());
+  State<AddPersonnelScreen> createState() => _AddPersonnelScreenState();
+}
 
+class _AddPersonnelScreenState extends State<AddPersonnelScreen> {
+  bool expanded = false;
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -106,18 +107,21 @@ class AddPersonnelScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Center(
-                  child: InkWell(
-                onTap: () =>
-                    controller.expanded.value = !controller.expanded.value,
-                child: Obx(() => Icon(
-                    controller.expanded.value
-                        ? Icons.keyboard_arrow_up_outlined
-                        : Icons.keyboard_arrow_down_outlined,
-                    color: mainColor,
-                    size: 40)),
-              )),
-              Obx(() => Visibility(
-                  visible: controller.expanded.value ? true : false,
+                child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        expanded = !expanded;
+                      });
+                    },
+                    child: Icon(
+                        expanded
+                            ? Icons.keyboard_arrow_up_outlined
+                            : Icons.keyboard_arrow_down_outlined,
+                        color: mainColor,
+                        size: 40)),
+              ),
+              Visibility(
+                  visible: expanded ? true : false,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -184,12 +188,21 @@ class AddPersonnelScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         height: 50,
                         width: double.infinity,
-                          child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                          Text('VD: 15-09-1986',style: TextStyle(fontSize: 18,color: blueBlack.withOpacity(0.7)),),
-                          Icon(Icons.keyboard_arrow_down_outlined,color: blueBlack.withOpacity(0.7),size: 30,)
-                        ]),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'VD: 15-09-1986',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: blueBlack.withOpacity(0.7)),
+                              ),
+                              Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: blueBlack.withOpacity(0.7),
+                                size: 30,
+                              )
+                            ]),
                       ),
                       const SizedBox(height: 20),
                       Row(
@@ -222,13 +235,13 @@ class AddPersonnelScreen extends StatelessWidget {
                         height: 40,
                         width: double.infinity,
                         alignment: Alignment.centerLeft,
-                        child: Text('HỒ SƠ CÔNG TY', style:
-                                  TextStyle(color: blueBlack.withOpacity(0.7))),
+                        child: Text('HỒ SƠ CÔNG TY',
+                            style:
+                                TextStyle(color: blueBlack.withOpacity(0.7))),
                       ),
                       const SizedBox(height: 10),
                       Text('Quyền truy cập',
-                          style:
-                              TextStyle(color: blueBlack.withOpacity(0.7))),
+                          style: TextStyle(color: blueBlack.withOpacity(0.7))),
                       const SizedBox(height: 10),
                       Container(
                         color: backgroundColor.withOpacity(0.3),
@@ -236,62 +249,95 @@ class AddPersonnelScreen extends StatelessWidget {
                         height: 50,
                         width: double.infinity,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                          Text('Quyền truy cập',style: TextStyle(fontSize: 18,color: blueBlack.withOpacity(0.7)),),
-                          Icon(Icons.arrow_forward_ios,color: blueBlack.withOpacity(0.7),size: 20,)
-                        ]),
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Quyền truy cập',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: blueBlack.withOpacity(0.7)),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: blueBlack.withOpacity(0.7),
+                                size: 20,
+                              )
+                            ]),
                       ),
                       const SizedBox(height: 20),
                       Text('Vùng',
-                          style:
-                              TextStyle(color: blueBlack.withOpacity(0.7))),
+                          style: TextStyle(color: blueBlack.withOpacity(0.7))),
                       const SizedBox(height: 10),
                       Container(
                         color: backgroundColor.withOpacity(0.3),
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         height: 50,
                         width: double.infinity,
-                          child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                          Text('Vùng',style: TextStyle(fontSize: 18,color: blueBlack.withOpacity(0.7)),),
-                          Icon(Icons.arrow_forward_ios,color: blueBlack.withOpacity(0.7),size: 20,)
-                        ]),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Vùng',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: blueBlack.withOpacity(0.7)),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: blueBlack.withOpacity(0.7),
+                                size: 20,
+                              )
+                            ]),
                       ),
                       const SizedBox(height: 20),
                       Text('Chi nhánh',
-                          style:
-                              TextStyle(color: blueBlack.withOpacity(0.7))),
+                          style: TextStyle(color: blueBlack.withOpacity(0.7))),
                       const SizedBox(height: 10),
                       Container(
                         color: backgroundColor.withOpacity(0.3),
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         height: 50,
                         width: double.infinity,
-                          child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                          Text('Chi nhánh',style: TextStyle(fontSize: 18,color: blueBlack.withOpacity(0.7)),),
-                          Icon(Icons.arrow_forward_ios,color: blueBlack.withOpacity(0.7),size: 20,)
-                        ]),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Chi nhánh',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: blueBlack.withOpacity(0.7)),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: blueBlack.withOpacity(0.7),
+                                size: 20,
+                              )
+                            ]),
                       ),
                       const SizedBox(height: 20),
                       Text('Phòng ban',
-                          style:
-                              TextStyle(color: blueBlack.withOpacity(0.7))),
+                          style: TextStyle(color: blueBlack.withOpacity(0.7))),
                       const SizedBox(height: 10),
                       Container(
                         color: backgroundColor.withOpacity(0.3),
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         height: 50,
                         width: double.infinity,
-                          child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                          Text('Phòng ban',style: TextStyle(fontSize: 18,color: blueBlack.withOpacity(0.7)),),
-                          Icon(Icons.arrow_forward_ios,color: blueBlack.withOpacity(0.7),size: 20,)
-                        ]),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Phòng ban',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: blueBlack.withOpacity(0.7)),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: blueBlack.withOpacity(0.7),
+                                size: 20,
+                              )
+                            ]),
                       ),
                       const SizedBox(height: 20),
                       Row(
@@ -307,15 +353,24 @@ class AddPersonnelScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         height: 50,
                         width: double.infinity,
-                          child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                          Text('Chức vụ',style: TextStyle(fontSize: 18,color: blueBlack.withOpacity(0.7)),),
-                          Icon(Icons.arrow_forward_ios,color: blueBlack.withOpacity(0.7),size: 20,)
-                        ]),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Chức vụ',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: blueBlack.withOpacity(0.7)),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: blueBlack.withOpacity(0.7),
+                                size: 20,
+                              )
+                            ]),
                       ),
                     ],
-                  )))
+                  ))
             ],
           ),
         ),

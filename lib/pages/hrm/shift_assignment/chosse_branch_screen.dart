@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import '../../../config/constant.dart';
 import '../color.dart';
 
@@ -23,7 +21,7 @@ class ChosseBranchScreen extends StatelessWidget {
       body: Column(children: [
         InkWell(
           onTap: () {
-            Get.back();
+            Navigator.pop(context);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
@@ -34,14 +32,17 @@ class ChosseBranchScreen extends StatelessWidget {
                   'Vietgoat',
                   style: const TextStyle(fontSize: 17),
                 ),
-                Icon(Icons.check,color: mainColor,)
+                Icon(
+                  Icons.check,
+                  color: mainColor,
+                )
               ],
             ),
           ),
         ),
-         InkWell(
+        InkWell(
           onTap: () {
-            Get.back();
+            Navigator.pop(context);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
@@ -52,7 +53,10 @@ class ChosseBranchScreen extends StatelessWidget {
                   'ABC',
                   style: const TextStyle(fontSize: 17),
                 ),
-                Icon(Icons.check,color: Colors.white,)
+                Icon(
+                  Icons.check,
+                  color: Colors.white,
+                )
               ],
             ),
           ),

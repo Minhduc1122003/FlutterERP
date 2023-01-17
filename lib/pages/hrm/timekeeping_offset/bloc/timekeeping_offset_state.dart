@@ -1,32 +1,32 @@
 part of 'timekeeping_offset_bloc.dart';
 
+enum SendTimekeepingOffsetStatus { initial, lack, loading, success, failure }
+
 @immutable
 class TimekeepingOffsetState extends Equatable {
   final List<ShiftModel> listShiftModel;
   final ShiftModel? shiftModel;
   final DateTime? applyDate;
-  final bool isSending;
-  const TimekeepingOffsetState({
-    required this.listShiftModel,
-    required this.shiftModel,
-    required this.applyDate,
-    required this.isSending
-  });
+  final SendTimekeepingOffsetStatus sendStatus;
+  const TimekeepingOffsetState(
+      {this.listShiftModel = const [],
+      this.shiftModel,
+      this.applyDate,
+      this.sendStatus = SendTimekeepingOffsetStatus.initial});
 
-  TimekeepingOffsetState copyWith({
-    List<ShiftModel>? listShiftModel,
-    ShiftModel? shiftModel,
-    DateTime? applyDate,
-    bool ?isSending
-  }) {
+  TimekeepingOffsetState copyWith(
+      {List<ShiftModel>? listShiftModel,
+      ShiftModel? shiftModel,
+      DateTime? applyDate,
+      SendTimekeepingOffsetStatus? sendStatus}) {
     return TimekeepingOffsetState(
       listShiftModel: listShiftModel ?? this.listShiftModel,
       shiftModel: shiftModel ?? this.shiftModel,
       applyDate: applyDate ?? this.applyDate,
-      isSending: isSending ?? this.isSending,
+      sendStatus: sendStatus ?? this.sendStatus,
     );
   }
 
   @override
-  List<Object?> get props => [shiftModel, applyDate,isSending];
+  List<Object?> get props => [shiftModel, applyDate, sendStatus];
 }

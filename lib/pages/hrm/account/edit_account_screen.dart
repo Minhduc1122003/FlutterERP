@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../../config/constant.dart';
 import '../color.dart';
@@ -39,7 +36,7 @@ class EditAccountScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            buildInfor('trung nguyen'),
+            _buildInfor('trung nguyen'),
             const SizedBox(height: 20),
             Container(
               height: 30,
@@ -211,7 +208,7 @@ class EditAccountScreen extends StatelessWidget {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               InkWell(
-                                                onTap: () => Get.back(),
+                                                onTap: () => Navigator.pop(context),
                                                 child: ListTile(
                                                   title: Text(
                                                     'Nam',
@@ -221,7 +218,7 @@ class EditAccountScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               InkWell(
-                                                onTap: () => Get.back(),
+                                                onTap: () =>Navigator.pop(context),
                                                 child: ListTile(
                                                   title: Text(
                                                     'Nữ',
@@ -231,7 +228,7 @@ class EditAccountScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               InkWell(
-                                                onTap: () => Get.back(),
+                                                onTap: () => Navigator.pop(context),
                                                 child: ListTile(
                                                   title: Text(
                                                     'Hủy',
@@ -404,7 +401,7 @@ class EditAccountScreen extends StatelessWidget {
   }
 }
 
-Widget buildInfor(String name) {
+Widget _buildInfor(String name) {
   return Center(
     child: Stack(
       clipBehavior: Clip.none,

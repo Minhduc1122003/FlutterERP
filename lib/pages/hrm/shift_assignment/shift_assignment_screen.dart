@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../config/constant.dart';
@@ -8,7 +7,7 @@ import '../hrm_method.dart';
 import '../hrm_model/shift_model.dart';
 import '../shift_calendar/shift_information_screen.dart';
 import 'chosse_branch_screen.dart';
-import 'shift_asignment_controller.dart';
+// RxInt filterKind = 2.obs;
 
 class AdministrativeShift {
   final DateTime date;
@@ -16,13 +15,18 @@ class AdministrativeShift {
   AdministrativeShift({required this.date, required this.personnelList});
 }
 
-class ShiftAssignmentScreen extends StatelessWidget {
-  const ShiftAssignmentScreen({Key? key}) : super(key: key);
+class ShiftAssignmentScreen extends StatefulWidget {
+  const ShiftAssignmentScreen({super.key});
 
+  @override
+  State<ShiftAssignmentScreen> createState() => _ShiftAssignmentScreenState();
+}
+
+class _ShiftAssignmentScreenState extends State<ShiftAssignmentScreen> {
+  int filterKind = 2;
   @override
   Widget build(BuildContext context) {
     List<AdministrativeShift> administrativeShiftList = getData(DateTime.now());
-    ShiftAssignmentController controller = Get.put(ShiftAssignmentController());
     double width = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: 2,
@@ -35,7 +39,7 @@ class ShiftAssignmentScreen extends StatelessWidget {
             centerTitle: true,
             title: InkWell(
               onTap: () {
-                Get.to(() => ChosseBranchScreen());
+               // Get.to(() => ChosseBranchScreen());
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -69,7 +73,7 @@ class ShiftAssignmentScreen extends StatelessWidget {
                         );
                       },
                       icon: Icon(Icons.calendar_month)),
-                  controller.filterKind.value == 1
+                  filterKind == 1
                       ? const SizedBox.shrink()
                       : IconButton(
                           onPressed: () {
@@ -81,7 +85,7 @@ class ShiftAssignmentScreen extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       InkWell(
-                                        onTap: () => Get.back(),
+                                        onTap: () =>  Navigator.pop(context),
                                         child: ListTile(
                                           title: Text(
                                             'Thêm ca làm',
@@ -90,7 +94,7 @@ class ShiftAssignmentScreen extends StatelessWidget {
                                         ),
                                       ),
                                       InkWell(
-                                        onTap: () => Get.back(),
+                                        onTap: () =>  Navigator.pop(context),
                                         child: ListTile(
                                           title: Text(
                                             'Danh sách ca',
@@ -99,7 +103,7 @@ class ShiftAssignmentScreen extends StatelessWidget {
                                         ),
                                       ),
                                       InkWell(
-                                        onTap: () => Get.back(),
+                                        onTap: () =>  Navigator.pop(context),
                                         child: ListTile(
                                           title: Text(
                                             'Hủy',
@@ -119,7 +123,7 @@ class ShiftAssignmentScreen extends StatelessWidget {
               )
             ],
           ),
-          body: Obx(() => controller.filterKind.value == 1
+          body: filterKind == 1
               ? Column(children: [
                   // buildShiftItem('Ca hành chính', '08:00-17:30'),
                   Container(
@@ -172,9 +176,95 @@ class ShiftAssignmentScreen extends StatelessWidget {
                     const SizedBox(height: 5),
                     buildListShift(width)
                   ],
-                ))),
+                )),
     );
   }
+  Widget buildModalBottomSort(BuildContext context) {
+  return Padding(
+    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+    // height: 500,
+
+    child: Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(height: 3, width: 50, color: Colors.grey),
+          const SizedBox(height: 10),
+          //const SizedBox(height: 10),
+          const Text('Chọn loại', style: TextStyle(fontSize: 20)),
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Sắp xếp theo phòng ban',
+                      style: TextStyle(fontSize: 17, color: blueGrey1)),
+                  Icon(
+                    Icons.check,
+                    color: filterKind == 1
+                        ? mainColor
+                        : Colors.white,
+                  )
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              //controller..setFilterKind(2);
+              Navigator.pop(context);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Sắp xếp theo nhân viên',
+                    style: const TextStyle(fontSize: 17, color: blueGrey1),
+                  ),
+                  Icon(
+                    Icons.check,
+                    color: filterKind == 2
+                        ? mainColor
+                        : Colors.white,
+                  )
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+               Navigator.pop(context);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Trùng lặp',
+                    style: const TextStyle(fontSize: 17, color: blueGrey1),
+                  ),
+                  Icon(
+                    Icons.check,
+                    color: Colors.white,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 }
 
 Widget buildBranch(String name) {
@@ -368,94 +458,7 @@ List<AdministrativeShift> getData(DateTime date) {
   return list;
 }
 
-Widget buildModalBottomSort(BuildContext context) {
-  ShiftAssignmentController controller = Get.find<ShiftAssignmentController>();
-  return Padding(
-    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-    // height: 500,
 
-    child: Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(height: 3, width: 50, color: Colors.grey),
-          const SizedBox(height: 10),
-          //const SizedBox(height: 10),
-          const Text('Chọn loại', style: TextStyle(fontSize: 20)),
-          InkWell(
-            onTap: () {
-              controller..setFilterKind(1);
-              Get.back();
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Sắp xếp theo phòng ban',
-                      style: TextStyle(fontSize: 17, color: blueGrey1)),
-                  Icon(
-                    Icons.check,
-                    color: controller.filterKind.value == 1
-                        ? mainColor
-                        : Colors.white,
-                  )
-                ],
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              controller..setFilterKind(2);
-              Get.back();
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Sắp xếp theo nhân viên',
-                    style: const TextStyle(fontSize: 17, color: blueGrey1),
-                  ),
-                  Icon(
-                    Icons.check,
-                    color: controller.filterKind.value == 2
-                        ? mainColor
-                        : Colors.white,
-                  )
-                ],
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              Get.back();
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Trùng lặp',
-                    style: const TextStyle(fontSize: 17, color: blueGrey1),
-                  ),
-                  Icon(
-                    Icons.check,
-                    color: Colors.white,
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
 
 Widget buildDay() {
   DateTime now = DateTime.now();

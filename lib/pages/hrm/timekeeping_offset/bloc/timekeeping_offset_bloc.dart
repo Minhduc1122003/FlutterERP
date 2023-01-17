@@ -10,31 +10,47 @@ part 'timekeeping_offset_state.dart';
 
 class TimekeepingOffsetBloc
     extends Bloc<TimekeepingOffsetEvent, TimekeepingOffsetState> {
-  TimekeepingOffsetBloc()
-      : super(const TimekeepingOffsetState(
-            listShiftModel: [],
-            applyDate: null,
-            shiftModel: null,
-            isSending: false)) {
+  TimekeepingOffsetBloc() : super(const TimekeepingOffsetState()) {
     on<InitialTimekeepingOffsetEvent>((event, emit) async {
       List<ShiftModel> listShiftModel =
           await ApiProvider().getListShiftModel(EmployeeModel.siteName, '');
-      emit(TimekeepingOffsetState(
-          listShiftModel: listShiftModel,
-          shiftModel: null,
-          applyDate: null,
-          isSending: false));
+      emit(TimekeepingOffsetState(listShiftModel: listShiftModel));
     });
     on<ChoosseShiftEvent>((event, emit) {
-      emit(state.copyWith(shiftModel: event.shiftModel));
+      emit(state.copyWith(
+          shiftModel: event.shiftModel, sendStatus: SendTimekeepingOffsetStatus.initial));
     });
     on<ChoosseApplyDateEvent>((event, emit) {
-      emit(state.copyWith(applyDate: event.applyDate));
+      emit(state.copyWith(
+          applyDate: event.applyDate, sendStatus: SendTimekeepingOffsetStatus.initial));
     });
-    on<SendingTimekeepingOffsetEvent>((event, emit) async{
-      emit(state.copyWith(isSending: true));
-      await Future<void>.delayed(const Duration(seconds: 2));
-       emit(state.copyWith(isSending: false));
+    on<SendTimekeepingOffsetEvent>((event, emit) async {
+      if (state.sendStatus == SendTimekeepingOffsetStatus.loading) return;
+      if (state.shiftModel == null || state.applyDate == null) {
+        emit(state.copyWith(sendStatus: SendTimekeepingOffsetStatus.lack));
+        emit(state.copyWith(sendStatus: SendTimekeepingOffsetStatus.initial));
+        return;
+      }
+      emit(state.copyWith(sendStatus: SendTimekeepingOffsetStatus.loading));
+      Map<String, dynamic> data = {
+        'shiftID': state.shiftModel!.id,
+        'employeeID': EmployeeModel.id, //8758,
+        'dateApply': state.applyDate!.toIso8601String(),
+        'fromTime': state.shiftModel!.fromTime.toIso8601String(),
+        'toTime': state.shiftModel!.toTime.toIso8601String(),
+        'status': 0,
+        'reason': event.reason,
+        'note': event.note,
+        'siteID': EmployeeModel.siteName,
+      };
+      String result =
+          await ApiProvider().sendTimekeepingOffsetRequest(data, '');
+      if (result == "ADD") {
+        emit(state.copyWith(sendStatus: SendTimekeepingOffsetStatus.success));
+      } else {
+        emit(state.copyWith(sendStatus: SendTimekeepingOffsetStatus.failure));
+        emit(state.copyWith(sendStatus: SendTimekeepingOffsetStatus.initial));
+      }
     });
   }
 }

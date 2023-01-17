@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../../config/constant.dart';
 import '../color.dart';
 
-Widget closeDialog(String tittle, String content) {
+Widget closeDialog(BuildContext context, String tittle, String content) {
   return Dialog(   
       alignment: Alignment.center,
       backgroundColor: const Color.fromRGBO(235, 235, 245, 1),
@@ -41,7 +40,8 @@ Widget closeDialog(String tittle, String content) {
                       // primary: mainColor,
                       backgroundColor: mainColor),
                   onPressed: () {
-                    Get.back();
+                   Navigator.pop(context);
+                    
                   },
                   child: const Text(
                     "Đóng",

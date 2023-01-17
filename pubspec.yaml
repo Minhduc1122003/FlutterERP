@@ -53,7 +53,6 @@ dependencies:
   animated_horizontal_calendar: ^0.0.3
   fluttericon: ^2.0.0
   syncfusion_flutter_datepicker: ^20.3.61
-  get: ^4.6.5
   url_launcher: ^6.1.7
   equatable: ^2.0.5
 

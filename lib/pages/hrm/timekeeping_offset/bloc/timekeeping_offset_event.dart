@@ -10,7 +10,12 @@ abstract class TimekeepingOffsetEvent extends Equatable {
 }
 
 class InitialTimekeepingOffsetEvent extends TimekeepingOffsetEvent {}
-class SendingTimekeepingOffsetEvent extends TimekeepingOffsetEvent {}
+
+class SendTimekeepingOffsetEvent extends TimekeepingOffsetEvent {
+  final String reason;
+  final String note;
+  SendTimekeepingOffsetEvent({required this.reason, required this.note});
+}
 
 class ChoosseShiftEvent extends TimekeepingOffsetEvent {
   final ShiftModel shiftModel;

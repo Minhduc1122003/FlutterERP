@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import '../../config/constant.dart';
 import 'color.dart';
 
@@ -22,18 +20,15 @@ class ChosseShiftScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.clear,
-              color: blueGrey2,
-            ),
-            onPressed: (){
-              Get.back();
-            },
-          )
+              icon: Icon(
+                Icons.clear,
+                color: blueGrey2,
+              ),
+              onPressed: () => Navigator.pop(context))
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all( 10),
+        padding: EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

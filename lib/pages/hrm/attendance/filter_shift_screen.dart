@@ -1,15 +1,14 @@
 import 'package:erp/pages/hrm/hrm_model/shift_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../color.dart';
-import 'attendance_controller.dart';
+
 
 class FilterShiftScreen extends StatelessWidget {
   const FilterShiftScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    AttendanceController controller = Get.find<AttendanceController>();
+   // AttendanceController controller = Get.find<AttendanceController>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -24,11 +23,11 @@ class FilterShiftScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          buildChooseShiftItem(WorkShiftModel.getWorkShiftModel(1),
-              (WorkShiftModel sm) => controller.setChosseShift(sm)),
+          buildChooseShiftItem(context,WorkShiftModel.getWorkShiftModel(1),
+              (WorkShiftModel sm) => {}),
           Container(height: 1, color: Colors.grey[100]),
-          buildChooseShiftItem(WorkShiftModel.getWorkShiftModel(2),
-              (WorkShiftModel sm) => controller.setChosseShift(sm)),
+          buildChooseShiftItem(context,WorkShiftModel.getWorkShiftModel(2),
+              (WorkShiftModel sm) => {}),
           Container(height: 1, color: Colors.grey[100]),
         ]),
       ),
@@ -36,11 +35,11 @@ class FilterShiftScreen extends StatelessWidget {
   }
 }
 
-Widget buildChooseShiftItem(
+Widget buildChooseShiftItem(BuildContext context,
     WorkShiftModel WorkShiftModel, Function(WorkShiftModel WorkShiftModel) chosse) {
   return InkWell(
     onTap: () {
-      Get.back();
+      Navigator.pop(context);
       chosse(WorkShiftModel);
     },
     child: Padding(

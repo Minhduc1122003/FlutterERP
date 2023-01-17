@@ -37,7 +37,7 @@ class AttendanceModel {
         shift = json['shift'] ?? '',
         startShift = json['startShift'] ?? '',
         endShift = json['endShift'] ?? '',
-        checkin = json['checkin'] ?? '',
-        checkout = json['checkout'] ?? '',
+        checkin = json['checkin'],
+        checkout = json['checkout'],
         isAbsent = json['isAbsent'] ?? true;
 }
