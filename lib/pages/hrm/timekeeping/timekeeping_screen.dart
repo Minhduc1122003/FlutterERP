@@ -163,12 +163,8 @@ class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
                                         endRangeSelectionColor: mainColor,
                                         view: DateRangePickerView.month,
                                         showActionButtons: true,
-                                        initialSelectedRange: (state
-                                                is TimekeepingLoaded)
-                                            ? PickerDateRange(
-                                                state.fromDate, state.toDate)
-                                            : PickerDateRange(
-                                                DateTime.now(), DateTime.now()),
+                                        initialSelectedRange: PickerDateRange(
+                                            state.fromDate, state.toDate),
                                         selectionMode:
                                             DateRangePickerSelectionMode
                                                 .extendableRange,
@@ -198,10 +194,7 @@ class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Center(
-                            child: Text(
-                                (state is TimekeepingLoaded)
-                                    ? state.selectDateText
-                                    : '',
+                            child: Text(state.selectDateText,
                                 style: const TextStyle(
                                     color: blueGrey1, fontSize: 16))),
                         const Icon(Icons.arrow_drop_down,
@@ -220,9 +213,10 @@ class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
                     child: TabBarView(children: [
                       BlocBuilder<TimekeepingBloc, TimekeepingState>(
                           builder: (context, state) {
-                        if (state is TimekeepingLoaded) {
+                        if (state.loadStatus == LoadTimekeepingStatus.success) {
                           return buildInOutItem(state.listAttendanceModel);
-                        } else if (state is TimekeepingLoading) {
+                        } else if (state.loadStatus ==
+                            LoadTimekeepingStatus.loading) {
                           return Center(
                               child:
                                   CircularProgressIndicator(color: mainColor));

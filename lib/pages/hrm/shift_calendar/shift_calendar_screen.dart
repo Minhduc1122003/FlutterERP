@@ -133,12 +133,8 @@ class _ShiftCalendarScreenState extends State<ShiftCalendarScreen> {
                                   endRangeSelectionColor: mainColor,
                                   view: DateRangePickerView.month,
                                   showActionButtons: true,
-                                  initialSelectedRange:
-                                      (state is ShiftCalendarLoaded)
-                                          ? PickerDateRange(
-                                              state.fromDate, state.toDate)
-                                          : PickerDateRange(
-                                              DateTime.now(), DateTime.now()),
+                                  initialSelectedRange: PickerDateRange(
+                                      DateTime.now(), DateTime.now()),
                                   selectionMode: DateRangePickerSelectionMode
                                       .extendableRange,
                                   allowViewNavigation: false,
@@ -167,10 +163,7 @@ class _ShiftCalendarScreenState extends State<ShiftCalendarScreen> {
                       color: mainColor, size: 22),
                   const SizedBox(width: 5),
                   Center(
-                      child: Text(
-                          (state is ShiftCalendarLoaded)
-                              ? state.selectDateText
-                              : '',
+                      child: Text(state.selectDateText,
                           style:
                               const TextStyle(color: blueGrey1, fontSize: 16))),
                   Icon(Icons.arrow_drop_down,
@@ -190,7 +183,7 @@ class _ShiftCalendarScreenState extends State<ShiftCalendarScreen> {
               child: BlocBuilder<ShiftCalendarBloc, ShiftCalendarState>(
                   // buildWhen: (previous, current) => current is ShiftCalendarLoaded && previous != current,
                   builder: (context, state) {
-                if (state is ShiftCalendarLoaded) {
+                if (state.loadStatus == LoadShiftCalendarStatus.success) {
                   return SingleChildScrollView(
                       child: Column(
                     children: [
@@ -198,7 +191,8 @@ class _ShiftCalendarScreenState extends State<ShiftCalendarScreen> {
                         buildShiftCalendarItem(context, item)
                     ],
                   ));
-                } else if (state is ShiftCalendarLoading) {
+                } else if (state.loadStatus ==
+                    LoadShiftCalendarStatus.loading) {
                   return Center(
                       child: CircularProgressIndicator(color: mainColor));
                 } else {
