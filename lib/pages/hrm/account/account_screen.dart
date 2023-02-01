@@ -8,6 +8,7 @@ import '../management_setting_screen.dart';
 import '../on_leave_screen.dart';
 import '../paycheck_screen.dart';
 import '../report_screen.dart';
+import '../salary/salary_caculate_screen.dart';
 import '../warning_setting_screen.dart';
 import 'edit_account_screen.dart';
 
@@ -194,7 +195,7 @@ Widget _buildActionItem(
             context, MaterialPageRoute(builder: (context) => OnLeaveScreen()));
       } else if (id == 4) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => PayCheckScreen()));
+            context, MaterialPageRoute(builder: (context) => SalaryCaculateScreen()));
       } else if (id == 5) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => KPIScreen()));

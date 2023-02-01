@@ -8,6 +8,7 @@ import '../color.dart';
 import '../hrm_method.dart';
 import '../hrm_model/attendance_model.dart';
 import 'bloc/timekeeping_bloc.dart';
+import 'choose_salary_period_screen.dart';
 
 class TimeKeepingScreen extends StatefulWidget {
   const TimeKeepingScreen({super.key});
@@ -17,11 +18,11 @@ class TimeKeepingScreen extends StatefulWidget {
 }
 
 class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
-  late TimekeepingBloc timekeepingBloc;
+ // late TimekeepingBloc timekeepingBloc;
   @override
   void initState() {
-    timekeepingBloc = BlocProvider.of<TimekeepingBloc>(context);
-    timekeepingBloc.add(TimekeepingLoadWeek());
+    //timekeepingBloc = BlocProvider.of<TimekeepingBloc>(context);
+    BlocProvider.of<TimekeepingBloc>(context).add(InitialTimekeepingEvent());
     super.initState();
   }
 
@@ -63,138 +64,152 @@ class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 180,
-              alignment: Alignment.centerRight,
+              //width: 180,
+              alignment: Alignment.center,
               child: BlocBuilder<TimekeepingBloc, TimekeepingState>(
                 builder: (context, state) {
                   return InkWell(
                     onTap: () async {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        OutlinedButton(
-                                          style: OutlinedButton.styleFrom(
-                                            side: BorderSide(
-                                                color: mainColor, width: 1),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            timekeepingBloc
-                                                .add(TimekeepingLoadToday());
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('Hôm nay',
-                                              style:
-                                                  TextStyle(color: mainColor)),
-                                        ),
-                                        OutlinedButton(
-                                          style: OutlinedButton.styleFrom(
-                                            side: BorderSide(
-                                                color: mainColor, width: 1),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            BlocProvider.of<TimekeepingBloc>(
-                                                    context)
-                                                .add(TimekeepingLoadWeek());
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('Tuần này',
-                                              style:
-                                                  TextStyle(color: mainColor)),
-                                        ),
-                                        OutlinedButton(
-                                          style: OutlinedButton.styleFrom(
-                                            side: BorderSide(
-                                                color: mainColor, width: 1),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            timekeepingBloc
-                                                .add(TimekeepingLoadMonth());
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('Tháng này',
-                                              style:
-                                                  TextStyle(color: mainColor)),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 350,
-                                      child: SfDateRangePicker(
-                                        headerStyle:
-                                            const DateRangePickerHeaderStyle(
-                                                backgroundColor: Colors.white,
-                                                textAlign: TextAlign.center,
-                                                textStyle: TextStyle(
-                                                    fontSize: 22,
-                                                    color: Colors.black)),
-                                        headerHeight: 50,
-                                        selectionColor: mainColor,
-                                        selectionTextStyle: const TextStyle(
-                                            color: Colors.white),
-                                        rangeTextStyle: const TextStyle(
-                                            color: Colors.white),
-                                        todayHighlightColor: mainColor,
-                                        rangeSelectionColor: mainColor,
-                                        startRangeSelectionColor: mainColor,
-                                        endRangeSelectionColor: mainColor,
-                                        view: DateRangePickerView.month,
-                                        showActionButtons: true,
-                                        initialSelectedRange: PickerDateRange(
-                                            state.fromDate, state.toDate),
-                                        selectionMode:
-                                            DateRangePickerSelectionMode
-                                                .extendableRange,
-                                        allowViewNavigation: false,
-                                        onSubmit: (Object? value) {
-                                          Navigator.pop(context);
-                                          if (value == null) return;
-                                          PickerDateRange pickerDateRange =
-                                              value as PickerDateRange;
-                                          // controller.setDateRange(
-                                          //     value as PickerDateRange);
-                                          timekeepingBloc.add(
-                                              TimekeepingLoadRangeDate(
-                                                  fromDate: pickerDateRange
-                                                      .startDate!,
-                                                  toDate: pickerDateRange
-                                                      .endDate!));
-                                        },
-                                        onCancel: () => Navigator.pop(context),
-                                      ),
-                                    ),
-                                  ],
-                                ));
-                          });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChooseSalaryPeriodScreen(
+                                listSalaryPeriodModel:
+                                    state.listSalaryPeriodModel)),
+                      );
+                      // showDialog(
+                      //     context: context,
+                      //     builder: (BuildContext context) {
+                      //       return Dialog(
+                      //           shape: const RoundedRectangleBorder(
+                      //               borderRadius: BorderRadius.all(
+                      //                   Radius.circular(10.0))),
+                      //           child: Column(
+                      //             mainAxisSize: MainAxisSize.min,
+                      //             children: [
+                      //               const SizedBox(height: 10),
+                      //               Row(
+                      //                 mainAxisAlignment:
+                      //                     MainAxisAlignment.spaceEvenly,
+                      //                 children: [
+                      //                   OutlinedButton(
+                      //                     style: OutlinedButton.styleFrom(
+                      //                       side: BorderSide(
+                      //                           color: mainColor, width: 1),
+                      //                       shape: RoundedRectangleBorder(
+                      //                         borderRadius:
+                      //                             BorderRadius.circular(15),
+                      //                       ),
+                      //                     ),
+                      //                     onPressed: () {
+                      //                       timekeepingBloc
+                      //                           .add(TimekeepingLoadToday());
+                      //                       Navigator.pop(context);
+                      //                     },
+                      //                     child: Text('Hôm nay',
+                      //                         style:
+                      //                             TextStyle(color: mainColor)),
+                      //                   ),
+                      //                   OutlinedButton(
+                      //                     style: OutlinedButton.styleFrom(
+                      //                       side: BorderSide(
+                      //                           color: mainColor, width: 1),
+                      //                       shape: RoundedRectangleBorder(
+                      //                         borderRadius:
+                      //                             BorderRadius.circular(15),
+                      //                       ),
+                      //                     ),
+                      //                     onPressed: () {
+                      //                       BlocProvider.of<TimekeepingBloc>(
+                      //                               context)
+                      //                           .add(TimekeepingLoadWeek());
+                      //                       Navigator.pop(context);
+                      //                     },
+                      //                     child: Text('Tuần này',
+                      //                         style:
+                      //                             TextStyle(color: mainColor)),
+                      //                   ),
+                      //                   OutlinedButton(
+                      //                     style: OutlinedButton.styleFrom(
+                      //                       side: BorderSide(
+                      //                           color: mainColor, width: 1),
+                      //                       shape: RoundedRectangleBorder(
+                      //                         borderRadius:
+                      //                             BorderRadius.circular(15),
+                      //                       ),
+                      //                     ),
+                      //                     onPressed: () {
+                      //                       timekeepingBloc
+                      //                           .add(TimekeepingLoadMonth());
+                      //                       Navigator.pop(context);
+                      //                     },
+                      //                     child: Text('Tháng này',
+                      //                         style:
+                      //                             TextStyle(color: mainColor)),
+                      //                   )
+                      //                 ],
+                      //               ),
+                      //               SizedBox(
+                      //                 height: 350,
+                      //                 child: SfDateRangePicker(
+                      //                   headerStyle:
+                      //                       const DateRangePickerHeaderStyle(
+                      //                           backgroundColor: Colors.white,
+                      //                           textAlign: TextAlign.center,
+                      //                           textStyle: TextStyle(
+                      //                               fontSize: 22,
+                      //                               color: Colors.black)),
+                      //                   headerHeight: 50,
+                      //                   selectionColor: mainColor,
+                      //                   selectionTextStyle: const TextStyle(
+                      //                       color: Colors.white),
+                      //                   rangeTextStyle: const TextStyle(
+                      //                       color: Colors.white),
+                      //                   todayHighlightColor: mainColor,
+                      //                   rangeSelectionColor: mainColor,
+                      //                   startRangeSelectionColor: mainColor,
+                      //                   endRangeSelectionColor: mainColor,
+                      //                   view: DateRangePickerView.month,
+                      //                   showActionButtons: true,
+                      //                   initialSelectedRange: (state
+                      //                           is TimekeepingLoaded)
+                      //                       ? PickerDateRange(
+                      //                           state.fromDate, state.toDate)
+                      //                       : PickerDateRange(
+                      //                           DateTime.now(), DateTime.now()),
+                      //                   selectionMode:
+                      //                       DateRangePickerSelectionMode
+                      //                           .extendableRange,
+                      //                   allowViewNavigation: false,
+                      //                   onSubmit: (Object? value) {
+                      //                     Navigator.pop(context);
+                      //                     if (value == null) return;
+                      //                     PickerDateRange pickerDateRange =
+                      //                         value as PickerDateRange;
+                      //                     // controller.setDateRange(
+                      //                     //     value as PickerDateRange);
+                      //                     timekeepingBloc.add(
+                      //                         TimekeepingLoadRangeDate(
+                      //                             fromDate: pickerDateRange
+                      //                                 .startDate!,
+                      //                             toDate: pickerDateRange
+                      //                                 .endDate!));
+                      //                   },
+                      //                   onCancel: () => Navigator.pop(context),
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ));
+                      //     });
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Center(
-                            child: Text(state.selectDateText,
+                            child: Text(
+                                (state.salaryPeriodModel != null)
+                                    ? 'Tháng ${state.salaryPeriodModel!.month}, ${state.salaryPeriodModel!.fromDate.year}'//'${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.formDate)} - ${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.toDate)}'
+                                    : 'Chọn kỳ lương',
                                 style: const TextStyle(
                                     color: blueGrey1, fontSize: 16))),
                         const Icon(Icons.arrow_drop_down,
@@ -208,24 +223,28 @@ class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
             const SizedBox(height: 10),
             buildTabar(),
             Expanded(
-                child: Container(
-                    color: lightGreen1,
-                    child: TabBarView(children: [
-                      BlocBuilder<TimekeepingBloc, TimekeepingState>(
-                          builder: (context, state) {
-                        if (state.loadStatus == LoadTimekeepingStatus.success) {
-                          return buildInOutItem(state.listAttendanceModel);
-                        } else if (state.loadStatus ==
-                            LoadTimekeepingStatus.loading) {
-                          return Center(
-                              child:
-                                  CircularProgressIndicator(color: mainColor));
-                        } else {
-                          return const SizedBox.shrink();
-                        }
-                      }),
-                      buildTimeSheetsList(),
-                    ])))
+              child: Container(
+                color: lightGreen1,
+                child: BlocBuilder<TimekeepingBloc, TimekeepingState>(
+                    builder: (context, state) {
+                  if (state.status == TimekeepingStatus.success) {
+                    return TabBarView(
+                      children: [
+                        buildInOutItem(state.listAttendanceModel),
+                        buildTimeSheetsList(state.listTimeSheetModel)
+                      ],
+                    );
+                  } else if (state.status == TimekeepingStatus.loading) {
+                    return Center(
+                        child: CircularProgressIndicator(color: mainColor));
+                  } else {
+                    return const TabBarView(
+                      children: [SizedBox.shrink(), SizedBox.shrink()],
+                    );
+                  }
+                }),
+              ),
+            )
           ],
         ),
       ),
@@ -379,69 +398,109 @@ Widget buildInOutItem(List<AttendanceModel> listAttendanceModel) {
   );
 }
 
-Widget buildTimeSheetsList() {
+Widget buildTimeSheetsList(List<TimeSheetModel> listTimeSheetModel) {
   return SingleChildScrollView(
     child: Column(
       children: [
-        const SizedBox(height: 15),
-        buildTimeSheetsItem('Ngày công thực tế', '0 công', true),
-        Container(height: 1, width: double.infinity, color: Colors.grey[200]),
-        buildTimeSheetsItem('Giờ công thực tế', '0 giờ', true),
-        Container(height: 1, width: double.infinity, color: Colors.grey[200]),
-        buildTimeSheetsItem('Số giờ làm dư giờ', '0 giờ 0 phút', false),
-        Container(height: 1, width: double.infinity, color: Colors.grey[200]),
-        buildTimeSheetsItem('Số giờ làm thêm', '0 giờ 0 phút', false),
-        Container(height: 1, width: double.infinity, color: Colors.grey[200]),
-        buildTimeSheetsItem('Số phút đi làm sớm', '0 phút', false),
-        Container(height: 1, width: double.infinity, color: Colors.grey[200]),
-        buildTimeSheetsItem('Giờ công tiêu chuẩn', '0 giờ', false),
-        Container(height: 1, width: double.infinity, color: Colors.grey[200]),
-        buildTimeSheetsItem('Số ngày nghỉ tiêu chuẩn', '0 ngày', false),
-        Container(height: 1, width: double.infinity, color: Colors.grey[200]),
-        buildTimeSheetsItem(
-            'Số ngày nghỉ không lương (chính thức)', '0 ngày', false),
-        Container(height: 1, width: double.infinity, color: Colors.grey[200]),
-        buildTimeSheetsItem('Công chuẩn', '24.5 ngày', false),
-        const SizedBox(height: 15),
-        buildTimeSheetsItem('Số giờ về sớm', '0 giờ 0 phút', true),
-        Container(height: 1, width: double.infinity, color: Colors.grey[200]),
-        buildTimeSheetsItem('Số giờ đi muộn', '0 giờ 0 phút', true),
-        Container(height: 1, width: double.infinity, color: Colors.grey[200]),
-        buildTimeSheetsItem('Số giờ đi muộn,về sớm', '0 giờ 0 phút', false),
+        for (var m in listTimeSheetModel) buildTimeSheetsItem(m)
+        //const SizedBox(height: 15),
+        // buildTimeSheetsItem('Ngày công thực tế', '0 công', true),
+        // Container(height: 1, width: double.infinity, color: Colors.grey[200]),
+        // buildTimeSheetsItem('Giờ công thực tế', '0 giờ', true),
+        // Container(height: 1, width: double.infinity, color: Colors.grey[200]),
+        // buildTimeSheetsItem('Số giờ làm dư giờ', '0 giờ 0 phút', false),
+        // Container(height: 1, width: double.infinity, color: Colors.grey[200]),
+        // buildTimeSheetsItem('Số giờ làm thêm', '0 giờ 0 phút', false),
+        // Container(height: 1, width: double.infinity, color: Colors.grey[200]),
+        // buildTimeSheetsItem('Số phút đi làm sớm', '0 phút', false),
+        // Container(height: 1, width: double.infinity, color: Colors.grey[200]),
+        // buildTimeSheetsItem('Giờ công tiêu chuẩn', '0 giờ', false),
+        // Container(height: 1, width: double.infinity, color: Colors.grey[200]),
+        // buildTimeSheetsItem('Số ngày nghỉ tiêu chuẩn', '0 ngày', false),
+        // Container(height: 1, width: double.infinity, color: Colors.grey[200]),
+        // buildTimeSheetsItem(
+        //     'Số ngày nghỉ không lương (chính thức)', '0 ngày', false),
+        // Container(height: 1, width: double.infinity, color: Colors.grey[200]),
+        // buildTimeSheetsItem('Công chuẩn', '24.5 ngày', false),
+        // const SizedBox(height: 15),
+        // buildTimeSheetsItem('Số giờ về sớm', '0 giờ 0 phút', true),
+        // Container(height: 1, width: double.infinity, color: Colors.grey[200]),
+        // buildTimeSheetsItem('Số giờ đi muộn', '0 giờ 0 phút', true),
+        // Container(height: 1, width: double.infinity, color: Colors.grey[200]),
+        // buildTimeSheetsItem('Số giờ đi muộn,về sớm', '0 giờ 0 phút', false),
       ],
     ),
   );
 }
 
-Widget buildTimeSheetsItem(String name, String value, bool edit) {
+Widget buildTimeSheetsItem(TimeSheetModel timeSheetModel) {
   return Container(
     color: Colors.white,
-    height: 50,
-    padding: const EdgeInsets.symmetric(horizontal: 10),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          name,
+    margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(timeSheetModel.title,
           style: const TextStyle(
-              color: blueGrey1, fontFamily: 'roboto', fontSize: 16),
-        ),
-        const Expanded(child: SizedBox.shrink()),
-        Text(
-          value,
-          style: const TextStyle(color: blueBlack),
-        ),
-        edit
-            ? Container(
-                padding: const EdgeInsets.only(left: 10),
-                child: const Icon(
-                  Icons.arrow_forward_ios,
-                  color: blueGrey3,
-                  size: 20,
-                ),
-              )
-            : const SizedBox.shrink()
-      ],
-    ),
+              color: blueBlack, fontWeight: FontWeight.bold, fontSize: 17)),
+      const SizedBox(height: 10),
+      Container(height: 1, color: Colors.grey[200], width: double.infinity),
+      const SizedBox(height: 10),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            'Ngày công thực tế',
+            style:
+                TextStyle(color: blueGrey1, fontFamily: 'roboto', fontSize: 16),
+          ),
+          Text(
+            '${timeSheetModel.totalDay} công',
+            style: const TextStyle(color: blueBlack),
+          ),
+        ],
+      ),
+      const SizedBox(height: 10),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            'Giờ công thực tế',
+            style:
+                TextStyle(color: blueGrey1, fontFamily: 'roboto', fontSize: 16),
+          ),
+          Text(
+            '${timeSheetModel.totalHour} giờ',
+            style: const TextStyle(color: blueBlack),
+          ),
+        ],
+      )
+    ]),
+    // height: 50,
+    // padding: const EdgeInsets.symmetric(horizontal: 10),
+    // child: Row(
+    //   crossAxisAlignment: CrossAxisAlignment.center,
+    //   children: [
+    //     Text(
+    //       name,
+    //       style: const TextStyle(
+    //           color: blueGrey1, fontFamily: 'roboto', fontSize: 16),
+    //     ),
+    //     const Expanded(child: SizedBox.shrink()),
+    //     Text(
+    //       value,
+    //       style: const TextStyle(color: blueBlack),
+    //     ),
+    //     edit
+    //         ? Container(
+    //             padding: const EdgeInsets.only(left: 10),
+    //             child: const Icon(
+    //               Icons.arrow_forward_ios,
+    //               color: blueGrey3,
+    //               size: 20,
+    //             ),
+    //           )
+    //         : const SizedBox.shrink()
+    //   ],
+    // ),
   );
 }

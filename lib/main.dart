@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'pages/hrm/on_leave/bloc/on_leave_bloc.dart';
 import 'pages/hrm/request_management/bloc/request_management_bloc.dart';
+import 'pages/hrm/salary/bloc/salary_caculate_bloc.dart';
 import 'pages/hrm/shift_calendar/bloc/shift_calendar_bloc.dart';
 import 'pages/hrm/timekeeping/bloc/timekeeping_bloc.dart';
 import 'pages/hrm/timekeeping_offset/bloc/timekeeping_offset_bloc.dart';
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<RequestManagementBloc>(
           create: (BuildContext context) => RequestManagementBloc(),
+        ),
+          BlocProvider<SalaryCaculateBloc>(
+          create: (BuildContext context) => SalaryCaculateBloc(),
         ),
       ],
       child: MaterialApp(

@@ -121,7 +121,7 @@ class _NewTimekeepingOffsetScreenState
                                       builder: (context) =>
                                           ChosseTimekeepingOffsetShiftScreen(
                                             listShiftModel:
-                                                state.listShiftModel,
+                                                state.listShiftModel
                                           )),
                                 );
                               },

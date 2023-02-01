@@ -22,8 +22,8 @@ const String sendTimekeepingOffsetRequestAPI =
     '$serverURL/hrm/api/timekeepingOffset';
 
 const String getListAttendanceAPI = '$serverURL/hrm/api/attendance/ByEmployee/';
+const String getTimeSheetsAPI='$serverURL/hrm/api/workOfDayAnalysis/total';
+const String getListSalaryPeriodAPI='$serverURL/hrm/api/SalaryPeriod/GetAll/';
+const String getSalaryCaculateAPI='$serverURL/hrm/api/salarycaculate/GetSalaryByID/';
 
-//const String loginAPI = '$serverURL/api/Users/Login';
-//const String searchTailoringOrdersAPI = '$serverURL/api/Order/GetListOrder/';
-//const String sellerAPI='$serverURL/api/Human/GetListSeller/';
 

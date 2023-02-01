@@ -41,3 +41,45 @@ class AttendanceModel {
         checkout = json['checkout'],
         isAbsent = json['isAbsent'] ?? true;
 }
+
+class TimeSheetModel {
+  final int totalDay;
+  final int totalHour;
+  final String title;
+  final int shiftType;
+
+  TimeSheetModel({
+    required this.totalDay,
+    required this.totalHour,
+    required this.title,
+    required this.shiftType,
+  });
+  TimeSheetModel.fromJson(Map<String, dynamic> json)
+      : totalDay = json['totalDay'] ?? 0,
+        totalHour = json['totalHour'] ?? 0,
+        title = json['title'] ?? '',
+        shiftType = json['ShiftType'] ?? 0;
+}
+
+class SalaryPeriodModel {
+  final DateTime fromDate;
+  final DateTime toDate;
+  final int id;
+  final int month;
+
+  SalaryPeriodModel({
+    required this.fromDate,
+    required this.toDate,
+    required this.id,
+    required this.month,
+  });
+  SalaryPeriodModel.fromJson(Map<String, dynamic> json)
+      : fromDate = json['FromDate'] == null
+            ? DateTime.now()
+            : DateTime.parse(json['FromDate']).toLocal(),
+        toDate = json['ToDate'] == null
+            ? DateTime.now()
+            : DateTime.parse(json['ToDate']).toLocal(),
+        id = json['ID'] ?? 0,
+        month = json['Month'] ?? 0;
+}

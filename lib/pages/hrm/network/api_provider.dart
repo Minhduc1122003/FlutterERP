@@ -6,6 +6,7 @@ import '../hrm_config/hrm_constant.dart';
 import '../hrm_model/attendance_model.dart';
 import '../hrm_model/on_leave_model.dart';
 import '../hrm_model/request_management_model.dart';
+import '../hrm_model/salary_model.dart';
 import '../hrm_model/shift_model.dart';
 
 class ApiProvider {
@@ -73,8 +74,7 @@ class ApiProvider {
   Future<List<TimekeepingOffsetRequestModel>> getListTimekeepingOffsetRequest(
       String siteName, int employeeID, String token) async {
     response = await getConnect(
-        '$getListTimekeepingOffsetRequestAPI$employeeID/$siteName',
-        token);
+        '$getListTimekeepingOffsetRequestAPI$employeeID/$siteName', token);
     if (response.statusCode == statusOk) {
       List responseList = json.decode(response.body);
       return responseList
@@ -120,12 +120,50 @@ class ApiProvider {
 
   Future<List<AttendanceModel>> getListAttendance(
       String siteName, Map<String, dynamic> map, String token) async {
-    response =
-        await postConnect(getListAttendanceAPI + siteName, map, token);
+    response = await postConnect(getListAttendanceAPI + siteName, map, token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
       return responseList.map((val) => AttendanceModel.fromJson(val)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<SalaryPeriodModel>> getListSalaryPeriod(
+      String siteName, String token) async {
+    response = await getConnect(getListSalaryPeriodAPI + siteName, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      List responseList = json.decode(response.body);
+      return responseList
+          .map((val) => SalaryPeriodModel.fromJson(val))
+          .toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<TimeSheetModel>> getTimeSheets(
+      Map<String, dynamic> map, String token) async {
+    response = await postConnect(getTimeSheetsAPI, map, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      List responseList = json.decode(response.body);
+      return responseList.map((val) => TimeSheetModel.fromJson(val)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<SalaryCaculateModel>> getSalaryCaculate(
+      int employeeId, int periodId, String token) async {
+    response = await getConnect(
+        '$getSalaryCaculateAPI$employeeId/$periodId', token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      List responseList = json.decode(response.body);
+      return responseList.map((val) => SalaryCaculateModel.fromJson(val)).toList();
     } else {
       return [];
     }

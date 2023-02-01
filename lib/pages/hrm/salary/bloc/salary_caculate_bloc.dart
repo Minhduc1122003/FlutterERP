@@ -1,0 +1,34 @@
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+
+import '../../hrm_model/attendance_model.dart';
+import '../../hrm_model/employee_model.dart';
+import '../../hrm_model/salary_model.dart';
+import '../../network/api_provider.dart';
+
+part 'salary_caculate_event.dart';
+part 'salary_caculate_state.dart';
+
+class SalaryCaculateBloc
+    extends Bloc<SalaryCaculateEvent, SalaryCaculateState> {
+  SalaryCaculateBloc() : super(const SalaryCaculateState()) {
+    on<InitialSalaryCaculateEvent>((event, emit) async {
+      List<SalaryPeriodModel> listSalaryPeriodModel =
+          await ApiProvider().getListSalaryPeriod(EmployeeModel.siteName, '');
+      emit(SalaryCaculateState(listSalaryPeriodModel: listSalaryPeriodModel));
+    });
+    on<ChooseSalaryPeriod>((event, emit) async {
+      emit(state.copyWith(status: SalaryCaculateStatus.loading));
+      List<SalaryCaculateModel> listSalaryCaculateModel = await ApiProvider()
+          .getSalaryCaculate(EmployeeModel.id, event.salaryPeriod.id, '');
+      if (listSalaryCaculateModel.length == 1) {
+        emit(state.copyWith(
+            salaryCaculateModel: listSalaryCaculateModel.first,
+            salaryPeriodModel: event.salaryPeriod,
+            status: SalaryCaculateStatus.success));
+      } else {
+        emit(state.copyWith(salaryPeriodModel: event.salaryPeriod, status: SalaryCaculateStatus.failure));
+      }
+    });
+  }
+}

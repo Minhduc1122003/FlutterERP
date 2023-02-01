@@ -1,52 +1,39 @@
 part of 'timekeeping_bloc.dart';
 
 //import 'package:equatable/equatable.dart';
-enum LoadTimekeepingStatus { loading, success, failure }
+enum TimekeepingStatus { success, loading }
 
 @immutable
 class TimekeepingState extends Equatable {
   final List<AttendanceModel> listAttendanceModel;
-  final DateTime? fromDate;
-  final DateTime? toDate;
-  final String selectDateText;
-  final LoadTimekeepingStatus loadStatus;
+  final List<TimeSheetModel> listTimeSheetModel;
+  final List<SalaryPeriodModel> listSalaryPeriodModel;
+  final SalaryPeriodModel? salaryPeriodModel;
+  final TimekeepingStatus status;
+
   const TimekeepingState(
       {this.listAttendanceModel = const [],
-      this.fromDate,
-      this.toDate,
-      this.selectDateText = '',
-      this.loadStatus = LoadTimekeepingStatus.success});
-  TimekeepingState copyWith({
-    List<AttendanceModel>? listAttendanceModel,
-    DateTime? fromDate,
-    DateTime? toDate,
-    String? selectDateText,
-    LoadTimekeepingStatus? loadStatus,
-  }) {
+      this.listTimeSheetModel = const [],
+      this.listSalaryPeriodModel = const [],
+      this.salaryPeriodModel,
+      this.status = TimekeepingStatus.success
+   });
+  TimekeepingState copyWith(
+      {List<AttendanceModel>? listAttendanceModel,
+      List<TimeSheetModel>? listTimeSheetModel,
+      List<SalaryPeriodModel>? listSalaryPeriodModel,
+      SalaryPeriodModel? salaryPeriodModel,
+      TimekeepingStatus? status}) {
     return TimekeepingState(
-        listAttendanceModel: listAttendanceModel ?? this.listAttendanceModel,
-        fromDate: fromDate ?? this.fromDate,
-        toDate: toDate ?? this.toDate,
-        selectDateText: selectDateText ?? this.selectDateText,
-        loadStatus: loadStatus ?? this.loadStatus);
+      listAttendanceModel: listAttendanceModel ?? this.listAttendanceModel,
+      listTimeSheetModel: listTimeSheetModel ?? this.listTimeSheetModel,
+      listSalaryPeriodModel:
+          listSalaryPeriodModel ?? this.listSalaryPeriodModel,
+      salaryPeriodModel: salaryPeriodModel ?? this.salaryPeriodModel,     
+      status: status ?? this.status,
+    );
   }
 
   @override
-  List<Object?> get props => [listAttendanceModel, selectDateText, loadStatus];
+  List<Object?> get props => [listAttendanceModel,listTimeSheetModel,salaryPeriodModel,status];
 }
-
-// class TimekeepingInitial extends TimekeepingState {}
-
-// class TimekeepingLoading extends TimekeepingState {}
-
-// class TimekeepingLoaded extends TimekeepingState {
-//   final List<AttendanceModel> listAttendanceModel;
-//   final DateTime fromDate;
-//   final DateTime toDate;
-//   final String selectDateText;
-//   const TimekeepingLoaded(
-//       {required this.listAttendanceModel,
-//       required this.fromDate,
-//       required this.toDate,
-//       required this.selectDateText});
-// }
