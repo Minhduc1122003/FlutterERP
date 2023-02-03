@@ -63,7 +63,7 @@ Widget _buildChooseItem(BuildContext context, int id, SalaryPeriodModel model,
       alignment: Alignment.centerLeft,
       child: Text(
         //capitalize(name),
-        'Tháng ${model.month}, ${DateFormat('dd/MM/yyyy').format(model.toDate)}',
+        'Tháng ${model.month}, ${model.fromDate.year}',
         style: const TextStyle(fontSize: 17, color: blueBlack),
       ),
     ),

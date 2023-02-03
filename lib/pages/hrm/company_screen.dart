@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/entypo_icons.dart';
 import '../../config/constant.dart';
+import 'branch/branch_list_screen.dart';
 import 'infor_screen.dart';
+import 'location/location_list_screen.dart';
 import 'notification_screen.dart';
 import 'qr_list_screen.dart';
 import 'wan_ip_list_screen.dart';
 import 'wan_ip_screen.dart';
+import 'wifi_list_screen.dart';
 
 class CompanyScreen extends StatelessWidget {
   const CompanyScreen({Key? key}) : super(key: key);
@@ -50,16 +53,22 @@ Widget buildCompanyItem(
     BuildContext context, int id, IconData icon, String name) {
   return InkWell(
     onTap: () {
+ 
+         if (id == 2) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const BranchListScreen()),
+        );
+      }
       if (id == 5) {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //       builder: (context) => const NotificationScreen()),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const WifiListScreen()),
+        );
       } else if (id == 6) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const InforScreen()),
+          MaterialPageRoute(builder: (context) => const LocationListScreen()),
         );
       } else if (id == 7) {
         Navigator.push(

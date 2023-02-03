@@ -44,7 +44,7 @@ class AttendanceModel {
 
 class TimeSheetModel {
   final int totalDay;
-  final int totalHour;
+  final double totalHour;
   final String title;
   final int shiftType;
 
@@ -56,7 +56,9 @@ class TimeSheetModel {
   });
   TimeSheetModel.fromJson(Map<String, dynamic> json)
       : totalDay = json['totalDay'] ?? 0,
-        totalHour = json['totalHour'] ?? 0,
+        totalHour = json['totalHour'] != null
+            ? (json['totalHour'] as num).toDouble()
+            : 0.0,
         title = json['title'] ?? '',
         shiftType = json['ShiftType'] ?? 0;
 }

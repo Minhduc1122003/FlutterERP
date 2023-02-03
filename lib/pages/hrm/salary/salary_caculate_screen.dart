@@ -74,6 +74,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
             },
           ),
         ),
+        const SizedBox(height: 10),
         // Container(
         //   height: 40,
         //   width: double.infinity,
@@ -161,7 +162,11 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                           state.salaryCaculateModel!.ngayCongLamViecThucTe
                               .toString()),
                       _buildSalaryItem(
-                          'Ngày lễ/chế độ', state.salaryCaculateModel!.ngayLe),
+                          'Ngày lễ', state.salaryCaculateModel!.ngayLe),
+                      _buildSalaryItem('Ngày nghỉ cưới',
+                          state.salaryCaculateModel!.ngayCuoi),
+                      _buildSalaryItem('Ngày nghỉ tang',
+                          state.salaryCaculateModel!.ngayNghiTang),
                       _buildSalaryItem('Ngày nghỉ phép năm',
                           state.salaryCaculateModel!.ngayNghiPhepNam),
                       _buildSalaryItem('Tăng ca thường (1.5)',
@@ -185,7 +190,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.amber[900])),
-                              Text('12,000,000',
+                              Text(state.salaryCaculateModel!.luongTheoNgayCong,
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.amber[900])),
@@ -233,18 +238,32 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                           style: TextStyle(color: blueBlack.withOpacity(0.7)),
                         ),
                       ),
-                      _buildAllowanceItem('PC linh hoạt', '-'),
-                      _buildAllowanceItem('PC nhà ở', '1,5000,000'),
-                      _buildAllowanceItem('PC đi lại', '1,5000,000'),
-                      _buildAllowanceItem('PC điện thoại', '1,5000,000'),
-                      _buildAllowanceItem('PC chuyên cần', '-'),
-                      _buildAllowanceItem('PC năng suất', '-'),
-                      _buildAllowanceItem('PC bốc dỡ', '-'),
-                      _buildAllowanceItem('PC 3 tại chỗ', '-'),
-                      _buildAllowanceItem('Phụ cấp khác', '-'),
-                      _buildAllowanceItem('Thưởng', '-'),
-                      _buildAllowanceItem('Cơm trưa', '-'),
-                      _buildAllowanceItem('Cơm tăng ca', '-'),
+                      _buildAllowanceItem(
+                          'PC nhà ở', state.salaryCaculateModel!.phuCapNhaO),
+                      _buildAllowanceItem(
+                          'PC đi lại', state.salaryCaculateModel!.phuCapDiLai),
+                      _buildAllowanceItem('PC điện thoại',
+                          state.salaryCaculateModel!.phuCapDienThoai),
+                      _buildAllowanceItem('PC năng suất',
+                          state.salaryCaculateModel!.phuCapNamgSuat),
+                      _buildAllowanceItem('PC công tác phí',
+                          state.salaryCaculateModel!.phuCapCongTacPhi),
+                      _buildAllowanceItem('PC quản lý xe',
+                          state.salaryCaculateModel!.phuCapQuanLyXe),
+                      _buildAllowanceItem('PC phun côn trùng',
+                          state.salaryCaculateModel!.phuCapPhunCongTrung),
+
+                      _buildAllowanceItem(
+                          'Cơm trưa', state.salaryCaculateModel!.phuCapComTrua),
+                      _buildAllowanceItem('Cơm chiều',
+                          state.salaryCaculateModel!.phuCapComChieu),
+                      _buildAllowanceItem('Cơm tăng ca',
+                          state.salaryCaculateModel!.phuCapComTangCa),
+                      _buildAllowanceItem('Phụ cấp khác',
+                          state.salaryCaculateModel!.phuCapHoTroKhac),
+                      // _buildAllowanceItem('Thưởng', '-'),
+                      // _buildAllowanceItem('Tổng phụ cấp',
+                      //     state.salaryCaculateModel!.tongPhuCap),
                       Container(
                         color: Colors.white,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -256,7 +275,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.amber[900])),
-                              Text('4,500,000',
+                              Text(state.salaryCaculateModel!.tongPhuCap,
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.amber[900])),
@@ -275,7 +294,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                       fontStyle: FontStyle.italic,
                                       fontSize: 16,
                                       color: Colors.indigo[700])),
-                              Text('16,500,000',
+                              Text(state.salaryCaculateModel!.tongThuNhap,
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.indigo[700])),
@@ -291,11 +310,16 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                           style: TextStyle(color: blueBlack.withOpacity(0.7)),
                         ),
                       ),
-                      _buildAllowanceItem('Tạm ứng', '-'),
-                      _buildAllowanceItem('Tiền BHXH+YT', '1,260,000'),
-                      _buildAllowanceItem('Thuế TNCN', '-'),
-                      _buildAllowanceItem('Công đoàn', '27,000'),
-                      _buildAllowanceItem('Trừ khác', '-'),
+                      _buildAllowanceItem(
+                          'Tạm ứng', state.salaryCaculateModel!.tamUng),
+                      _buildAllowanceItem('Tiền BHXH+BHYT+BHTN',
+                          state.salaryCaculateModel!.baoHiem),
+                      _buildAllowanceItem('Thuế TNCN',
+                          state.salaryCaculateModel!.thueThuNhapCaNhan),
+                      _buildAllowanceItem(
+                          'Công đoàn', state.salaryCaculateModel!.congDoan),
+                      _buildAllowanceItem(
+                          'Trừ khác', state.salaryCaculateModel!.khauTruKhac),
                       Container(
                         color: Colors.lightGreen,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -309,7 +333,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                       fontStyle: FontStyle.italic,
                                       fontSize: 16,
                                       color: Colors.red[800])),
-                              Text('1,2870,000',
+                              Text(state.salaryCaculateModel!.tongKhauTru,
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.red[800])),
@@ -328,7 +352,28 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                       fontStyle: FontStyle.italic,
                                       fontSize: 17,
                                       color: Colors.purple[900])),
-                              Text('15,213,000',
+                              Text(state.salaryCaculateModel!.luongThucLinh,
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                      fontSize: 17, color: Colors.purple[900])),
+                            ]),
+                      ),
+                      Container(
+                        color: Colors.pink[200],
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        height: 40,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Thực lãnh làm tròn:',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: 17,
+                                      color: Colors.purple[900])),
+                              Text(
+                                  state.salaryCaculateModel!
+                                      .luongThucLinhLamTron,
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 17, color: Colors.purple[900])),

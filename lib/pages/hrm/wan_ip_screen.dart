@@ -1,4 +1,4 @@
-
+import 'package:erp/pages/hrm/color.dart';
 import 'package:flutter/material.dart';
 
 import '../../config/constant.dart';
@@ -15,9 +15,9 @@ class WanIPScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: blueBlack),
         elevation: 1,
-        title: const Text('Wan IP', style: TextStyle(color: Colors.black)),
+        title: const Text('Wan IP', style: TextStyle(color: blueBlack)),
         actions: [
           InkWell(
             child: Container(
@@ -39,7 +39,7 @@ class WanIPScreen extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
               children: [
-                Text('Tên Wan IP'),
+                Text('Tên Wan IP', style: TextStyle(color: blueGrey1)),
                 Text(
                   ' *',
                   style: TextStyle(color: Colors.red),
@@ -49,7 +49,7 @@ class WanIPScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Container(
               color: const Color(0xFFF3F6FF),
-              height: 50,
+              height: 45,
               width: double.infinity,
               child: TextFormField(
                 cursorColor: backgroundColor,
@@ -58,7 +58,7 @@ class WanIPScreen extends StatelessWidget {
                   //contentPadding: EdgeInsets.zero,
                   contentPadding: EdgeInsets.only(left: 15),
                   hintText: 'Nhập chữ',
-                  hintStyle: TextStyle(color: Colors.grey),
+                  hintStyle: TextStyle(color: blueGrey2),
                   border: InputBorder.none,
                 ),
               ),
@@ -66,76 +66,112 @@ class WanIPScreen extends StatelessWidget {
             const SizedBox(height: 20),
             Row(
               children: const [
-                Text('Chi nhánh'),
+                Text('Chi nhánh', style: TextStyle(color: blueGrey1)),
                 Text(' *', style: TextStyle(color: Colors.red))
               ],
             ),
             const SizedBox(height: 10),
             Container(
-              color: const Color(0xFFF3F6FF),
-              height: 50,
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: DropdownButton<String>(
-                underline: const SizedBox.shrink(),
-                elevation: 0,
-                value: null,
-                hint: Row(
-                  children: [
+                decoration: BoxDecoration(
+                    color: const Color(0xFFF3F6FF),
+                    borderRadius: BorderRadius.circular(5)),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                height: 45,
+                width: double.infinity,
+                child: Row(
+                  children: const [
                     Text('* ', style: TextStyle(color: Colors.red)),
-                    Text('Chọn chi nhánh',
-                        style: TextStyle(color: Colors.grey, fontSize: 16)),
+                    Expanded(
+                        child: Text(
+                      'Chọn chi nhánh',
+                      style: TextStyle(color: blueGrey2, fontSize: 16),
+                    )),
+                    Icon(Icons.arrow_forward_ios, color: blueGrey1,size: 22)
                   ],
-                ),
-                isExpanded: true,
-                icon: const Icon(Icons.arrow_forward_ios),
-                style: const TextStyle(color: Colors.grey),
-                onChanged: (String? value) {},
-                items: list.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ),
+                )),
+
+            // Container(
+            //   color: const Color(0xFFF3F6FF),
+            //   height: 45,
+            //   width: double.infinity,
+            //   padding: const EdgeInsets.symmetric(horizontal: 10),
+            //   child: DropdownButton<String>(
+            //     underline: const SizedBox.shrink(),
+            //     elevation: 0,
+            //     value: null,
+            //     hint: Row(
+            //       children: [
+            //         Text('* ', style: TextStyle(color: Colors.red)),
+            //         Text('Chọn chi nhánh',
+            //             style: TextStyle(color: blueGrey2, fontSize: 16)),
+            //       ],
+            //     ),
+            //     isExpanded: true,
+            //     icon: const Icon(Icons.arrow_forward_ios,color:blueGrey1),
+            //     style: const TextStyle(color: Colors.grey),
+            //     onChanged: (String? value) {},
+            //     items: list.map<DropdownMenuItem<String>>((String value) {
+            //       return DropdownMenuItem<String>(
+            //         value: value,
+            //         child: Text(value),
+            //       );
+            //     }).toList(),
+            //   ),
+            // ),
             const SizedBox(height: 20),
-            Text('Chi nhánh phụ'),
+            const Text('Chi nhánh phụ', style: TextStyle(color: blueGrey1)),
             const SizedBox(height: 10),
             Container(
-              color: const Color(0xFFF3F6FF),
-              height: 50,
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: DropdownButton<String>(
-                underline: const SizedBox.shrink(),
-                elevation: 0,
-                value: null,
-                hint: Text('Chọn chi nhánh phụ',
-                    style: TextStyle(color: Colors.grey, fontSize: 16)),
-                isExpanded: true,
-                icon: const Icon(Icons.arrow_forward_ios),
-                style: const TextStyle(color: Colors.grey),
-                onChanged: (String? value) {},
-                items: list.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ),
+                decoration: BoxDecoration(
+                    color: const Color(0xFFF3F6FF),
+                    borderRadius: BorderRadius.circular(5)),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                height: 45,
+                width: double.infinity,
+                child: Row(
+                  children: const [
+                    Expanded(
+                        child: Text(
+                      'Chọn chi nhánh phụ',
+                      style: TextStyle(color: blueGrey2, fontSize: 16),
+                    )),
+                    Icon(Icons.arrow_forward_ios, color: blueGrey1,size: 22)
+                  ],
+                )),
+            // Container(
+            //   color: const Color(0xFFF3F6FF),
+            //   height: 45,
+            //   width: double.infinity,
+            //   padding: const EdgeInsets.symmetric(horizontal: 10),
+            //   child: DropdownButton<String>(
+            //     underline: const SizedBox.shrink(),
+            //     elevation: 0,
+            //     value: null,
+            //     hint: Text('Chọn chi nhánh phụ',
+            //         style: TextStyle(color: blueGrey2, fontSize: 16)),
+            //     isExpanded: true,
+            //     icon: const Icon(Icons.arrow_forward_ios, color: blueGrey1),
+            //     style: const TextStyle(color: Colors.grey),
+            //     onChanged: (String? value) {},
+            //     items: list.map<DropdownMenuItem<String>>((String value) {
+            //       return DropdownMenuItem<String>(
+            //         value: value,
+            //         child: Text(value),
+            //       );
+            //     }).toList(),
+            //   ),
+            // ),
             const SizedBox(height: 20),
             Row(
               children: const [
-                Text('Wan IP'),
+                Text('Wan IP', style: TextStyle(color: blueGrey1)),
                 Text(' *', style: TextStyle(color: Colors.red))
               ],
             ),
             const SizedBox(height: 10),
             Container(
               color: const Color(0xFFF3F6FF),
-              height: 50,
+              height: 45,
               width: double.infinity,
               child: TextFormField(
                 cursorColor: backgroundColor,
@@ -144,7 +180,7 @@ class WanIPScreen extends StatelessWidget {
                   //contentPadding: EdgeInsets.zero,
                   contentPadding: EdgeInsets.only(left: 15),
                   hintText: 'Vui lòng nhập chính xác Wan IP',
-                  hintStyle: TextStyle(color: Colors.grey),
+                  hintStyle: TextStyle(color: blueGrey2),
                   border: InputBorder.none,
                 ),
               ),
@@ -153,10 +189,10 @@ class WanIPScreen extends StatelessWidget {
             InkWell(
               child: Text('Lấy Wan IP hiên tại',
                   style: TextStyle(
-                    color: mainColor,
-                    fontSize: 16,
-                    decoration: TextDecoration.underline,
-                  )),
+                      color: mainColor,
+                      fontSize: 16,
+                      decoration: TextDecoration.underline,
+                      fontStyle: FontStyle.italic)),
               onTap: () {},
             )
           ]),

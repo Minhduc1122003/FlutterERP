@@ -6,7 +6,6 @@ import '../hrm_method.dart';
 import '../kpi_screen.dart';
 import '../management_setting_screen.dart';
 import '../on_leave_screen.dart';
-import '../paycheck_screen.dart';
 import '../report_screen.dart';
 import '../salary/salary_caculate_screen.dart';
 import '../warning_setting_screen.dart';
