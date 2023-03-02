@@ -11,7 +11,7 @@ class WifiListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> wanIPList = [];
+    List<String> wifiList = [];
     return Scaffold(
       backgroundColor: const Color(0xFFF3F6FF),
       appBar: AppBar(
@@ -30,18 +30,55 @@ class WifiListScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const WifiScreen()),
                 );
               },
-              icon: Icon(Icons.add))
+              icon: const Icon(Icons.add))
         ],
       ),
-      body: (wanIPList.isEmpty)
+      body: (wifiList.isEmpty)
           ? const Center(
               child: Text(
               'Trang này chưa có dữ liệu',
               style: TextStyle(fontSize: 17, color: Colors.blueGrey),
             ))
-          : SingleChildScrollView(
-              child: Column(children: []),
-            ),
+          : Column(
+            children: [
+              const SizedBox(height: 10),
+              Expanded(
+                  child: ListView.separated(
+                    itemCount: wifiList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () {
+                 
+                        },
+                        child: Container(
+                            color: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            height: 45,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  wifiList[index],
+                                  style: TextStyle(color: blueBlack, fontSize: 16),
+                                )),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Icon(Icons.arrow_forward_ios,
+                                    color: blueGrey1, size: 20)
+                              ],
+                            )),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(height: 2),
+                  ),
+             
+                
+                ),
+            ],
+          ),
     );
   }
 }

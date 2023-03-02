@@ -1,8 +1,5 @@
-
 import 'package:flutter/material.dart';
-import '../../config/constant.dart';
 import 'color.dart';
-import 'qr_screen.dart';
 import 'wan_ip_screen.dart';
 
 class WanIPListScreen extends StatelessWidget {
@@ -10,7 +7,7 @@ class WanIPListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> wanIPList = [];
+    List<String> wanIPList = ['Cham Cong1', 'Cham Cong2'];
     return Scaffold(
       backgroundColor: const Color(0xFFF3F6FF),
       appBar: AppBar(
@@ -29,7 +26,7 @@ class WanIPListScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const WanIPScreen()),
                 );
               },
-              icon: Icon(Icons.add))
+              icon: const Icon(Icons.add))
         ],
       ),
       body: (wanIPList.isEmpty)
@@ -38,8 +35,42 @@ class WanIPListScreen extends StatelessWidget {
               'Trang này chưa có dữ liệu',
               style: TextStyle(fontSize: 17, color: Colors.blueGrey),
             ))
-          : SingleChildScrollView(
-              child: Column(children: []),
+          : Column(
+              children: [
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: wanIPList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () {},
+                        child: Container(
+                            color: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            height: 45,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  wanIPList[index],
+                                  style:
+                                      const TextStyle(color: blueBlack, fontSize: 16),
+                                )),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                const Icon(Icons.arrow_forward_ios,
+                                    color: blueGrey1, size: 20)
+                              ],
+                            )),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(height: 2),
+                  ),
+                ),
+              ],
             ),
     );
   }

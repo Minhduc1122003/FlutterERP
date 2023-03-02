@@ -72,9 +72,9 @@ class LoginScreenState extends State<LoginScreen> {
                 margin:  EdgeInsets.fromLTRB(0, height / 14, 0, 0),
                 alignment: Alignment.topCenter,
                 //child: Image.asset('assets/images/logo_dark.png', height: 120),
-                child: Image.network(
-                    "http://kiena.vietgoat.com:8080/Resources/Documents/logo.jpg",
-                    height: height/7),
+                // child: Image.network(
+                //     "http://kiena.vietgoat.com:8080/Resources/Documents/logo.jpg",
+                //     height: height/7),
                 // child: Text(
                 //   'CRM',
                 //   style: GoogleFonts.gotu(

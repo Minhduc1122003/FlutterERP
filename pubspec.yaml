@@ -55,6 +55,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^20.3.61
   url_launcher: ^6.1.7
   equatable: ^2.0.5
+  google_maps_flutter: ^2.2.3
 
 dev_dependencies:
   flutter_test:
