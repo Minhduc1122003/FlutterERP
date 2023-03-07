@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/entypo_icons.dart';
-
+import '../advance/new_advance_screen.dart';
 import '../on_leave/new_on_leave_screen.dart';
 import '../timekeeping_offset/new_timekeeping_offset_screen.dart';
 
@@ -40,7 +40,7 @@ class ChooseRequestScreen extends StatelessWidget {
           // Container(height: 1, color: Colors.grey[200]),
           buildChooseItem(context, 1, FontAwesome.bed, 'Nghỉ phép'),
           Container(height: 1, color: Colors.grey[200]),
-          buildChooseItem(context, 2, FontAwesome.money, 'Tạm ứng lương'),
+          buildChooseItem(context, 2, FontAwesome.money, 'Tạm ứng'),
           Container(height: 1, color: Colors.grey[200]),
           buildChooseItem(context, 3, FontAwesome5.fill, 'Bù công'),
         ]),
@@ -58,6 +58,12 @@ Widget buildChooseItem(
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const NewOnLeaveScreen()),
+        );
+      } else if (id == 2) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const NewAdvanceScreen()),
         );
       } else if (id == 3) {
         Navigator.push(

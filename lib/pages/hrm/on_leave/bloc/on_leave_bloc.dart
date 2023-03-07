@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../model/login_model.dart';
 import '../../hrm_method.dart';
 import '../../hrm_model/employee_model.dart';
 import '../../hrm_model/on_leave_model.dart';
@@ -14,7 +15,7 @@ class OnLeaveBloc extends Bloc<OnLeaveEvent, OnLeaveState> {
     //on<OnLeaveEvent>((event, emit) {});
     on<InitialOnLeaveEvent>((event, emit) async {
       List<OnLeaveKindModel> listOnLeaveKindModel =
-          await ApiProvider().getListOnLeaveKind(EmployeeModel.siteName, '');
+          await ApiProvider().getListOnLeaveKind(EmployeeModel.siteName, User.token);
       emit(OnLeaveState(listOnLeaveKindModel: listOnLeaveKindModel));
     });
     on<ChoosseOnLeaveKindEvent>((event, emit) {
@@ -103,7 +104,7 @@ class OnLeaveBloc extends Bloc<OnLeaveEvent, OnLeaveState> {
         'description': event.note,
         'year': DateTime.now().year,
       };
-      String result = await ApiProvider().sendOnLeaveRequest(data, '');
+      String result = await ApiProvider().sendOnLeaveRequest(data, User.token);
       if (result == "ADD") {
         emit(state.copyWith(sendStatus: SendOnLeaveStatus.success, error: ''));
       } else {

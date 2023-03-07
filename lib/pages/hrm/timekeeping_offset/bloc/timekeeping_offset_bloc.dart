@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import '../../../../model/login_model.dart';
 import '../../hrm_model/employee_model.dart';
 import '../../hrm_model/shift_model.dart';
 import '../../network/api_provider.dart';
@@ -13,7 +14,7 @@ class TimekeepingOffsetBloc
   TimekeepingOffsetBloc() : super(const TimekeepingOffsetState()) {
     on<InitialTimekeepingOffsetEvent>((event, emit) async {
       List<ShiftModel> listShiftModel =
-          await ApiProvider().getListShiftModel(EmployeeModel.siteName, '');
+          await ApiProvider().getListShiftModel(EmployeeModel.siteName, User.token);
       emit(TimekeepingOffsetState(listShiftModel: listShiftModel));
     });
     on<ChoosseShiftEvent>((event, emit) {
@@ -44,7 +45,7 @@ class TimekeepingOffsetBloc
         'siteID': EmployeeModel.siteName,
       };
       String result =
-          await ApiProvider().sendTimekeepingOffsetRequest(data, '');
+          await ApiProvider().sendTimekeepingOffsetRequest(data, User.token);
       if (result == "ADD") {
         emit(state.copyWith(sendStatus: SendTimekeepingOffsetStatus.success));
       } else {

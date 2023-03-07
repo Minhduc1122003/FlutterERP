@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'pages/hrm/advance/bloc/advance_bloc.dart';
 import 'pages/hrm/on_leave/bloc/on_leave_bloc.dart';
 import 'pages/hrm/request_management/bloc/request_management_bloc.dart';
 import 'pages/hrm/salary/bloc/salary_caculate_bloc.dart';
 import 'pages/hrm/shift_calendar/bloc/shift_calendar_bloc.dart';
 import 'pages/hrm/timekeeping/bloc/timekeeping_bloc.dart';
 import 'pages/hrm/timekeeping_offset/bloc/timekeeping_offset_bloc.dart';
+import 'pages/login/bloc/login_bloc.dart';
 import 'pages/login/login_screen.dart';
 import 'pages/splash/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -22,6 +24,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<LoginBloc>(
+          create: (BuildContext context) => LoginBloc(),
+        ),
         BlocProvider<TimekeepingBloc>(
           create: (BuildContext context) => TimekeepingBloc(),
         ),
@@ -33,6 +38,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<OnLeaveBloc>(
           create: (BuildContext context) => OnLeaveBloc(),
+        ),
+        BlocProvider<AdvanceBloc>(
+          create: (BuildContext context) =>AdvanceBloc(),
         ),
         BlocProvider<RequestManagementBloc>(
           create: (BuildContext context) => RequestManagementBloc(),
@@ -51,7 +59,7 @@ class MyApp extends StatelessWidget {
         ],
         theme: ThemeData(
           //fontFamily: 'Gilroy',
-          //fontFamily: 'Be VietNam',
+          fontFamily: 'Be VietNam',
           primarySwatch: Colors.blue,
         ),
         home: const SplashScreen(),

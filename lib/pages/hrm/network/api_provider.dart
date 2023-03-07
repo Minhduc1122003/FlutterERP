@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:erp/pages/hrm/hrm_model/user_model.dart';
 import 'package:http/http.dart';
 
+import '../../../model/login_model.dart';
 import '../hrm_config/hrm_constant.dart';
+import '../hrm_model/advance_model.dart';
 import '../hrm_model/attendance_model.dart';
 import '../hrm_model/on_leave_model.dart';
 import '../hrm_model/request_management_model.dart';
@@ -43,6 +45,19 @@ class ApiProvider {
       );
     } catch (e) {
       throw e.toString();
+    }
+  }
+
+  Future<LoginModel?> login(
+      String email, String password, String site, String token) async {
+    var postData = {'no_': email, 'password': password, 'site': site};
+    response = await postConnect(loginAPI, postData, token);
+    if (response.statusCode == statusOk) {
+      //var responseJson = jsonEncode(response.body);
+      LoginModel model = LoginModel.fromJson(jsonDecode(response.body));
+      return model;
+    } else {
+      return null;
     }
   }
 
@@ -118,9 +133,43 @@ class ApiProvider {
     }
   }
 
+  Future<List<AdvanceKindModel>> getListAdvanceKind(
+      String siteName, String token) async {
+    response = await getConnect(getAdvanceKindAPI + siteName, token);
+    if (response.statusCode == statusOk) {
+      List responseList = json.decode(response.body);
+      return responseList.map((val) => AdvanceKindModel.fromJson(val)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<String> sendAdvanceRequest(
+      Map<String, dynamic> map, String token) async {
+    response = await postConnect(sendAdvanceRequestAPI, map, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      return response.body;
+    } else {
+      return '';
+    }
+  }
+
   Future<List<AttendanceModel>> getListAttendance(
       String siteName, Map<String, dynamic> map, String token) async {
     response = await postConnect(getListAttendanceAPI + siteName, map, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      List responseList = json.decode(response.body);
+      return responseList.map((val) => AttendanceModel.fromJson(val)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<AttendanceModel>> getListAttendanceInvalid(
+      String siteName, Map<String, dynamic> map, String token) async {
+    response = await postConnect(getListAttendanceInvalidAPI + siteName, map, token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
@@ -158,12 +207,14 @@ class ApiProvider {
 
   Future<List<SalaryCaculateModel>> getSalaryCaculate(
       int employeeId, int periodId, String token) async {
-    response = await getConnect(
-        '$getSalaryCaculateAPI$employeeId/$periodId', token);
+    response =
+        await getConnect('$getSalaryCaculateAPI$employeeId/$periodId', token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
-      return responseList.map((val) => SalaryCaculateModel.fromJson(val)).toList();
+      return responseList
+          .map((val) => SalaryCaculateModel.fromJson(val))
+          .toList();
     } else {
       return [];
     }

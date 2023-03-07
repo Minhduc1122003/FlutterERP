@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:equatable/equatable.dart';
+import '../../../../model/login_model.dart';
 import '../../hrm_method.dart';
 import '../../hrm_model/attendance_model.dart';
 import '../../hrm_model/employee_model.dart';
@@ -79,6 +80,6 @@ Future<List<AttendanceModel>> _getListAttendance(
     'toDate': DateFormat('yyyy-MM-dd').format(toDate)
   };
   List<AttendanceModel> list =
-      await ApiProvider().getListAttendance(EmployeeModel.siteName, data, '');
+      await ApiProvider().getListAttendance(EmployeeModel.siteName, data, User.token);
   return list;
 }

@@ -69,14 +69,16 @@ class SalaryPeriodModel {
   final DateTime fromDate;
   final DateTime toDate;
   final int id;
+  final int termInAMonth;
   final int month;
-
-  SalaryPeriodModel({
-    required this.fromDate,
-    required this.toDate,
-    required this.id,
-    required this.month,
-  });
+  final String period;
+  SalaryPeriodModel(
+      {required this.fromDate,
+      required this.toDate,
+      required this.id,
+      required this.termInAMonth,
+      required this.month,
+      required this.period});
   SalaryPeriodModel.fromJson(Map<String, dynamic> json)
       : fromDate = json['FromDate'] == null
             ? DateTime.now()
@@ -85,5 +87,7 @@ class SalaryPeriodModel {
             ? DateTime.now()
             : DateTime.parse(json['ToDate']).toLocal(),
         id = json['ID'] ?? 0,
-        month = json['Month'] ?? 0;
+        termInAMonth = json['TermInAMonth'] ?? 0,
+        month = json['Month'] ?? 0,
+        period = json['Period'] ?? '';
 }

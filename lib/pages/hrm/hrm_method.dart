@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import 'hrm_model/attendance_model.dart';
@@ -114,4 +115,25 @@ int checkShiftStatus(AttendanceModel attendanceModel) {
     return 3; //tre gio , ve som
   }
   return 4; //dung gio
+}
+
+class CurrencyInputFormatter extends TextInputFormatter {
+
+    TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+
+        if(newValue.selection.baseOffset == 0){
+            print(true);
+            return newValue;
+        }
+
+        double value = double.parse(newValue.text);
+
+        final formatter = NumberFormat.simpleCurrency(locale: "pt_Br");
+
+        String newText = formatter.format(value/100);
+
+        return newValue.copyWith(
+            text: newText,
+            selection: new TextSelection.collapsed(offset: newText.length));
+    }
 }

@@ -18,7 +18,7 @@ class TimeKeepingScreen extends StatefulWidget {
 }
 
 class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
- // late TimekeepingBloc timekeepingBloc;
+  // late TimekeepingBloc timekeepingBloc;
   @override
   void initState() {
     //timekeepingBloc = BlocProvider.of<TimekeepingBloc>(context);
@@ -206,12 +206,13 @@ class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Center(
-                            child: Text(
-                                (state.salaryPeriodModel != null)
-                                    ? 'Tháng ${state.salaryPeriodModel!.month}, ${state.salaryPeriodModel!.fromDate.year}'//'${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.formDate)} - ${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.toDate)}'
-                                    : 'Chọn tháng',
-                                style: const TextStyle(
-                                    color: blueGrey1, fontSize: 16))),
+                          child: Text(
+                              (state.salaryPeriodModel != null)
+                                  ? '${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.fromDate)} - ${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.toDate)} (Kỳ ${state.salaryPeriodModel!.termInAMonth})'
+                                  : 'Chọn kỳ lương',
+                              style: const TextStyle(
+                                  color: blueGrey1, fontSize: 15)),
+                        ),
                         const Icon(Icons.arrow_drop_down,
                             color: blueGrey2, size: 30),
                       ],

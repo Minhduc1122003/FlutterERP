@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:erp/model/login_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:equatable/equatable.dart';
@@ -11,13 +12,9 @@ part 'timekeeping_state.dart';
 
 class TimekeepingBloc extends Bloc<TimekeepingEvent, TimekeepingState> {
   TimekeepingBloc() : super(const TimekeepingState()) {
-    // on<TimekeepingLoadToday>(_getListAttendanceToday);
-    // on<TimekeepingLoadWeek>(_getListAttendanceWeek);
-    // on<TimekeepingLoadMonth>(_getListAttendanceMonth);
-    // on<TimekeepingLoadRangeDate>(_getListAttendanceRangeDate);
     on<InitialTimekeepingEvent>((event, emit) async {
-      List<SalaryPeriodModel> listSalaryPeriodModel =
-          await ApiProvider().getListSalaryPeriod(EmployeeModel.siteName, '');
+      List<SalaryPeriodModel> listSalaryPeriodModel = await ApiProvider()
+          .getListSalaryPeriod(EmployeeModel.siteName, User.token);
       emit(TimekeepingState(listSalaryPeriodModel: listSalaryPeriodModel));
     });
 
@@ -27,6 +24,9 @@ class TimekeepingBloc extends Bloc<TimekeepingEvent, TimekeepingState> {
           event.salaryPeriod.fromDate, event.salaryPeriod.toDate);
       List<TimeSheetModel> listTimeSheetModel =
           await _getTimeSheets(event.salaryPeriod.id);
+      List<AttendanceModel> listAttendanceInvalidModel =
+          await _getListAttendanceInvalid(
+              event.salaryPeriod.fromDate, event.salaryPeriod.toDate);
       emit(state.copyWith(
           listAttendanceModel: listAttendanceModel,
           listTimeSheetModel: listTimeSheetModel,
@@ -36,76 +36,6 @@ class TimekeepingBloc extends Bloc<TimekeepingEvent, TimekeepingState> {
   }
 }
 
-// void _getListAttendanceToday(
-//     TimekeepingLoadToday event, Emitter<TimekeepingState> emit) async {
-//   emit(TimekeepingLoading());
-//   DateTime now = DateTime.now();
-//   List<AttendanceModel> listAttendanceModel =
-//       await _getListAttendance(now, now);
-//   List<TimeSheetModel> listTimeSheetModel = await _getTimeSheets();
-//   emit(TimekeepingLoaded(
-//       listAttendanceModel: listAttendanceModel,
-//       listTimeSheetModel: listTimeSheetModel,
-//       fromDate: now,
-//       toDate: now,
-//       selectDateText:
-//           '${getDay(now.weekday)}, ${DateFormat('dd.MM').format(now)}'));
-// }
-
-// void _getListAttendanceWeek(
-//     TimekeepingLoadWeek event, Emitter<TimekeepingState> emit) async {
-//   emit(TimekeepingLoading());
-//   DateTime now = DateTime.now();
-//   DateTime fromDate = now.subtract(Duration(days: now.weekday - 1));
-//   DateTime toDate = DateTime(fromDate.year, fromDate.month, fromDate.day)
-//       .add(const Duration(days: 6));
-//   List<AttendanceModel> listAttendanceModel =
-//       await _getListAttendance(fromDate, toDate);
-//   List<TimeSheetModel> listTimeSheetModel = await _getTimeSheets();
-//   emit(TimekeepingLoaded(
-//       listAttendanceModel: listAttendanceModel,
-//       listTimeSheetModel: listTimeSheetModel,
-//       fromDate: fromDate,
-//       toDate: toDate,
-//       selectDateText:
-//           '${DateFormat('dd.MM').format(fromDate)} - ${DateFormat('dd.MM').format(toDate)}'));
-// }
-
-// void _getListAttendanceMonth(
-//     TimekeepingLoadMonth event, Emitter<TimekeepingState> emit) async {
-//   emit(TimekeepingLoading());
-//   DateTime now = DateTime.now();
-//   int numberDay = daysInMonth(now);
-//   DateTime fromDate = DateTime(now.year, now.month, 1);
-//   DateTime toDate = DateTime(now.year, now.month, numberDay);
-//   List<AttendanceModel> listAttendanceModel =
-//       await _getListAttendance(fromDate, toDate);
-//   List<TimeSheetModel> listTimeSheetModel = await _getTimeSheets();
-//   emit(TimekeepingLoaded(
-//       listAttendanceModel: listAttendanceModel,
-//       listTimeSheetModel: listTimeSheetModel,
-//       fromDate: fromDate,
-//       toDate: toDate,
-//       selectDateText:
-//           '${DateFormat('dd.MM').format(fromDate)} - ${DateFormat('dd.MM').format(toDate)}'));
-// }
-
-// void _getListAttendanceRangeDate(
-//     TimekeepingLoadRangeDate event, Emitter<TimekeepingState> emit) async {
-//   emit(TimekeepingLoading());
-
-//   List<AttendanceModel> listAttendanceModel =
-//       await _getListAttendance(event.fromDate, event.toDate);
-//   List<TimeSheetModel> listTimeSheetModel = await _getTimeSheets();
-//   emit(TimekeepingLoaded(
-//       listAttendanceModel: listAttendanceModel,
-//       listTimeSheetModel: listTimeSheetModel,
-//       fromDate: event.fromDate,
-//       toDate: event.toDate,
-//       selectDateText:
-//           '${DateFormat('dd.MM').format(event.fromDate)} - ${DateFormat('dd.MM').format(event.toDate)}'));
-// }
-
 Future<List<AttendanceModel>> _getListAttendance(
     DateTime fromDate, DateTime toDate) async {
   Map<String, dynamic> data = {
@@ -113,8 +43,21 @@ Future<List<AttendanceModel>> _getListAttendance(
     'fromDate': DateFormat('yyyy-MM-dd').format(fromDate),
     'toDate': DateFormat('yyyy-MM-dd').format(toDate)
   };
-  List<AttendanceModel> list =
-      await ApiProvider().getListAttendance(EmployeeModel.siteName, data, '');
+  List<AttendanceModel> list = await ApiProvider()
+      .getListAttendance(EmployeeModel.siteName, data, User.token);
+  return list.reversed.toList();
+}
+
+Future<List<AttendanceModel>> _getListAttendanceInvalid(
+    DateTime fromDate, DateTime toDate) async {
+  Map<String, dynamic> data = {
+    'deptId': 0,
+    'employeeId': EmployeeModel.id,
+    'fromDate': DateFormat('yyyy-MM-dd').format(fromDate),
+    'toDate': DateFormat('yyyy-MM-dd').format(toDate)
+  };
+  List<AttendanceModel> list = await ApiProvider()
+      .getListAttendanceInvalid(EmployeeModel.siteName, data, User.token);
   return list.reversed.toList();
 }
 
@@ -124,6 +67,7 @@ Future<List<TimeSheetModel>> _getTimeSheets(int periodId) async {
     'period': periodId,
     'siteID': EmployeeModel.siteName
   };
-  List<TimeSheetModel> list = await ApiProvider().getTimeSheets(data, '');
+  List<TimeSheetModel> list =
+      await ApiProvider().getTimeSheets(data, User.token);
   return list;
 }

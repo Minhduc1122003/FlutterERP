@@ -34,7 +34,7 @@ class ChooseSalaryPeriodScreen extends StatelessWidget {
             icon: const Icon(Icons.clear)),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: ListView.separated(
             padding: const EdgeInsets.all(8),
             itemCount: listSalaryPeriodModel.length,
@@ -63,10 +63,11 @@ Widget _buildChooseItem(
       height: 50,
       alignment: Alignment.centerLeft,
       child: Text(
-        'Tháng ${model.month}, ${model.fromDate.year}',
+       // model.period,
+        '${DateFormat('dd/MM/yyyy').format(model.fromDate)} - ${DateFormat('dd/MM/yyyy').format(model.toDate)} (Kỳ ${model.termInAMonth})',
         //capitalize(name),
        // '${DateFormat('dd/MM/yyyy').format(model.formDate)} - ${DateFormat('dd/MM/yyyy').format(model.toDate)}',
-        style: const TextStyle(fontSize: 17, color: blueBlack),
+        style: const TextStyle(fontSize: 16, color: blueBlack),
       ),
     ),
   );

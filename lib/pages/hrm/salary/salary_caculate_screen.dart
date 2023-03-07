@@ -62,7 +62,8 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                     Center(
                         child: Text(
                             (state.salaryPeriodModel != null)
-                                ? 'Tháng ${state.salaryPeriodModel!.month}, ${state.salaryPeriodModel!.fromDate.year}'
+                                ? '${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.fromDate)} - ${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.toDate)} (Kỳ ${state.salaryPeriodModel!.termInAMonth})'
+                                //'Tháng ${state.salaryPeriodModel!.month}, ${state.salaryPeriodModel!.fromDate.year}'
                                 : 'Chọn kỳ lương',
                             style: const TextStyle(
                                 color: blueGrey1, fontSize: 16))),

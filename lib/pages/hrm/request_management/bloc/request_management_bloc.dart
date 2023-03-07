@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:erp/model/login_model.dart';
 
 import '../../hrm_model/employee_model.dart';
 import '../../hrm_model/request_management_model.dart';
@@ -40,13 +41,13 @@ Future<List<TimekeepingOffsetRequestModel>>
     _getListTimekeepingOffsetRequest() async {
   List<TimekeepingOffsetRequestModel> list = await ApiProvider()
       .getListTimekeepingOffsetRequest(
-          EmployeeModel.siteName, EmployeeModel.id, '');
+          EmployeeModel.siteName, EmployeeModel.id, User.token);
   return list;
 }
 
 Future<List<OnLeaveRequestModel>> _getListOnLeaveRequest() async {
   List<OnLeaveRequestModel> list = await ApiProvider()
       .getListOnLeaveRequestModel(
-          EmployeeModel.siteName, EmployeeModel.id, DateTime.now().year, '');
+          EmployeeModel.siteName, EmployeeModel.id, DateTime.now().year, User.token);
   return list;
 }
