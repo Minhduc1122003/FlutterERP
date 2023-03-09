@@ -277,9 +277,15 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
                     padding: const EdgeInsets.all(8),
                     itemCount: listNew.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return listNew[index] is OnLeaveRequestModel
-                          ? _buildOnLeaveRequestItem(listNew[index])
-                          : _buildTimekeepingRequestItem(listNew[index]);
+                      if (listNew[index] is OnLeaveRequestModel) {
+                        return _buildOnLeaveRequestItem(listNew[index]);
+                      } else if (listNew[index]
+                          is TimekeepingOffsetRequestModel) {
+                        return _buildTimekeepingOffsetRequestItem(
+                            listNew[index]);
+                      } else {
+                        return _buildAdvanceRequestItem(listNew[index]);
+                      }
                     },
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 5));
@@ -296,9 +302,15 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
                     padding: const EdgeInsets.all(8),
                     itemCount: listApprove.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return listApprove[index] is OnLeaveRequestModel
-                          ? _buildOnLeaveRequestItem(listApprove[index])
-                          : _buildTimekeepingRequestItem(listApprove[index]);
+                      if (listApprove[index] is OnLeaveRequestModel) {
+                        return _buildOnLeaveRequestItem(listApprove[index]);
+                      } else if (listApprove[index]
+                          is TimekeepingOffsetRequestModel) {
+                        return _buildTimekeepingOffsetRequestItem(
+                            listApprove[index]);
+                      } else {
+                        return _buildAdvanceRequestItem(listApprove[index]);
+                      }
                     },
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 5));
@@ -315,9 +327,15 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
                     padding: const EdgeInsets.all(8),
                     itemCount: listReject.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return listReject[index] is OnLeaveRequestModel
-                          ? _buildOnLeaveRequestItem(listReject[index])
-                          : _buildTimekeepingRequestItem(listReject[index]);
+                      if (listReject[index] is OnLeaveRequestModel) {
+                        return _buildOnLeaveRequestItem(listReject[index]);
+                      } else if (listReject[index]
+                          is TimekeepingOffsetRequestModel) {
+                        return _buildTimekeepingOffsetRequestItem(
+                            listReject[index]);
+                      } else {
+                        return _buildAdvanceRequestItem(listReject[index]);
+                      }
                     },
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 5));
@@ -375,7 +393,7 @@ Widget _buildOnLeaveRequestItem(OnLeaveRequestModel model) {
                     const SizedBox(height: 5),
                     Text(DateFormat('dd/MM/yyyy').format(model.expired),
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: blueBlack, fontSize: 14)),
+                        style: const TextStyle(color: blueBlack, fontSize: 13)),
                     const SizedBox(height: 10),
                     Text('THỜI GIAN ',
                         style: TextStyle(
@@ -385,7 +403,7 @@ Widget _buildOnLeaveRequestItem(OnLeaveRequestModel model) {
                         '${DateFormat('dd/MM/yyyy').format(model.fromDate)} - ${DateFormat('dd/MM/yyyy').format(model.toDate)}'
                             .replaceAll("", "\u{200B}"),
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: blueBlack, fontSize: 14)),
+                        style: const TextStyle(color: blueBlack, fontSize: 13)),
                   ],
                 ),
               ),
@@ -403,7 +421,7 @@ Widget _buildOnLeaveRequestItem(OnLeaveRequestModel model) {
                     Text(
                         capitalize(model.permissionName)
                             .replaceAll("", "\u{200B}"),
-                        style: const TextStyle(color: blueBlack, fontSize: 14),
+                        style: const TextStyle(color: blueBlack, fontSize: 13),
                         overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 10),
                     Text('GHI CHÚ ',
@@ -412,7 +430,7 @@ Widget _buildOnLeaveRequestItem(OnLeaveRequestModel model) {
                     const SizedBox(height: 5),
                     Text(model.description,
                         //overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: blueBlack, fontSize: 14)),
+                        style: const TextStyle(color: blueBlack, fontSize: 13)),
                   ],
                 ),
               ),
@@ -424,7 +442,7 @@ Widget _buildOnLeaveRequestItem(OnLeaveRequestModel model) {
   );
 }
 
-Widget _buildTimekeepingRequestItem(TimekeepingOffsetRequestModel model) {
+Widget _buildTimekeepingOffsetRequestItem(TimekeepingOffsetRequestModel model) {
   return Card(
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
@@ -471,7 +489,7 @@ Widget _buildTimekeepingRequestItem(TimekeepingOffsetRequestModel model) {
                     const SizedBox(height: 5),
                     Text(DateFormat('dd/MM/yyyy').format(model.dateApply),
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: blueBlack, fontSize: 14)),
+                        style: const TextStyle(color: blueBlack, fontSize: 13)),
                     const SizedBox(height: 10),
                     Text('GIỜ',
                         style: TextStyle(
@@ -481,7 +499,7 @@ Widget _buildTimekeepingRequestItem(TimekeepingOffsetRequestModel model) {
                         '${DateFormat('HH:mm').format(model.fromTime)} - ${DateFormat('HH:mm').format(model.toTime)}'
                             .replaceAll("", "\u{200B}"),
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: blueBlack, fontSize: 14)),
+                        style: const TextStyle(color: blueBlack, fontSize: 13)),
                   ],
                 ),
               ),
@@ -497,7 +515,7 @@ Widget _buildTimekeepingRequestItem(TimekeepingOffsetRequestModel model) {
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
                     Text(capitalize(model.shiftName).replaceAll("", "\u{200B}"),
-                        style: const TextStyle(color: blueBlack, fontSize: 14),
+                        style: const TextStyle(color: blueBlack, fontSize: 13),
                         overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 10),
                     Text('LÝ DO',
@@ -506,7 +524,103 @@ Widget _buildTimekeepingRequestItem(TimekeepingOffsetRequestModel model) {
                     const SizedBox(height: 5),
                     Text(model.reason,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: blueBlack, fontSize: 14)),
+                        style: const TextStyle(color: blueBlack, fontSize: 13)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ]),
+    ),
+  );
+}
+
+Widget _buildAdvanceRequestItem(AdvanceRequestModel model) {
+  return Card(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Column(children: [
+        Stack(children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Tạm ứng',
+                    style: TextStyle(
+                        color: blueBlack,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17)),
+                Text(DateFormat('dd/MM/yyyy').format(model.createDate),
+                    style: const TextStyle(color: blueBlack, fontSize: 12)),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 1,
+            child:
+                Container(width: 4, height: 40, color: getColor(model.status)),
+          )
+        ]),
+        const SizedBox(height: 10),
+        Container(height: 1, color: Colors.grey[200], width: double.infinity),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('SỐ TIỀN',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    Text(NumberFormat.decimalPattern('vi').format(model.qty),
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(color: blueBlack, fontSize: 13)),
+                    const SizedBox(height: 10),
+                    Text('HIỆU LỰC',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    Text(
+                        '${DateFormat('dd/MM/yyyy').format(model.effectFrom)} - ${DateFormat('dd/MM/yyyy').format(model.effectTo)}'
+                            .replaceAll("", "\u{200B}"),
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(color: blueBlack, fontSize: 13)),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('LOẠI TẠM ỨNG',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    Text(
+                        capitalize(model.reduce.toString())
+                            .replaceAll("", "\u{200B}"),
+                        style: const TextStyle(color: blueBlack, fontSize: 13),
+                        overflow: TextOverflow.ellipsis),
+                    const SizedBox(height: 10),
+                    Text('GHI CHÚ',
+                        style: TextStyle(
+                            color: blueBlack.withOpacity(0.7), fontSize: 12)),
+                    const SizedBox(height: 5),
+                    Text(model.code,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(color: blueBlack, fontSize: 13)),
                   ],
                 ),
               ),

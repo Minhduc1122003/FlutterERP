@@ -20,6 +20,7 @@ class RequestManagementBloc
       List<dynamic> listRequestReject = [];
       listRequestAll.addAll(await _getListTimekeepingOffsetRequest());
       listRequestAll.addAll(await _getListOnLeaveRequest());
+      listRequestAll.addAll(await _getListAdvanceRequest());
       for (var request in listRequestAll) {
         if (request.status == 0) {
           listRequestNew.add(request);
@@ -47,7 +48,14 @@ Future<List<TimekeepingOffsetRequestModel>>
 
 Future<List<OnLeaveRequestModel>> _getListOnLeaveRequest() async {
   List<OnLeaveRequestModel> list = await ApiProvider()
-      .getListOnLeaveRequestModel(
+      .getListOnLeaveRequest(
           EmployeeModel.siteName, EmployeeModel.id, DateTime.now().year, User.token);
+  return list;
+}
+
+Future<List<AdvanceRequestModel>> _getListAdvanceRequest() async {
+  List<AdvanceRequestModel> list = await ApiProvider()
+      .getListAdvanceRequest(
+          EmployeeModel.siteName, EmployeeModel.id, User.token);
   return list;
 }

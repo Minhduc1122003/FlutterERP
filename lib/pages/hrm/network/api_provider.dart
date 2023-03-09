@@ -48,6 +48,25 @@ class ApiProvider {
     }
   }
 
+  Future<Response> postConnect2(String url, String body, String token) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final uri = Uri.parse(url);
+    final encoding = Encoding.getByName('utf-8');
+    try {
+      return await post(
+        uri,
+        headers: headers,
+        body: body,
+        encoding: encoding,
+      );
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   Future<LoginModel?> login(
       String email, String password, String site, String token) async {
     var postData = {'no_': email, 'password': password, 'site': site};
@@ -72,7 +91,7 @@ class ApiProvider {
     }
   }
 
-  Future<List<OnLeaveRequestModel>> getListOnLeaveRequestModel(
+  Future<List<OnLeaveRequestModel>> getListOnLeaveRequest(
       String siteName, int employeeID, int year, String token) async {
     response = await getConnect(
         '$getListOnLeaveRequestAPI$employeeID/$year/$siteName', token);
@@ -94,6 +113,20 @@ class ApiProvider {
       List responseList = json.decode(response.body);
       return responseList
           .map((val) => TimekeepingOffsetRequestModel.fromJson(val))
+          .toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<AdvanceRequestModel>> getListAdvanceRequest(
+      String siteName, int employeeID, String token) async {
+    response = await getConnect(
+        '$getListAdvanceRequestAPI$siteName/$employeeID', token);
+    if (response.statusCode == statusOk) {
+      List responseList = json.decode(response.body);
+      return responseList
+          .map((val) => AdvanceRequestModel.fromJson(val))
           .toList();
     } else {
       return [];
@@ -144,14 +177,18 @@ class ApiProvider {
     }
   }
 
-  Future<String> sendAdvanceRequest(
+  Future<String?> sendAdvanceRequest(
       Map<String, dynamic> map, String token) async {
-    response = await postConnect(sendAdvanceRequestAPI, map, token);
+    List<dynamic> listData = [];
+    listData.add(map);
+    // var json = {'listKey': jsonEncode(listData)};
+    response =
+        await postConnect2(sendAdvanceRequestAPI, jsonEncode(listData), token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       return response.body;
     } else {
-      return '';
+      return null;
     }
   }
 
@@ -167,13 +204,16 @@ class ApiProvider {
     }
   }
 
-  Future<List<AttendanceModel>> getListAttendanceInvalid(
+  Future<List<AttendanceInvalidModel>> getListAttendanceInvalid(
       String siteName, Map<String, dynamic> map, String token) async {
-    response = await postConnect(getListAttendanceInvalidAPI + siteName, map, token);
+    response =
+        await postConnect(getListAttendanceInvalidAPI + siteName, map, token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
-      return responseList.map((val) => AttendanceModel.fromJson(val)).toList();
+      return responseList
+          .map((val) => AttendanceInvalidModel.fromJson(val))
+          .toList();
     } else {
       return [];
     }

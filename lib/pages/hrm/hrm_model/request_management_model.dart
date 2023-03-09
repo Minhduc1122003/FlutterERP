@@ -111,7 +111,7 @@ class OnLeaveRequestModel {
         status = json['status'],
         expired = DateTime.parse(json['expired']).toLocal(),
         permissionType = json['permissionType'],
-        permissionName = json['permissionName']??'',
+        permissionName = json['permissionName'] ?? '',
         fromDate = DateTime.parse(json['fromDate']).toLocal(),
         toDate = DateTime.parse(json['toDate']).toLocal(),
         isHalfDay = json['isHalfDay'],
@@ -121,4 +121,35 @@ class OnLeaveRequestModel {
             ? DateTime.now()
             : DateTime.parse(json['createDate']).toLocal(),
         description = json['description'];
+}
+
+class AdvanceRequestModel {
+  final int id;
+  final String code;
+  final int status;
+  final int reduce;
+  final int qty;
+  final DateTime effectFrom;
+  final DateTime effectTo;
+  final DateTime createDate;
+  AdvanceRequestModel(
+      {required this.id,
+      required this.code,
+      required this.status,
+      required this.reduce,
+      required this.qty,
+      required this.effectFrom,
+      required this.effectTo,
+      required this.createDate});
+  AdvanceRequestModel.fromJson(Map<String, dynamic> json)
+      : id = json['ID'],
+      code = json['Code'],
+        status = json['Status'],
+        reduce = json['Reduce'],
+        qty = json['Qty'],
+        effectFrom = DateTime.parse(json['EffectFrom']).toLocal(),
+        effectTo = DateTime.parse(json['EffectTo']).toLocal(),
+        createDate = json['CreateDate'] == null
+            ? DateTime.now()
+            : DateTime.parse(json['CreateDate']).toLocal();
 }

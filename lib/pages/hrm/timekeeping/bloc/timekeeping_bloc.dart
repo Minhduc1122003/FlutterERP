@@ -24,7 +24,7 @@ class TimekeepingBloc extends Bloc<TimekeepingEvent, TimekeepingState> {
           event.salaryPeriod.fromDate, event.salaryPeriod.toDate);
       List<TimeSheetModel> listTimeSheetModel =
           await _getTimeSheets(event.salaryPeriod.id);
-      List<AttendanceModel> listAttendanceInvalidModel =
+      List<AttendanceInvalidModel> listAttendanceInvalidModel =
           await _getListAttendanceInvalid(
               event.salaryPeriod.fromDate, event.salaryPeriod.toDate);
       emit(state.copyWith(
@@ -48,15 +48,15 @@ Future<List<AttendanceModel>> _getListAttendance(
   return list.reversed.toList();
 }
 
-Future<List<AttendanceModel>> _getListAttendanceInvalid(
+Future<List<AttendanceInvalidModel>> _getListAttendanceInvalid(
     DateTime fromDate, DateTime toDate) async {
   Map<String, dynamic> data = {
     'deptId': 0,
-    'employeeId': EmployeeModel.id,
+    'empCode': EmployeeModel.id.toString(),
     'fromDate': DateFormat('yyyy-MM-dd').format(fromDate),
     'toDate': DateFormat('yyyy-MM-dd').format(toDate)
   };
-  List<AttendanceModel> list = await ApiProvider()
+  List<AttendanceInvalidModel> list = await ApiProvider()
       .getListAttendanceInvalid(EmployeeModel.siteName, data, User.token);
   return list.reversed.toList();
 }

@@ -46,7 +46,7 @@ class AdvanceBloc extends Bloc<AdvanceEvent, AdvanceState> {
       if (daysBetween(state.fromDate!, state.toDate!) < 0) {
         emit(state.copyWith(
             sendStatus: SendAdvanceStatus.failure,
-            error: 'Ngày hết hạn không hợp lệ'));
+            error: 'Ngày kết thúc không hợp lệ'));
         emit(state.copyWith(sendStatus: SendAdvanceStatus.initial, error: ''));
         return;
       }
@@ -57,7 +57,7 @@ class AdvanceBloc extends Bloc<AdvanceEvent, AdvanceState> {
         'Code':'',
         'Reduce':state.advanceKindModel!.id,
         'Qty':event.money.replaceAll('.', ''),
-        'EmployeeID': EmployeeModel.id, //8758,
+        'EmployeeID':EmployeeModel.id, //8758,
         'EffectFrom': state.fromDate!.toIso8601String(),
         'EffectTo': state.toDate!.toIso8601String(),
         'CreateBy': User.name,
@@ -65,8 +65,8 @@ class AdvanceBloc extends Bloc<AdvanceEvent, AdvanceState> {
         'Status': 0,
         'SiteID': EmployeeModel.siteName,
       };
-      String result = await ApiProvider().sendAdvanceRequest(data, User.token);
-      if (result == "ADD") {
+      String? result = await ApiProvider().sendAdvanceRequest(data, User.token);
+      if (result != null) {
         emit(state.copyWith(sendStatus: SendAdvanceStatus.success, error: ''));
       } else {
         emit(state.copyWith(

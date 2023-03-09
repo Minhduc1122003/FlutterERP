@@ -42,6 +42,36 @@ class AttendanceModel {
         isAbsent = json['isAbsent'] ?? true;
 }
 
+class AttendanceInvalidModel {
+  final String code;
+  final String fullName;
+  final String attendCode;
+  final DateTime day;
+  final String shiftCode;
+  final String shift;
+  final String reason;
+
+  AttendanceInvalidModel({
+    required this.code,
+    required this.fullName,
+    required this.attendCode,
+    required this.day,
+    required this.shiftCode,
+    required this.shift,
+    required this.reason,
+  });
+  AttendanceInvalidModel.fromJson(Map<String, dynamic> json)
+      : code = json['code'] ?? '',
+        fullName = json['fullName'] ?? '',
+        attendCode = json['attendCode'] ?? '',
+        day = json['day'] == null
+            ? DateTime.now()
+            : DateTime.parse(json['day']).toLocal(),
+        shiftCode = json['shiftCode'] ?? '',
+        shift = json['shift'] ?? '',
+        reason = json['reason'] ?? '';
+}
+
 class TimeSheetModel {
   final double totalDay;
   final double totalHour;

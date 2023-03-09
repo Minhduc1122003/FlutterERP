@@ -13,6 +13,7 @@ const String loginAPI = '$serverURL/erp/Users/weblogin';
 const String getListOnLeaveRequestAPI = '$serverURL/hrm/api/onLeaveFileLine/';
 const String getListTimekeepingOffsetRequestAPI =
     '$serverURL/hrm/api/TimekeepingOffset/getByEmployee/';
+const String getListAdvanceRequestAPI = '$serverURL/hrm/api/Reduce/GetAll/';
 
 const String getOnLeaveKindAPI = '$serverURL/hrm/api/permissionType/getAll/';
 const String sendOnLeaveRequestAPI = '$serverURL/hrm/api/onLeaveFileLine';
