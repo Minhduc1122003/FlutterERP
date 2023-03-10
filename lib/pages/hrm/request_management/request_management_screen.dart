@@ -608,9 +608,9 @@ Widget _buildAdvanceRequestItem(AdvanceRequestModel model) {
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
-                    Text(
-                        capitalize(model.reduce.toString())
-                            .replaceAll("", "\u{200B}"),
+                    Text('',
+                        // capitalize(model.code)
+                        //     .replaceAll("", "\u{200B}"),
                         style: const TextStyle(color: blueBlack, fontSize: 13),
                         overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 10),
@@ -618,7 +618,7 @@ Widget _buildAdvanceRequestItem(AdvanceRequestModel model) {
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
-                    Text(model.code,
+                    Text(model.description,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: blueBlack, fontSize: 13)),
                   ],

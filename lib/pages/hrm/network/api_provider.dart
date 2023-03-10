@@ -204,18 +204,16 @@ class ApiProvider {
     }
   }
 
-  Future<List<AttendanceInvalidModel>> getListAttendanceInvalid(
+  Future<int> getListAttendanceInvalid(
       String siteName, Map<String, dynamic> map, String token) async {
     response =
         await postConnect(getListAttendanceInvalidAPI + siteName, map, token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
-      return responseList
-          .map((val) => AttendanceInvalidModel.fromJson(val))
-          .toList();
+      return responseList.length;
     } else {
-      return [];
+      return -1;
     }
   }
 
@@ -240,6 +238,17 @@ class ApiProvider {
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
       return responseList.map((val) => TimeSheetModel.fromJson(val)).toList();
+    } else {
+      return [];
+    }
+  }
+   Future<List<SummaryOffsetModel>> getOffsetAndOnLeave(
+      Map<String, dynamic> map, String token) async {
+    response = await postConnect(getOffsetAndOnLeaveAPI, map, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      List responseList = json.decode(response.body);
+      return responseList.map((val) => SummaryOffsetModel.fromJson(val)).toList();
     } else {
       return [];
     }

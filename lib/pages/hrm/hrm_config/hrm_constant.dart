@@ -28,7 +28,9 @@ const String sendAdvanceRequestAPI = '$serverURL/hrm/api/Reduce/SaveAll/0';
 const String getListAttendanceAPI = '$serverURL/hrm/api/attendance/ByEmployee/';
 const String getListAttendanceInvalidAPI = '$serverURL/hrm/api/attendance/invalid/';
 const String getTimeSheetsAPI='$serverURL/hrm/api/workOfDayAnalysis/total';
+const String getOffsetAndOnLeaveAPI='$serverURL/hrm/api/workOfDayAnalysis/summaryOffsets';
 const String getListSalaryPeriodAPI='$serverURL/hrm/api/SalaryPeriod/GetAll/';
+
 
 const String getSalaryCaculateAPI='$serverURL/hrm/api/salarycaculate/GetSalaryByID/';
 

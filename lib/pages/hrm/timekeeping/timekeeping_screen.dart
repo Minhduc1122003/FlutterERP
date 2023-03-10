@@ -222,7 +222,7 @@ class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            buildTabar(),
+            _buildTabar(),
             Expanded(
               child: Container(
                 color: lightGreen1,
@@ -231,8 +231,9 @@ class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
                   if (state.status == TimekeepingStatus.success) {
                     return TabBarView(
                       children: [
-                        buildInOutItem(state.listAttendanceModel),
-                        buildTimeSheetsList(state.listTimeSheetModel)
+                        _buildInOutItem(state.listAttendanceModel),
+                        _buildTimeSheetsList(
+                            state.listTimeSheetModel, state.nAttendanceInvalid,state.nOffset,state.nOnLeave)
                       ],
                     );
                   } else if (state.status == TimekeepingStatus.loading) {
@@ -253,7 +254,7 @@ class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
   }
 }
 
-Widget buildTabar() {
+Widget _buildTabar() {
   //TimeKeepingController controller = Get.find<TimeKeepingController>();
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -278,7 +279,7 @@ Widget buildTabar() {
   );
 }
 
-Widget buildInOutItem(List<AttendanceModel> listAttendanceModel) {
+Widget _buildInOutItem(List<AttendanceModel> listAttendanceModel) {
   return SingleChildScrollView(
     child: Column(
       children: [
@@ -399,11 +400,16 @@ Widget buildInOutItem(List<AttendanceModel> listAttendanceModel) {
   );
 }
 
-Widget buildTimeSheetsList(List<TimeSheetModel> listTimeSheetModel) {
+Widget _buildTimeSheetsList(List<TimeSheetModel> listTimeSheetModel,
+    int nAttendanceInvalid, int nOffset, int nOnLeave) {
   return SingleChildScrollView(
     child: Column(
       children: [
-        for (var m in listTimeSheetModel) buildTimeSheetsItem(m)
+        for (var m in listTimeSheetModel) _buildTimeSheetsItem(m),
+        if (nAttendanceInvalid >= 0)
+          _buildAttendanceInvalid(nAttendanceInvalid),
+        if (nOffset >= 0) _buildOffset(nOffset),
+        if (nOnLeave >= 0) _buildOnleave(nOnLeave)
         //const SizedBox(height: 15),
         // buildTimeSheetsItem('Ngày công thực tế', '0 công', true),
         // Container(height: 1, width: double.infinity, color: Colors.grey[200]),
@@ -434,10 +440,76 @@ Widget buildTimeSheetsList(List<TimeSheetModel> listTimeSheetModel) {
   );
 }
 
-Widget buildTimeSheetsItem(TimeSheetModel timeSheetModel) {
+Widget _buildAttendanceInvalid(int nAttendanceInvalid) {
   return Container(
     color: Colors.white,
-    margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    margin: const EdgeInsets.only(left: 10,right:10, top: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          'Số lần quên check in/check out',
+          style:
+              TextStyle(color: blueBlack, fontFamily: 'roboto', fontSize: 16),
+        ),
+        Text(
+          '$nAttendanceInvalid lần',
+          style: const TextStyle(color: blueBlack),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildOffset(int nOffset) {
+  return Container(
+    color: Colors.white,
+    margin: const EdgeInsets.only(left: 10,right:10, top: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          'Số phiếu bù công',
+          style:
+              TextStyle(color: blueBlack, fontFamily: 'roboto', fontSize: 16),
+        ),
+        Text(
+          '$nOffset phiếu',
+          style: const TextStyle(color: blueBlack),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildOnleave(int nOnLeave) {
+  return Container(
+    color: Colors.white,
+    margin: const EdgeInsets.only(left: 10,right:10, top: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          'Số phiếu nghỉ phép',
+          style:
+              TextStyle(color: blueBlack, fontFamily: 'roboto', fontSize: 16),
+        ),
+        Text(
+          '$nOnLeave phiếu',
+          style: const TextStyle(color: blueBlack),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildTimeSheetsItem(TimeSheetModel timeSheetModel) {
+  return Container(
+    color: Colors.white,
+    margin: const EdgeInsets.only(left: 10,right:10, top: 10),
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(timeSheetModel.title,

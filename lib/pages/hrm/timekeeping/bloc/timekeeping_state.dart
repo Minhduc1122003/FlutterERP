@@ -9,6 +9,9 @@ class TimekeepingState extends Equatable {
   final List<TimeSheetModel> listTimeSheetModel;
   final List<SalaryPeriodModel> listSalaryPeriodModel;
   final SalaryPeriodModel? salaryPeriodModel;
+  final int nAttendanceInvalid;
+  final int nOnLeave;
+  final int nOffset;
   final TimekeepingStatus status;
 
   const TimekeepingState(
@@ -16,24 +19,34 @@ class TimekeepingState extends Equatable {
       this.listTimeSheetModel = const [],
       this.listSalaryPeriodModel = const [],
       this.salaryPeriodModel,
-      this.status = TimekeepingStatus.success
-   });
+      this.nAttendanceInvalid= -1,
+      this.nOnLeave = -1,
+      this.nOffset = -1,
+      this.status = TimekeepingStatus.success});
   TimekeepingState copyWith(
       {List<AttendanceModel>? listAttendanceModel,
       List<TimeSheetModel>? listTimeSheetModel,
       List<SalaryPeriodModel>? listSalaryPeriodModel,
       SalaryPeriodModel? salaryPeriodModel,
+      int? nAttendanceInvalid,
+      int? nOnLeave,
+      int? nOffset,
       TimekeepingStatus? status}) {
     return TimekeepingState(
       listAttendanceModel: listAttendanceModel ?? this.listAttendanceModel,
       listTimeSheetModel: listTimeSheetModel ?? this.listTimeSheetModel,
       listSalaryPeriodModel:
           listSalaryPeriodModel ?? this.listSalaryPeriodModel,
-      salaryPeriodModel: salaryPeriodModel ?? this.salaryPeriodModel,     
+      salaryPeriodModel: salaryPeriodModel ?? this.salaryPeriodModel,
+      nAttendanceInvalid:
+          nAttendanceInvalid ?? this.nAttendanceInvalid,
+      nOnLeave: nOnLeave ?? this.nOnLeave,
+      nOffset: nOffset ?? this.nOffset,
       status: status ?? this.status,
     );
   }
 
   @override
-  List<Object?> get props => [listAttendanceModel,listTimeSheetModel,salaryPeriodModel,status];
+  List<Object?> get props =>
+      [listAttendanceModel, listTimeSheetModel, salaryPeriodModel, status];
 }

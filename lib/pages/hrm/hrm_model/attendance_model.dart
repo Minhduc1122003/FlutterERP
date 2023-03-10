@@ -95,6 +95,25 @@ class TimeSheetModel {
         shiftType = json['ShiftType'] ?? 0;
 }
 
+class SummaryOffsetModel {
+  final String name;
+  final int offset;
+  final int onLeave;
+  final String code;
+
+  SummaryOffsetModel({
+    required this.name,
+    required this.offset,
+    required this.onLeave,
+    required this.code,
+  });
+  SummaryOffsetModel.fromJson(Map<String, dynamic> json)
+      : name = json['fullName']??'',
+        offset = json['offset']??0,
+        onLeave = json['onLeave'] ?? 0,
+        code = json['code'] ?? '';
+}
+
 class SalaryPeriodModel {
   final DateTime fromDate;
   final DateTime toDate;

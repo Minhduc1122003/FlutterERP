@@ -76,8 +76,8 @@ class TimekeepingOffsetRequestModel {
         createDate = json['createDate'] == null
             ? DateTime.now()
             : DateTime.parse(json['createDate']).toLocal(),
-        reason = json['reason'],
-        note = json['note'];
+        reason = json['reason'] ?? '',
+        note = json['note'] ?? '';
 }
 
 class OnLeaveRequestModel {
@@ -132,6 +132,7 @@ class AdvanceRequestModel {
   final DateTime effectFrom;
   final DateTime effectTo;
   final DateTime createDate;
+  final String description;
   AdvanceRequestModel(
       {required this.id,
       required this.code,
@@ -140,10 +141,11 @@ class AdvanceRequestModel {
       required this.qty,
       required this.effectFrom,
       required this.effectTo,
-      required this.createDate});
+      required this.createDate,
+      required this.description});
   AdvanceRequestModel.fromJson(Map<String, dynamic> json)
       : id = json['ID'],
-      code = json['Code'],
+        code = json['Code'],
         status = json['Status'],
         reduce = json['Reduce'],
         qty = json['Qty'],
@@ -151,5 +153,6 @@ class AdvanceRequestModel {
         effectTo = DateTime.parse(json['EffectTo']).toLocal(),
         createDate = json['CreateDate'] == null
             ? DateTime.now()
-            : DateTime.parse(json['CreateDate']).toLocal();
+            : DateTime.parse(json['CreateDate']).toLocal(),
+        description = json['Description']??'';
 }

@@ -64,6 +64,7 @@ class AdvanceBloc extends Bloc<AdvanceEvent, AdvanceState> {
         'UpdateBy': User.name,
         'Status': 0,
         'SiteID': EmployeeModel.siteName,
+        'Description':event.note
       };
       String? result = await ApiProvider().sendAdvanceRequest(data, User.token);
       if (result != null) {
