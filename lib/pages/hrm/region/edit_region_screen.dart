@@ -1,18 +1,17 @@
-import 'package:erp/pages/hrm/color.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/constant.dart';
+import '../color.dart';
 
-class EditBranchScreen extends StatelessWidget {
-  const EditBranchScreen({super.key});
+class EditRegionScreen extends StatelessWidget {
+  const EditRegionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String region = 'vung a';
-    String branch = 'Vietgoat';
-    String note = 'Vietgoat';
-    TextEditingController branchController =
-        TextEditingController(text: branch);
+    String region = 'Vietgoat';
+    String note = 'abc';
+    TextEditingController regionController =
+        TextEditingController(text: region);
     TextEditingController noteController = TextEditingController(text: note);
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -21,7 +20,7 @@ class EditBranchScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: blueBlack),
         elevation: 1,
-        title: const Text('Chi nhánh', style: TextStyle(color: blueBlack)),
+        title: const Text('Vùng', style: TextStyle(color: blueBlack)),
         actions: [
           InkWell(
             child: Container(
@@ -38,35 +37,10 @@ class EditBranchScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [        
           Row(
             children: const [
-              Text('Vùng', style: TextStyle(color: blueGrey1)),
-              Text(' *', style: TextStyle(color: Colors.red))
-            ],
-          ),
-          const SizedBox(height: 10),
-          Container(
-              decoration: BoxDecoration(
-                  color: const Color(0xFFF3F6FF),
-                  borderRadius: BorderRadius.circular(5)),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              height: 45,
-              width: double.infinity,
-              child: Row(
-                children: [
-                  Expanded(
-                      child: Text(
-                    region,
-                    style: TextStyle(color: blueBlack, fontSize: 16),
-                  )),
-                  const Icon(Icons.arrow_forward_ios, color: blueGrey1, size: 22)
-                ],
-              )),
-          const SizedBox(height: 20),
-          Row(
-            children: const [
-              Text('Chi nhánh', style: TextStyle(color: blueGrey1)),
+              Text('Tên', style: TextStyle(color: blueGrey1)),
               Text(
                 ' *',
                 style: TextStyle(color: Colors.red),
@@ -79,7 +53,7 @@ class EditBranchScreen extends StatelessWidget {
             height: 50,
             width: double.infinity,
             child: TextFormField(
-              controller: branchController,
+              controller: regionController,
               cursorColor: backgroundColor,
               textInputAction: TextInputAction.done,
               decoration: const InputDecoration(

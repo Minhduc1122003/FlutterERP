@@ -6,6 +6,7 @@ import 'infor_screen.dart';
 import 'location/location_list_screen.dart';
 import 'notification_screen.dart';
 import 'qr_list_screen.dart';
+import 'region/region_list_screen.dart';
 import 'wan_ip_list_screen.dart';
 import 'wan_ip_screen.dart';
 import 'wifi_list_screen.dart';
@@ -53,8 +54,12 @@ Widget buildCompanyItem(
     BuildContext context, int id, IconData icon, String name) {
   return InkWell(
     onTap: () {
- 
-         if (id == 2) {
+      if (id == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const RegionListScreen()),
+        );
+      } else if (id == 2) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const BranchListScreen()),
