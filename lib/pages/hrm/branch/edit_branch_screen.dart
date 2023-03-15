@@ -2,18 +2,28 @@ import 'package:erp/pages/hrm/color.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/constant.dart';
+import '../hrm_model/company_model.dart';
 
-class EditBranchScreen extends StatelessWidget {
-  const EditBranchScreen({super.key});
+class EditBranchScreen extends StatefulWidget {
+  const EditBranchScreen({super.key, required this.branchModel});
+  final BranchModel branchModel;
+
+  @override
+  State<EditBranchScreen> createState() => _EditBranchScreenState();
+}
+
+class _EditBranchScreenState extends State<EditBranchScreen> {
+  TextEditingController branchController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
+  @override
+  void initState() {
+    branchController.text = widget.branchModel.name;
+    noteController.text = widget.branchModel.note;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    String region = 'vung a';
-    String branch = 'Vietgoat';
-    String note = 'Vietgoat';
-    TextEditingController branchController =
-        TextEditingController(text: branch);
-    TextEditingController noteController = TextEditingController(text: note);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -32,7 +42,11 @@ class EditBranchScreen extends StatelessWidget {
                 style: TextStyle(color: mainColor),
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              editBranch(widget.branchModel, branchController.text,
+                  noteController.text);
+              Navigator.pop(context, 'edit');
+            },
           )
         ],
       ),
@@ -57,10 +71,11 @@ class EditBranchScreen extends StatelessWidget {
                 children: [
                   Expanded(
                       child: Text(
-                    region,
-                    style: TextStyle(color: blueBlack, fontSize: 16),
+                    widget.branchModel.regionName,
+                    style: const TextStyle(color: blueBlack, fontSize: 16),
                   )),
-                  const Icon(Icons.arrow_forward_ios, color: blueGrey1, size: 22)
+                  const Icon(Icons.arrow_forward_ios,
+                      color: blueGrey1, size: 22)
                 ],
               )),
           const SizedBox(height: 20),
@@ -110,7 +125,7 @@ class EditBranchScreen extends StatelessWidget {
                 border: InputBorder.none,
               ),
               keyboardType: TextInputType.multiline,
-               maxLines: null ,
+              maxLines: null,
             ),
           ),
           const Expanded(child: SizedBox.shrink()),
@@ -132,12 +147,42 @@ class EditBranchScreen extends StatelessWidget {
                   child: const Text('Xóa',
                       style: TextStyle(fontSize: 18, color: Colors.red)),
                   onPressed: () {
-                    Navigator.pop(context);
+                    deleteBranch(widget.branchModel);
+                    Navigator.pop(context, 'delete');
                   }),
             ),
           ),
         ]),
       ),
     );
+  }
+}
+
+editBranch(BranchModel branchModel, String name, String note) {
+  List<RegionModel> regionList = CompanyModel.regionList;
+  for (int i = 0; i < regionList.length; i++) {
+    if (regionList[i].id == branchModel.regionID) {
+      for (int j = 0; j < regionList[i].branchList.length; j++) {
+        if (regionList[i].branchList[j].id == branchModel.id) {
+          CompanyModel.regionList[i].branchList[j] =
+              branchModel.copyWith(name: name, note: note);
+          return;
+        }
+      }
+    }
+  }
+}
+
+deleteBranch(BranchModel branchModel) {
+  List<RegionModel> regionList = CompanyModel.regionList;
+  for (int i = 0; i < regionList.length; i++) {
+    if (regionList[i].id == branchModel.regionID) {
+      for (int j = 0; j < regionList[i].branchList.length; j++) {
+        if (regionList[i].branchList[j].id == branchModel.id) {
+          CompanyModel.regionList[i].branchList.removeAt(j);
+          return;
+        }
+      }
+    }
   }
 }

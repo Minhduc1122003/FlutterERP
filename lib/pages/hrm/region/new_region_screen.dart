@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import '../../../config/constant.dart';
 import '../color.dart';
+import '../hrm_model/company_model.dart';
+import '../hrm_widget/dialog.dart';
 
 class NewRegionScreen extends StatelessWidget {
   const NewRegionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController regionController = TextEditingController();
+    TextEditingController noteController = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -24,7 +28,20 @@ class NewRegionScreen extends StatelessWidget {
                 style: TextStyle(color: mainColor),
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              if (regionController.text.isEmpty) {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return closeDialog(context, 'Thông báo',
+                          'Vui lòng điền đầy đủ thông tin');
+                    });
+                return;
+              }
+              addRegion(regionController.text, noteController.text);
+              Navigator.pop(context,'new');
+            },
           )
         ],
       ),
@@ -33,7 +50,6 @@ class NewRegionScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            
             Row(
               children: const [
                 Text('Thêm vùng', style: TextStyle(color: blueGrey1)),
@@ -49,6 +65,7 @@ class NewRegionScreen extends StatelessWidget {
               height: 50,
               width: double.infinity,
               child: TextFormField(
+                controller: regionController,
                 cursorColor: backgroundColor,
                 textInputAction: TextInputAction.done,
                 decoration: const InputDecoration(
@@ -68,6 +85,7 @@ class NewRegionScreen extends StatelessWidget {
               height: 150,
               width: double.infinity,
               child: TextFormField(
+                controller: noteController,
                 cursorColor: backgroundColor,
                 textInputAction: TextInputAction.done,
                 decoration: const InputDecoration(
@@ -79,11 +97,16 @@ class NewRegionScreen extends StatelessWidget {
                 ),
               ),
             ),
-
-          
           ]),
         ),
       ),
     );
   }
+}
+
+addRegion(String name, String note) {
+  List<RegionModel> regionList = CompanyModel.regionList;
+  int id = regionList.isEmpty ? 1 : regionList.last.id + 1;
+  CompanyModel.regionList
+      .add(RegionModel(id: id, name: name, note: note, branchList: []));
 }

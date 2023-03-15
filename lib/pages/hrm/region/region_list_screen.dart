@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import '../color.dart';
+import '../hrm_model/company_model.dart';
 import 'edit_region_screen.dart';
 import 'new_region_screen.dart';
 
-
-class RegionListScreen extends StatelessWidget {
+class RegionListScreen extends StatefulWidget {
   const RegionListScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    List<String> regionList = ['VietGoat','vung a','vung b'];
+  State<RegionListScreen> createState() => _RegionListScreenState();
+}
+
+class _RegionListScreenState extends State<RegionListScreen> {
+  List<RegionModel> regionList = CompanyModel.regionList;
+  @override
+  Widget build(BuildContext context) { 
     return Scaffold(
         backgroundColor: const Color(0xFFF3F6FF),
         appBar: AppBar(
@@ -22,14 +27,17 @@ class RegionListScreen extends StatelessWidget {
           ),
           actions: [
             IconButton(
-                onPressed: () {
-                  Navigator.push(
+                onPressed: ()async {
+                  dynamic result = await Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const NewRegionScreen()),
                   );
+                  if (result != null) {
+                    setState(() {});
+                  }
                 },
-                icon: Icon(Icons.add))
+                icon: const Icon(Icons.add))
           ],
         ),
         body: (regionList.isEmpty)
@@ -46,13 +54,16 @@ class RegionListScreen extends StatelessWidget {
                       itemCount: regionList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
-                          onTap: () {
-                            Navigator.push(
+                          onTap: () async{
+                            dynamic result =await  Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EditRegionScreen()),
+                                  builder: (context) => EditRegionScreen(
+                                      regionModel: regionList[index])),
                             );
+                            if (result != null) {
+                              setState(() {});
+                            }
                           },
                           child: Container(
                               color: Colors.white,
@@ -64,7 +75,7 @@ class RegionListScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                       child: Text(
-                                    regionList[index],
+                                    regionList[index].name,
                                     style: const TextStyle(
                                         color: blueBlack, fontSize: 16),
                                   )),
@@ -82,8 +93,6 @@ class RegionListScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
-      
-        );
+              ));
   }
 }

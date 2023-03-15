@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
 import '../color.dart';
+import '../hrm_model/company_model.dart';
 import 'edit_branch_screen.dart';
 import 'new_branch_screen.dart';
 
-class BranchListScreen extends StatelessWidget {
+class BranchListScreen extends StatefulWidget {
   const BranchListScreen({super.key});
 
   @override
+  State<BranchListScreen> createState() => _BranchListScreenState();
+}
+
+class _BranchListScreenState extends State<BranchListScreen> {
+  List<BranchModel> branchList = [];
+  @override
+  void initState() {
+    for (RegionModel model in CompanyModel.regionList) {
+      branchList.addAll(model.branchList);
+    }
+    super.initState();
+  }
+
+  getBranchList() {
+    List<RegionModel> regionList = CompanyModel.regionList;
+    branchList.clear();
+    for (RegionModel model in regionList) {
+      branchList.addAll(model.branchList);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<String> branchList = ['VietGoat'];
     return Scaffold(
         backgroundColor: const Color(0xFFF3F6FF),
         appBar: AppBar(
@@ -21,12 +43,16 @@ class BranchListScreen extends StatelessWidget {
           ),
           actions: [
             IconButton(
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  dynamic result = await Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const NewBranchScreen()),
                   );
+                  if (result != null) {
+                    getBranchList();
+                    setState(() {});
+                  }
                 },
                 icon: Icon(Icons.add))
           ],
@@ -45,13 +71,17 @@ class BranchListScreen extends StatelessWidget {
                       itemCount: branchList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
-                          onTap: () {
-                            Navigator.push(
+                          onTap: () async {
+                            dynamic result = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EditBranchScreen()),
+                                  builder: (context) => EditBranchScreen(
+                                      branchModel: branchList[index])),
                             );
+                            if (result != null) {
+                              getBranchList();
+                              setState(() {});
+                            }
                           },
                           child: Container(
                               color: Colors.white,
@@ -63,7 +93,7 @@ class BranchListScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                       child: Text(
-                                    branchList[index],
+                                    branchList[index].name,
                                     style: const TextStyle(
                                         color: blueBlack, fontSize: 16),
                                   )),

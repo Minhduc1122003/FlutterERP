@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import '../color.dart';
-import 'create_location_screen.dart';
+import '../hrm_model/company_model.dart';
+import 'edit_location_screen.dart';
+import 'new_location_screen.dart';
 
-class LocationListScreen extends StatelessWidget {
+class LocationListScreen extends StatefulWidget {
   const LocationListScreen({super.key});
 
   @override
+  State<LocationListScreen> createState() => _LocationListScreenState();
+}
+
+class _LocationListScreenState extends State<LocationListScreen> {
+  List<LocationModel> locationList = [];
+  @override
+  void initState() {
+    locationList = CompanyModel.locationList;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<String> locationList = ['Văn phòng Demo1','Văn phòng Demo2'];
     return Scaffold(
       backgroundColor: const Color(0xFFF3F6FF),
       appBar: AppBar(
@@ -20,14 +33,18 @@ class LocationListScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                dynamic result = await Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CreateLocationScreen()),
+                      builder: (context) => const NewLocationScreen()),
                 );
+                if (result != null) {
+                  locationList = CompanyModel.locationList;
+                  setState(() {});
+                }
               },
-              icon: Icon(Icons.add))
+              icon: const Icon(Icons.add))
         ],
       ),
       body: (locationList.isEmpty)
@@ -37,15 +54,24 @@ class LocationListScreen extends StatelessWidget {
               style: TextStyle(fontSize: 17, color: Colors.blueGrey),
             ))
           : Column(
-            children: [
-              const SizedBox(height: 10),
-              Expanded(
+              children: [
+                const SizedBox(height: 10),
+                Expanded(
                   child: ListView.separated(
                     itemCount: locationList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
-                        onTap: () {
-                 
+                        onTap: () async {
+                          dynamic result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                     EditLocationScreen(locationModel: locationList[index],)),
+                          );
+                          if (result != null) {
+                            locationList = CompanyModel.locationList;
+                            setState(() {});
+                          }
                         },
                         child: Container(
                             color: Colors.white,
@@ -56,13 +82,14 @@ class LocationListScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                     child: Text(
-                                  locationList[index],
-                                  style: TextStyle(color: blueBlack, fontSize: 16),
+                                  locationList[index].name,
+                                  style: const TextStyle(
+                                      color: blueBlack, fontSize: 16),
                                 )),
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                Icon(Icons.arrow_forward_ios,
+                                const Icon(Icons.arrow_forward_ios,
                                     color: blueGrey1, size: 20)
                               ],
                             )),
@@ -101,8 +128,8 @@ class LocationListScreen extends StatelessWidget {
                   //     ),
                   // ]),
                 ),
-            ],
-          ),
+              ],
+            ),
     );
   }
 }

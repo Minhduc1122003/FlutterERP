@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 
 import '../../../config/constant.dart';
 import '../color.dart';
+import '../hrm_model/company_model.dart';
+import '../hrm_widget/dialog.dart';
 
 class EditRegionScreen extends StatelessWidget {
-  const EditRegionScreen({super.key});
-
+  const EditRegionScreen({super.key, required this.regionModel});
+  final RegionModel regionModel;
   @override
   Widget build(BuildContext context) {
-    String region = 'Vietgoat';
-    String note = 'abc';
+    String regionName = regionModel.name;
+    String note = regionModel.note;
     TextEditingController regionController =
-        TextEditingController(text: region);
+        TextEditingController(text: regionName);
     TextEditingController noteController = TextEditingController(text: note);
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -31,13 +33,27 @@ class EditRegionScreen extends StatelessWidget {
                 style: TextStyle(color: mainColor),
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              if (regionController.text.isEmpty) {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return closeDialog(context, 'Thông báo',
+                          'Vui lòng điền đầy đủ thông tin');
+                    });
+                return;
+              }
+              editRegion(
+                  regionModel.id, regionController.text, noteController.text);
+              Navigator.pop(context, 'edit');
+            },
           )
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [        
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(
             children: const [
               Text('Tên', style: TextStyle(color: blueGrey1)),
@@ -84,7 +100,7 @@ class EditRegionScreen extends StatelessWidget {
                 border: InputBorder.none,
               ),
               keyboardType: TextInputType.multiline,
-               maxLines: null ,
+              maxLines: null,
             ),
           ),
           const Expanded(child: SizedBox.shrink()),
@@ -106,12 +122,33 @@ class EditRegionScreen extends StatelessWidget {
                   child: const Text('Xóa',
                       style: TextStyle(fontSize: 18, color: Colors.red)),
                   onPressed: () {
-                    Navigator.pop(context);
+                    deleteRegion(regionModel.id);
+                    Navigator.pop(context, 'delete');
                   }),
             ),
           ),
         ]),
       ),
     );
+  }
+}
+
+editRegion(int id, String name, String note) {
+  List<RegionModel> regionList = CompanyModel.regionList;
+  for (int i = 0; i < regionList.length; i++) {
+    if (regionList[i].id == id) {
+      CompanyModel.regionList[i] =
+          regionList[i].copyWith(name: name, note: note);
+    }
+  }
+}
+
+deleteRegion(int id) {
+  List<RegionModel> regionList = CompanyModel.regionList;
+  for (RegionModel model in regionList) {
+    if (model.id == id) {
+      CompanyModel.regionList.remove(model);
+      return;
+    }
   }
 }
