@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../config/constant.dart';
 import '../color.dart';
 import '../hrm_model/company_model.dart';
+import '../hrm_widget/dialog.dart';
 
 class EditLocationScreen extends StatefulWidget {
   const EditLocationScreen({super.key, required this.locationModel});
@@ -58,7 +59,23 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
               ),
             ),
             onTap: () {
-              Navigator.pop(context);
+              if (locationController.text.isEmpty ||
+                  addressController.text.isEmpty) {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return closeDialog(context, 'Thông báo',
+                          'Vui lòng điền đầy đủ thông tin');
+                    });
+                return;
+              }
+              editLocation(
+                widget.locationModel,
+                locationController.text,
+                addressController.text,
+              );
+              Navigator.pop(context, 'edit');
             },
           )
         ],
@@ -261,5 +278,15 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
         ),
       ),
     );
+  }
+}
+
+editLocation(LocationModel locationModel, String name, String address) {
+  List<LocationModel> locationList = CompanyModel.locationList;
+  for (int i = 0; i < locationList.length; i++) {
+    if (locationList[i].id == locationModel.id) {
+      CompanyModel.locationList[i] =
+          locationModel.copyWith(name: name, address: address);
+    }
   }
 }

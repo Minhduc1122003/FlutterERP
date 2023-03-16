@@ -12,7 +12,7 @@ class CompanyModel {
     //       id: 3, name: 'chi nhanh b3', note: 'note3', regionName: 'vung b',regionID: 2)
     // ]),
   ];
-  static List<LocationModel> locationList=[];
+  static List<LocationModel> locationList = [];
 }
 
 class RegionModel {
@@ -74,4 +74,12 @@ class LocationModel {
     required this.address,
     required this.branch,
   });
+  LocationModel copyWith(
+      {int? id, String? name, String? address, BranchModel? branch}) {
+    return LocationModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        address: address ?? this.address,
+        branch: branch ?? this.branch);
+  }
 }

@@ -60,6 +60,12 @@ String getToday(DateTime date) {
   return DateFormat('EEEE', 'vi').format(date);
 }
 
+String converNumber(String n) {
+  if (n.isEmpty) return '';
+  double d = double.parse(n);
+  return NumberFormat.decimalPattern('vi').format(d);
+}
+
 String getDay(int d) {
   switch (d) {
     case 1:
@@ -118,22 +124,21 @@ int checkShiftStatus(AttendanceModel attendanceModel) {
 }
 
 class CurrencyInputFormatter extends TextInputFormatter {
-
-    TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-
-        if(newValue.selection.baseOffset == 0){
-            print(true);
-            return newValue;
-        }
-
-        double value = double.parse(newValue.text);
-
-        final formatter = NumberFormat.simpleCurrency(locale: "pt_Br");
-
-        String newText = formatter.format(value/100);
-
-        return newValue.copyWith(
-            text: newText,
-            selection: new TextSelection.collapsed(offset: newText.length));
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      print(true);
+      return newValue;
     }
+
+    double value = double.parse(newValue.text);
+
+    final formatter = NumberFormat.simpleCurrency(locale: "pt_Br");
+
+    String newText = formatter.format(value / 100);
+
+    return newValue.copyWith(
+        text: newText,
+        selection: new TextSelection.collapsed(offset: newText.length));
+  }
 }

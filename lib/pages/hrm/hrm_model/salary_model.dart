@@ -1,16 +1,18 @@
+import '../hrm_method.dart';
+
 class SalaryCaculateModel {
   final String luongCoBan;
   final String ngayCongChuan;
-  final int ngayCongLamViecThucTe;
+  final String ngayCongLamViecThucTe;
   final String ngayLe;
   final String ngayCuoi;
   final String ngayNghiTang;
   final String ngayNghiPhepNam;
   final String phepNam;
-  final double tangCaThuong;
-  final double tangCaDem;
-  final double tangCaChuNhat;
-  final double tangCaNgayle;
+  final String tangCaThuong;
+  final String tangCaDem;
+  final String tangCaChuNhat;
+  final String tangCaNgayle;
   final String luongTheoNgayCong;
   final String phuCapNamgSuat;
   final String phuCapNhaO;
@@ -80,26 +82,19 @@ class SalaryCaculateModel {
     required this.luongThucLinhLamTron,
   });
   SalaryCaculateModel.fromJson(Map<String, dynamic> json)
-      : luongCoBan = json['LƯƠNG CƠ BẢN'] ?? '',
-        ngayCongChuan = json['NGÀY CÔNG CHUẨN'] ?? '',
-        ngayCongLamViecThucTe = json['NGÀY CÔNG LÀM VIỆC THỰC TẾ'] ?? 0,
-        ngayLe = json['NGÀY LỄ'] ?? '',
-        ngayCuoi = json['NGÀY CƯỚI'] ?? '',
-        ngayNghiTang = json['NGÀY NGHỈ TANG'] ?? '',
+      : luongCoBan = json['LƯƠNG CƠ BẢN - LCB'] ?? '',
+        ngayCongChuan = json['NGÀY CÔNG CHUẨN - NCC'] ?? '',
+        ngayCongLamViecThucTe =
+            json['NGÀY CÔNG LÀM VIỆC THỰC TẾ - NCLVTT'] ?? '',
+        ngayLe = json['NGÀY LỄ - NPL'] ?? '',
+        ngayCuoi = json['NGÀY CƯỚI - NPC'] ?? '',
+        ngayNghiTang = json['NGÀY NGHỈ TANG - NNPT'] ?? '',
         ngayNghiPhepNam = json['NGÀY NGHỈ PHÉP NĂM'] ?? '',
-        phepNam = json['PHÉP NĂM'] ?? '',
-        tangCaThuong = json['TĂNG CA NGÀY THƯỜNG'] != null
-            ? (json['TĂNG CA NGÀY THƯỜNG'] as num).toDouble()
-            : 0.0,
-        tangCaDem = json['TĂNG CA ĐÊM'] != null
-            ? (json['TĂNG CA ĐÊM'] as num).toDouble()
-            : 0.0,
-        tangCaChuNhat = json['TĂNG CA CHỦ NHẬT'] != null
-            ? (json['TĂNG CA CHỦ NHẬT'] as num).toDouble()
-            : 0.0,
-        tangCaNgayle = json['TĂNG CA NGÀY LỄ'] != null
-            ? (json['TĂNG CA NGÀY LỄ'] as num).toDouble()
-            : 0.0,
+        phepNam = json['PHÉP NĂM - PN'] ?? '',
+        tangCaThuong = json['TĂNG CA NGÀY THƯỜNG - TC1'] ?? '',
+        tangCaDem = json['TĂNG CA ĐÊM - TC2'] ?? '',
+        tangCaChuNhat = json['TĂNG CA CHỦ NHẬT - TC4'] ?? '',
+        tangCaNgayle = json['TĂNG CA NGÀY LỄ - TC3'] ?? '',
         luongTheoNgayCong = json['LƯƠNG THEO NGÀY CÔNG'] ?? '',
         phuCapNamgSuat = json['PHỤ CẤP NĂNG SUẤT'] ?? '',
         phuCapNhaO = json['PHỤ CẤP NHÀ Ở'] ?? '',
