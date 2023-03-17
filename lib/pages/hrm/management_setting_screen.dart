@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../config/constant.dart';
+import '../../config/color.dart';
+
 import 'attendance/attendance_screen.dart';
 import 'company_screen.dart';
 import 'edit_working_hours_screen.dart';

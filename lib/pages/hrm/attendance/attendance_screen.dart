@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../config/constant.dart';
-import '../color.dart';
+import '../../../config/color.dart';
 
 import 'filter_shift_screen.dart';
 

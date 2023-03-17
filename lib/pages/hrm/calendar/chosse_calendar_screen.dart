@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/entypo_icons.dart';
-import '../color.dart';
+import '../../../config/color.dart';
 
 class ChooseCalendarScreen extends StatelessWidget {
   const ChooseCalendarScreen({Key? key}) : super(key: key);

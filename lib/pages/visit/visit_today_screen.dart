@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../config/constant.dart';
+
+import '../../config/hrm_constant.dart';
 import '../../model/visit_today_model.dart';
 import 'visit_screen.dart';
 

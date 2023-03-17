@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../model/hrm_model/employee_model.dart';
+import '../../../../model/hrm_model/on_leave_model.dart';
 import '../../../../model/login_model.dart';
-import '../../hrm_method.dart';
-import '../../hrm_model/employee_model.dart';
-import '../../hrm_model/on_leave_model.dart';
-import '../../network/api_provider.dart';
+import '../../../../method/hrm_method.dart';
+import '../../../../network/api_provider.dart';
 
 part 'on_leave_event.dart';
 part 'on_leave_state.dart';

@@ -1,6 +1,6 @@
-import 'package:erp/pages/hrm/hrm_model/shift_model.dart';
 import 'package:flutter/material.dart';
-import '../color.dart';
+import '../../../model/hrm_model/shift_model.dart';
+import '../../../config/color.dart';
 
 
 class FilterShiftScreen extends StatelessWidget {

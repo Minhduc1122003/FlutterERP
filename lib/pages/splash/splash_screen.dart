@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../config/constant.dart';
+import '../../config/color.dart';
+
 import '../login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -2,11 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:equatable/equatable.dart';
+import '../../../../model/hrm_model/attendance_model.dart';
+import '../../../../model/hrm_model/employee_model.dart';
 import '../../../../model/login_model.dart';
-import '../../hrm_method.dart';
-import '../../hrm_model/attendance_model.dart';
-import '../../hrm_model/employee_model.dart';
-import '../../network/api_provider.dart';
+import '../../../../method/hrm_method.dart';
+import '../../../../network/api_provider.dart';
 part 'shift_calendar_event.dart';
 part 'shift_calendar_state.dart';
 

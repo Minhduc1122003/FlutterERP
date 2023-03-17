@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import '../../config/constant.dart';
-import 'color.dart';
+
+import '../../config/color.dart';
 import 'qr_screen.dart';
 import 'wan_ip_screen.dart';
 import 'wifi_screen.dart';

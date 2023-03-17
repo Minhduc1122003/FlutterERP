@@ -3,11 +3,11 @@ import 'dart:collection';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../model/hrm_model/advance_model.dart';
+import '../../../../model/hrm_model/employee_model.dart';
 import '../../../../model/login_model.dart';
-import '../../hrm_method.dart';
-import '../../hrm_model/advance_model.dart';
-import '../../hrm_model/employee_model.dart';
-import '../../network/api_provider.dart';
+import '../../../../method/hrm_method.dart';
+import '../../../../network/api_provider.dart';
 
 part 'advance_event.dart';
 part 'advance_state.dart';

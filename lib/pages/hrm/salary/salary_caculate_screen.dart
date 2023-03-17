@@ -1,9 +1,9 @@
-import 'package:erp/pages/hrm/color.dart';
+import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../../config/constant.dart';
-import '../hrm_method.dart';
+
+import '../../../method/hrm_method.dart';
 import 'bloc/salary_caculate_bloc.dart';
 import 'choose_salary_period_caculate_screen.dart';
 
@@ -141,8 +141,10 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                               style: TextStyle(fontSize: 16, color: blueBlack),
                             ),
                             Text(
-                              converNumber(state.salaryCaculateModel!.luongCoBan),
-                              style:const TextStyle(fontSize: 16, color: blueBlack),
+                              converNumber(
+                                  state.salaryCaculateModel!.luongCoBan),
+                              style: const TextStyle(
+                                  fontSize: 16, color: blueBlack),
                             ),
                           ],
                         ),
@@ -157,28 +159,64 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                           style: TextStyle(color: blueBlack.withOpacity(0.7)),
                         ),
                       ),
-                      _buildSalaryItem('Ngày công chuẩn',
-                          converNumber(state.salaryCaculateModel!.ngayCongChuan)),
-                      _buildSalaryItem(
-                          'Ngày công làm việc thực tế',
-                          converNumber(state.salaryCaculateModel!.ngayCongLamViecThucTe
-                             )),
-                      _buildSalaryItem(
-                          'Ngày lễ', converNumber(state.salaryCaculateModel!.ngayLe)),
-                      _buildSalaryItem('Ngày nghỉ cưới',
-                          converNumber(state.salaryCaculateModel!.ngayCuoi)),
-                      _buildSalaryItem('Ngày nghỉ tang',
-                         converNumber( state.salaryCaculateModel!.ngayNghiTang)),
-                      _buildSalaryItem('Ngày nghỉ phép năm',
-                          converNumber(state.salaryCaculateModel!.phepNam)),
-                      _buildSalaryItem('Tăng ca thường (1.5)',
-                          converNumber(state.salaryCaculateModel!.tangCaThuong)),
-                      _buildSalaryItem('Tăng ca đêm (2.0)',
-                          converNumber(state.salaryCaculateModel!.tangCaDem)),
-                      _buildSalaryItem('Tăng ca chủ nhật (2.0)',
-                          converNumber(state.salaryCaculateModel!.tangCaChuNhat)),
-                      _buildSalaryItem('Tăng ca ngày lễ (2.0)',
-                          converNumber(state.salaryCaculateModel!.tangCaNgayle)),
+                      // _buildSalaryItem(
+                      //     'Ngày công chuẩn',
+                      //     converNumber(
+                      //         state.salaryCaculateModel!.ngayCongChuan)),
+                      // _buildSalaryItem(
+                      //     'Ngày công thường',
+                      //     converNumber(state
+                      //         .salaryCaculateModel!.ngayCongLamViecThucTe)),
+                      _buildSalaryItem2(
+                          'Ngày công thường',
+                          converNumber(
+                              state.salaryCaculateModel!.ngayCongLamViecThucTe),
+                          converNumber(
+                              state.salaryCaculateModel!.luongTheoNgayCong,
+                              isInt: true)),
+                      _buildSalaryItem2(
+                          'Ngày lễ/chế độ',
+                          converNumber(state.salaryCaculateModel!.ngayLeCheDo),
+                          ''),
+                      // _buildSalaryItem('Ngày lễ',
+                      //     converNumber(state.salaryCaculateModel!.ngayLe)),
+                      // _buildSalaryItem('Ngày nghỉ cưới',
+                      //     converNumber(state.salaryCaculateModel!.ngayCuoi)),
+                      // _buildSalaryItem(
+                      //     'Ngày nghỉ tang',
+                      //     converNumber(
+                      //         state.salaryCaculateModel!.ngayNghiTang)),
+                      _buildSalaryItem2(
+                          'Ngày nghỉ phép năm',
+                          converNumber(
+                              state.salaryCaculateModel!.ngayNghiPhepNam),
+                          ''),
+                      _buildSalaryItem2(
+                          'Tăng ca ngày thường',
+                          converNumber(state.salaryCaculateModel!.tangCaThuong),
+                          converNumber(
+                              state.salaryCaculateModel!.luongNgoaiGioThuong,
+                              isInt: true)),
+                      _buildSalaryItem2(
+                          'Tăng ca đêm',
+                          converNumber(state.salaryCaculateModel!.tangCaDem),
+                          converNumber(
+                              state.salaryCaculateModel!.luongNgoaiGioDem,
+                              isInt: true)),
+                      _buildSalaryItem2(
+                          'Tăng ca ngày lễ',
+                          converNumber(state.salaryCaculateModel!.tangCaNgayle),
+                          converNumber(
+                              state.salaryCaculateModel!.luongNgoaiGioNgayLe,
+                              isInt: true)),
+                      _buildSalaryItem2(
+                          'Tăng ca chủ nhật',
+                          converNumber(
+                              state.salaryCaculateModel!.tangCaChuNhat),
+                          converNumber(
+                              state.salaryCaculateModel!.luongNgoaiGioChuNhat,
+                              isInt: true)),
+
                       //_buildSalaryItem('Lương nghỉ dịch', '-'),
                       Container(
                         color: Colors.white,
@@ -187,15 +225,19 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const SizedBox.shrink(),
-                              Text('Tổng lương[1]:',
+      
+                              Text('Tổng lương [1]',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 16, color: Colors.amber[900])),
-                              Text(converNumber(state.salaryCaculateModel!.luongTheoNgayCong),
+                                      fontSize: 16, color: Colors.deepOrange[900])),
+                              Text(
+                                  sumNumber(
+                                      state.salaryCaculateModel!
+                                          .luongTheoNgayCong,
+                                      state.salaryCaculateModel!.luongNgoaiGio),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
-                                      fontSize: 16, color: Colors.amber[900])),
+                                      fontSize: 16, color: Colors.deepOrange[900])),
                             ]),
                       ),
                       Container(
@@ -204,65 +246,55 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                         color: mainColor.withOpacity(0.2),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'PHÉP NĂM',
-                          style: TextStyle(color: blueBlack.withOpacity(0.7)),
-                        ),
-                      ),
-                      Container(
-                        color: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        height: 30,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Số ngày nghỉ phép năm trong tháng'),
-                              Text('-'),
-                            ]),
-                      ),
-                      Container(
-                        color: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        height: 30,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Ngày phép năm còn tồn đến tháng hiện tại'),
-                              Text('-'),
-                            ]),
-                      ),
-                      Container(
-                        height: 30,
-                        padding: const EdgeInsets.only(left: 10),
-                        color: mainColor.withOpacity(0.2),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'TỔNG TIỀN PHỤ CẤP',
+                          'PHỤ CẤP',
                           style: TextStyle(color: blueBlack.withOpacity(0.7)),
                         ),
                       ),
                       _buildAllowanceItem(
-                          'PC nhà ở', converNumber(state.salaryCaculateModel!.phuCapNhaO)),
+                          'Phụ cấp độc hại',
+                          converNumber(
+                              state.salaryCaculateModel!.phuCapDocHai)),
+                      _buildAllowanceItem('Phụ cấp nhà ở',
+                          converNumber(state.salaryCaculateModel!.phuCapNhaO)),
+                      _buildAllowanceItem('Phụ cấp đi lại',
+                          converNumber(state.salaryCaculateModel!.phuCapDiLai)),
                       _buildAllowanceItem(
-                          'PC đi lại', converNumber(state.salaryCaculateModel!.phuCapDiLai)),
-                      _buildAllowanceItem('PC điện thoại',
-                          converNumber(state.salaryCaculateModel!.phuCapDienThoai)),
-                      _buildAllowanceItem('PC năng suất',
-                          converNumber(state.salaryCaculateModel!.phuCapNamgSuat)),
-                      _buildAllowanceItem('PC công tác phí',
-                          converNumber(state.salaryCaculateModel!.phuCapCongTacPhi)),
-                      _buildAllowanceItem('PC quản lý xe',
-                          converNumber(state.salaryCaculateModel!.phuCapQuanLyXe)),
-                      _buildAllowanceItem('PC phun côn trùng',
-                          converNumber(state.salaryCaculateModel!.phuCapPhunCongTrung)),
+                          'Phụ cấp cơm tăng ca',
+                          converNumber(
+                              state.salaryCaculateModel!.phuCapComTangCa)),
+                      _buildAllowanceItem(
+                          'Phụ cấp chuyên cần',
+                          converNumber(
+                              state.salaryCaculateModel!.phuCapChuyenCan)),
+                      _buildAllowanceItem(
+                          'Phụ cấp bốc hàng',
+                          converNumber(
+                              state.salaryCaculateModel!.phuCapBocHang)),
+                      _buildAllowanceItem(
+                          'Phụ cấp công tác phí',
+                          converNumber(
+                              state.salaryCaculateModel!.phuCapCongTacPhi)),
 
                       _buildAllowanceItem(
-                          'Cơm trưa', converNumber(state.salaryCaculateModel!.phuCapComTrua)),
-                      _buildAllowanceItem('Cơm chiều',
-                          converNumber(state.salaryCaculateModel!.phuCapComChieu)),
-                      _buildAllowanceItem('Cơm tăng ca',
-                          converNumber(state.salaryCaculateModel!.phuCapComTangCa)),
-                      _buildAllowanceItem('Phụ cấp khác',
-                          converNumber(state.salaryCaculateModel!.phuCapHoTroKhac)),
+                          'Phụ cấp cơm trưa',
+                          converNumber(
+                              state.salaryCaculateModel!.phuCapComTrua)),
+                      _buildAllowanceItem(
+                          'Phụ cấp cơm chiều',
+                          converNumber(
+                              state.salaryCaculateModel!.phuCapComChieu)),
+                      _buildAllowanceItem(
+                          'Phụ cấp nhám pu',
+                          converNumber(
+                              state.salaryCaculateModel!.phuCapNhamPu)),
+                      _buildAllowanceItem(
+                          'Phụ cấp đứng máy',
+                          converNumber(
+                              state.salaryCaculateModel!.phuCapDungMay)),
+                      _buildAllowanceItem(
+                          'Phụ cấp hỗ trợ khác',
+                          converNumber(
+                              state.salaryCaculateModel!.phuCapHoTroKhac)),
                       // _buildAllowanceItem('Thưởng', '-'),
                       // _buildAllowanceItem('Tổng phụ cấp',
                       //     state.salaryCaculateModel!.tongPhuCap),
@@ -273,30 +305,34 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Tổng phụ cấp[3]:',
+                              Text('Tổng phụ cấp [2]',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 16, color: Colors.amber[900])),
-                              Text(converNumber(state.salaryCaculateModel!.tongPhuCap),
+                                      fontSize: 16, color: Colors.deepOrange[900])),
+                              Text(
+                                  converNumber(
+                                      state.salaryCaculateModel!.tongPhuCap),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
-                                      fontSize: 16, color: Colors.amber[900])),
+                                      fontSize: 16, color: Colors.deepOrange[900])),
                             ]),
                       ),
                       Container(
-                        color: Colors.lightGreen,
+                        color: Colors.lightBlue[200],
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         height: 30,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Tổng thu nhập:A=[1]+[2]+[3]',
+                              Text('Tổng thu nhập:A=[1]+[2]',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontStyle: FontStyle.italic,
                                       fontSize: 16,
                                       color: Colors.indigo[700])),
-                              Text(converNumber(state.salaryCaculateModel!.tongThuNhap),
+                              Text(
+                                  converNumber(
+                                      state.salaryCaculateModel!.tongThuNhap,isInt: true),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.indigo[700])),
@@ -312,37 +348,41 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                           style: TextStyle(color: blueBlack.withOpacity(0.7)),
                         ),
                       ),
+                      _buildAllowanceItem('Tạm ứng',
+                          converNumber(state.salaryCaculateModel!.tamUng)),
                       _buildAllowanceItem(
-                          'Tạm ứng', converNumber(state.salaryCaculateModel!.tamUng)),
-                      _buildAllowanceItem('Tiền BHXH+BHYT+BHTN',
-                          converNumber(converNumber(state.salaryCaculateModel!.baoHiem))),
-                      _buildAllowanceItem('Thuế TNCN',
-                          converNumber(converNumber(state.salaryCaculateModel!.thueThuNhapCaNhan))),
+                          'Tiền BHXH+BHYT',
+                          converNumber(
+                              state.salaryCaculateModel!.baoHiem)),
                       _buildAllowanceItem(
-                          'Công đoàn', converNumber(state.salaryCaculateModel!.congDoan)),
-                      _buildAllowanceItem(
-                          'Trừ khác', converNumber(state.salaryCaculateModel!.khauTruKhac)),
+                          'Thuế TNCN',
+                          converNumber(converNumber(
+                              state.salaryCaculateModel!.thueThuNhapCaNhan))),
+                      _buildAllowanceItem('Công đoàn',
+                          converNumber(state.salaryCaculateModel!.congDoan)),
+                      _buildAllowanceItem('Khấu trừ khác',
+                          converNumber(state.salaryCaculateModel!.khauTruKhac)),
                       Container(
-                        color: Colors.lightGreen,
+                        color: Colors.lightBlue[200],
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         height: 30,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Tổng các khoản khấu trừ [B]:',
+                              Text('Tổng các khoản khấu trừ [B]',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontStyle: FontStyle.italic,
                                       fontSize: 16,
                                       color: Colors.red[800])),
-                              Text(state.salaryCaculateModel!.tongKhauTru,
+                              Text(converNumber( state.salaryCaculateModel!.tongKhauTru),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.red[800])),
                             ]),
                       ),
                       Container(
-                        color: Colors.pink[200],
+                        color: Colors.pink[100],
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         height: 40,
                         child: Row(
@@ -354,14 +394,16 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                       fontStyle: FontStyle.italic,
                                       fontSize: 17,
                                       color: Colors.purple[900])),
-                              Text(converNumber(state.salaryCaculateModel!.luongThucLinh),
+                              Text(
+                                  converNumber(
+                                      state.salaryCaculateModel!.luongThucLinh,isInt: true),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 17, color: Colors.purple[900])),
                             ]),
                       ),
                       Container(
-                        color: Colors.pink[200],
+                        color: Colors.pink[100],
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         height: 40,
                         child: Row(
@@ -375,7 +417,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                       color: Colors.purple[900])),
                               Text(
                                   converNumber(state.salaryCaculateModel!
-                                      .luongThucLinhLamTron),
+                                      .luongThucLinhLamTron,isInt: true),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 17, color: Colors.purple[900])),
@@ -398,6 +440,18 @@ Widget _buildSalaryItem(String name, String value) {
     child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text(name),
       Text(value),
+    ]),
+  );
+}
+
+Widget _buildSalaryItem2(String name, String date, String money) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 10),
+    height: 30,
+    child: Row(children: [
+      SizedBox(width: 200, child: Text(name, overflow: TextOverflow.ellipsis)),
+      Expanded(child: Text(date)),
+      Text(money),
     ]),
   );
 }

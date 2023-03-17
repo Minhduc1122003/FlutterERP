@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import '../../../config/constant.dart';
-import '../color.dart';
-import '../hrm_method.dart';
-import '../hrm_model/attendance_model.dart';
+
+import '../../../model/hrm_model/attendance_model.dart';
+import '../../../config/color.dart';
+import '../../../method/hrm_method.dart';
 import 'bloc/timekeeping_bloc.dart';
 import 'choose_salary_period_screen.dart';
 

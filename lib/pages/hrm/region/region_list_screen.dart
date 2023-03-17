@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../color.dart';
-import '../hrm_model/company_model.dart';
+import '../../../model/hrm_model/company_model.dart';
+import '../../../config/color.dart';
 import 'edit_region_screen.dart';
 import 'new_region_screen.dart';
 

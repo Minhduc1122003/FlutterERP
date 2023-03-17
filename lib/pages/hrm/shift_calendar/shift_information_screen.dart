@@ -1,10 +1,8 @@
-import 'package:erp/config/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../color.dart';
-import '../hrm_method.dart';
-import '../hrm_model/attendance_model.dart';
+import '../../../model/hrm_model/attendance_model.dart';
+import '../../../config/color.dart';
+import '../../../method/hrm_method.dart';
 
 class ShiftInformationScreen extends StatelessWidget {
   const ShiftInformationScreen(

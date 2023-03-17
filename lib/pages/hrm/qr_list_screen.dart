@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../config/constant.dart';
+import '../../config/color.dart';
+
 import 'qr_screen.dart';
 
 class QRListScreen extends StatelessWidget {

@@ -1,7 +1,7 @@
-import 'package:erp/pages/hrm/color.dart';
+import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
 
-import '../../config/constant.dart';
+
 
 class WifiScreen extends StatelessWidget {
   const WifiScreen({super.key});

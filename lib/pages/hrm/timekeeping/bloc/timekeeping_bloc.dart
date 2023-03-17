@@ -3,10 +3,9 @@ import 'package:erp/model/login_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:equatable/equatable.dart';
-import '../../hrm_method.dart';
-import '../../hrm_model/attendance_model.dart';
-import '../../hrm_model/employee_model.dart';
-import '../../network/api_provider.dart';
+import '../../../../model/hrm_model/attendance_model.dart';
+import '../../../../model/hrm_model/employee_model.dart';
+import '../../../../network/api_provider.dart';
 part 'timekeeping_event.dart';
 part 'timekeeping_state.dart';
 

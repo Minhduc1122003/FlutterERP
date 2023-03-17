@@ -1,9 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../config/constant.dart';
+import '../config/color.dart';
 
 class GlobalWidget{
   Random _random = Random();

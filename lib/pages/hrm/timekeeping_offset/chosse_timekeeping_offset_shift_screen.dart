@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../color.dart';
-import '../hrm_method.dart';
-import '../hrm_model/shift_model.dart';
+import '../../../model/hrm_model/shift_model.dart';
+import '../../../config/color.dart';
+import '../../../method/hrm_method.dart';
 import 'bloc/timekeeping_offset_bloc.dart';
 
 

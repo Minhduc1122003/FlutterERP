@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-
 // import 'package:devkitflutter/config/constant.dart';
 // import 'package:devkitflutter/model/feature/banner_slider_model.dart';
 // import 'package:devkitflutter/model/feature/category_model.dart';
@@ -10,7 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../config/constant.dart';
+import '../../config/color.dart';
+import '../../config/hrm_constant.dart';
 import '../../model/banner_slider_model.dart';
 import '../../model/category_model.dart';
 import '../../reusable/cache_image_network.dart';

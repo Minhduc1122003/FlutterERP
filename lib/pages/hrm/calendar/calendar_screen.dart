@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import '../../../config/constant.dart';
-import '../hrm_method.dart';
+import '../../../config/color.dart';
+
+import '../../../method/hrm_method.dart';
 import 'chosse_calendar_screen.dart';
 
 class CalendarScreen extends StatelessWidget {

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../config/constant.dart';
+import '../../config/color.dart';
 import '../../widget/dialog.dart';
 
 class BusinessScreen extends StatelessWidget {
   const BusinessScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     List<String> businessList = ['a'];

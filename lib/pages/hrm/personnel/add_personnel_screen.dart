@@ -1,7 +1,7 @@
-import 'package:erp/pages/hrm/color.dart';
+import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../config/constant.dart';
+
 import '../infor_screen.dart';
 
 class AddPersonnelScreen extends StatefulWidget {

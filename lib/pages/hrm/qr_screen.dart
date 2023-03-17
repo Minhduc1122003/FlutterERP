@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../../config/constant.dart';
+import '../../config/color.dart';
+
 
 class QRScreen extends StatelessWidget {
   const QRScreen({super.key});

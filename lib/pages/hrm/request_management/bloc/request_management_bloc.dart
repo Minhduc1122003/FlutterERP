@@ -1,10 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:erp/model/login_model.dart';
-
-import '../../hrm_model/employee_model.dart';
-import '../../hrm_model/request_management_model.dart';
-import '../../network/api_provider.dart';
+import '../../../../model/hrm_model/employee_model.dart';
+import '../../../../model/hrm_model/request_management_model.dart';
+import '../../../../network/api_provider.dart';
 
 part 'request_management_event.dart';
 part 'request_management_state.dart';

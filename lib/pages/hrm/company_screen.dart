@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/entypo_icons.dart';
-import '../../config/constant.dart';
+import '../../config/color.dart';
+
 import 'branch/branch_list_screen.dart';
 import 'infor_screen.dart';
 import 'location/location_list_screen.dart';

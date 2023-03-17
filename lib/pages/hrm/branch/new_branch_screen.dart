@@ -1,9 +1,8 @@
-import 'package:erp/pages/hrm/color.dart';
+import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
 
-import '../../../config/constant.dart';
-import '../hrm_model/company_model.dart';
-import '../hrm_widget/dialog.dart';
+import '../../../model/hrm_model/company_model.dart';
+import '../../../widget/dialog.dart';
 import 'chosse_region_screen.dart';
 
 class NewBranchScreen extends StatefulWidget {

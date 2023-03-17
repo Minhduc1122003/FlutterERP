@@ -2,11 +2,12 @@ import 'package:erp/pages/hrm/notification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
-import '../../config/constant.dart';
+import '../../config/color.dart';
+
 import 'chosse_shift_screen.dart';
 import 'personnel/add_personnel_screen.dart';
 import 'create_shift_screen.dart';
-import 'hrm_method.dart';
+import '../../method/hrm_method.dart';
 import 'request_management/request_management_screen.dart';
 import 'salary_advance/salary_advance_info_screen.dart';
 import 'shift_assignment/shift_assignment_screen.dart';

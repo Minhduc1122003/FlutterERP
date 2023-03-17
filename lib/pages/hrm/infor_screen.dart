@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../config/constant.dart';
+import '../../config/color.dart';
+
 
 class InforScreen extends StatelessWidget {
   const InforScreen({super.key});

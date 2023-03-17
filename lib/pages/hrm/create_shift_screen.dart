@@ -1,10 +1,10 @@
-import 'package:erp/pages/hrm/color.dart';
+import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../config/constant.dart';
+
 import '../../widget/dropdown_button.dart';
-import 'hrm_method.dart';
+import '../../method/hrm_method.dart';
 
 class CreateShiftSreen extends StatelessWidget {
   const CreateShiftSreen({Key? key}) : super(key: key);

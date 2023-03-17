@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-import 'hrm_model/attendance_model.dart';
+import '../model/hrm_model/attendance_model.dart';
 
 int weeksOfYear(DateTime date) {
   final startOfYear = DateTime(date.year, 1, 1, 0, 0);
@@ -60,10 +60,25 @@ String getToday(DateTime date) {
   return DateFormat('EEEE', 'vi').format(date);
 }
 
-String converNumber(String n) {
+String converNumber(String n, {bool isInt = false}) {
   if (n.isEmpty) return '';
   double d = double.parse(n);
-  return NumberFormat.decimalPattern('vi').format(d);
+  if (isInt) {
+    return NumberFormat.decimalPattern().format(d.toInt());
+  }
+  return NumberFormat.decimalPattern().format(d);
+}
+
+String sumNumber(String n1, String n2) {
+  double d1 = n1.isNotEmpty ? double.parse(n1) : 0.0;
+  double d2 = n2.isNotEmpty ? double.parse(n2) : 0.0;
+  return NumberFormat.decimalPattern().format((d1 + d2).toInt());
+}
+
+String subNumber(String n1, String n2) {
+  double d1 = n1.isNotEmpty ? double.parse(n1) : 0.0;
+  double d2 = n2.isNotEmpty ? double.parse(n2) : 0.0;
+  return NumberFormat.decimalPattern().format((d1 - d2).toInt());
 }
 
 String getDay(int d) {

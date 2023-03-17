@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../color.dart';
+import '../../../config/color.dart';
 
 class SalaryAdvanceHistoryScreen extends StatelessWidget {
   const SalaryAdvanceHistoryScreen({super.key});

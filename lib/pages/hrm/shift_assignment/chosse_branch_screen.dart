@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../config/constant.dart';
-import '../color.dart';
+
+import '../../../config/color.dart';
 
 class ChosseBranchScreen extends StatelessWidget {
   const ChosseBranchScreen({super.key});

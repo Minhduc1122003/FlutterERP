@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../color.dart';
-import '../hrm_method.dart';
-import '../hrm_model/attendance_model.dart';
+import '../../../model/hrm_model/attendance_model.dart';
+import '../../../config/color.dart';
 import 'bloc/timekeeping_bloc.dart';
 
 

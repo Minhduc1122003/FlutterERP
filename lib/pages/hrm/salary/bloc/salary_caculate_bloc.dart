@@ -1,11 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:erp/model/login_model.dart';
-
-import '../../hrm_model/attendance_model.dart';
-import '../../hrm_model/employee_model.dart';
-import '../../hrm_model/salary_model.dart';
-import '../../network/api_provider.dart';
+import '../../../../model/hrm_model/attendance_model.dart';
+import '../../../../model/hrm_model/employee_model.dart';
+import '../../../../model/hrm_model/salary_model.dart';
+import '../../../../network/api_provider.dart';
 
 part 'salary_caculate_event.dart';
 part 'salary_caculate_state.dart';

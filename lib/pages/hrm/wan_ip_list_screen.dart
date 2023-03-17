@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'color.dart';
+import '../../config/color.dart';
 import 'wan_ip_screen.dart';
 
 class WanIPListScreen extends StatelessWidget {

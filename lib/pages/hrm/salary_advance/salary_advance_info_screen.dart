@@ -1,6 +1,6 @@
-import 'package:erp/config/constant.dart';
+
 import 'package:flutter/material.dart';
-import '../color.dart';
+import '../../../config/color.dart';
 import 'salary_advance_history_screen.dart';
 
 class SalaryAdvanceInforScreen extends StatelessWidget {

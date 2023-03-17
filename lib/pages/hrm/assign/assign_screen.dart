@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fluttericon/web_symbols_icons.dart';
 import 'package:intl/intl.dart';
-import '../../../config/constant.dart';
-import '../hrm_method.dart';
-import 'filter_assign_screen.dart';
+import '../../../config/color.dart';
+import '../../../method/hrm_method.dart';
 
 class AssignScreen extends StatelessWidget {
   const AssignScreen({Key? key}) : super(key: key);

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../config/constant.dart';
-import 'hrm_method.dart';
+import '../../config/color.dart';
+
+import '../../method/hrm_method.dart';
 
 class CheckInScreen extends StatefulWidget {
   const CheckInScreen({super.key, required this.name});

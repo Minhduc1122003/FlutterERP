@@ -1,11 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import '../../../../model/hrm_model/employee_model.dart';
+import '../../../../model/hrm_model/shift_model.dart';
 import '../../../../model/login_model.dart';
-import '../../hrm_model/employee_model.dart';
-import '../../hrm_model/shift_model.dart';
-import '../../network/api_provider.dart';
-
+import '../../../../network/api_provider.dart';
 part 'timekeeping_offset_event.dart';
 part 'timekeeping_offset_state.dart';
 

@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import '../../../config/constant.dart';
-import '../color.dart';
-import '../hrm_method.dart';
-import '../hrm_model/assign_model.dart';
+import '../../../config/color.dart';
+import '../../../method/hrm_method.dart';
 
 class EditAccountScreen extends StatelessWidget {
   const EditAccountScreen({super.key});

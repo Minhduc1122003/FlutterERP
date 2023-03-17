@@ -1,8 +1,7 @@
-import 'package:erp/pages/hrm/color.dart';
+import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
+import '../../../model/hrm_model/company_model.dart';
 
-import '../../../config/constant.dart';
-import '../hrm_model/company_model.dart';
 
 class EditBranchScreen extends StatefulWidget {
   const EditBranchScreen({super.key, required this.branchModel});

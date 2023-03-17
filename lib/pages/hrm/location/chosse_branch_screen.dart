@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../color.dart';
-import '../hrm_model/company_model.dart';
+import '../../../model/hrm_model/company_model.dart';
+import '../../../config/color.dart';
 
 class ChooseBranchScreen extends StatelessWidget {
   const ChooseBranchScreen({Key? key}) : super(key: key);

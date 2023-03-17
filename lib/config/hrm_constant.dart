@@ -1,3 +1,11 @@
+
+const String GLOBAL_URL = 'https://ijtechnology.net/assets/images/api/devkit';
+//const String GLOBAL_URL = 'http://192.168.0.4/devkit/assets/images/';
+
+const String SERVER_URL = 'https://ijtechnology.net/api_devkit';
+//const String SERVER_URL = 'http://192.168.0.4/devkit/api';
+
+
 const int statusOk = 200;
 const int statusCreated = 201;
 const int statusAccepted = 202;

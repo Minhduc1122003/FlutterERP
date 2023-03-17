@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../config/constant.dart';
-import '../color.dart';
-import '../hrm_model/company_model.dart';
-import '../hrm_widget/dialog.dart';
+
+import '../../../model/hrm_model/company_model.dart';
+import '../../../config/color.dart';
+import '../../../widget/dialog.dart';
 
 class NewRegionScreen extends StatelessWidget {
   const NewRegionScreen({super.key});

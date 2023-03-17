@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import '../../../model/login_model.dart';
-import '../../hrm/network/api_provider.dart';
+import '../../../network/api_provider.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

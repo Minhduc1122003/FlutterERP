@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../../config/constant.dart';
+import '../../config/color.dart';
+
 
 class WarningSettingScreen extends StatelessWidget {
   const WarningSettingScreen({Key? key}) : super(key: key);

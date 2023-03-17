@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/entypo_icons.dart';
-import '../../../config/constant.dart';
-import '../color.dart';
-import '../hrm_method.dart';
+import '../../../config/color.dart';
+import '../../../method/hrm_method.dart';
 import '../kpi_screen.dart';
 import '../management_setting_screen.dart';
 import '../on_leave_screen.dart';

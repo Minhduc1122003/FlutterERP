@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/elusive_icons.dart';
-import '../../../config/constant.dart';
+import '../../../config/color.dart';
+
 
 class OnLeaveScreen extends StatelessWidget {
   const OnLeaveScreen({Key? key}) : super(key: key);

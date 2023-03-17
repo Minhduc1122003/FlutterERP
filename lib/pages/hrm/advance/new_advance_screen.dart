@@ -5,11 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttericon/entypo_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-
-import '../../../config/constant.dart';
-import '../color.dart';
-import '../hrm_method.dart';
-import '../hrm_widget/dialog.dart';
+import '../../../config/color.dart';
+import '../../../method/hrm_method.dart';
+import '../../../widget/dialog.dart';
 import '../request_management/bloc/request_management_bloc.dart';
 import 'bloc/advance_bloc.dart';
 import 'chosse_advance_kind_screen.dart';

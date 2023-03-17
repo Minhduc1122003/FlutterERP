@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../config/constant.dart';
-import '../color.dart';
-import '../hrm_method.dart';
-import '../hrm_model/shift_model.dart';
+
+import '../../../model/hrm_model/shift_model.dart';
+import '../../../config/color.dart';
+import '../../../method/hrm_method.dart';
 import '../shift_calendar/shift_information_screen.dart';
 import 'chosse_branch_screen.dart';
 // RxInt filterKind = 2.obs;

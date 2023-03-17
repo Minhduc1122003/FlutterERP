@@ -1,12 +1,12 @@
-import 'package:erp/pages/hrm/color.dart';
+import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../config/constant.dart';
+
 import 'add_personnel_screen.dart';
-import '../hrm_method.dart';
+import '../../../method/hrm_method.dart';
 import 'filter_personnel_screen.dart';
 
 class ListPersonnelScreen extends StatelessWidget {

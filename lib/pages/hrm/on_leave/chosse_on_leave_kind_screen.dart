@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //import 'package:get/get.dart';
-import '../color.dart';
-import '../hrm_method.dart';
-import '../hrm_model/on_leave_model.dart';
+import '../../../model/hrm_model/on_leave_model.dart';
+import '../../../config/color.dart';
+import '../../../method/hrm_method.dart';
 import 'bloc/on_leave_bloc.dart';
 
 
