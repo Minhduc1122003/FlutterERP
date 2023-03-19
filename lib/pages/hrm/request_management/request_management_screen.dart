@@ -362,7 +362,10 @@ Widget _buildOnLeaveRequestItem(OnLeaveRequestModel model) {
                         color: blueBlack,
                         fontWeight: FontWeight.bold,
                         fontSize: 17)),
-                Text(DateFormat('dd/MM/yyyy').format(model.createDate),
+                Text(
+                    model.createDate == null
+                        ? ''
+                        : DateFormat('dd/MM/yyyy').format(model.createDate!),
                     style: const TextStyle(color: blueBlack, fontSize: 12)),
               ],
             ),
@@ -458,7 +461,10 @@ Widget _buildTimekeepingOffsetRequestItem(TimekeepingOffsetRequestModel model) {
                         color: blueBlack,
                         fontWeight: FontWeight.bold,
                         fontSize: 17)),
-                Text(DateFormat('dd/MM/yyyy').format(model.createDate),
+                Text(
+                    model.createDate == null
+                        ? ''
+                        : DateFormat('dd/MM/yyyy').format(model.createDate!),
                     style: const TextStyle(color: blueBlack, fontSize: 12)),
               ],
             ),
@@ -552,7 +558,10 @@ Widget _buildAdvanceRequestItem(AdvanceRequestModel model) {
                         color: blueBlack,
                         fontWeight: FontWeight.bold,
                         fontSize: 17)),
-                Text(DateFormat('dd/MM/yyyy').format(model.createDate),
+                Text(
+                    model.createDate == null
+                        ? ''
+                        : DateFormat('dd/MM/yyyy').format(model.createDate!),
                     style: const TextStyle(color: blueBlack, fontSize: 12)),
               ],
             ),

@@ -167,14 +167,14 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                       //     'Ngày công thường',
                       //     converNumber(state
                       //         .salaryCaculateModel!.ngayCongLamViecThucTe)),
-                      _buildSalaryItem2(
+                      _buildSalaryItem(
                           'Ngày công thường',
                           converNumber(
                               state.salaryCaculateModel!.ngayCongLamViecThucTe),
                           converNumber(
                               state.salaryCaculateModel!.luongTheoNgayCong,
                               isInt: true)),
-                      _buildSalaryItem2(
+                      _buildSalaryItem(
                           'Ngày lễ/chế độ',
                           converNumber(state.salaryCaculateModel!.ngayLeCheDo),
                           ''),
@@ -186,30 +186,30 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                       //     'Ngày nghỉ tang',
                       //     converNumber(
                       //         state.salaryCaculateModel!.ngayNghiTang)),
-                      _buildSalaryItem2(
+                      _buildSalaryItem(
                           'Ngày nghỉ phép năm',
                           converNumber(
                               state.salaryCaculateModel!.ngayNghiPhepNam),
                           ''),
-                      _buildSalaryItem2(
+                      _buildSalaryItem(
                           'Tăng ca ngày thường',
                           converNumber(state.salaryCaculateModel!.tangCaThuong),
                           converNumber(
                               state.salaryCaculateModel!.luongNgoaiGioThuong,
                               isInt: true)),
-                      _buildSalaryItem2(
+                      _buildSalaryItem(
                           'Tăng ca đêm',
                           converNumber(state.salaryCaculateModel!.tangCaDem),
                           converNumber(
                               state.salaryCaculateModel!.luongNgoaiGioDem,
                               isInt: true)),
-                      _buildSalaryItem2(
+                      _buildSalaryItem(
                           'Tăng ca ngày lễ',
                           converNumber(state.salaryCaculateModel!.tangCaNgayle),
                           converNumber(
                               state.salaryCaculateModel!.luongNgoaiGioNgayLe,
                               isInt: true)),
-                      _buildSalaryItem2(
+                      _buildSalaryItem(
                           'Tăng ca chủ nhật',
                           converNumber(
                               state.salaryCaculateModel!.tangCaChuNhat),
@@ -382,7 +382,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                             ]),
                       ),
                       Container(
-                        color: Colors.pink[100],
+                        color: Colors.purple[100],
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         height: 40,
                         child: Row(
@@ -403,7 +403,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                             ]),
                       ),
                       Container(
-                        color: Colors.pink[100],
+                        color: Colors.purple[100],
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         height: 40,
                         child: Row(
@@ -433,18 +433,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
   }
 }
 
-Widget _buildSalaryItem(String name, String value) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10),
-    height: 30,
-    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(name),
-      Text(value),
-    ]),
-  );
-}
-
-Widget _buildSalaryItem2(String name, String date, String money) {
+Widget _buildSalaryItem(String name, String date, String money) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 10),
     height: 30,

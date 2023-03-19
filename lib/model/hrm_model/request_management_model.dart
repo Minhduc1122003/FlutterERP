@@ -51,7 +51,7 @@ class TimekeepingOffsetRequestModel {
   final String note;
   final DateTime fromTime;
   final DateTime toTime;
-  final DateTime createDate;
+  final DateTime? createDate;
 
   TimekeepingOffsetRequestModel({
     required this.id,
@@ -70,11 +70,11 @@ class TimekeepingOffsetRequestModel {
         status = json['status'],
         dateApply = DateTime.parse(json['dateApply']).toLocal(),
         shiftID = json['shiftID'],
-        shiftName = json['shiftName'],
+        shiftName = json['shiftName']??'',
         fromTime = DateTime.parse(json['fromTime']).toLocal(),
         toTime = DateTime.parse(json['toTime']).toLocal(),
         createDate = json['createDate'] == null
-            ? DateTime.now()
+            ? null
             : DateTime.parse(json['createDate']).toLocal(),
         reason = json['reason'] ?? '',
         note = json['note'] ?? '';
@@ -89,7 +89,7 @@ class OnLeaveRequestModel {
   final String description;
   final DateTime fromDate;
   final DateTime toDate;
-  final DateTime createDate;
+  final DateTime? createDate;
   final bool isHalfDay;
   final bool isOneDay;
   final int totalDay;
@@ -114,13 +114,13 @@ class OnLeaveRequestModel {
         permissionName = json['permissionName'] ?? '',
         fromDate = DateTime.parse(json['fromDate']).toLocal(),
         toDate = DateTime.parse(json['toDate']).toLocal(),
-        isHalfDay = json['isHalfDay'],
-        isOneDay = json['isOneDay'],
+        isHalfDay = json['isHalfDay'] ?? false,
+        isOneDay = json['isOneDay'] ?? false,
         totalDay = json['totalDay'],
         createDate = json['createDate'] == null
-            ? DateTime.now()
+            ? null
             : DateTime.parse(json['createDate']).toLocal(),
-        description = json['description'];
+        description = json['description'] ?? '';
 }
 
 class AdvanceRequestModel {
@@ -131,7 +131,7 @@ class AdvanceRequestModel {
   final int qty;
   final DateTime effectFrom;
   final DateTime effectTo;
-  final DateTime createDate;
+  final DateTime ?createDate;
   final String description;
   AdvanceRequestModel(
       {required this.id,
@@ -152,7 +152,7 @@ class AdvanceRequestModel {
         effectFrom = DateTime.parse(json['EffectFrom']).toLocal(),
         effectTo = DateTime.parse(json['EffectTo']).toLocal(),
         createDate = json['CreateDate'] == null
-            ? DateTime.now()
+            ? null
             : DateTime.parse(json['CreateDate']).toLocal(),
-        description = json['Description']??'';
+        description = json['Description'] ?? '';
 }
