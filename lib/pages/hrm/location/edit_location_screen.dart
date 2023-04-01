@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../model/hrm_model/company_model.dart';
@@ -17,6 +18,7 @@ class EditLocationScreen extends StatefulWidget {
 class _EditLocationScreenState extends State<EditLocationScreen> {
   TextEditingController locationController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController radiusController = TextEditingController();
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
   LatLng position = const LatLng(10.927580515436906, 106.79012965530953);
@@ -28,6 +30,7 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
     initMarker();
     locationController.text = widget.locationModel.name;
     addressController.text = widget.locationModel.address;
+    radiusController.text = widget.locationModel.radius.toString();
     super.initState();
   }
 
@@ -53,10 +56,7 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
             child: Container(
               margin: const EdgeInsets.only(right: 10),
               alignment: Alignment.center,
-              child: Text(
-                'LƯU',
-                style: TextStyle(color: mainColor),
-              ),
+              child: const Text('LƯU', style: TextStyle(color: mainColor)),
             ),
             onTap: () {
               if (locationController.text.isEmpty ||
@@ -89,10 +89,7 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
               Row(
                 children: const [
                   Text('Vị trí', style: TextStyle(color: blueGrey1)),
-                  Text(
-                    ' *',
-                    style: TextStyle(color: Colors.red),
-                  )
+                  Text(' *', style: TextStyle(color: Colors.red))
                 ],
               ),
               const SizedBox(height: 10),
@@ -233,18 +230,35 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
               const Text('Bán kinh (m)', style: TextStyle(color: blueGrey1)),
               const SizedBox(height: 10),
               Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF3F6FF),
-                    borderRadius: BorderRadius.circular(5),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF3F6FF),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                height: 45,
+                width: double.infinity,
+                alignment: Alignment.centerLeft,
+                // child: const Text(
+                //   '150',
+                //   style: TextStyle(color: blueBlack, fontSize: 16),
+                // ),
+                child: TextFormField(
+                  controller: radiusController,
+                  cursorColor: backgroundColor,
+                  textInputAction: TextInputAction.done,
+                  decoration: const InputDecoration(
+                    //contentPadding: EdgeInsets.zero,
+                    //contentPadding: EdgeInsets.only(left: 15),
+                    hintText: 'Nhập bán kính',
+                    hintStyle: TextStyle(color: blueGrey2),
+                    border: InputBorder.none,
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  height: 45,
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    '150',
-                    style: TextStyle(color: blueBlack, fontSize: 16),
-                  )),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                  ],
+                ),
+              ),
 
               const SizedBox(height: 20),
 

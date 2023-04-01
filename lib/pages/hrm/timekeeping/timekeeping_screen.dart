@@ -237,7 +237,7 @@ class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
                       ],
                     );
                   } else if (state.status == TimekeepingStatus.loading) {
-                    return Center(
+                    return const Center(
                         child: CircularProgressIndicator(color: mainColor));
                   } else {
                     return const TabBarView(
@@ -259,14 +259,14 @@ Widget _buildTabar() {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30),
     height: 30,
-    child: TabBar(
+    child: const TabBar(
         // onTap: ((value) => controller.setTabIndex(value)),
         labelColor: mainColor,
         indicatorColor: mainColor,
         unselectedLabelColor: blueGrey3,
-        padding: const EdgeInsets.all(0),
-        labelPadding: const EdgeInsets.symmetric(horizontal: 0),
-        tabs: const [
+        padding:  EdgeInsets.all(0),
+        labelPadding:  EdgeInsets.symmetric(horizontal: 0),
+        tabs:  [
           Tab(
               child: Center(
             child: Text('Vào/Ra', style: TextStyle(fontSize: 17)),
@@ -514,7 +514,7 @@ Widget _buildTimeSheetsItem(TimeSheetModel timeSheetModel) {
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(timeSheetModel.title,
           style: const TextStyle(
-              color: blueBlack, fontWeight: FontWeight.bold, fontSize: 17)),
+              color: blueBlack, fontWeight: FontWeight.bold, fontSize: 15)),
       const SizedBox(height: 10),
       Container(height: 1, color: Colors.grey[200], width: double.infinity),
       const SizedBox(height: 10),

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 
 import '../../../model/hrm_model/company_model.dart';
 import '../../../widget/dialog.dart';
@@ -19,6 +19,7 @@ class NewLocationScreen extends StatefulWidget {
 class _NewLocationScreenState extends State<NewLocationScreen> {
   TextEditingController locationController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController radiusController = TextEditingController();
   BranchModel? branchModel;
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
@@ -54,10 +55,7 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
             child: Container(
               margin: const EdgeInsets.only(right: 10),
               alignment: Alignment.center,
-              child: Text(
-                'THÊM',
-                style: TextStyle(color: mainColor),
-              ),
+              child: const Text('THÊM', style: TextStyle(color: mainColor)),
             ),
             onTap: () {
               if (locationController.text.isEmpty ||
@@ -73,7 +71,7 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                 return;
               }
               addLocation(locationController.text, addressController.text,
-                  branchModel!);
+                  branchModel!, int.parse(radiusController.text));
               Navigator.pop(context, 'new');
             },
           )
@@ -150,16 +148,16 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
               ),
               const SizedBox(height: 10),
               InkWell(
-                onTap: ()async{
-                             dynamic result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ChooseBranchScreen()),
-                );
-                if (result != null) {
-                  branchModel = result;
-                  setState(() {});
-                }
+                onTap: () async {
+                  dynamic result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChooseBranchScreen()),
+                  );
+                  if (result != null) {
+                    branchModel = result;
+                    setState(() {});
+                  }
                 },
                 child: Container(
                     decoration: BoxDecoration(
@@ -250,21 +248,38 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                     ],
                   )),
               const SizedBox(height: 20),
-              const Text('Bán kinh (m)', style: TextStyle(color: blueGrey1)),
+              const Text('Bán kính (m)', style: TextStyle(color: blueGrey1)),
               const SizedBox(height: 10),
               Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF3F6FF),
-                    borderRadius: BorderRadius.circular(5),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF3F6FF),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                height: 45,
+                width: double.infinity,
+                alignment: Alignment.centerLeft,
+                // child: const Text(
+                //   '150',
+                //   style: TextStyle(color: blueBlack, fontSize: 16),
+                // ),
+                child: TextFormField(
+                  controller: radiusController,
+                  cursorColor: backgroundColor,
+                  textInputAction: TextInputAction.done,
+                  decoration: const InputDecoration(
+                    //contentPadding: EdgeInsets.zero,
+                    //contentPadding: EdgeInsets.only(left: 15),
+                    hintText: 'Nhập bán kính',
+                    hintStyle: TextStyle(color: blueGrey2),
+                    border: InputBorder.none,
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  height: 45,
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    '150',
-                    style: TextStyle(color: blueBlack, fontSize: 16),
-                  )),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                  ],
+                ),
+              ),
 
               const SizedBox(height: 20),
 
@@ -301,9 +316,13 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
   }
 }
 
-addLocation(String name, String address, BranchModel branchModel) {
+addLocation(String name, String address, BranchModel branchModel, int radius) {
   List<LocationModel> locationList = CompanyModel.locationList;
   int id = locationList.isEmpty ? 1 : locationList.last.id;
-  CompanyModel.locationList.add(
-      LocationModel(id: id, name: name, address: address, branch: branchModel));
+  CompanyModel.locationList.add(LocationModel(
+      id: id,
+      name: name,
+      address: address,
+      branch: branchModel,
+      radius: radius));
 }

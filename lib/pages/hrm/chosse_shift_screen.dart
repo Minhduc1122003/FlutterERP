@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../../config/color.dart';
+import '../../model/hrm_model/company_model.dart';
+import '../../widget/dialog.dart';
+import 'location/chosse_location_screen.dart';
 
-class ChosseShiftScreen extends StatelessWidget {
+class ChosseShiftScreen extends StatefulWidget {
   const ChosseShiftScreen({super.key});
 
+  @override
+  State<ChosseShiftScreen> createState() => _ChosseShiftScreenState();
+}
+
+class _ChosseShiftScreenState extends State<ChosseShiftScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,15 +28,12 @@ class ChosseShiftScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-              icon: Icon(
-                Icons.clear,
-                color: blueGrey2,
-              ),
+              icon: const Icon(Icons.clear, color: blueGrey2),
               onPressed: () => Navigator.pop(context))
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -49,22 +54,22 @@ class ChosseShiftScreen extends StatelessWidget {
                 //   ],
                 // ),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(
                       fontSize: 14.0,
                       color: Colors.white,
                     ),
                     children: <TextSpan>[
-                      const TextSpan(
+                      TextSpan(
                           text:
                               'Chấm công có thể không hoạt động khi quyền Vị trí hoặc chế độ Vị trí chính xác bị tắt ('),
                       TextSpan(
                           text: 'Chi tiết', style: TextStyle(color: mainColor)),
-                      const TextSpan(text: ')'),
+                      TextSpan(text: ')'),
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 SizedBox(
                   height: 50,
                   width: double.infinity,
@@ -92,7 +97,7 @@ class ChosseShiftScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(3),
                 color: backgroundColor.withOpacity(0.2),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               height: 50,
               width: double.infinity,
               child: Row(
@@ -106,51 +111,91 @@ class ChosseShiftScreen extends StatelessWidget {
                   ]),
             ),
             const SizedBox(height: 10),
-            Text('Bạn đang có 1 ca làm, chọn ca để Vào ca',
-                style: TextStyle(fontSize: 18)),
+            // const Text('Bạn đang có 1 ca làm, chọn ca để Vào ca',
+            //     style: TextStyle(fontSize: 18)),
             const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(3),
-                      color: backgroundColor.withOpacity(0.2),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                    width: double.infinity,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.radio_button_checked,
-                          color: mainColor,
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Ca hành chính',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              Text(
-                                '(08:00 - 17:30)',
-                                style:
-                                    TextStyle(fontSize: 15, color: Colors.grey),
-                              ),
-                            ]),
-                      ],
-                    ),
-                  ),
+            //Row(
+            //  children: [
+            // Expanded(
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(3),
+            //       color: backgroundColor.withOpacity(0.2),
+            //     ),
+            //     padding:
+            //         const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+            //     width: double.infinity,
+            //     child: Row(
+            //       children: [
+            //         const Icon(
+            //           Icons.radio_button_checked,
+            //           color: mainColor,
+            //         ),
+            //         const SizedBox(width: 10),
+            //         Column(
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: const [
+            //               Text(
+            //                 'Ca hành chính',
+            //                 style: TextStyle(fontSize: 18),
+            //               ),
+            //               Text(
+            //                 '(08:00 - 17:30)',
+            //                 style:
+            //                     TextStyle(fontSize: 15, color: Colors.grey),
+            //               ),
+            //             ]),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            Container(
+              alignment: Alignment.center,
+              child: InkWell(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                        CompanyModel.currentLocation == null
+                            ? 'Chọn vị trí'
+                            : CompanyModel.currentLocation!.name,
+                        style: const TextStyle(color: blueGrey1, fontSize: 17)),
+                    const Icon(Icons.arrow_drop_down,
+                        color: blueGrey2, size: 30),
+                  ],
                 ),
-                Expanded(
-                  child: SizedBox.shrink(),
-                )
-              ],
+                onTap: () async {
+                  dynamic result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChooseLocationScreen()),
+                  );
+                  if (result != null) {
+                    CompanyModel.currentLocation = result;
+                    //locationList = CompanyModel.locationList;
+                    setState(() {});
+                  }
+                  //          child: Row(
+                  //   mainAxisSize: MainAxisSize.min,
+                  //   children: [
+                  //     Center(
+                  //       child: Text(
+                  //           (state.salaryPeriodModel != null)
+                  //               ? '${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.fromDate)} - ${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.toDate)} (Kỳ ${state.salaryPeriodModel!.termInAMonth})'
+                  //               : 'Chọn kỳ lương',
+                  //           style: const TextStyle(
+                  //               color: blueGrey1, fontSize: 15)),
+                  //     ),
+                  //     const Icon(Icons.arrow_drop_down,
+                  //         color: blueGrey2, size: 30),
+                  //   ],
+                  // )
+                },
+              ),
             ),
-            Expanded(
-              child: SizedBox.shrink(),
-            ),
+            // ],
+            //),
+            const Spacer(),
             SizedBox(
               height: 60,
               width: double.infinity,
@@ -163,6 +208,16 @@ class ChosseShiftScreen extends StatelessWidget {
                       // primary: mainColor,
                       backgroundColor: mainColor),
                   onPressed: () {
+                    if (CompanyModel.currentLocation == null) {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return closeDialog(context, 'Thông báo',
+                                'Vui lòng chọn vị trí');
+                          });
+                      return;
+                    }
                     Navigator.pop(context);
                   },
                   child: const Text(

@@ -13,6 +13,7 @@ class CompanyModel {
     // ]),
   ];
   static List<LocationModel> locationList = [];
+  static LocationModel ?currentLocation;
 }
 
 class RegionModel {
@@ -68,18 +69,24 @@ class LocationModel {
   String name;
   String address;
   BranchModel branch;
-  LocationModel({
-    required this.id,
-    required this.name,
-    required this.address,
-    required this.branch,
-  });
+  int radius;
+  LocationModel(
+      {required this.id,
+      required this.name,
+      required this.address,
+      required this.branch,
+      required this.radius});
   LocationModel copyWith(
-      {int? id, String? name, String? address, BranchModel? branch}) {
+      {int? id,
+      String? name,
+      String? address,
+      BranchModel? branch,
+      int? radius}) {
     return LocationModel(
         id: id ?? this.id,
         name: name ?? this.name,
         address: address ?? this.address,
-        branch: branch ?? this.branch);
+        branch: branch ?? this.branch,
+        radius: radius ?? this.radius);
   }
 }
