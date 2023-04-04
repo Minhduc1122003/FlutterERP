@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import '../model/hrm_model/advance_model.dart';
 import '../model/hrm_model/attendance_model.dart';
+import '../model/hrm_model/company_model.dart';
 import '../model/hrm_model/on_leave_model.dart';
 import '../model/hrm_model/request_management_model.dart';
 import '../model/hrm_model/salary_model.dart';
@@ -12,6 +13,7 @@ import '../config/hrm_constant.dart';
 
 class ApiProvider {
   late Response response;
+  final mapApiKey = 'AIzaSyCQc5-z5GzthnqCu1Ow1zUbndwnxNCF88Y';
   String connErr = 'Please check your internet connection and try again';
 
   Future<Response> getConnect(String url, String token) async {
@@ -266,5 +268,23 @@ class ApiProvider {
     } else {
       return [];
     }
+  }
+  
+  Future<List<PlaceSearchModel>> getAutocomplete(String search) async {
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&components=country:VN&types=address&language=vi&key=$mapApiKey');
+    var response = await get(url);
+    var json = jsonDecode(response.body);
+    var jsonResults = json['predictions'] as List;
+    return jsonResults.map((place) => PlaceSearchModel.fromJson(place)).toList();
+  }
+
+  Future<PlaceModel> getPlace(String placeId) async {
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$mapApiKey');
+    var response = await get(url);
+    var json = jsonDecode(response.body);
+    var jsonResult = json['result'] as Map<String, dynamic>;
+    return PlaceModel.fromJson(jsonResult);
   }
 }

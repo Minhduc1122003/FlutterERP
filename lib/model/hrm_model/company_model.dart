@@ -13,7 +13,7 @@ class CompanyModel {
     // ]),
   ];
   static List<LocationModel> locationList = [];
-  static LocationModel ?currentLocation;
+  static LocationModel? currentLocation;
 }
 
 class RegionModel {
@@ -68,25 +68,70 @@ class LocationModel {
   int id;
   String name;
   String address;
+  double lat;
+  double lng;
   BranchModel branch;
   int radius;
   LocationModel(
       {required this.id,
       required this.name,
       required this.address,
+      required this.lat,
+      required this.lng,
       required this.branch,
       required this.radius});
   LocationModel copyWith(
       {int? id,
       String? name,
       String? address,
+      double? lat,
+      double? lng,
       BranchModel? branch,
       int? radius}) {
     return LocationModel(
         id: id ?? this.id,
         name: name ?? this.name,
         address: address ?? this.address,
+        lat: lat ?? this.lat,
+        lng: lng ?? this.lng,
         branch: branch ?? this.branch,
         radius: radius ?? this.radius);
   }
+}
+
+class PlaceSearchModel {
+  final String description;
+  final String placeId;
+  PlaceSearchModel({required this.description, required this.placeId});
+  PlaceSearchModel.fromJson(Map<String, dynamic> json)
+      : description = json['description'],
+        placeId = json['place_id'];
+}
+
+class PlaceModel {
+  final GeometryModel geometry;
+  final String name;
+  final String vicinity;
+  PlaceModel(
+      {required this.geometry, required this.name, required this.vicinity});
+  PlaceModel.fromJson(Map<String, dynamic> json)
+      : geometry = GeometryModel.fromJson(json['geometry']),
+        name = json['formatted_address'],
+        vicinity = json['vicinity'];
+}
+
+class GeometryModel {
+  final CoordinatesModel coordinates;
+  GeometryModel({required this.coordinates});
+  GeometryModel.fromJson(Map<dynamic, dynamic> json)
+      : coordinates = CoordinatesModel.fromJson(json['location']);
+}
+
+class CoordinatesModel {
+  final double lat;
+  final double lng;
+  CoordinatesModel({required this.lat, required this.lng});
+  CoordinatesModel.fromJson(Map<dynamic, dynamic> json)
+      : lat = json['lat'],
+        lng = json['lng'];
 }
