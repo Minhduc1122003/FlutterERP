@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
 import '../../../widget/dialog.dart';
+import 'bloc/region_bloc.dart';
 
 class EditRegionScreen extends StatelessWidget {
   const EditRegionScreen({super.key, required this.regionModel});
@@ -28,10 +29,7 @@ class EditRegionScreen extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.only(right: 10),
               alignment: Alignment.center,
-              child: Text(
-                'LƯU',
-                style: TextStyle(color: mainColor),
-              ),
+              child: const Text('LƯU', style: TextStyle(color: mainColor)),
             ),
             onTap: () {
               if (regionController.text.isEmpty) {
@@ -46,7 +44,8 @@ class EditRegionScreen extends StatelessWidget {
               }
               editRegion(
                   regionModel.id, regionController.text, noteController.text);
-              Navigator.pop(context, 'edit');
+              Navigator.pop(context);
+              BlocProvider.of<RegionBloc>(context).add(RegionLoadEvent());
             },
           )
         ],
@@ -57,10 +56,7 @@ class EditRegionScreen extends StatelessWidget {
           Row(
             children: const [
               Text('Tên', style: TextStyle(color: blueGrey1)),
-              Text(
-                ' *',
-                style: TextStyle(color: Colors.red),
-              )
+              Text(' *', style: TextStyle(color: Colors.red))
             ],
           ),
           const SizedBox(height: 10),
@@ -123,7 +119,8 @@ class EditRegionScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 18, color: Colors.red)),
                   onPressed: () {
                     deleteRegion(regionModel.id);
-                    Navigator.pop(context, 'delete');
+                    Navigator.pop(context);
+                    BlocProvider.of<RegionBloc>(context).add(RegionLoadEvent());
                   }),
             ),
           ),

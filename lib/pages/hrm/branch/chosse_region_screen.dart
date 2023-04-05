@@ -3,11 +3,11 @@ import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
 
 class ChooseRegionScreen extends StatelessWidget {
-  const ChooseRegionScreen({Key? key}) : super(key: key);
-
+  const ChooseRegionScreen({Key? key,required this.regionList}) : super(key: key);
+  final List<RegionModel> regionList ;
   @override
   Widget build(BuildContext context) {
-    List<RegionModel> regionList = CompanyModel.regionList;
+    //List<RegionModel> regionList = CompanyModel.regionList;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

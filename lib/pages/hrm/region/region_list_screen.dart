@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import '../../../model/hrm_model/company_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../config/color.dart';
+import 'bloc/region_bloc.dart';
 import 'edit_region_screen.dart';
 import 'new_region_screen.dart';
 
-class RegionListScreen extends StatefulWidget {
-  const RegionListScreen({super.key});
-
+class RegionListScreen extends StatelessWidget {
+  const RegionListScreen({Key? key}) : super(key: key);
   @override
-  State<RegionListScreen> createState() => _RegionListScreenState();
-}
-
-class _RegionListScreenState extends State<RegionListScreen> {
-  List<RegionModel> regionList = CompanyModel.regionList;
-  @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
+    BlocProvider.of<RegionBloc>(context).add(RegionLoadEvent());
     return Scaffold(
         backgroundColor: const Color(0xFFF3F6FF),
         appBar: AppBar(
@@ -27,72 +22,82 @@ class _RegionListScreenState extends State<RegionListScreen> {
           ),
           actions: [
             IconButton(
-                onPressed: ()async {
-                  dynamic result = await Navigator.push(
+                onPressed: () {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const NewRegionScreen()),
                   );
-                  if (result != null) {
-                    setState(() {});
-                  }
                 },
                 icon: const Icon(Icons.add))
           ],
         ),
-        body: (regionList.isEmpty)
-            ? const Center(
+        body: BlocBuilder<RegionBloc, RegionState>(
+          builder: (context, state) {
+            if (state is RegionWaiting) {
+              return const Center(
+                  child: CircularProgressIndicator(color: mainColor));
+            }
+            if (state is RegionSuccess) {
+              return (state.regionList.isEmpty)
+                  ? const Center(
+                      child: Text('Trang này chưa có dữ liệu',
+                          style:
+                              TextStyle(fontSize: 17, color: Colors.blueGrey)))
+                  : Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        Expanded(
+                          child: ListView.separated(
+                            itemCount: state.regionList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditRegionScreen(
+                                            regionModel:
+                                                state.regionList[index])),
+                                  );
+                                },
+                                child: Container(
+                                    color: Colors.white,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    height: 45,
+                                    width: double.infinity,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                            child: Text(
+                                          state.regionList[index].name,
+                                          style: const TextStyle(
+                                              color: blueBlack, fontSize: 16),
+                                        )),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        const Icon(Icons.arrow_forward_ios,
+                                            color: blueGrey1, size: 20)
+                                      ],
+                                    )),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const SizedBox(height: 2),
+                          ),
+                        ),
+                      ],
+                    );
+            }
+            return const Center(
                 child: Text(
-                'Trang này chưa có dữ liệu',
-                style: TextStyle(fontSize: 17, color: Colors.blueGrey),
-              ))
-            : Column(
-                children: [
-                  const SizedBox(height: 10),
-                  Expanded(
-                    child: ListView.separated(
-                      itemCount: regionList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          onTap: () async{
-                            dynamic result =await  Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditRegionScreen(
-                                      regionModel: regionList[index])),
-                            );
-                            if (result != null) {
-                              setState(() {});
-                            }
-                          },
-                          child: Container(
-                              color: Colors.white,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              height: 45,
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: Text(
-                                    regionList[index].name,
-                                    style: const TextStyle(
-                                        color: blueBlack, fontSize: 16),
-                                  )),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  const Icon(Icons.arrow_forward_ios,
-                                      color: blueGrey1, size: 20)
-                                ],
-                              )),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(height: 2),
-                    ),
-                  ),
-                ],
-              ));
+              'Trang này chưa có dữ liệu',
+              style: TextStyle(fontSize: 17, color: Colors.blueGrey),
+            ));
+          },
+        ));
   }
 }

@@ -3,15 +3,10 @@ import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
 
 class ChooseBranchScreen extends StatelessWidget {
-  const ChooseBranchScreen({Key? key}) : super(key: key);
-
+  const ChooseBranchScreen({Key? key,required this.branchList}) : super(key: key);
+  final List<BranchModel> branchList ;
   @override
   Widget build(BuildContext context) {
-    List<BranchModel> branchList = [];
-    List<RegionModel> regionList = CompanyModel.regionList;
-    for (RegionModel model in regionList) {
-      branchList.addAll(model.branchList);
-    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

@@ -25,15 +25,12 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
       Completer<GoogleMapController>();
   LatLng position = const LatLng(10.927580515436906, 106.79012965530953);
   Set<Marker> allMarkers = {};
- // late CameraPosition _kGooglePlex;
+
   @override
   void initState() {
-     position = LatLng(widget.locationModel.lat, widget.locationModel.lng);
-   // _kGooglePlex = CameraPosition(target: position, zoom: 16.5);
-
+    position = LatLng(widget.locationModel.lat, widget.locationModel.lng);
     locationController.text = widget.locationModel.name;
     addressController.text = widget.locationModel.address;
-   
     radiusController.text = widget.locationModel.radius.toString();
     initMarker();
     super.initState();
@@ -57,9 +54,9 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
     PlaceModel place = await ApiProvider().getPlace(placeId);
     position =
         LatLng(place.geometry.coordinates.lat, place.geometry.coordinates.lng);
-    //_kGooglePlex = CameraPosition(target: position, zoom: 16.5);
+
     initMarker();
-     final GoogleMapController controller = await _controller.future;
+    final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newLatLngZoom(position, 16.5));
     setState(() {});
   }
@@ -129,7 +126,6 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                       cursorColor: backgroundColor,
                       textInputAction: TextInputAction.done,
                       decoration: const InputDecoration(
-                        //contentPadding: EdgeInsets.zero,
                         contentPadding: EdgeInsets.only(left: 15),
                         hintText: 'Nhập chữ',
                         hintStyle: TextStyle(color: blueGrey2),
@@ -138,7 +134,6 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-
                   Row(
                     children: const [
                       Text('Địa chỉ', style: TextStyle(color: blueGrey1)),
@@ -158,7 +153,6 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                       cursorColor: backgroundColor,
                       textInputAction: TextInputAction.done,
                       decoration: const InputDecoration(
-                        //contentPadding: EdgeInsets.zero,
                         contentPadding: EdgeInsets.only(left: 15),
                         hintText: 'Nhập chữ',
                         hintStyle: TextStyle(color: blueGrey2),
@@ -194,27 +188,6 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                         ],
                       )),
                   const SizedBox(height: 20),
-                  // const Text('Chi nhánh phụ', style: TextStyle(color: blueGrey1)),
-                  // const SizedBox(height: 10),
-                  // Container(
-                  //     decoration: BoxDecoration(
-                  //         color: const Color(0xFFF3F6FF),
-                  //         borderRadius: BorderRadius.circular(5)),
-                  //     padding: const EdgeInsets.symmetric(horizontal: 10),
-                  //     height: 45,
-                  //     width: double.infinity,
-                  //     child: Row(
-                  //       children: const [
-                  //         Expanded(
-                  //             child: Text(
-                  //           'Chi nhánh phụ',
-                  //           style: TextStyle(color: blueGrey2, fontSize: 16),
-                  //         )),
-                  //         Icon(Icons.arrow_forward_ios, color: blueGrey1, size: 22)
-                  //       ],
-                  //     )),
-                  // const SizedBox(height: 20),
-
                   const Text('Phòng ban', style: TextStyle(color: blueGrey1)),
                   const SizedBox(height: 10),
                   Container(
@@ -269,17 +242,11 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                     height: 45,
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
-                    // child: const Text(
-                    //   '150',
-                    //   style: TextStyle(color: blueBlack, fontSize: 16),
-                    // ),
                     child: TextFormField(
                       controller: radiusController,
                       cursorColor: backgroundColor,
                       textInputAction: TextInputAction.done,
                       decoration: const InputDecoration(
-                        //contentPadding: EdgeInsets.zero,
-                        //contentPadding: EdgeInsets.only(left: 15),
                         hintText: 'Nhập bán kính',
                         hintStyle: TextStyle(color: blueGrey2),
                         border: InputBorder.none,
@@ -290,9 +257,7 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 20),
-
                   SizedBox(
                     height: 300,
                     child: GoogleMap(
@@ -302,7 +267,8 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                       rotateGesturesEnabled: false,
                       zoomControlsEnabled: false,
                       mapType: MapType.normal,
-                      initialCameraPosition:CameraPosition(target: position, zoom: 16.5),
+                      initialCameraPosition:
+                          CameraPosition(target: position, zoom: 16.5),
                       onMapCreated: (GoogleMapController controller) {
                         _controller.complete(controller);
                       },
@@ -331,7 +297,6 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                       border: Border.all(color: Colors.grey[600]!),
                       borderRadius: BorderRadius.circular(5)),
                   child: ListView.separated(
-                    //padding: const EdgeInsets.all(8),
                     itemCount: searchResults.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(

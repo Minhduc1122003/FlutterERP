@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'pages/hrm/advance/bloc/advance_bloc.dart';
+import 'pages/hrm/branch/bloc/branch_bloc.dart';
+import 'pages/hrm/location/bloc/location_bloc.dart';
 import 'pages/hrm/on_leave/bloc/on_leave_bloc.dart';
+import 'pages/hrm/region/bloc/region_bloc.dart';
 import 'pages/hrm/request_management/bloc/request_management_bloc.dart';
 import 'pages/hrm/salary/bloc/salary_caculate_bloc.dart';
 import 'pages/hrm/shift_calendar/bloc/shift_calendar_bloc.dart';
@@ -24,30 +27,27 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<LoginBloc>(
-          create: (BuildContext context) => LoginBloc(),
-        ),
+        BlocProvider<LoginBloc>(create: (BuildContext context) => LoginBloc()),
         BlocProvider<TimekeepingBloc>(
-          create: (BuildContext context) => TimekeepingBloc(),
-        ),
+            create: (BuildContext context) => TimekeepingBloc()),
         BlocProvider<ShiftCalendarBloc>(
-          create: (BuildContext context) => ShiftCalendarBloc(),
-        ),
+            create: (BuildContext context) => ShiftCalendarBloc()),
         BlocProvider<TimekeepingOffsetBloc>(
-          create: (BuildContext context) => TimekeepingOffsetBloc(),
-        ),
+            create: (BuildContext context) => TimekeepingOffsetBloc()),
         BlocProvider<OnLeaveBloc>(
-          create: (BuildContext context) => OnLeaveBloc(),
-        ),
+            create: (BuildContext context) => OnLeaveBloc()),
         BlocProvider<AdvanceBloc>(
-          create: (BuildContext context) =>AdvanceBloc(),
-        ),
+            create: (BuildContext context) => AdvanceBloc()),
         BlocProvider<RequestManagementBloc>(
-          create: (BuildContext context) => RequestManagementBloc(),
-        ),
-          BlocProvider<SalaryCaculateBloc>(
-          create: (BuildContext context) => SalaryCaculateBloc(),
-        ),
+            create: (BuildContext context) => RequestManagementBloc()),
+        BlocProvider<SalaryCaculateBloc>(
+            create: (BuildContext context) => SalaryCaculateBloc()),
+        BlocProvider<RegionBloc>(
+            create: (BuildContext context) => RegionBloc()),
+        BlocProvider<BranchBloc>(
+            create: (BuildContext context) => BranchBloc()),
+        BlocProvider<LocationBloc>(
+            create: (BuildContext context) => LocationBloc()),
       ],
       child: MaterialApp(
         title: 'CRM',

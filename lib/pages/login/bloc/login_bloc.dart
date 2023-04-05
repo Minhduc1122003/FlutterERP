@@ -19,6 +19,6 @@ void _login(Login event, Emitter<LoginState> emit) async {
   if (data != null) {
     emit(LoginSuccess(loginData: data));
   } else {
-    emit(LoginError(errorMessage: "Incorrect account or password"));
+    emit(LoginError(errorMessage: "Tài khoản hoặc mật khẩu không đúng"));
   }
 }

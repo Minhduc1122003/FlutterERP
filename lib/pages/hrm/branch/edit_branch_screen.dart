@@ -1,28 +1,18 @@
 import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../model/hrm_model/company_model.dart';
+import 'bloc/branch_bloc.dart';
 
-
-class EditBranchScreen extends StatefulWidget {
+class EditBranchScreen extends StatelessWidget {
   const EditBranchScreen({super.key, required this.branchModel});
   final BranchModel branchModel;
-
-  @override
-  State<EditBranchScreen> createState() => _EditBranchScreenState();
-}
-
-class _EditBranchScreenState extends State<EditBranchScreen> {
-  TextEditingController branchController = TextEditingController();
-  TextEditingController noteController = TextEditingController();
-  @override
-  void initState() {
-    branchController.text = widget.branchModel.name;
-    noteController.text = widget.branchModel.note;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    TextEditingController branchController =
+        TextEditingController(text: branchModel.name);
+    TextEditingController noteController =
+        TextEditingController(text: branchModel.note);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -36,15 +26,13 @@ class _EditBranchScreenState extends State<EditBranchScreen> {
             child: Container(
               margin: const EdgeInsets.only(right: 10),
               alignment: Alignment.center,
-              child: Text(
-                'LƯU',
-                style: TextStyle(color: mainColor),
-              ),
+              child: const Text('LƯU', style: TextStyle(color: mainColor)),
             ),
             onTap: () {
-              editBranch(widget.branchModel, branchController.text,
+              editBranch(branchModel, branchController.text,
                   noteController.text);
-              Navigator.pop(context, 'edit');
+              Navigator.pop(context);
+              BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
             },
           )
         ],
@@ -70,7 +58,7 @@ class _EditBranchScreenState extends State<EditBranchScreen> {
                 children: [
                   Expanded(
                       child: Text(
-                    widget.branchModel.regionName,
+                    branchModel.regionName,
                     style: const TextStyle(color: blueBlack, fontSize: 16),
                   )),
                   const Icon(Icons.arrow_forward_ios,
@@ -146,8 +134,9 @@ class _EditBranchScreenState extends State<EditBranchScreen> {
                   child: const Text('Xóa',
                       style: TextStyle(fontSize: 18, color: Colors.red)),
                   onPressed: () {
-                    deleteBranch(widget.branchModel);
-                    Navigator.pop(context, 'delete');
+                    deleteBranch(branchModel);
+                    Navigator.pop(context);
+                    BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
                   }),
             ),
           ),

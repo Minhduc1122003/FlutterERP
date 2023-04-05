@@ -10,7 +10,6 @@ import '../model/hrm_model/shift_model.dart';
 import '../model/login_model.dart';
 import '../config/hrm_constant.dart';
 
-
 class ApiProvider {
   late Response response;
   final mapApiKey = 'AIzaSyCQc5-z5GzthnqCu1Ow1zUbndwnxNCF88Y';
@@ -243,13 +242,16 @@ class ApiProvider {
       return [];
     }
   }
-   Future<List<SummaryOffsetModel>> getOffsetAndOnLeave(
+
+  Future<List<SummaryOffsetModel>> getOffsetAndOnLeave(
       Map<String, dynamic> map, String token) async {
     response = await postConnect(getOffsetAndOnLeaveAPI, map, token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
-      return responseList.map((val) => SummaryOffsetModel.fromJson(val)).toList();
+      return responseList
+          .map((val) => SummaryOffsetModel.fromJson(val))
+          .toList();
     } else {
       return [];
     }
@@ -269,14 +271,36 @@ class ApiProvider {
       return [];
     }
   }
-  
+
+  Future<List<RegionModel>> getRegion() async {
+    await Future.delayed(const Duration(milliseconds: 500), () {});
+    return CompanyModel.regionList;
+  }
+
+  Future<List<BranchModel>> getBranch() async {
+    await Future.delayed(const Duration(milliseconds: 500), () {});
+    List<RegionModel> regionList = CompanyModel.regionList;
+    List<BranchModel> branchList = [];
+    for (RegionModel model in regionList) {
+      branchList.addAll(model.branchList);
+    }
+    return branchList;
+  }
+
+  Future<List<LocationModel>> getLocation() async {
+    await Future.delayed(const Duration(milliseconds: 500), () {});
+    return CompanyModel.locationList;
+  }
+
   Future<List<PlaceSearchModel>> getAutocomplete(String search) async {
     var url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&components=country:VN&types=address&language=vi&key=$mapApiKey');
     var response = await get(url);
     var json = jsonDecode(response.body);
     var jsonResults = json['predictions'] as List;
-    return jsonResults.map((place) => PlaceSearchModel.fromJson(place)).toList();
+    return jsonResults
+        .map((place) => PlaceSearchModel.fromJson(place))
+        .toList();
   }
 
   Future<PlaceModel> getPlace(String placeId) async {

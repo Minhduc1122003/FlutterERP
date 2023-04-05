@@ -1,13 +1,14 @@
 import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../model/hrm_model/company_model.dart';
+import '../../../network/api_provider.dart';
 import '../../../widget/dialog.dart';
+import 'bloc/branch_bloc.dart';
 import 'chosse_region_screen.dart';
 
 class NewBranchScreen extends StatefulWidget {
   const NewBranchScreen({super.key});
-
   @override
   State<NewBranchScreen> createState() => _NewBranchScreenState();
 }
@@ -16,6 +17,11 @@ class _NewBranchScreenState extends State<NewBranchScreen> {
   TextEditingController branchController = TextEditingController();
   TextEditingController noteController = TextEditingController();
   RegionModel? regionModel;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +36,7 @@ class _NewBranchScreenState extends State<NewBranchScreen> {
             child: Container(
               margin: const EdgeInsets.only(right: 10),
               alignment: Alignment.center,
-              child: Text(
-                'TẠO',
-                style: TextStyle(color: mainColor),
-              ),
+              child: const Text('TẠO', style: TextStyle(color: mainColor)),
             ),
             onTap: () {
               if (branchController.text.isEmpty || regionModel == null) {
@@ -48,7 +51,8 @@ class _NewBranchScreenState extends State<NewBranchScreen> {
               }
               addBranch(
                   regionModel!.id, branchController.text, noteController.text);
-              Navigator.pop(context, 'new');
+              Navigator.pop(context);
+              BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
             },
           )
         ],
@@ -67,11 +71,13 @@ class _NewBranchScreenState extends State<NewBranchScreen> {
             const SizedBox(height: 10),
             InkWell(
               onTap: () async {
+                List<RegionModel> regionList = await ApiProvider().getRegion();
+                if (!mounted) return;
                 dynamic result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ChooseRegionScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ChooseRegionScreen(regionList: regionList)));
                 if (result != null) {
                   regionModel = result;
                   setState(() {});

@@ -8,9 +8,7 @@ class InitialLoginState extends LoginState {}
 
 class LoginError extends LoginState {
   final String errorMessage;
-  LoginError({
-    required this.errorMessage,
-  });
+  LoginError({required this.errorMessage});
 }
 
 class LoginWaiting extends LoginState {}

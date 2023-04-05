@@ -123,7 +123,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
         Expanded(child: BlocBuilder<SalaryCaculateBloc, SalaryCaculateState>(
             builder: (context, state) {
           if (state.status == SalaryCaculateStatus.loading) {
-            return Center(child: CircularProgressIndicator(color: mainColor));
+            return const Center(child: CircularProgressIndicator(color: mainColor));
           } else if (state.status == SalaryCaculateStatus.success) {
             return state.salaryCaculateModel == null
                 ? const SizedBox.shrink()

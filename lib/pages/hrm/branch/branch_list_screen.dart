@@ -1,36 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
+import 'bloc/branch_bloc.dart';
 import 'edit_branch_screen.dart';
 import 'new_branch_screen.dart';
 
-class BranchListScreen extends StatefulWidget {
+class BranchListScreen extends StatelessWidget {
   const BranchListScreen({super.key});
-
-  @override
-  State<BranchListScreen> createState() => _BranchListScreenState();
-}
-
-class _BranchListScreenState extends State<BranchListScreen> {
-  List<BranchModel> branchList = [];
-  @override
-  void initState() {
-    for (RegionModel model in CompanyModel.regionList) {
-      branchList.addAll(model.branchList);
-    }
-    super.initState();
-  }
-
-  getBranchList() {
-    List<RegionModel> regionList = CompanyModel.regionList;
-    branchList.clear();
-    for (RegionModel model in regionList) {
-      branchList.addAll(model.branchList);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
     return Scaffold(
         backgroundColor: const Color(0xFFF3F6FF),
         appBar: AppBar(
@@ -43,75 +23,82 @@ class _BranchListScreenState extends State<BranchListScreen> {
           ),
           actions: [
             IconButton(
-                onPressed: () async {
-                  dynamic result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const NewBranchScreen()),
-                  );
-                  if (result != null) {
-                    getBranchList();
-                    setState(() {});
-                  }
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>const NewBranchScreen()));
                 },
-                icon: Icon(Icons.add))
+                icon: const Icon(Icons.add))
           ],
         ),
-        body: (branchList.isEmpty)
-            ? const Center(
+        body: BlocBuilder<BranchBloc, BranchState>(
+          builder: (context, state) {
+            if (state is BranchWaiting) {
+              return const Center(
+                  child: CircularProgressIndicator(color: mainColor));
+            }
+            if (state is BranchSuccess) {
+              return state.branchList.isEmpty
+                  ? const Center(
+                      child: Text('Trang này chưa có dữ liệu',
+                          style:
+                              TextStyle(fontSize: 17, color: Colors.blueGrey)))
+                  : Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        Expanded(
+                          child: ListView.separated(
+                              itemCount: state.branchList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              EditBranchScreen(
+                                                  branchModel:
+                                                      state.branchList[index])),
+                                    );
+                                  },
+                                  child: Container(
+                                      color: Colors.white,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      height: 45,
+                                      width: double.infinity,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                              child: Text(
+                                            state.branchList[index].name,
+                                            style: const TextStyle(
+                                                color: blueBlack, fontSize: 16),
+                                          )),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          const Icon(Icons.arrow_forward_ios,
+                                              color: blueGrey1, size: 20)
+                                        ],
+                                      )),
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                                      const SizedBox(height: 2)),
+                        ),
+                      ],
+                    );
+            }
+            return const Center(
                 child: Text(
-                'Trang này chưa có dữ liệu',
-                style: TextStyle(fontSize: 17, color: Colors.blueGrey),
-              ))
-            : Column(
-                children: [
-                  const SizedBox(height: 10),
-                  Expanded(
-                    child: ListView.separated(
-                      itemCount: branchList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          onTap: () async {
-                            dynamic result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditBranchScreen(
-                                      branchModel: branchList[index])),
-                            );
-                            if (result != null) {
-                              getBranchList();
-                              setState(() {});
-                            }
-                          },
-                          child: Container(
-                              color: Colors.white,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              height: 45,
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: Text(
-                                    branchList[index].name,
-                                    style: const TextStyle(
-                                        color: blueBlack, fontSize: 16),
-                                  )),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  const Icon(Icons.arrow_forward_ios,
-                                      color: blueGrey1, size: 20)
-                                ],
-                              )),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(height: 2),
-                    ),
-                  ),
-                ],
-              )
+              'Trang này chưa có dữ liệu',
+              style: TextStyle(fontSize: 17, color: Colors.blueGrey),
+            ));
+          },
+        )
         // : SingleChildScrollView(
         //     child: Column(children: [
         //       const SizedBox(height: 15),

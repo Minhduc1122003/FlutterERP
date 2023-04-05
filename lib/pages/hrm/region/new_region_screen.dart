@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
 import '../../../widget/dialog.dart';
+import 'bloc/region_bloc.dart';
 
 class NewRegionScreen extends StatelessWidget {
   const NewRegionScreen({super.key});
@@ -23,10 +25,7 @@ class NewRegionScreen extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.only(right: 10),
               alignment: Alignment.center,
-              child: Text(
-                'TẠO',
-                style: TextStyle(color: mainColor),
-              ),
+              child: const Text('TẠO', style: TextStyle(color: mainColor)),
             ),
             onTap: () {
               if (regionController.text.isEmpty) {
@@ -40,7 +39,8 @@ class NewRegionScreen extends StatelessWidget {
                 return;
               }
               addRegion(regionController.text, noteController.text);
-              Navigator.pop(context,'new');
+              Navigator.pop(context);
+              BlocProvider.of<RegionBloc>(context).add(RegionLoadEvent());
             },
           )
         ],

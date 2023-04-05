@@ -1,8 +1,3 @@
-import 'dart:convert';
-
-import 'package:crypto/crypto.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,8 +5,8 @@ import 'package:shared_preferences_android/shared_preferences_android.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../../model/login_model.dart';
+import '../../widget/dialog.dart';
 import '../home/home_screen.dart';
 import 'bloc/login_bloc.dart';
 
@@ -80,29 +75,23 @@ class LoginScreenState extends State<LoginScreen> {
         body: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state is LoginError) {
+              Navigator.pop(context);
               Fluttertoast.showToast(
                 msg: state.errorMessage,
                 toastLength: Toast.LENGTH_LONG,
                 backgroundColor: Colors.red[300],
                 textColor: Colors.white,
               );
-            }
-            if (state is LoginWaiting) {
-               FocusScope.of(context).unfocus();
-              // _globalFunction.showProgressDialog(context);
-            }
-            if (state is LoginSuccess) {
-              //Navigator.pop(context);
+            } else if (state is LoginWaiting) {
+              FocusScope.of(context).unfocus();
+              showProgressDialog(context);
+            } else if (state is LoginSuccess) {
+              Navigator.pop(context);
               User.name = state.loginData.profile['name'];
               User.no_ = state.loginData.profile['userName'];
               User.site = state.loginData.profile['site'];
               User.token = state.loginData.accessToken;
               saveUser();
-              // ignore: use_build_context_synchronously
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const HomeScreen()),
-              // );
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -116,7 +105,6 @@ class LoginScreenState extends State<LoginScreen> {
                     statusBarIconBrightness: Brightness.light),
             child: Stack(
               children: <Widget>[
-                // top blue background gradient
                 Container(
                   height: height / 3.5,
                   decoration: BoxDecoration(
@@ -125,27 +113,15 @@ class LoginScreenState extends State<LoginScreen> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter)),
                 ),
-                // set your logo here
                 Container(
                   margin: EdgeInsets.fromLTRB(0, height / 14, 0, 0),
                   alignment: Alignment.topCenter,
-                  //child: Image.asset('assets/images/logo_dark.png', height: 120),
                   child: Image.network(
                       "http://kiena.vietgoat.com:8080/Resources/Documents/logo.jpg",
                       height: height / 7),
-                  // child: Text(
-                  //   'CRM',
-                  //   style: GoogleFonts.gotu(
-                  //     textStyle:const TextStyle(color: Colors.white),
-                  //     fontSize: 35,
-                  //     fontWeight: FontWeight.w700,
-                  //     fontStyle: FontStyle.italic,
-                  //   ),
-                  // ),
                 ),
                 Column(
                   children: <Widget>[
-                    // create form login
                     Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -211,9 +187,6 @@ class LoginScreenState extends State<LoginScreen> {
                                 alignment: Alignment.centerRight,
                                 child: GestureDetector(
                                   onTap: () {
-                                    // Fluttertoast.showToast(
-                                    //     msg: 'Click forgot password',
-                                    //     toastLength: Toast.LENGTH_SHORT);
                                   },
                                   child: const Text(
                                     'Forgot Password?',
@@ -239,37 +212,34 @@ class LoginScreenState extends State<LoginScreen> {
                                       )),
                                     ),
                                     onPressed: () {
-                                      var user =
-                                          emailController.text.split(".");
-                                      if (user.length != 2) {
+                                      var list1 =
+                                          emailController.text.split("@");
+                                      if (list1.length != 2) {
                                         Fluttertoast.showToast(
-                                            msg:
-                                                "Incorrect account or password",
+                                            msg: "Tài khoản không đúng",
                                             toastLength: Toast.LENGTH_LONG,
-                                            backgroundColor: Colors.red,
+                                            backgroundColor: Colors.red[300],
                                             textColor: Colors.white,
                                             fontSize: 13);
                                         return;
                                       }
-                                      User.site = emailController.text
-                                          .split("@")[1]
-                                          .split(".")[0]
-                                          .toUpperCase();
+                                      var list2 = list1[1].split(".");
+                                      if (list2.length != 2) {
+                                        Fluttertoast.showToast(
+                                            msg: "Tài khoản không đúng",
+                                            toastLength: Toast.LENGTH_LONG,
+                                            backgroundColor: Colors.red[300],
+                                            textColor: Colors.white,
+                                            fontSize: 13);
+                                        return;
+                                      }
+
+                                      User.site = list2[0].toUpperCase();
                                       String password = convertPassword(
                                           passwordController.text);
-                                      String no_ =
-                                          emailController.text.split("@")[0];
+                                      String no_ = list1[0];
                                       loginBloc.add(
                                           Login(no_, password, User.site, ''));
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //       builder: (context) =>
-                                      //           const HomeScreen()),
-                                      // );
-                                      // Fluttertoast.showToast(
-                                      //     msg: 'Click login',
-                                      //     toastLength: Toast.LENGTH_SHORT);
                                     },
                                     child: const Padding(
                                       padding:
@@ -293,9 +263,6 @@ class LoginScreenState extends State<LoginScreen> {
                           const Text('New User? '),
                           GestureDetector(
                             onTap: () {
-                              // Fluttertoast.showToast(
-                              //     msg: 'Click signup',
-                              //     toastLength: Toast.LENGTH_SHORT);
                             },
                             child: Text(
                               'Sign Up',
@@ -317,12 +284,12 @@ class LoginScreenState extends State<LoginScreen> {
 
   String convertPassword(String s) {
     return s;
-    String pw = "";
-    List<int> bytes = utf8.encode(s);
-    bytes = sha1.convert(bytes).bytes;
-    for (var item in bytes) {
-      pw += item.toString();
-    }
-    return pw;
+    // String pw = "";
+    // List<int> bytes = utf8.encode(s);
+    // bytes = sha1.convert(bytes).bytes;
+    // for (var item in bytes) {
+    //   pw += item.toString();
+    // }
+    // return pw;
   }
 }

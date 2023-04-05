@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../config/color.dart';
 
 Widget closeDialog(BuildContext context, String tittle, String content) {
-  return Dialog(   
+  return Dialog(
       alignment: Alignment.center,
       backgroundColor: const Color.fromRGBO(235, 235, 245, 1),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
@@ -16,31 +16,30 @@ Widget closeDialog(BuildContext context, String tittle, String content) {
             Center(
               child: Text(
                 tittle,
-                style: const TextStyle(fontSize: 20,color: blueBlack),
+                style: const TextStyle(fontSize: 20, color: blueBlack),
                 textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 15),
             Text(
               content,
-              style:  TextStyle(fontSize: 16,color: blueBlack.withOpacity(0.8)),
+              style: TextStyle(fontSize: 16, color: blueBlack.withOpacity(0.8)),
               textAlign: TextAlign.left,
             ),
             const SizedBox(height: 15),
             SizedBox(
               height: 50,
               width: double.infinity,
-              child: ElevatedButton(     
+              child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       elevation: 0.0,
-                     // shadowColor: Colors.transparent,
+                      // shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
                       // primary: mainColor,
                       backgroundColor: mainColor),
                   onPressed: () {
-                   Navigator.pop(context);
-                    
+                    Navigator.pop(context);
                   },
                   child: const Text(
                     "Đóng",
@@ -87,8 +86,7 @@ class QuestionDialog {
                       textAlign: TextAlign.center),
                   const SizedBox(height: 20),
                   Text(conten,
-                      style:
-                          TextStyle(fontSize: 15, color: Colors.grey[600]!),
+                      style: TextStyle(fontSize: 15, color: Colors.grey[600]!),
                       textAlign: TextAlign.center),
                   const SizedBox(height: 20),
                   Row(
@@ -98,7 +96,7 @@ class QuestionDialog {
                           height: 50,
                           child: OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                               // primary: mainColor,
+                                // primary: mainColor,
                                 backgroundColor: Colors.white,
                                 padding: EdgeInsets.zero,
                                 side: BorderSide(color: mainColor, width: 1),
@@ -120,13 +118,12 @@ class QuestionDialog {
                           height: 50,
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                elevation: 0.0,
-                                shadowColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
-                               // primary: mainColor,
-                               backgroundColor: mainColor
-                              ),
+                                  elevation: 0.0,
+                                  shadowColor: Colors.transparent,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8)),
+                                  // primary: mainColor,
+                                  backgroundColor: mainColor),
                               onPressed: () {
                                 Navigator.pop(context);
                                 agreeFunction();
@@ -140,6 +137,34 @@ class QuestionDialog {
                     ],
                   )
                 ],
+              ),
+            ));
+      });
+}
+
+Future showProgressDialog(BuildContext context) {
+  return showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+            onWillPop: () => Future.value(false),
+            child: Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.7),
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                ),
+                height: 60,
+                width: 60,
+                child: const Center(
+                  child: SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: CircularProgressIndicator(color: mainColor),
+                  ),
+                ),
               ),
             ));
       });

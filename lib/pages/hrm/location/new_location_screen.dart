@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../model/hrm_model/company_model.dart';
 import '../../../network/api_provider.dart';
 import '../../../widget/dialog.dart';
+import 'bloc/location_bloc.dart';
 import 'chosse_branch_screen.dart';
 
 class NewLocationScreen extends StatefulWidget {
@@ -27,10 +29,9 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
       Completer<GoogleMapController>();
   LatLng position = const LatLng(10.927580515436906, 106.79012965530953);
   Set<Marker> allMarkers = {};
-  //late CameraPosition _kGooglePlex;
+
   @override
   initState() {
-    //_kGooglePlex = CameraPosition(target: position, zoom: 16.5);
     initMarker();
     super.initState();
   }
@@ -53,7 +54,7 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
     PlaceModel place = await ApiProvider().getPlace(placeId);
     position =
         LatLng(place.geometry.coordinates.lat, place.geometry.coordinates.lng);
-    //_kGooglePlex = CameraPosition(target: position, zoom: 16.5);
+
     initMarker();
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newLatLngZoom(position, 16.5));
@@ -98,6 +99,7 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                   branchModel!,
                   int.parse(radiusController.text));
               Navigator.pop(context, 'new');
+              BlocProvider.of<LocationBloc>(context).add(LocationLoadEvent());
             },
           )
         ],
@@ -113,10 +115,7 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                   Row(
                     children: const [
                       Text('Vị trí', style: TextStyle(color: blueGrey1)),
-                      Text(
-                        ' *',
-                        style: TextStyle(color: Colors.red),
-                      )
+                      Text(' *', style: TextStyle(color: Colors.red))
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -129,7 +128,6 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                       cursorColor: backgroundColor,
                       textInputAction: TextInputAction.done,
                       decoration: const InputDecoration(
-                        //contentPadding: EdgeInsets.zero,
                         contentPadding: EdgeInsets.only(left: 15),
                         hintText: 'Nhập chữ',
                         hintStyle: TextStyle(color: blueGrey2),
@@ -139,14 +137,10 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-
                   Row(
                     children: const [
                       Text('Địa chỉ', style: TextStyle(color: blueGrey1)),
-                      Text(
-                        ' *',
-                        style: TextStyle(color: Colors.red),
-                      )
+                      Text(' *', style: TextStyle(color: Colors.red))
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -159,7 +153,6 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                       cursorColor: backgroundColor,
                       textInputAction: TextInputAction.done,
                       decoration: const InputDecoration(
-                        //contentPadding: EdgeInsets.zero,
                         contentPadding: EdgeInsets.only(left: 15),
                         hintText: 'Nhập chữ',
                         hintStyle: TextStyle(color: blueGrey2),
@@ -183,10 +176,14 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                   const SizedBox(height: 10),
                   InkWell(
                     onTap: () async {
+                      List<BranchModel> branchList =
+                          await ApiProvider().getBranch();
+                      if (!mounted) return;
                       dynamic result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ChooseBranchScreen()),
+                            builder: (context) =>
+                                ChooseBranchScreen(branchList: branchList)),
                       );
                       if (result != null) {
                         branchModel = result;
@@ -221,27 +218,6 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                         )),
                   ),
                   const SizedBox(height: 20),
-                  // const Text('Chi nhánh phụ', style: TextStyle(color: blueGrey1)),
-                  // const SizedBox(height: 10),
-                  // Container(
-                  //     decoration: BoxDecoration(
-                  //         color: const Color(0xFFF3F6FF),
-                  //         borderRadius: BorderRadius.circular(5)),
-                  //     padding: const EdgeInsets.symmetric(horizontal: 10),
-                  //     height: 45,
-                  //     width: double.infinity,
-                  //     child: Row(
-                  //       children: const [
-                  //         Expanded(
-                  //             child: Text(
-                  //           'Chi nhánh phụ',
-                  //           style: TextStyle(color: blueGrey2, fontSize: 16),
-                  //         )),
-                  //         Icon(Icons.arrow_forward_ios, color: blueGrey1, size: 22)
-                  //       ],
-                  //     )),
-                  // const SizedBox(height: 20),
-
                   const Text('Phòng ban', style: TextStyle(color: blueGrey1)),
                   const SizedBox(height: 10),
                   Container(
@@ -296,17 +272,11 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                     height: 45,
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
-                    // child: const Text(
-                    //   '150',
-                    //   style: TextStyle(color: blueBlack, fontSize: 16),
-                    // ),
                     child: TextField(
                       controller: radiusController,
                       cursorColor: backgroundColor,
                       textInputAction: TextInputAction.done,
                       decoration: const InputDecoration(
-                        //contentPadding: EdgeInsets.zero,
-                        //contentPadding: EdgeInsets.only(left: 15),
                         hintText: 'Nhập bán kính',
                         hintStyle: TextStyle(color: blueGrey2),
                         border: InputBorder.none,
@@ -317,9 +287,7 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 20),
-
                   SizedBox(
                     height: 300,
                     child: GoogleMap(
@@ -329,7 +297,6 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                       rotateGesturesEnabled: false,
                       zoomControlsEnabled: false,
                       mapType: MapType.normal,
-                      // initialCameraPosition: _kGooglePlex,
                       initialCameraPosition:
                           CameraPosition(target: position, zoom: 16.5),
                       onMapCreated: (GoogleMapController controller) {
@@ -360,7 +327,6 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                       border: Border.all(color: Colors.grey[600]!),
                       borderRadius: BorderRadius.circular(5)),
                   child: ListView.separated(
-                    //padding: const EdgeInsets.all(8),
                     itemCount: searchResults.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(

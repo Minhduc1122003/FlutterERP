@@ -111,13 +111,12 @@ class PlaceSearchModel {
 class PlaceModel {
   final GeometryModel geometry;
   final String name;
-  final String vicinity;
   PlaceModel(
-      {required this.geometry, required this.name, required this.vicinity});
+      {required this.geometry, required this.name});
   PlaceModel.fromJson(Map<String, dynamic> json)
       : geometry = GeometryModel.fromJson(json['geometry']),
-        name = json['formatted_address'],
-        vicinity = json['vicinity'];
+        name = json['formatted_address']
+       ;
 }
 
 class GeometryModel {
