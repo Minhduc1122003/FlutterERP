@@ -16,7 +16,7 @@ class TimekeepingOffsetBloc
           await ApiProvider().getListShiftModel(EmployeeModel.siteName, User.token);
       emit(TimekeepingOffsetState(listShiftModel: listShiftModel));
     });
-    on<ChoosseShiftEvent>((event, emit) {
+    on<ChoosseTimekeepingOffsetShiftEvent>((event, emit) {
       emit(state.copyWith(
           shiftModel: event.shiftModel, sendStatus: SendTimekeepingOffsetStatus.initial));
     });

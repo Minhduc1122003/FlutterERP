@@ -13,6 +13,7 @@ import '../config/hrm_constant.dart';
 class ApiProvider {
   late Response response;
   final mapApiKey = 'AIzaSyCQc5-z5GzthnqCu1Ow1zUbndwnxNCF88Y';
+  //final mapApiKey = 'AIzaSyA8ak7h0EO5GAIj7EfIzuMHzmHJ1y8g-0Q';
   String connErr = 'Please check your internet connection and try again';
 
   Future<Response> getConnect(String url, String token) async {
@@ -290,6 +291,16 @@ class ApiProvider {
   Future<List<LocationModel>> getLocation() async {
     await Future.delayed(const Duration(milliseconds: 500), () {});
     return CompanyModel.locationList;
+  }
+  
+  Future<bool> getCheckInStatus() async {
+    await Future.delayed(const Duration(milliseconds: 200), () {});
+    return CompanyModel.checkInStatus;
+  }
+
+   Future<ShiftModel?> getCheckInShift() async {
+    await Future.delayed(const Duration(milliseconds: 200), () {});
+    return CompanyModel.shiftModel;
   }
 
   Future<List<PlaceSearchModel>> getAutocomplete(String search) async {

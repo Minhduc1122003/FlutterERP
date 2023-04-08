@@ -49,7 +49,7 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
                   context: context,
                   barrierDismissible: false,
                   builder: (BuildContext context) {
-                    return closeDialog(context,'Thông báo', state.error);
+                    return closeDialog(context, 'Thông báo', state.error);
                   });
             } else if (state.sendStatus == SendOnLeaveStatus.success) {
               Navigator.pop(context);
@@ -76,10 +76,8 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
                   child: Container(
                     margin: const EdgeInsets.only(right: 10),
                     alignment: Alignment.center,
-                    child: Text(
-                      'TẠO',
-                      style: TextStyle(color: mainColor, fontSize: 16),
-                    ),
+                    child: const Text('TẠO',
+                        style: TextStyle(color: mainColor, fontSize: 16)),
                   ),
                   onTap: () {
                     onLeaveBloc
@@ -93,7 +91,7 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
               child: BlocBuilder<OnLeaveBloc, OnLeaveState>(
                 builder: (context, state) {
                   return state.sendStatus == SendOnLeaveStatus.loading
-                      ? Center(
+                      ?const  Center(
                           child: CircularProgressIndicator(color: mainColor))
                       : SingleChildScrollView(
                           child: Column(

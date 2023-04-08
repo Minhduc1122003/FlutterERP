@@ -1,3 +1,5 @@
+import 'shift_model.dart';
+
 class CompanyModel {
   static List<RegionModel> regionList = [
     // RegionModel(id: 1, name: 'vung a', note: 'n v a', branchList: [
@@ -14,6 +16,8 @@ class CompanyModel {
   ];
   static List<LocationModel> locationList = [];
   static LocationModel? currentLocation;
+  static ShiftModel? shiftModel;
+  static bool checkInStatus = false;
 }
 
 class RegionModel {
@@ -111,12 +115,10 @@ class PlaceSearchModel {
 class PlaceModel {
   final GeometryModel geometry;
   final String name;
-  PlaceModel(
-      {required this.geometry, required this.name});
+  PlaceModel({required this.geometry, required this.name});
   PlaceModel.fromJson(Map<String, dynamic> json)
       : geometry = GeometryModel.fromJson(json['geometry']),
-        name = json['formatted_address']
-       ;
+        name = json['formatted_address'];
 }
 
 class GeometryModel {

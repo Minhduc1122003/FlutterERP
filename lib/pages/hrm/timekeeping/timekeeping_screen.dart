@@ -514,7 +514,7 @@ Widget _buildTimeSheetsItem(TimeSheetModel timeSheetModel) {
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(timeSheetModel.title,
           style: const TextStyle(
-              color: blueBlack, fontWeight: FontWeight.bold, fontSize: 15)),
+              color: blueBlack, fontWeight: FontWeight.bold, fontSize: 14)),
       const SizedBox(height: 10),
       Container(height: 1, color: Colors.grey[200], width: double.infinity),
       const SizedBox(height: 10),

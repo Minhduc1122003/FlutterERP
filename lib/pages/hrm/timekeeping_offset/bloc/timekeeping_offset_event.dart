@@ -17,9 +17,9 @@ class SendTimekeepingOffsetEvent extends TimekeepingOffsetEvent {
   SendTimekeepingOffsetEvent({required this.reason, required this.note});
 }
 
-class ChoosseShiftEvent extends TimekeepingOffsetEvent {
+class ChoosseTimekeepingOffsetShiftEvent extends TimekeepingOffsetEvent {
   final ShiftModel shiftModel;
-  ChoosseShiftEvent({required this.shiftModel});
+  ChoosseTimekeepingOffsetShiftEvent({required this.shiftModel});
 }
 
 class ChoosseApplyDateEvent extends TimekeepingOffsetEvent {

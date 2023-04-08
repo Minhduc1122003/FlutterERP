@@ -23,6 +23,8 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
   TextEditingController locationController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController radiusController = TextEditingController();
+  TextEditingController latitudeController = TextEditingController();
+  TextEditingController longitudeController = TextEditingController();
   List<PlaceSearchModel> searchResults = [];
   BranchModel? branchModel;
   final Completer<GoogleMapController> _controller =
@@ -31,9 +33,14 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
   Set<Marker> allMarkers = {};
 
   @override
-  initState() {
+  void initState() {
     initMarker();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   initMarker() {
@@ -50,11 +57,21 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
     setState(() {});
   }
 
-  setSelectpalce(String placeId) async {
+  setSelectPlace(String placeId) async {
     PlaceModel place = await ApiProvider().getPlace(placeId);
     position =
         LatLng(place.geometry.coordinates.lat, place.geometry.coordinates.lng);
+    initMarker();
+    latitudeController.text = place.geometry.coordinates.lat.toString();
+    longitudeController.text = place.geometry.coordinates.lng.toString();
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newLatLngZoom(position, 16.5));
+    setState(() {});
+  }
 
+  setSelectLatitudeAndLongitude() async {
+    position = LatLng(double.parse(latitudeController.text),
+        double.parse(longitudeController.text));
     initMarker();
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newLatLngZoom(position, 16.5));
@@ -80,6 +97,8 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
             onTap: () {
               if (locationController.text.isEmpty ||
                   addressController.text.isEmpty ||
+                  latitudeController.text.isEmpty ||
+                  longitudeController.text.isEmpty ||
                   radiusController.text.isEmpty ||
                   branchModel == null) {
                 showDialog(
@@ -169,6 +188,79 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                   const SizedBox(height: 20),
                   Row(
                     children: const [
+                      Text('Tọa độ', style: TextStyle(color: blueGrey1)),
+                      Text(' *', style: TextStyle(color: Colors.red))
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          color: const Color(0xFFF3F6FF),
+                          height: 45,
+                          width: double.infinity,
+                          child: TextField(
+                            controller: latitudeController,
+                            cursorColor: backgroundColor,
+                            textInputAction: TextInputAction.done,
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.only(left: 15),
+                              hintStyle: TextStyle(color: blueGrey2),
+                              border: InputBorder.none,
+                              hintText: 'Vĩ độ',
+                            ),
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true),
+                            style: const TextStyle(color: blueBlack),
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp('[0-9.]')),
+                            ],
+                            onSubmitted: (value) {
+                              if (latitudeController.text.isEmpty) return;
+                              if (longitudeController.text.isEmpty) return;
+                              setSelectLatitudeAndLongitude();
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: Container(
+                          color: const Color(0xFFF3F6FF),
+                          height: 45,
+                          width: double.infinity,
+                          child: TextField(
+                            controller: longitudeController,
+                            cursorColor: backgroundColor,
+                            textInputAction: TextInputAction.done,
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.only(left: 15),
+                              hintStyle: TextStyle(color: blueGrey2),
+                              border: InputBorder.none,
+                              hintText: 'Kinh độ',
+                            ),
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true),
+                            style: const TextStyle(color: blueBlack),
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp('[0-9.]')),
+                            ],
+                            onSubmitted: (value) {
+                              if (latitudeController.text.isEmpty) return;
+                              if (longitudeController.text.isEmpty) return;
+                              setSelectLatitudeAndLongitude();
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: const [
                       Text('Chi nhánh', style: TextStyle(color: blueGrey1)),
                       Text(' *', style: TextStyle(color: Colors.red))
                     ],
@@ -218,50 +310,54 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                         )),
                   ),
                   const SizedBox(height: 20),
-                  const Text('Phòng ban', style: TextStyle(color: blueGrey1)),
-                  const SizedBox(height: 10),
-                  Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xFFF3F6FF),
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 45,
-                      width: double.infinity,
-                      child: Row(
-                        children: const [
-                          Expanded(
-                              child: Text(
-                            'Phòng ban',
-                            style: TextStyle(color: blueGrey2, fontSize: 16),
-                          )),
-                          Icon(Icons.arrow_forward_ios,
-                              color: blueGrey1, size: 22)
-                        ],
-                      )),
-                  const SizedBox(height: 20),
-                  const Text('Nhân viên', style: TextStyle(color: blueGrey1)),
-                  const SizedBox(height: 10),
-                  Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xFFF3F6FF),
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 45,
-                      width: double.infinity,
-                      child: Row(
-                        children: const [
-                          Expanded(
-                              child: Text(
-                            'Nhân viên',
-                            style: TextStyle(color: blueGrey2, fontSize: 16),
-                          )),
-                          Icon(Icons.arrow_forward_ios,
-                              color: blueGrey1, size: 22)
-                        ],
-                      )),
-                  const SizedBox(height: 20),
-                  const Text('Bán kính (m)',
-                      style: TextStyle(color: blueGrey1)),
+                  // const Text('Phòng ban', style: TextStyle(color: blueGrey1)),
+                  // const SizedBox(height: 10),
+                  // Container(
+                  //     decoration: BoxDecoration(
+                  //         color: const Color(0xFFF3F6FF),
+                  //         borderRadius: BorderRadius.circular(5)),
+                  //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                  //     height: 45,
+                  //     width: double.infinity,
+                  //     child: Row(
+                  //       children: const [
+                  //         Expanded(
+                  //             child: Text(
+                  //           'Phòng ban',
+                  //           style: TextStyle(color: blueGrey2, fontSize: 16),
+                  //         )),
+                  //         Icon(Icons.arrow_forward_ios,
+                  //             color: blueGrey1, size: 22)
+                  //       ],
+                  //     )),
+                  // const SizedBox(height: 20),
+                  // const Text('Nhân viên', style: TextStyle(color: blueGrey1)),
+                  // const SizedBox(height: 10),
+                  // Container(
+                  //     decoration: BoxDecoration(
+                  //         color: const Color(0xFFF3F6FF),
+                  //         borderRadius: BorderRadius.circular(5)),
+                  //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                  //     height: 45,
+                  //     width: double.infinity,
+                  //     child: Row(
+                  //       children: const [
+                  //         Expanded(
+                  //             child: Text(
+                  //           'Nhân viên',
+                  //           style: TextStyle(color: blueGrey2, fontSize: 16),
+                  //         )),
+                  //         Icon(Icons.arrow_forward_ios,
+                  //             color: blueGrey1, size: 22)
+                  //       ],
+                  //     )),
+                  // const SizedBox(height: 20),
+                  Row(
+                    children: const [
+                      Text('Bán kính (m)', style: TextStyle(color: blueGrey1)),
+                      Text(' *', style: TextStyle(color: Colors.red))
+                    ],
+                  ),
                   const SizedBox(height: 10),
                   Container(
                     decoration: BoxDecoration(
@@ -342,7 +438,7 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                                   extentOffset: text.length),
                               composing: TextRange.empty,
                             );
-                            setSelectpalce(placeId);
+                            setSelectPlace(placeId);
                             searchResults.clear();
                             FocusManager.instance.primaryFocus?.unfocus();
                           });

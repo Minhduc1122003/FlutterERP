@@ -54,7 +54,7 @@ class _NewTimekeepingOffsetScreenState
                 barrierDismissible: false,
                 builder: (BuildContext context) {
                   return closeDialog(
-                     context, 'Thông báo', 'Vui lòng điền đầy đủ thông tin');
+                      context, 'Thông báo', 'Vui lòng điền đầy đủ thông tin');
                 });
           } else if (state.sendStatus == SendTimekeepingOffsetStatus.failure) {
             Fluttertoast.showToast(
@@ -87,10 +87,8 @@ class _NewTimekeepingOffsetScreenState
                 child: Container(
                   margin: const EdgeInsets.only(right: 10),
                   alignment: Alignment.center,
-                  child: Text(
-                    'TẠO',
-                    style: TextStyle(color: mainColor, fontSize: 16),
-                  ),
+                  child: const Text('TẠO',
+                      style: TextStyle(color: mainColor, fontSize: 16)),
                 ),
                 onTap: () {
                   timekeepingBloc.add(SendTimekeepingOffsetEvent(
@@ -105,7 +103,7 @@ class _NewTimekeepingOffsetScreenState
             child: BlocBuilder<TimekeepingOffsetBloc, TimekeepingOffsetState>(
                 builder: (context, state) {
               return state.sendStatus == SendTimekeepingOffsetStatus.loading
-                  ? Center(child: CircularProgressIndicator(color: mainColor))
+                  ?const  Center(child: CircularProgressIndicator(color: mainColor))
                   : SingleChildScrollView(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,9 +118,8 @@ class _NewTimekeepingOffsetScreenState
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           ChosseTimekeepingOffsetShiftScreen(
-                                            listShiftModel:
-                                                state.listShiftModel
-                                          )),
+                                              listShiftModel:
+                                                  state.listShiftModel)),
                                 );
                               },
                               child: Container(

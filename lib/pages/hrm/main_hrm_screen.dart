@@ -6,7 +6,7 @@ import '../../config/color.dart';
 import 'account/account_screen.dart';
 import 'assign/assign_screen.dart';
 import 'calendar/calendar_screen.dart';
-import 'work_screen.dart';
+import 'work/work_screen.dart';
 
 class MainHRMScreen extends StatefulWidget {
   const MainHRMScreen({Key? key}) : super(key: key);

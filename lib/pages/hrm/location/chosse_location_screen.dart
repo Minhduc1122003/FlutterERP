@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
+import '../check_in_out.dart/bloc/check_in_out_bloc.dart';
 
 class ChooseLocationScreen extends StatelessWidget {
   const ChooseLocationScreen({Key? key}) : super(key: key);
@@ -42,7 +44,8 @@ class ChooseLocationScreen extends StatelessWidget {
 Widget buildChooseItem(BuildContext context, LocationModel model) {
   return InkWell(
     onTap: () {
-      Navigator.pop(context, model);
+      Navigator.pop(context);
+      BlocProvider.of<CheckInOutBloc>(context).add(ChoosseLocationEvent(location: model));
     },
     child: Container(
       height: 50,
