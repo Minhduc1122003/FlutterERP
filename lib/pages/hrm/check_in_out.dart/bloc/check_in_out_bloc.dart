@@ -15,7 +15,8 @@ class CheckInOutBloc extends Bloc<CheckInOutEvent, CheckInOutState> {
     on<InitialCheckInOutEvent>((event, emit) async {
       List<ShiftModel> listShiftModel = await ApiProvider()
           .getListShiftModel(EmployeeModel.siteName, User.token);
-      List<LocationModel> locationList = await ApiProvider().getLocation();
+      List<LocationModel> locationList =
+          await ApiProvider().getLocation(EmployeeModel.siteName, User.token);
       emit(state.copyWith(
           listShiftModel: listShiftModel, listLocationModel: locationList));
     });
@@ -29,6 +30,8 @@ class CheckInOutBloc extends Bloc<CheckInOutEvent, CheckInOutState> {
       await Future.delayed(const Duration(seconds: 1));
       emit(state.copyWith(
           confirmStatus: CheckInOutConfirmStatus.successConfirm));
+      emit(state.copyWith(
+          confirmStatus: CheckInOutConfirmStatus.initialConfirm));
     });
     on<ChoosseLocationEvent>((event, emit) {
       emit(state.copyWith(locationModel: event.location));
@@ -36,6 +39,13 @@ class CheckInOutBloc extends Bloc<CheckInOutEvent, CheckInOutState> {
 
     on<ChoosseShiftEvent>((event, emit) {
       emit(state.copyWith(shiftModel: event.shiftModel));
+    });
+    on<CheckInPostEvent>((event, emit) async {
+      emit(CheckInWaittingEvent());
+      //List<RegionModel> regionList = await ApiProvider().getRegion();
+      await ApiProvider().postCheckin(event.id, event.attendCode,
+          event.authDate, event.authTime, event.locationID, event.token);
+      emit(CheckInSuccessEvent());
     });
   }
 }

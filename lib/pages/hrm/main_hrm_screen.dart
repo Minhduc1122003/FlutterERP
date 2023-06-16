@@ -47,7 +47,7 @@ class _MainHRMScreenState extends State<MainHRMScreen> {
         selectedFontSize: 12,
         unselectedFontSize: 12,
 
-        selectedLabelStyle: TextStyle(
+        selectedLabelStyle: const TextStyle(
           color: mainColor,
         ),
         unselectedLabelStyle: TextStyle(color: Colors.grey[400]),

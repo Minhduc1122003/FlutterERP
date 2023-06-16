@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../config/color.dart';
+import '../../../model/hrm_model/employee_model.dart';
+import '../../../model/login_model.dart';
 import 'bloc/region_bloc.dart';
 import 'edit_region_screen.dart';
 import 'new_region_screen.dart';
@@ -9,7 +11,8 @@ class RegionListScreen extends StatelessWidget {
   const RegionListScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<RegionBloc>(context).add(RegionLoadEvent());
+    BlocProvider.of<RegionBloc>(context)
+        .add(GetRegionEvent(site: EmployeeModel.siteName, token: User.token));
     return Scaffold(
         backgroundColor: const Color(0xFFF3F6FF),
         appBar: AppBar(
@@ -37,6 +40,10 @@ class RegionListScreen extends StatelessWidget {
             if (state is RegionWaiting) {
               return const Center(
                   child: CircularProgressIndicator(color: mainColor));
+            }
+            if (state is RegionAddSuccess) {
+              BlocProvider.of<RegionBloc>(context).add(GetRegionEvent(
+                  site: EmployeeModel.siteName, token: User.token));
             }
             if (state is RegionSuccess) {
               return (state.regionList.isEmpty)

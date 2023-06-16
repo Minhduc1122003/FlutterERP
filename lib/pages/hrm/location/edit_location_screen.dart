@@ -10,8 +10,10 @@ import '../../../network/api_provider.dart';
 import '../../../widget/dialog.dart';
 
 class EditLocationScreen extends StatefulWidget {
-  const EditLocationScreen({super.key, required this.locationModel});
+  const EditLocationScreen(
+      {super.key, required this.locationModel, required this.branchName});
   final LocationModel locationModel;
+  final String branchName;
   @override
   State<EditLocationScreen> createState() => _EditLocationScreenState();
 }
@@ -30,12 +32,13 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
 
   @override
   void initState() {
-    position = LatLng(widget.locationModel.lat, widget.locationModel.lng);
+    position = LatLng(double.parse(widget.locationModel.lat),
+        double.parse(widget.locationModel.lng));
     locationController.text = widget.locationModel.name;
     latitudeController.text = widget.locationModel.lat.toString();
     longitudeController.text = widget.locationModel.lng.toString();
     addressController.text = widget.locationModel.address;
-    radiusController.text = widget.locationModel.radius.toString();
+    //radiusController.text = widget.locationModel.radius.toString();
     initMarker();
     super.initState();
   }
@@ -124,8 +127,8 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Text('Vị trí', style: TextStyle(color: blueGrey1)),
                       Text(' *', style: TextStyle(color: Colors.red))
                     ],
@@ -148,8 +151,8 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Text('Địa chỉ', style: TextStyle(color: blueGrey1)),
                       Text(
                         ' *',
@@ -175,8 +178,8 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Text('Tọa độ', style: TextStyle(color: blueGrey1)),
                       Text(' *', style: TextStyle(color: Colors.red))
                     ],
@@ -248,8 +251,8 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Text('Chi nhánh', style: TextStyle(color: blueGrey1)),
                       Text(' *', style: TextStyle(color: Colors.red))
                     ],
@@ -266,7 +269,7 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                         children: [
                           Expanded(
                               child: Text(
-                            widget.locationModel.branch.name,
+                            widget.branchName,
                             style:
                                 const TextStyle(color: blueBlack, fontSize: 16),
                           )),
@@ -317,8 +320,8 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                   //       ],
                   //     )),
                   // const SizedBox(height: 20),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Text('Bán kính (m)', style: TextStyle(color: blueGrey1)),
                       Text(' *', style: TextStyle(color: Colors.red))
                     ],
@@ -435,10 +438,10 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
 editLocation(LocationModel locationModel, String name, String address,
     double lat, double lng, int radius) {
   List<LocationModel> locationList = CompanyModel.locationList;
-  for (int i = 0; i < locationList.length; i++) {
-    if (locationList[i].id == locationModel.id) {
-      CompanyModel.locationList[i] = locationModel.copyWith(
-          name: name, address: address, lat: lat, lng: lng);
-    }
-  }
+  // for (int i = 0; i < locationList.length; i++) {
+  //   if (locationList[i].id == locationModel.id) {
+  //     CompanyModel.locationList[i] = locationModel.copyWith(
+  //         name: name, address: address, lat: lat, lng: lng);
+  //   }
+  // }
 }

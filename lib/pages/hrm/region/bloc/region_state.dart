@@ -19,3 +19,8 @@ class RegionSuccess extends RegionState {
   final List<RegionModel> regionList;
   const RegionSuccess({required this.regionList});
 }
+
+class RegionAddSuccess extends RegionState {
+  final String message;
+  const RegionAddSuccess({required this.message});
+}

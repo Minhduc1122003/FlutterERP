@@ -9,10 +9,25 @@ part 'location_state.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   LocationBloc() : super(LocationInitial()) {
-    on<LocationLoadEvent>((event, emit) async {
+    on<GetLocationEvent>((event, emit) async {
       emit(LocationWaiting());
-      List<LocationModel> locationList = await ApiProvider().getLocation();
+      List<LocationModel> locationList =
+          await ApiProvider().getLocation(event.site, event.token);
       emit(LocationSuccess(locationList: locationList));
+    });
+
+    on<LocationAddEVent>((event, emit) async {
+      emit(LocationWaiting());
+      String result = await ApiProvider().postAddLocation(
+          event.id,
+          event.branchID,
+          event.name,
+          event.address,
+          event.longitude,
+          event.latitude,
+          event.site,
+          event.token);
+      emit(LocationAddSuccess(mess: result));
     });
   }
 }

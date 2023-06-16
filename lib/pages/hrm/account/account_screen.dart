@@ -63,7 +63,7 @@ class AccountScreen extends StatelessWidget {
             width: double.infinity,
             child: OutlinedButton(
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: Colors.red, width: 1),
+                side: const BorderSide(color: Colors.red, width: 1),
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -72,7 +72,7 @@ class AccountScreen extends StatelessWidget {
               onPressed: () {
                 //Get.back();
               },
-              child: Text('Đăng xuất',
+              child: const Text('Đăng xuất',
                   style: TextStyle(color: Colors.red, fontSize: 22)),
             ),
           ),
@@ -101,7 +101,7 @@ Widget _buildAppbar(BuildContext context) {
             child: const Text('Sửa',
                 style: TextStyle(fontSize: 18, color: blueBlack)),
             onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => EditAccountScreen()))),
+                MaterialPageRoute(builder: (context) => const EditAccountScreen()))),
       ],
     ),
   );
@@ -148,12 +148,12 @@ Widget buildAdvertisement() {
         color: mainColor, borderRadius: BorderRadius.circular(10)),
     child: Row(
       children: [
-        Expanded(
+        const Expanded(
           flex: 1,
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'Nâng cấp tài khoản Tanca',
                   style: TextStyle(fontSize: 16, color: Colors.white),
@@ -184,30 +184,30 @@ Widget _buildActionItem(
     onTap: () {
       if (id == 1) {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ManagementSettingScreen()));
+            MaterialPageRoute(builder: (context) => const ManagementSettingScreen()));
       } else if (id == 2) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ReportScreen()));
+            context, MaterialPageRoute(builder: (context) => const ReportScreen()));
       } else if (id == 3) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => OnLeaveScreen()));
+            context, MaterialPageRoute(builder: (context) => const OnLeaveScreen()));
       } else if (id == 4) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SalaryCaculateScreen()));
+            context, MaterialPageRoute(builder: (context) => const SalaryCaculateScreen()));
       } else if (id == 5) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => KPIScreen()));
+            context, MaterialPageRoute(builder: (context) => const KPIScreen()));
       } else if (id == 6) {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => WarningSettingScreen()));
+            MaterialPageRoute(builder: (context) => const WarningSettingScreen()));
       }
     },
     child: Container(
       height: 55,
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(color: Colors.white),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Row(
         children: [
           Icon(
@@ -218,10 +218,10 @@ Widget _buildActionItem(
           const SizedBox(width: 15),
           Text(
             name,
-            style: TextStyle(fontSize: 17),
+            style: const TextStyle(fontSize: 17),
           ),
           const Expanded(child: SizedBox.shrink()),
-          SizedBox(
+          const SizedBox(
             height: 40,
             width: 40,
             child: Icon(
@@ -242,9 +242,9 @@ Widget buildLanguage() {
     width: double.infinity,
     margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
     padding: const EdgeInsets.symmetric(horizontal: 10),
-    decoration: BoxDecoration(color: Colors.white),
-    child: Row(
-      children: const [
+    decoration: const BoxDecoration(color: Colors.white),
+    child: const Row(
+      children: [
         Icon(
           Icons.language,
           size: 20,

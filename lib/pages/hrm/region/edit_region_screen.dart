@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
+import '../../../model/hrm_model/employee_model.dart';
+import '../../../model/login_model.dart';
 import '../../../widget/dialog.dart';
 import 'bloc/region_bloc.dart';
 
@@ -12,7 +14,7 @@ class EditRegionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String regionName = regionModel.name;
-    String note = regionModel.note;
+    String note = regionModel.description;
     TextEditingController regionController =
         TextEditingController(text: regionName);
     TextEditingController noteController = TextEditingController(text: note);
@@ -42,10 +44,18 @@ class EditRegionScreen extends StatelessWidget {
                     });
                 return;
               }
-              editRegion(
-                  regionModel.id, regionController.text, noteController.text);
+              BlocProvider.of<RegionBloc>(context).add(AddRegionEvent(
+                  id: regionModel.id,
+                  site: EmployeeModel.siteName,
+                  name: regionController.text,
+                  description: noteController.text,
+                  token: User.token));
+              //addRegion(regionController.text, noteController.text);
               Navigator.pop(context);
-              BlocProvider.of<RegionBloc>(context).add(RegionLoadEvent());
+              // editRegion(
+              //     regionModel.id, regionController.text, noteController.text);
+              // Navigator.pop(context);
+              // BlocProvider.of<RegionBloc>(context).add(RegionLoadEvent());
             },
           )
         ],
@@ -53,8 +63,8 @@ class EditRegionScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(
-            children: const [
+          const Row(
+            children: [
               Text('Tên', style: TextStyle(color: blueGrey1)),
               Text(' *', style: TextStyle(color: Colors.red))
             ],
@@ -131,13 +141,13 @@ class EditRegionScreen extends StatelessWidget {
 }
 
 editRegion(int id, String name, String note) {
-  List<RegionModel> regionList = CompanyModel.regionList;
-  for (int i = 0; i < regionList.length; i++) {
-    if (regionList[i].id == id) {
-      CompanyModel.regionList[i] =
-          regionList[i].copyWith(name: name, note: note);
-    }
-  }
+  // List<RegionModel> regionList = CompanyModel.regionList;
+  // for (int i = 0; i < regionList.length; i++) {
+  //   if (regionList[i].id == id) {
+  //     CompanyModel.regionList[i] =
+  //         regionList[i].copyWith(name: name, note: nodete);
+  //   }
+  // }
 }
 
 deleteRegion(int id) {

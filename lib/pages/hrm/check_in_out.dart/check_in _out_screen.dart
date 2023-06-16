@@ -1,12 +1,17 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
 import '../../../config/color.dart';
 import '../../../method/hrm_method.dart';
+import '../../../model/hrm_model/company_model.dart';
+import '../../../model/hrm_model/employee_model.dart';
+import '../../../model/login_model.dart';
+import '../../../network/api_provider.dart';
 import '../../../widget/dialog.dart';
 import '../location/chosse_location_screen.dart';
 import '../timekeeping_offset/chosse_timekeeping_offset_shift_screen.dart';
@@ -23,11 +28,12 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
   Position? currentPosition;
   bool loading = false;
   late CheckInOutBloc bloc;
+
   @override
   void initState() {
     bloc = BlocProvider.of<CheckInOutBloc>(context);
     bloc.add(InitialCheckInOutEvent());
-    determinePosition();
+    //determinePosition();
     super.initState();
   }
 
@@ -92,7 +98,8 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
             //  Navigator.pop(context);
             Navigator.pop(context);
             Navigator.pop(context);
-            BlocProvider.of<WorkBloc>(context).add(CheckInEvent(shiftModel: blocState.shiftModel!));
+            BlocProvider.of<WorkBloc>(context)
+                .add(CheckInEvent(shiftModel: blocState.shiftModel!));
           }
         },
         child: Padding(
@@ -188,7 +195,36 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                                                       BorderRadius.circular(0)),
                                               backgroundColor: mainColor),
                                           onPressed: () {
-                                            determinePosition();
+                                            showCupertinoDialog<void>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  CupertinoAlertDialog(
+                                                title: const Text(
+                                                    'Quyền truy cập vị trí'),
+                                                content: const Column(
+                                                  children: [
+                                                    Text(
+                                                        'Ứng dụng cần được cấp quyền truy cập vị trí để thực hiện chức năng lấy chính xác vị trí trong quá trình chấm công'),
+                                                  ],
+                                                ),
+                                                actions: <CupertinoDialogAction>[
+                                                  CupertinoDialogAction(
+                                                    child: const Text('No'),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                  CupertinoDialogAction(
+                                                    isDestructiveAction: true,
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                      determinePosition();
+                                                    },
+                                                    child: const Text('Yes'),
+                                                  )
+                                                ],
+                                              ),
+                                            );
                                           },
                                           child: const Text(
                                             "Cấp phép",
@@ -278,12 +314,15 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                                   color: blueGrey1, size: 22)
                             ],
                           )),
-                      onTap: ()  {
+                      onTap: () async {
+                        List<LocationModel> locationList = await ApiProvider()
+                            .getLocation(EmployeeModel.siteName, User.token);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const ChooseLocationScreen()),
+                              builder: (context) => ChooseLocationScreen(
+                                    locationList: locationList,
+                                  )),
                         );
                       },
                     ),
@@ -324,16 +363,16 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
 
                           // currentPosition = await _determinePosition();
                           //if (!mounted) return;
-                          if (currentPosition == null) {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return closeDialog(context, 'Thông báo',
-                                      'Không tìm thấy vị trí hiện tại');
-                                });
-                            return;
-                          }
+                          // if (currentPosition == null) {
+                          //   showDialog(
+                          //       context: context,
+                          //       barrierDismissible: false,
+                          //       builder: (BuildContext context) {
+                          //         return closeDialog(context, 'Thông báo',
+                          //             'Không tìm thấy vị trí hiện tại');
+                          //       });
+                          //   return;
+                          // }
                           // int distanceInMeters = Geolocator.distanceBetween(
                           //         currentPosition!.latitude,
                           //         currentPosition!.longitude,
@@ -350,7 +389,16 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                           //       });
                           //   return;
                           // }
-                          bloc.add(CheckInOutConfirmEvent());
+                          
+                          bloc.add(CheckInPostEvent(
+                              id: -1,
+                              attendCode: EmployeeModel.id.toString(),
+                              authDate: DateTime.now().toString(),
+                              authTime: DateTime.now().toString(),
+                              locationID: 1,
+                              token: User.token));
+                          //bloc.add(CheckInOutConfirmEvent());
+                          Navigator.pop(context);
                         },
                         child: const Text("Xác nhận",
                             style: TextStyle(fontSize: 18))),

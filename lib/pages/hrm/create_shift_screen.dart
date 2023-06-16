@@ -1,34 +1,44 @@
 import 'package:erp/config/color.dart';
+import 'package:erp/pages/hrm/shift_assignment/choose_list_branch_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
-import '../../widget/dropdown_button.dart';
 import '../../method/hrm_method.dart';
+import '../../model/hrm_model/company_model.dart';
+import '../../model/hrm_model/employee_model.dart';
+import '../../model/login_model.dart';
+import '../../network/api_provider.dart';
 
-class CreateShiftSreen extends StatelessWidget {
-  const CreateShiftSreen({Key? key}) : super(key: key);
+class CreateShiftSreen extends StatefulWidget {
+  const CreateShiftSreen({super.key});
 
   @override
+  State<CreateShiftSreen> createState() => _CreateShiftSreenState();
+}
+
+class _CreateShiftSreenState extends State<CreateShiftSreen> {
+  List day = [false, false, false, false, false, false, false];
+  @override
   Widget build(BuildContext context) {
+    print("abc");
     List<String> timeZoneList = ['Asia/Jakarta'];
     List<String> branchList = [];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           'Tạo ca',
           style: TextStyle(color: Colors.black),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
         actions: [
           InkWell(
             child: Center(
                 child: Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: Text(
+                    margin: const EdgeInsets.only(right: 10),
+                    child: const Text(
                       'TẠO',
                       style: TextStyle(color: mainColor),
                     ))),
@@ -95,10 +105,12 @@ class CreateShiftSreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         height: 50,
                         width: double.infinity,
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Asia/Jakarta',style: TextStyle(fontSize: 16, color: blueBlack)),
+                            Text('Asia/Jakarta',
+                                style:
+                                    TextStyle(fontSize: 16, color: blueBlack)),
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 20,
@@ -119,8 +131,11 @@ class CreateShiftSreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Giờ nghỉ',style: TextStyle(fontSize: 16, color: blueBlack.withOpacity(0.7))),
-                            Icon(
+                            Text('Giờ nghỉ',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: blueBlack.withOpacity(0.7))),
+                            const Icon(
                               Icons.arrow_forward_ios,
                               size: 20,
                               color: Colors.grey,
@@ -298,16 +313,36 @@ class CreateShiftSreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         height: 50,
                         width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Chọn một hoặc nhiều chi nhánh',style: TextStyle(fontSize: 16, color: blueBlack.withOpacity(0.7))),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 20,
-                              color: Colors.grey,
-                            ),
-                          ],
+                        child: InkWell(
+                          onTap: () async {
+                            List<BranchModel> branchList = await ApiProvider()
+                                .getBranch(EmployeeModel.siteName, User.token);
+                            if (!mounted) return;
+                            dynamic result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChooseListBranchScreen(
+                                      branchList: branchList)),
+                            );
+                            if (result != null) {
+                              // branchModel = result;
+                              // setState(() {});
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Chọn một hoặc nhiều chi nhánh',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: blueBlack.withOpacity(0.7))),
+                              const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 20,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
                         )),
                   ],
                 ),
@@ -325,7 +360,11 @@ class CreateShiftSreen extends StatelessWidget {
                             data: Theme.of(context)
                                 .copyWith(unselectedWidgetColor: mainColor),
                             child:
-                                Checkbox(value: false, onChanged: (value) {})),
+                                Checkbox(value: day[i-1], onChanged: (value) {
+                                  setState(() {
+                                    day[i-1] = value;
+                                  });
+                                })),
                         // Icon(
                         //   Icons.check_box_outline_blank,
                         //   color: mainColor,
@@ -334,7 +373,8 @@ class CreateShiftSreen extends StatelessWidget {
                         //const SizedBox(width: 5),
                         Text(
                           getDay(i),
-                          style: TextStyle(fontSize: 18, color: blueBlack),
+                          style:
+                              const TextStyle(fontSize: 18, color: blueBlack),
                         )
                       ],
                     )
@@ -347,6 +387,15 @@ class CreateShiftSreen extends StatelessWidget {
     );
   }
 }
+
+// class CreateShiftSreen extends StatelessWidget {
+//   const CreateShiftSreen({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+    
+//   }
+// }
 
 // String getDay(int d) {
 //   switch (d) {

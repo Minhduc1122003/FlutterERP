@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'shift_model.dart';
 
 class CompanyModel {
@@ -23,83 +26,150 @@ class CompanyModel {
 class RegionModel {
   int id;
   String name;
-  String note;
-  List<BranchModel> branchList;
-  RegionModel(
-      {required this.id,
-      required this.name,
-      required this.note,
-      required this.branchList});
-  RegionModel copyWith(
-      {int? id, String? name, String? note, List<BranchModel>? branchList}) {
-    return RegionModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        note: note ?? this.note,
-        branchList: branchList ?? this.branchList);
+  String description;
+  RegionModel({
+    required this.id,
+    required this.name,
+    required this.description,
+  });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'description': description,
+    };
   }
+
+  factory RegionModel.fromMap(Map<String, dynamic> map) {
+    return RegionModel(
+      id: map['id'] as int,
+      name: map['name'] as String,
+      description: map['description'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory RegionModel.fromJson(String source) => RegionModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
+// class RegionModel {
+//   int id;
+//   String name;
+//   String note;
+//   List<BranchModel> branchList;
+//   RegionModel(
+//       {required this.id,
+//       required this.name,
+//       required this.note,
+//       required this.branchList});
+//   RegionModel copyWith(
+//       {int? id, String? name, String? note, List<BranchModel>? branchList}) {
+//     return RegionModel(
+//         id: id ?? this.id,
+//         name: name ?? this.name,
+//         note: note ?? this.note,
+//         branchList: branchList ?? this.branchList);
+//   }
+// }
 
 class BranchModel {
   int id;
   String name;
-  int regionID;
-  String regionName;
-  String note;
-  BranchModel(
-      {required this.id,
-      required this.name,
-      required this.regionName,
-      required this.regionID,
-      required this.note});
+  int areaID;
+  String description;
+  BranchModel({
+    required this.id,
+    required this.name,
+    required this.areaID,
+    required this.description,
+  });
 
-  BranchModel copyWith(
-      {int? id,
-      String? name,
-      int? regionID,
-      String? regionName,
-      String? note}) {
-    return BranchModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        regionID: regionID ?? this.regionID,
-        regionName: regionName ?? this.regionName,
-        note: note ?? this.note);
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'areaID': areaID,
+      'description': description,
+    };
   }
+
+  factory BranchModel.fromMap(Map<String, dynamic> map) {
+    return BranchModel(
+      id: map['id'] as int,
+      name: map['name'] as String,
+      areaID: map['areaID'] as int,
+      description: map['description'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory BranchModel.fromJson(String source) => BranchModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 class LocationModel {
   int id;
   String name;
   String address;
-  double lat;
-  double lng;
-  BranchModel branch;
-  int radius;
-  LocationModel(
-      {required this.id,
-      required this.name,
-      required this.address,
-      required this.lat,
-      required this.lng,
-      required this.branch,
-      required this.radius});
-  LocationModel copyWith(
-      {int? id,
-      String? name,
-      String? address,
-      double? lat,
-      double? lng,
-      BranchModel? branch,
-      int? radius}) {
+  String lat;
+  String lng;
+  int branchID;
+  // int radius;
+  LocationModel({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.lat,
+    required this.lng,
+    required this.branchID,
+    // required this.radius,
+  });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'address': address,
+      'latitude': lat,
+      'longitude': lng,
+      'branchID': branchID
+      // 'radius': radius,
+    };
+  }
+
+  factory LocationModel.fromMap(Map<String, dynamic> map) {
     return LocationModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        address: address ?? this.address,
-        lat: lat ?? this.lat,
-        lng: lng ?? this.lng,
-        branch: branch ?? this.branch,
-        radius: radius ?? this.radius);
+      id: map['id'] as int,
+      name: map['name'] as String,
+      address: map['address'] as String,
+      lat: map['latitude'] as String,
+      lng: map['longitude'] as String,
+      branchID: map['branchID'] as int
+      // radius: map['radius'] as int,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory LocationModel.fromJson(String source) => LocationModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  LocationModel copyWith({
+    int? id,
+    String? name,
+    String? address,
+    String? lat,
+    String? lng,
+    int? branchID,
+  }) {
+    return LocationModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      address: address ?? this.address,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
+      branchID: branchID ?? this.branchID,
+    );
   }
 }
 

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
+import '../../../model/hrm_model/employee_model.dart';
+import '../../../model/login_model.dart';
 import '../../../widget/dialog.dart';
 import 'bloc/region_bloc.dart';
 
@@ -38,9 +40,15 @@ class NewRegionScreen extends StatelessWidget {
                     });
                 return;
               }
-              addRegion(regionController.text, noteController.text);
+              BlocProvider.of<RegionBloc>(context).add(AddRegionEvent(
+                  id: -1,
+                  site: EmployeeModel.siteName,
+                  name: regionController.text,
+                  description: noteController.text,
+                  token: User.token));
+              //addRegion(regionController.text, noteController.text);
               Navigator.pop(context);
-              BlocProvider.of<RegionBloc>(context).add(RegionLoadEvent());
+              //BlocProvider.of<RegionBloc>(context).add(GetRegionEvent(site: EmployeeModel.siteName, token: User.token));
             },
           )
         ],
@@ -50,8 +58,8 @@ class NewRegionScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(
-              children: const [
+            const Row(
+              children: [
                 Text('Thêm vùng', style: TextStyle(color: blueGrey1)),
                 Text(
                   ' *',
@@ -105,8 +113,8 @@ class NewRegionScreen extends StatelessWidget {
 }
 
 addRegion(String name, String note) {
-  List<RegionModel> regionList = CompanyModel.regionList;
-  int id = regionList.isEmpty ? 1 : regionList.last.id + 1;
-  CompanyModel.regionList
-      .add(RegionModel(id: id, name: name, note: note, branchList: []));
+  // List<RegionModel> regionList = CompanyModel.regionList;
+  // int id = regionList.isEmpty ? 1 : regionList.last.id + 1;
+  // CompanyModel.regionList
+  //     .add(RegionModel(id: id, name: name, note: note, branchList: []));
 }

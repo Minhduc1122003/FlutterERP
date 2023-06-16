@@ -230,7 +230,7 @@ Widget _buildTabar(
                   child: Center(
                       child: Text(
                     '$listApproveLength',
-                    style: TextStyle(color: mainColor),
+                    style: const TextStyle(color: mainColor),
                   )),
                 )
               ],
@@ -270,7 +270,7 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
           child: TabBarView(children: [
             LayoutBuilder(builder: (context, constraints) {
               if (isLoading) {
-                return Center(
+                return const Center(
                     child: CircularProgressIndicator(color: mainColor));
               } else if (listNew.isNotEmpty) {
                 return ListView.separated(
@@ -295,7 +295,7 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
             }),
             LayoutBuilder(builder: (context, constraints) {
               if (isLoading) {
-                return Center(
+                return const Center(
                     child: CircularProgressIndicator(color: mainColor));
               } else if (listApprove.isNotEmpty) {
                 return ListView.separated(
@@ -320,7 +320,7 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
             }),
             LayoutBuilder(builder: (context, constraints) {
               if (isLoading) {
-                return Center(
+                return const Center(
                     child: CircularProgressIndicator(color: mainColor));
               } else if (listReject.isNotEmpty) {
                 return ListView.separated(
@@ -617,10 +617,10 @@ Widget _buildAdvanceRequestItem(AdvanceRequestModel model) {
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
-                    Text('',
+                    const Text('',
                         // capitalize(model.code)
                         //     .replaceAll("", "\u{200B}"),
-                        style: const TextStyle(color: blueBlack, fontSize: 13),
+                        style: TextStyle(color: blueBlack, fontSize: 13),
                         overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 10),
                     Text('GHI CHÚ',

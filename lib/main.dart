@@ -13,7 +13,6 @@ import 'pages/hrm/timekeeping/bloc/timekeeping_bloc.dart';
 import 'pages/hrm/timekeeping_offset/bloc/timekeeping_offset_bloc.dart';
 import 'pages/hrm/work/bloc/work_bloc.dart';
 import 'pages/login/bloc/login_bloc.dart';
-import 'pages/login/login_screen.dart';
 import 'pages/splash/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -66,6 +65,7 @@ class MyApp extends StatelessWidget {
           //fontFamily: 'Gilroy',
           fontFamily: 'Be VietNam',
           primarySwatch: Colors.blue,
+          useMaterial3: true
         ),
         home: const SplashScreen(),
         locale: const Locale('vn'),

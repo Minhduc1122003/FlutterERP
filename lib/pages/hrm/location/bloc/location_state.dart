@@ -20,3 +20,8 @@ class LocationSuccess extends LocationState {
   final List<LocationModel> locationList;
   const LocationSuccess({required this.locationList});
 }
+
+class LocationAddSuccess extends LocationState {
+  final String mess;
+  const LocationAddSuccess({required this.mess});
+}

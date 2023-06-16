@@ -1,13 +1,12 @@
-import 'package:erp/model/hrm_model/company_model.dart';
-import 'package:erp/network/api_provider.dart';
 import 'package:erp/pages/hrm/notification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import '../../../config/color.dart';
-import '../../../model/hrm_model/shift_model.dart';
+import '../../../model/hrm_model/employee_model.dart';
 import '../../../model/login_model.dart';
+import '../check_in_out.dart/bloc/check_in_out_bloc.dart';
 import '../check_in_out.dart/check_in _out_screen.dart';
 import '../personnel/add_personnel_screen.dart';
 import '../create_shift_screen.dart';
@@ -16,7 +15,6 @@ import '../request_management/request_management_screen.dart';
 import '../salary_advance/salary_advance_info_screen.dart';
 import '../shift_assignment/shift_assignment_screen.dart';
 import '../shift_calendar/shift_calendar_screen.dart';
-import '../shift_screen.dart';
 import '../timekeeping/timekeeping_screen.dart';
 import 'bloc/work_bloc.dart';
 
@@ -70,9 +68,9 @@ class _WorkScreenState extends State<WorkScreen> {
                                 builder: (context) =>
                                     const ShiftCalendarScreen()));
                       },
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
+                        children: [
                           Text('Lịch làm việc',
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold)),
@@ -288,9 +286,16 @@ class _WorkScreenState extends State<WorkScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                         onPressed: () {
-                          bloc.add(CheckOutEvent());
+                          //bloc.add(CheckOutEvent());
                           // CompanyModel.checkInStatus = false;
                           // getCheckInStatus();
+                          BlocProvider.of<CheckInOutBloc>(context).add(CheckInPostEvent(
+                              id: -1,
+                              attendCode: EmployeeModel.id.toString(),
+                              authDate: DateTime.now().toString(),
+                              authTime: DateTime.now().toString(),
+                              locationID: 1,
+                              token: User.token));
                         },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -340,10 +345,10 @@ class _WorkScreenState extends State<WorkScreen> {
               color: mainColor, borderRadius: BorderRadius.circular(15)),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text('Vào ca',
                     style: TextStyle(fontSize: 30, color: Colors.white)),
                 Text('23:31', style: TextStyle(color: Colors.white)),
@@ -415,15 +420,15 @@ class _WorkScreenState extends State<WorkScreen> {
       onTap: () {
         if (id == 1) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddPersonnelScreen()));
+              MaterialPageRoute(builder: (context) => const AddPersonnelScreen()));
         } else if (id == 2) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CreateShiftSreen()));
+              MaterialPageRoute(builder: (context) => const CreateShiftSreen()));
         } else if (id == 3) {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => RequestManagementScreen()));
+                  builder: (context) => const RequestManagementScreen()));
         } else if (id == 4) {
           // Get.to(() => AddPersonnelScreen());
         }
@@ -433,7 +438,7 @@ class _WorkScreenState extends State<WorkScreen> {
           Container(
             height: 40,
             width: 30,
-            decoration: BoxDecoration(color: mainColor, shape: BoxShape.circle),
+            decoration: const BoxDecoration(color: mainColor, shape: BoxShape.circle),
             child: Icon(
               icon,
               color: Colors.white,
@@ -452,7 +457,7 @@ class _WorkScreenState extends State<WorkScreen> {
                 borderRadius: BorderRadius.circular(10)),
             child: Text(
               '+$day ngày',
-              style: TextStyle(color: mainColor),
+              style: const TextStyle(color: mainColor),
             ),
           ),
         ],
@@ -564,9 +569,9 @@ class _WorkScreenState extends State<WorkScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               Text(
                 'Ai đang làm việc?',
                 style: TextStyle(fontSize: 20),

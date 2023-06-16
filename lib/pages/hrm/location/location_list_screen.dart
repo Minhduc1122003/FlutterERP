@@ -1,7 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:erp/model/hrm_model/company_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
+import '../../../model/hrm_model/employee_model.dart';
+import '../../../model/login_model.dart';
+import '../../../network/api_provider.dart';
+import '../branch/bloc/branch_bloc.dart';
 import 'bloc/location_bloc.dart';
 import 'edit_location_screen.dart';
 import 'new_location_screen.dart';
@@ -10,6 +16,8 @@ class LocationListScreen extends StatelessWidget {
   const LocationListScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<LocationBloc>(context)
+        .add(GetLocationEvent(site: EmployeeModel.siteName, token: User.token));
     return Scaffold(
       backgroundColor: const Color(0xFFF3F6FF),
       appBar: AppBar(
@@ -38,6 +46,10 @@ class LocationListScreen extends StatelessWidget {
             return const Center(
                 child: CircularProgressIndicator(color: mainColor));
           }
+          if (state is LocationAddSuccess) {
+            BlocProvider.of<LocationBloc>(context).add(GetLocationEvent(
+                site: EmployeeModel.siteName, token: User.token));
+          }
           if (state is LocationSuccess) {
             return state.locationList.isEmpty
                 ? const Center(
@@ -51,13 +63,15 @@ class LocationListScreen extends StatelessWidget {
                           itemCount: state.locationList.length,
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
-                              onTap: () {
+                              onTap: () async {
+                                List<BranchModel> regionList = await ApiProvider().getBranch(EmployeeModel.siteName, User.token);
+                                    BranchModel branch = regionList.firstWhere((element) => element.id == state.locationList[index].branchID);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => EditLocationScreen(
                                           locationModel:
-                                              state.locationList[index])),
+                                              state.locationList[index], branchName: branch.name)),
                                 );
                               },
                               child: Container(

@@ -5,10 +5,11 @@ import '../../../config/color.dart';
 import '../check_in_out.dart/bloc/check_in_out_bloc.dart';
 
 class ChooseLocationScreen extends StatelessWidget {
-  const ChooseLocationScreen({Key? key}) : super(key: key);
+  const ChooseLocationScreen({super.key, required this.locationList, });
+  final List<LocationModel> locationList;
   @override
   Widget build(BuildContext context) {
-    List<LocationModel> locationList = CompanyModel.locationList;
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

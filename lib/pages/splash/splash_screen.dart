@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:erp/pages/login/login_page.dart';
 import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../config/color.dart';
 
-import '../login/login_screen.dart';
+import '../../config/mythemes.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -27,7 +26,7 @@ class SplashScreenState extends State<SplashScreen> {
       if (_second == 0) {
         _cancelFlashsaleTimer();
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => LoginScreen()),
+            MaterialPageRoute(builder: (context) => const LoginPage()),
             (Route<dynamic> route) => false);
       }
     });
@@ -48,7 +47,7 @@ class SplashScreenState extends State<SplashScreen> {
           ? SystemUiOverlayStyle.light
           : const SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
-              systemNavigationBarColor: BLACK21,
+              systemNavigationBarColor: BLACK55,
               systemNavigationBarIconBrightness: Brightness.light),
     );
 
@@ -67,33 +66,16 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: WillPopScope(
-      onWillPop: () {
-        return Future.value(false);
-      },
-      child: Container(
-        color: BLACK21,
-        child: Center(
-          //child: Image.asset('assets/images/logo_dark.png', height: 200),
-          child: Text(
-            'CRM',
-            style: GoogleFonts.inknutAntiqua(
-              textStyle: const TextStyle(color: Colors.white),
-              fontSize: 40,
-              fontWeight: FontWeight.w700,
-              fontStyle: FontStyle.italic,
-              shadows: [
-                for (double i = 1; i < 5; i++)
-                  BoxShadow(
-                      spreadRadius: 1,
-                      color: Colors.blue,
-                      blurStyle: BlurStyle.outer,
-                      blurRadius: 5 * i),
-              ],
-            ),
-          ),
-        ),
+      backgroundColor: mainColor,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: Text("DPT Solution", style: MyThemes.textIntro)),
+          Center(
+              child:
+                  Text("Giải pháp toàn diện", style: MyThemes.textIntroSmall))
+        ],
       ),
-    ));
+    );
   }
 }

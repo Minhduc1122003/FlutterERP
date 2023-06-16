@@ -156,6 +156,18 @@ class ApiProvider {
     }
   }
 
+  Future<List<ShiftModel>> getListShiftModelByUser(
+      int employeeID, String siteName, String token) async {
+    response = await getConnect(
+        "$getListShiftModelByUserAPI$employeeID/$siteName", token);
+    if (response.statusCode == statusOk) {
+      List responseList = json.decode(response.body);
+      return responseList.map((val) => ShiftModel.fromJson(val)).toList();
+    } else {
+      return [];
+    }
+  }
+
   Future<String> sendTimekeepingOffsetRequest(
       Map<String, dynamic> map, String token) async {
     response = await postConnect(sendTimekeepingOffsetRequestAPI, map, token);
@@ -273,32 +285,191 @@ class ApiProvider {
     }
   }
 
-  Future<List<RegionModel>> getRegion() async {
-    await Future.delayed(const Duration(milliseconds: 500), () {});
-    return CompanyModel.regionList;
-  }
-
-  Future<List<BranchModel>> getBranch() async {
-    await Future.delayed(const Duration(milliseconds: 500), () {});
-    List<RegionModel> regionList = CompanyModel.regionList;
-    List<BranchModel> branchList = [];
-    for (RegionModel model in regionList) {
-      branchList.addAll(model.branchList);
+  Future<List<RegionModel>> getRegion(String site, String token) async {
+    // await Future.delayed(const Duration(milliseconds: 500), () {});
+    // return CompanyModel.regionList;
+    response = await getConnect('$getRegionAPI$site', token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      List responseList = json.decode(response.body);
+      List<RegionModel> lst =
+          responseList.map((f) => RegionModel.fromMap(f)).toList();
+      return lst;
+    } else {
+      return [];
     }
-    return branchList;
   }
 
-  Future<List<LocationModel>> getLocation() async {
-    await Future.delayed(const Duration(milliseconds: 500), () {});
-    return CompanyModel.locationList;
+  Future<String> postAddRegion(int id, String site, String name,
+      String description, String token) async {
+    // await Future.delayed(const Duration(milliseconds: 500), () {});
+    // return CompanyModel.regionList;
+    var postData;
+    if (id == -1) {
+      postData = {'name': name, 'description': description, 'siteID': site};
+    } else {
+      postData = {
+        'id': id,
+        'name': name,
+        'description': description,
+        'siteID': site
+      };
+    }
+
+    response = await postConnect(postAddRegionAPI, postData, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      return "OK";
+    } else {
+      return "";
+    }
   }
-  
+
+  Future<List<BranchModel>> getBranch(String site, String token) async {
+    // await Future.delayed(const Duration(milliseconds: 500), () {});
+    // List<RegionModel> regionList = CompanyModel.regionList;
+    // List<BranchModel> branchList = [];
+    // for (RegionModel model in regionList) {
+    //   branchList.addAll(model.branchList);
+    // }
+    // return branchList;
+    response = await getConnect('$getBranchAPI$site', token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      List responseList = json.decode(response.body);
+      List<BranchModel> lst =
+          responseList.map((f) => BranchModel.fromMap(f)).toList();
+      return lst;
+    } else {
+      return [];
+    }
+  }
+
+  Future<String> postAddBranch(int id, int idArea, String site, String name,
+      String description, String token) async {
+    // await Future.delayed(const Duration(milliseconds: 500), () {});
+    // return CompanyModel.regionList;
+    var postData;
+    if (id == -1) {
+      postData = {
+        'areaID': idArea,
+        'name': name,
+        'description': description,
+        'siteID': site
+      };
+    } else {
+      postData = {
+        'id': id,
+        'areaID': idArea,
+        'name': name,
+        'description': description,
+        'siteID': site
+      };
+    }
+
+    response = await postConnect(postAddBranchAPI, postData, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      return "OK";
+    } else {
+      return "";
+    }
+  }
+
+  Future<String> postCheckin(int id, String attendCode, String authDate,
+      String authTime, int location, String token) async {
+    // await Future.delayed(const Duration(milliseconds: 500), () {});
+    // return CompanyModel.regionList;
+    var postData;
+    if (id == -1) {
+      postData = {
+        "attendCode": attendCode,
+        "authDate": authDate,
+        "authTime": authTime,
+        "location": location
+      };
+    } else {
+      postData = {
+        'id': id,
+        "attendCode": attendCode,
+        "authDate": authDate,
+        "authTime": authTime,
+        "location": location
+      };
+    }
+
+    response = await postConnect(postCheckInAPI + User.site, postData, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      return "OK";
+    } else {
+      return "";
+    }
+  }
+
+  Future<List<LocationModel>> getLocation(String site, String token) async {
+    // await Future.delayed(const Duration(milliseconds: 500), () {});
+    // return CompanyModel.locationList;
+    response = await getConnect('$getLocationAPI$site', token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      List responseList = json.decode(response.body);
+      List<LocationModel> lst =
+          responseList.map((f) => LocationModel.fromMap(f)).toList();
+      return lst;
+    } else {
+      return [];
+    }
+  }
+
+  Future<String> postAddLocation(
+      int id,
+      int branchID,
+      String name,
+      String address,
+      String longitude,
+      String latitude,
+      String site,
+      String token) async {
+    // await Future.delayed(const Duration(milliseconds: 500), () {});
+    // return CompanyModel.regionList;
+    var postData;
+    if (id == -1) {
+      postData = {
+        "id": id,
+        "branchID": branchID,
+        "name": name,
+        "address": address,
+        "longitude": longitude,
+        "latitude": latitude,
+        "siteID": site
+      };
+    } else {
+      postData = {
+        "branchID": branchID,
+        "name": name,
+        "address": address,
+        "longitude": longitude,
+        "latitude": latitude,
+        "siteID": site
+      };
+    }
+
+    response = await postConnect(getLocationAPI, postData, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      return "OK";
+    } else {
+      return "";
+    }
+  }
+
   Future<bool> getCheckInStatus() async {
     await Future.delayed(const Duration(milliseconds: 200), () {});
     return CompanyModel.checkInStatus;
   }
 
-   Future<ShiftModel?> getCheckInShift() async {
+  Future<ShiftModel?> getCheckInShift() async {
     await Future.delayed(const Duration(milliseconds: 200), () {});
     return CompanyModel.shiftModel;
   }

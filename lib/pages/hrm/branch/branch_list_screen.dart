@@ -1,7 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
+import '../../../model/hrm_model/company_model.dart';
+import '../../../model/hrm_model/employee_model.dart';
+import '../../../model/login_model.dart';
+import '../../../network/api_provider.dart';
 import 'bloc/branch_bloc.dart';
 import 'edit_branch_screen.dart';
 import 'new_branch_screen.dart';
@@ -10,7 +15,8 @@ class BranchListScreen extends StatelessWidget {
   const BranchListScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
+    BlocProvider.of<BranchBloc>(context)
+        .add(GetBranchEvent(site: EmployeeModel.siteName, token: User.token));
     return Scaffold(
         backgroundColor: const Color(0xFFF3F6FF),
         appBar: AppBar(
@@ -27,7 +33,7 @@ class BranchListScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>const NewBranchScreen()));
+                          builder: (context) => const NewBranchScreen()));
                 },
                 icon: const Icon(Icons.add))
           ],
@@ -37,6 +43,10 @@ class BranchListScreen extends StatelessWidget {
             if (state is BranchWaiting) {
               return const Center(
                   child: CircularProgressIndicator(color: mainColor));
+            }
+            if (state is BranchAddSuccess) {
+              BlocProvider.of<BranchBloc>(context).add(GetBranchEvent(
+                  site: EmployeeModel.siteName, token: User.token));
             }
             if (state is BranchSuccess) {
               return state.branchList.isEmpty
@@ -52,14 +62,16 @@ class BranchListScreen extends StatelessWidget {
                               itemCount: state.branchList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return InkWell(
-                                  onTap: () {
+                                  onTap: () async {
+                                    List<RegionModel> regionList = await ApiProvider().getRegion(EmployeeModel.siteName, User.token);
+                                    RegionModel region = regionList.firstWhere((element) => element.id == state.branchList[index].areaID);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               EditBranchScreen(
                                                   branchModel:
-                                                      state.branchList[index])),
+                                                      state.branchList[index], areaName: region.name)),
                                     );
                                   },
                                   child: Container(

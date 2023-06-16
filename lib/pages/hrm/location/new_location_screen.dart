@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../model/hrm_model/company_model.dart';
+import '../../../model/hrm_model/employee_model.dart';
+import '../../../model/login_model.dart';
 import '../../../network/api_provider.dart';
 import '../../../widget/dialog.dart';
 import 'bloc/location_bloc.dart';
@@ -110,15 +112,25 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                     });
                 return;
               }
-              addLocation(
-                  locationController.text,
-                  addressController.text,
-                  position.latitude,
-                  position.longitude,
-                  branchModel!,
-                  int.parse(radiusController.text));
+              BlocProvider.of<LocationBloc>(context).add(LocationAddEVent(
+                id: 0,
+                branchID: branchModel!.id,
+                name: locationController.text,
+                address: addressController.text,
+                longitude: longitudeController.text,
+                latitude: latitudeController.text,
+                site: EmployeeModel.siteName,
+                token: User.token,
+              ));
               Navigator.pop(context, 'new');
-              BlocProvider.of<LocationBloc>(context).add(LocationLoadEvent());
+              // addLocation(
+              //     locationController.text,
+              //     addressController.text,
+              //     position.latitude,
+              //     position.longitude,
+              //     branchModel!,
+              //     int.parse(radiusController.text));
+              // BlocProvider.of<LocationBloc>(context).add(LocationLoadEvent());
             },
           )
         ],
@@ -131,8 +143,8 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Text('Vị trí', style: TextStyle(color: blueGrey1)),
                       Text(' *', style: TextStyle(color: Colors.red))
                     ],
@@ -156,8 +168,8 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Text('Địa chỉ', style: TextStyle(color: blueGrey1)),
                       Text(' *', style: TextStyle(color: Colors.red))
                     ],
@@ -186,8 +198,8 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Text('Tọa độ', style: TextStyle(color: blueGrey1)),
                       Text(' *', style: TextStyle(color: Colors.red))
                     ],
@@ -259,8 +271,8 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Text('Chi nhánh', style: TextStyle(color: blueGrey1)),
                       Text(' *', style: TextStyle(color: Colors.red))
                     ],
@@ -268,8 +280,8 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                   const SizedBox(height: 10),
                   InkWell(
                     onTap: () async {
-                      List<BranchModel> branchList =
-                          await ApiProvider().getBranch();
+                      List<BranchModel> branchList = await ApiProvider()
+                          .getBranch(EmployeeModel.siteName, User.token);
                       if (!mounted) return;
                       dynamic result = await Navigator.push(
                         context,
@@ -352,8 +364,8 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                   //       ],
                   //     )),
                   // const SizedBox(height: 20),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Text('Bán kính (m)', style: TextStyle(color: blueGrey1)),
                       Text(' *', style: TextStyle(color: Colors.red))
                     ],
@@ -469,14 +481,14 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
 
 addLocation(String name, String address, double lat, double lng,
     BranchModel branchModel, int radius) {
-  List<LocationModel> locationList = CompanyModel.locationList;
-  int id = locationList.isEmpty ? 1 : locationList.last.id;
-  CompanyModel.locationList.add(LocationModel(
-      id: id,
-      name: name,
-      address: address,
-      lat: lat,
-      lng: lng,
-      branch: branchModel,
-      radius: radius));
+  // List<LocationModel> locationList = CompanyModel.locationList;
+  // int id = locationList.isEmpty ? 1 : locationList.last.id;
+  // CompanyModel.locationList.add(LocationModel(
+  //     id: id,
+  //     name: name,
+  //     address: address,
+  //     lat: lat,
+  //     lng: lng,
+  //     branch: branchModel,
+  //     radius: radius));
 }

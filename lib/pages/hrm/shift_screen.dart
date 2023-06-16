@@ -16,12 +16,16 @@ class ShiftScreen extends StatelessWidget {
           'Ca làm',
           style: TextStyle(color: Colors.black),
         ),
-        actions: [IconButton(onPressed: () {
-          Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>CreateShiftSreen()));
-        }, icon: Icon(Icons.add))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreateShiftSreen()));
+              },
+              icon: Icon(Icons.add))
+        ],
       ),
       body: Column(children: [
         const SizedBox(height: 15),

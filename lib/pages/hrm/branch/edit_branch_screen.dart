@@ -2,17 +2,20 @@ import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../model/hrm_model/company_model.dart';
+import '../../../model/hrm_model/employee_model.dart';
+import '../../../model/login_model.dart';
 import 'bloc/branch_bloc.dart';
 
 class EditBranchScreen extends StatelessWidget {
-  const EditBranchScreen({super.key, required this.branchModel});
+  const EditBranchScreen({super.key, required this.branchModel, required this.areaName});
   final BranchModel branchModel;
+  final String areaName;
   @override
   Widget build(BuildContext context) {
     TextEditingController branchController =
         TextEditingController(text: branchModel.name);
     TextEditingController noteController =
-        TextEditingController(text: branchModel.note);
+        TextEditingController(text: branchModel.description);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -29,10 +32,19 @@ class EditBranchScreen extends StatelessWidget {
               child: const Text('LƯU', style: TextStyle(color: mainColor)),
             ),
             onTap: () {
-              editBranch(branchModel, branchController.text,
-                  noteController.text);
+              BlocProvider.of<BranchBloc>(context).add(AddBranchEvent(
+                  id: branchModel.id,
+                  idArea: branchModel.areaID,
+                  site: EmployeeModel.siteName,
+                  name: branchController.text,
+                  description: noteController.text,
+                  token: User.token));
+              //addRegion(regionController.text, noteController.text);
               Navigator.pop(context);
-              BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
+              // editBranch(branchModel, branchController.text,
+              //     noteController.text);
+              // Navigator.pop(context);
+              // BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
             },
           )
         ],
@@ -40,8 +52,8 @@ class EditBranchScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(
-            children: const [
+          const Row(
+            children: [
               Text('Vùng', style: TextStyle(color: blueGrey1)),
               Text(' *', style: TextStyle(color: Colors.red))
             ],
@@ -58,7 +70,7 @@ class EditBranchScreen extends StatelessWidget {
                 children: [
                   Expanded(
                       child: Text(
-                    branchModel.regionName,
+                    areaName,
                     style: const TextStyle(color: blueBlack, fontSize: 16),
                   )),
                   const Icon(Icons.arrow_forward_ios,
@@ -66,8 +78,8 @@ class EditBranchScreen extends StatelessWidget {
                 ],
               )),
           const SizedBox(height: 20),
-          Row(
-            children: const [
+          const Row(
+            children: [
               Text('Chi nhánh', style: TextStyle(color: blueGrey1)),
               Text(
                 ' *',
@@ -147,30 +159,30 @@ class EditBranchScreen extends StatelessWidget {
 }
 
 editBranch(BranchModel branchModel, String name, String note) {
-  List<RegionModel> regionList = CompanyModel.regionList;
-  for (int i = 0; i < regionList.length; i++) {
-    if (regionList[i].id == branchModel.regionID) {
-      for (int j = 0; j < regionList[i].branchList.length; j++) {
-        if (regionList[i].branchList[j].id == branchModel.id) {
-          CompanyModel.regionList[i].branchList[j] =
-              branchModel.copyWith(name: name, note: note);
-          return;
-        }
-      }
-    }
-  }
+  // List<RegionModel> regionList = CompanyModel.regionList;
+  // for (int i = 0; i < regionList.length; i++) {
+  //   if (regionList[i].id == branchModel.regionID) {
+  //     for (int j = 0; j < regionList[i].branchList.length; j++) {
+  //       if (regionList[i].branchList[j].id == branchModel.id) {
+  //         CompanyModel.regionList[i].branchList[j] =
+  //             branchModel.copyWith(name: name, note: note);
+  //         return;
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 deleteBranch(BranchModel branchModel) {
-  List<RegionModel> regionList = CompanyModel.regionList;
-  for (int i = 0; i < regionList.length; i++) {
-    if (regionList[i].id == branchModel.regionID) {
-      for (int j = 0; j < regionList[i].branchList.length; j++) {
-        if (regionList[i].branchList[j].id == branchModel.id) {
-          CompanyModel.regionList[i].branchList.removeAt(j);
-          return;
-        }
-      }
-    }
-  }
+  // List<RegionModel> regionList = CompanyModel.regionList;
+  // for (int i = 0; i < regionList.length; i++) {
+  //   if (regionList[i].id == branchModel.regionID) {
+  //     for (int j = 0; j < regionList[i].branchList.length; j++) {
+  //       if (regionList[i].branchList[j].id == branchModel.id) {
+  //         CompanyModel.regionList[i].branchList.removeAt(j);
+  //         return;
+  //       }
+  //     }
+  //   }
+  // }
 }

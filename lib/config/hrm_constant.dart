@@ -15,9 +15,9 @@ const int statusNotfound = 404;
 const int statusInternalError = 500;
 
 const String errorOccured = 'Error occured, please try again later';
-const String serverURL = 'http://api2.khangthanh.com';
+const String serverURL = 'http://erp.vietgoat.com:853';
 
-const String loginAPI = '$serverURL/erp/Users/weblogin';
+const String loginAPI = 'http://erp.vietgoat.com:853/erp/Users/weblogin';
 const String getListOnLeaveRequestAPI = '$serverURL/hrm/api/onLeaveFileLine/';
 const String getListTimekeepingOffsetRequestAPI =
     '$serverURL/hrm/api/TimekeepingOffset/getByEmployee/';
@@ -27,6 +27,7 @@ const String getOnLeaveKindAPI = '$serverURL/hrm/api/permissionType/getAll/';
 const String sendOnLeaveRequestAPI = '$serverURL/hrm/api/onLeaveFileLine';
 
 const String getListShiftModelAPI = '$serverURL/hrm/api/shift/';
+const String getListShiftModelByUserAPI = '$serverURL/hrm/api/workOfDayPlan/';
 const String sendTimekeepingOffsetRequestAPI =
     '$serverURL/hrm/api/timekeepingOffset';
 
@@ -41,5 +42,10 @@ const String getListSalaryPeriodAPI='$serverURL/hrm/api/SalaryPeriod/GetAll/';
 
 
 const String getSalaryCaculateAPI='$serverURL/hrm/api/salarycaculate/GetSalaryByID/';
+const String getRegionAPI='$serverURL/hrm/api/area/';
+const String postAddRegionAPI='$serverURL/hrm/api/area';
 
-
+const String getBranchAPI='$serverURL/hrm/api/branch/';
+const String postAddBranchAPI='$serverURL/hrm/api/branch';
+const String getLocationAPI='$serverURL/hrm/api/location/';
+const String postCheckInAPI='$serverURL/hrm/api/attendance/insert/';

@@ -65,7 +65,7 @@ class _ShiftCalendarScreenState extends State<ShiftCalendarScreen> {
                                 children: [
                                   OutlinedButton(
                                     style: OutlinedButton.styleFrom(
-                                      side: BorderSide(
+                                      side: const BorderSide(
                                           color: mainColor, width: 1),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
@@ -76,12 +76,12 @@ class _ShiftCalendarScreenState extends State<ShiftCalendarScreen> {
                                           .add(ShiftCalendarLoadToday());
                                       Navigator.pop(context);
                                     },
-                                    child: Text('Hôm nay',
+                                    child: const Text('Hôm nay',
                                         style: TextStyle(color: mainColor)),
                                   ),
                                   OutlinedButton(
                                     style: OutlinedButton.styleFrom(
-                                      side: BorderSide(
+                                      side: const BorderSide(
                                           color: mainColor, width: 1),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
@@ -92,12 +92,12 @@ class _ShiftCalendarScreenState extends State<ShiftCalendarScreen> {
                                           .add(ShiftCalendarLoadWeek());
                                       Navigator.pop(context);
                                     },
-                                    child: Text('Tuần này',
+                                    child: const Text('Tuần này',
                                         style: TextStyle(color: mainColor)),
                                   ),
                                   OutlinedButton(
                                     style: OutlinedButton.styleFrom(
-                                      side: BorderSide(
+                                      side: const BorderSide(
                                           color: mainColor, width: 1),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
@@ -108,7 +108,7 @@ class _ShiftCalendarScreenState extends State<ShiftCalendarScreen> {
                                           .add(ShiftCalendarLoadMonth());
                                       Navigator.pop(context);
                                     },
-                                    child: Text('Tháng này',
+                                    child: const Text('Tháng này',
                                         style: TextStyle(color: mainColor)),
                                   )
                                 ],
@@ -159,7 +159,7 @@ class _ShiftCalendarScreenState extends State<ShiftCalendarScreen> {
               },
               child: Row(
                 children: [
-                  Icon(Icons.calendar_today_outlined,
+                  const Icon(Icons.calendar_today_outlined,
                       color: mainColor, size: 22),
                   const SizedBox(width: 5),
                   Center(
@@ -193,7 +193,7 @@ class _ShiftCalendarScreenState extends State<ShiftCalendarScreen> {
                   ));
                 } else if (state.loadStatus ==
                     LoadShiftCalendarStatus.loading) {
-                  return Center(
+                  return const Center(
                       child: CircularProgressIndicator(color: mainColor));
                 } else {
                   return const SizedBox.shrink();
@@ -269,32 +269,46 @@ Widget buildShiftCalendarItem(
                               attendanceModel.checkin == null
                                   ? ''
                                   : attendanceModel.checkin!.substring(0, 5),
-                              style: TextStyle(fontSize: 16, color: mainColor)),
+                              style: const TextStyle(
+                                  fontSize: 15, color: mainColor)),
                           Text(
                               attendanceModel.checkout == null
                                   ? ''
                                   : ' - ${attendanceModel.checkout!.substring(0, 5)}',
-                              style: TextStyle(fontSize: 16, color: mainColor)),
+                              style: const TextStyle(
+                                  fontSize: 15, color: mainColor)),
                         ],
                       )
                     ],
                   ),
                 ),
                 const SizedBox(width: 10),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: getShiftStatusColor(attendanceModel.shiftStatus),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    getShiftStatusText(attendanceModel.shiftStatus),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                )
+                // Container(
+                //   padding:
+                //       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                //   decoration: BoxDecoration(
+                //     color: getShiftStatusColor(attendanceModel.shiftStatus),
+                //     borderRadius: BorderRadius.circular(10),
+                //   ),
+                //   child: Text(
+                //     getShiftStatusText(attendanceModel.shiftStatus),
+                //     style: const TextStyle(color: Colors.white),
+                //   ),
+                // )
               ]),
-              const SizedBox(height: 10),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: getShiftStatusColor(attendanceModel.shiftStatus),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  getShiftStatusText(attendanceModel.shiftStatus),
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+              const SizedBox(height: 5),
               Container(height: 1, color: Colors.grey[300]),
               const SizedBox(height: 5),
               Padding(
