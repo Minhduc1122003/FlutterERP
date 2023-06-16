@@ -27,7 +27,6 @@ class CheckInOutBloc extends Bloc<CheckInOutEvent, CheckInOutState> {
     on<CheckInOutConfirmEvent>((event, emit) async {
       emit(state.copyWith(
           confirmStatus: CheckInOutConfirmStatus.loadingConfirm));
-      await Future.delayed(const Duration(seconds: 1));
       emit(state.copyWith(
           confirmStatus: CheckInOutConfirmStatus.successConfirm));
       emit(state.copyWith(
@@ -43,7 +42,7 @@ class CheckInOutBloc extends Bloc<CheckInOutEvent, CheckInOutState> {
     on<CheckInPostEvent>((event, emit) async {
       emit(CheckInWaittingEvent());
       //List<RegionModel> regionList = await ApiProvider().getRegion();
-      await ApiProvider().postCheckin(event.id, event.attendCode,
+      await ApiProvider().postCheckin(event.id, event.employeeID,
           event.authDate, event.authTime, event.locationID, event.token);
       emit(CheckInSuccessEvent());
     });

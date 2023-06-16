@@ -260,6 +260,7 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                             ],
                           )),
                       onTap: () async {
+                        
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -392,12 +393,12 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                           
                           bloc.add(CheckInPostEvent(
                               id: -1,
-                              attendCode: EmployeeModel.id.toString(),
+                              employeeID: EmployeeModel.id.toString(),
                               authDate: DateTime.now().toString(),
                               authTime: DateTime.now().toString(),
                               locationID: 1,
                               token: User.token));
-                          //bloc.add(CheckInOutConfirmEvent());
+                          // bloc.add(CheckInOutConfirmEvent());
                           Navigator.pop(context);
                         },
                         child: const Text("Xác nhận",

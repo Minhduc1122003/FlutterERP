@@ -25,14 +25,14 @@ class ChoosseShiftEvent extends CheckInOutEvent {
 
 class CheckInPostEvent extends CheckInOutEvent {
   final int id;
-  final String attendCode;
+  final String employeeID;
   final String authDate;
   final String authTime;
   final int locationID;
   final String token;
   const CheckInPostEvent(
       {required this.id,
-      required this.attendCode,
+      required this.employeeID,
       required this.authDate,
       required this.authTime,
       required this.locationID,

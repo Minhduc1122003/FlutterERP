@@ -376,14 +376,14 @@ class ApiProvider {
     }
   }
 
-  Future<String> postCheckin(int id, String attendCode, String authDate,
+  Future<String> postCheckin(int id, String employeeID, String authDate,
       String authTime, int location, String token) async {
     // await Future.delayed(const Duration(milliseconds: 500), () {});
     // return CompanyModel.regionList;
     var postData;
     if (id == -1) {
       postData = {
-        "attendCode": attendCode,
+        "employeeID": employeeID,
         "authDate": authDate,
         "authTime": authTime,
         "location": location
@@ -391,7 +391,7 @@ class ApiProvider {
     } else {
       postData = {
         'id': id,
-        "attendCode": attendCode,
+        "employeeID": employeeID,
         "authDate": authDate,
         "authTime": authTime,
         "location": location
