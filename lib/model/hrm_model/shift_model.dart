@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 class WorkShiftModel {
   final int id;
   final String name;
@@ -18,18 +21,41 @@ class ShiftModel {
   final int id;
   final String name;
   final String code;
-  final DateTime fromTime;
-  final DateTime toTime;
-  ShiftModel(
-      {required this.id,
-      required this.name,
-      required this.code,
-      required this.fromTime,
-      required this.toTime});
-  ShiftModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['title'],
-        code = json['code'],
-        fromTime =  DateTime.parse(json['fromTime']).toLocal(),
-        toTime =  DateTime.parse(json['toTime']).toLocal();
+  final DateTime? fromTime;
+  final DateTime? toTime;
+  ShiftModel({
+    required this.id,
+    required this.name,
+    required this.code,
+    this.fromTime,
+    this.toTime,
+  });
+  // ShiftModel( 
+  //     {required this.id,
+  //     required this.name,
+  //     required this.code,
+  //     required this.fromTime,
+  //     required this.toTime});
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'code': code,
+    };
+  }
+
+  factory ShiftModel.fromMap(Map<String, dynamic> map) {
+    return ShiftModel(
+      id: map['id'] as int,
+      name: map['title'] as String,
+      code: map['code'] as String,
+      // fromTime: DateTime.fromMillisecondsSinceEpoch(map['fromTime'] as int),
+      // toTime: DateTime.fromMillisecondsSinceEpoch(map['toTime'] as int),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ShiftModel.fromJson(String source) => ShiftModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

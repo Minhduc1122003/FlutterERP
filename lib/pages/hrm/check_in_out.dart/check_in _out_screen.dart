@@ -98,8 +98,8 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
             //  Navigator.pop(context);
             Navigator.pop(context);
             Navigator.pop(context);
-            BlocProvider.of<WorkBloc>(context)
-                .add(CheckInEvent(shiftModel: blocState.shiftModel!));
+            // BlocProvider.of<WorkBloc>(context)
+            //     .add(CheckInEvent(shiftModel: blocState.shiftModel!));
           }
         },
         child: Padding(
@@ -260,13 +260,13 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                             ],
                           )),
                       onTap: () async {
-                        
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ChosseShiftScreen(
                                   listShiftModel: state.listShiftModel)),
                         );
+                        BlocProvider.of<WorkBloc>(context).add(CheckInEvent());
                       },
                     ),
                   ),

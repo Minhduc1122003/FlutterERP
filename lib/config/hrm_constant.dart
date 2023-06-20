@@ -27,7 +27,7 @@ const String getOnLeaveKindAPI = '$serverURL/hrm/api/permissionType/getAll/';
 const String sendOnLeaveRequestAPI = '$serverURL/hrm/api/onLeaveFileLine';
 
 const String getListShiftModelAPI = '$serverURL/hrm/api/shift/';
-const String getListShiftModelByUserAPI = '$serverURL/hrm/api/workOfDayPlan/';
+const String getListShiftModelByUserAPI = '$serverURL/hrm/api/shift/getShiftByDay';
 const String sendTimekeepingOffsetRequestAPI =
     '$serverURL/hrm/api/timekeepingOffset';
 
@@ -49,3 +49,4 @@ const String getBranchAPI='$serverURL/hrm/api/branch/';
 const String postAddBranchAPI='$serverURL/hrm/api/branch';
 const String getLocationAPI='$serverURL/hrm/api/location/';
 const String postCheckInAPI='$serverURL/hrm/api/attendance/insert/';
+const String getScanByDay ='$serverURL/hrm/api/attendance/getScanByDay/';

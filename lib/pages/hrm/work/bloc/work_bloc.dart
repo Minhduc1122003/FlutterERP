@@ -4,6 +4,7 @@ import 'package:erp/model/hrm_model/company_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../model/hrm_model/shift_model.dart';
+import '../../../../model/login_model.dart';
 import '../../../../network/api_provider.dart';
 
 part 'work_event.dart';
@@ -13,7 +14,7 @@ class WorkBloc extends Bloc<WorkEvent, WorkState> {
   WorkBloc() : super(const WorkState()) {
     on<InitialWorkEvent>((event, emit) async {
       emit(const WorkState(status: WorkCheckInOutStatus.loading));
-      bool checkInStatus = await ApiProvider().getCheckInStatus();
+      bool checkInStatus = await ApiProvider().getCheckInStatus(User.site, User.token);
       WorkCheckInOutStatus status = WorkCheckInOutStatus.initial;
       ShiftModel? model;
       if (checkInStatus) {
@@ -23,8 +24,8 @@ class WorkBloc extends Bloc<WorkEvent, WorkState> {
       emit(WorkState(status: status, shiftModel: model));
     });
     on<CheckInEvent>((event, emit) {
-      emit(WorkState(
-          status: WorkCheckInOutStatus.checkIn, shiftModel: event.shiftModel));
+      emit(const WorkState(
+          status: WorkCheckInOutStatus.checkIn));
     });
     on<CheckOutEvent>((event, emit) {
       emit(const WorkState(

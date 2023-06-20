@@ -273,7 +273,7 @@ class _WorkScreenState extends State<WorkScreen> {
                 Text(
                     state.shiftModel == null
                         ? ''
-                        : '${DateFormat('HH:mm').format(state.shiftModel!.fromTime)} - ${DateFormat('HH:mm').format(state.shiftModel!.toTime)}',
+                        : '${DateFormat('HH:mm').format(state.shiftModel!.fromTime!)} - ${DateFormat('HH:mm').format(state.shiftModel!.toTime!)}',
                     style: const TextStyle(color: blueGrey1))
               ],
             ),
@@ -289,13 +289,15 @@ class _WorkScreenState extends State<WorkScreen> {
                           //bloc.add(CheckOutEvent());
                           // CompanyModel.checkInStatus = false;
                           // getCheckInStatus();
-                          BlocProvider.of<CheckInOutBloc>(context).add(CheckInPostEvent(
-                              id: -1,
-                              employeeID: EmployeeModel.id.toString(),
-                              authDate: DateTime.now().toString(),
-                              authTime: DateTime.now().toString(),
-                              locationID: 1,
-                              token: User.token));
+                          BlocProvider.of<CheckInOutBloc>(context).add(
+                              CheckInPostEvent(
+                                  id: -1,
+                                  employeeID: EmployeeModel.id.toString(),
+                                  authDate: DateTime.now().toString(),
+                                  authTime: DateTime.now().toString(),
+                                  locationID: 1,
+                                  token: User.token));
+                          bloc.add(CheckOutEvent());
                         },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -419,11 +421,15 @@ class _WorkScreenState extends State<WorkScreen> {
     return InkWell(
       onTap: () {
         if (id == 1) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const AddPersonnelScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const AddPersonnelScreen()));
         } else if (id == 2) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const CreateShiftSreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreateShiftSreen()));
         } else if (id == 3) {
           Navigator.push(
               context,
@@ -438,7 +444,8 @@ class _WorkScreenState extends State<WorkScreen> {
           Container(
             height: 40,
             width: 30,
-            decoration: const BoxDecoration(color: mainColor, shape: BoxShape.circle),
+            decoration:
+                const BoxDecoration(color: mainColor, shape: BoxShape.circle),
             child: Icon(
               icon,
               color: Colors.white,

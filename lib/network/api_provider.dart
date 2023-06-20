@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:erp/model/hrm_model/employee_model.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import '../model/hrm_model/advance_model.dart';
 import '../model/hrm_model/attendance_model.dart';
 import '../model/hrm_model/company_model.dart';
@@ -158,11 +160,22 @@ class ApiProvider {
 
   Future<List<ShiftModel>> getListShiftModelByUser(
       int employeeID, String siteName, String token) async {
-    response = await getConnect(
-        "$getListShiftModelByUserAPI$employeeID/$siteName", token);
-    if (response.statusCode == statusOk) {
+    DateTime now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    var postData = {
+      "employeeID": employeeID,
+      "date": formattedDate,
+      "siteID": siteName
+    };
+
+    response = await postConnect(getListShiftModelByUserAPI, postData, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
-      return responseList.map((val) => ShiftModel.fromJson(val)).toList();
+      List<ShiftModel> lst =
+          responseList.map((f) => ShiftModel.fromMap(f)).toList();
+      return lst;
     } else {
       return [];
     }
@@ -464,9 +477,21 @@ class ApiProvider {
     }
   }
 
-  Future<bool> getCheckInStatus() async {
-    await Future.delayed(const Duration(milliseconds: 200), () {});
-    return CompanyModel.checkInStatus;
+  Future<bool> getCheckInStatus(String site, String token) async {
+    DateTime now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    var postData = {"employeeID": EmployeeModel.id, "day": formattedDate};
+
+    response = await postConnect('$getScanByDay$site', postData, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      List responseList = json.decode(response.body);
+      if (responseList.length % 2 == 0) {
+        return false;
+      }
+    }
+    return true;
   }
 
   Future<ShiftModel?> getCheckInShift() async {
@@ -492,5 +517,21 @@ class ApiProvider {
     var json = jsonDecode(response.body);
     var jsonResult = json['result'] as Map<String, dynamic>;
     return PlaceModel.fromJson(jsonResult);
+  }
+
+  Future<int> getScanByDate(String site, int employeeID, String token) async {
+    DateTime now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    var postData = {"employeeID": employeeID, "day": formattedDate};
+
+    response = await postConnect('$getScanByDay$site', postData, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      List responseList = json.decode(response.body);
+      return responseList.length;
+    } else {
+      return -1;
+    }
   }
 }

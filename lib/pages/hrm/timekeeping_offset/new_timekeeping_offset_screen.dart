@@ -330,7 +330,7 @@ class _NewTimekeepingOffsetScreenState
                                           )
                                         : Text(
                                             DateFormat('HH:mm').format(
-                                                state.shiftModel!.fromTime),
+                                                state.shiftModel!.fromTime!),
                                             style: const TextStyle(
                                                 color: blueBlack, fontSize: 16),
                                           ),
@@ -363,7 +363,7 @@ class _NewTimekeepingOffsetScreenState
                                           )
                                         : Text(
                                             DateFormat('HH:mm').format(
-                                                state.shiftModel!.toTime),
+                                                state.shiftModel!.toTime!),
                                             style: const TextStyle(
                                                 color: blueBlack, fontSize: 16),
                                           ),
