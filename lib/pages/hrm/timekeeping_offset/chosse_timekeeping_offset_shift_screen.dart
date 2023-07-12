@@ -6,7 +6,6 @@ import '../../../method/hrm_method.dart';
 import '../check_in_out.dart/bloc/check_in_out_bloc.dart';
 import 'bloc/timekeeping_offset_bloc.dart';
 
-
 class ChosseTimekeepingOffsetShiftScreen extends StatelessWidget {
   const ChosseTimekeepingOffsetShiftScreen(
       {Key? key, required this.listShiftModel})
@@ -41,8 +40,9 @@ class ChosseTimekeepingOffsetShiftScreen extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return _buildChooseItem(
                   context, index, listShiftModel[index].name, (int id) {
-                BlocProvider.of<TimekeepingOffsetBloc>(context)
-                    .add(ChoosseTimekeepingOffsetShiftEvent(shiftModel: listShiftModel[id]));
+                BlocProvider.of<TimekeepingOffsetBloc>(context).add(
+                    ChoosseTimekeepingOffsetShiftEvent(
+                        shiftModel: listShiftModel[id]));
               });
             },
             separatorBuilder: (BuildContext context, int index) =>
@@ -53,8 +53,7 @@ class ChosseTimekeepingOffsetShiftScreen extends StatelessWidget {
 }
 
 class ChosseShiftScreen extends StatelessWidget {
-  const ChosseShiftScreen(
-      {Key? key, required this.listShiftModel})
+  const ChosseShiftScreen({Key? key, required this.listShiftModel})
       : super(key: key);
   final List<ShiftModel> listShiftModel;
 
@@ -87,7 +86,7 @@ class ChosseShiftScreen extends StatelessWidget {
               return _buildChooseItem(
                   context, index, listShiftModel[index].name, (int id) {
                 BlocProvider.of<CheckInOutBloc>(context)
-                    .add(ChoosseShiftEvent(shiftModel: listShiftModel[id]));
+                    .add(ChooseShiftEvent(shiftModel: listShiftModel[id]));
               });
             },
             separatorBuilder: (BuildContext context, int index) =>

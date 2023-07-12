@@ -5,11 +5,13 @@ import '../../../config/color.dart';
 import '../check_in_out.dart/bloc/check_in_out_bloc.dart';
 
 class ChooseLocationScreen extends StatelessWidget {
-  const ChooseLocationScreen({super.key, required this.locationList, });
+  const ChooseLocationScreen({
+    super.key,
+    required this.locationList,
+  });
   final List<LocationModel> locationList;
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -46,7 +48,8 @@ Widget buildChooseItem(BuildContext context, LocationModel model) {
   return InkWell(
     onTap: () {
       Navigator.pop(context);
-      BlocProvider.of<CheckInOutBloc>(context).add(ChoosseLocationEvent(location: model));
+      BlocProvider.of<CheckInOutBloc>(context)
+          .add(ChooseLocationEvent(location: model));
     },
     child: Container(
       height: 50,

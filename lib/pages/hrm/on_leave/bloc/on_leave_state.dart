@@ -8,8 +8,7 @@ class OnLeaveState extends Equatable {
   final DateTime? expirationDate;
   final DateTime? fromDate;
   final DateTime? toDate;
-  final int onDay;
-  final int totalDay;
+  final double? qty;
   final SendOnLeaveStatus sendStatus;
   final String error;
   const OnLeaveState(
@@ -18,8 +17,7 @@ class OnLeaveState extends Equatable {
       this.expirationDate,
       this.fromDate,
       this.toDate,
-      this.onDay = 0,
-      this.totalDay = 0,
+      this.qty,
       this.sendStatus = SendOnLeaveStatus.initial,
       this.error = ''});
 
@@ -29,8 +27,7 @@ class OnLeaveState extends Equatable {
       DateTime? expirationDate,
       DateTime? fromDate,
       DateTime? toDate,
-      int? totalDay,
-      int? onDay,
+      double? qty,
       SendOnLeaveStatus? sendStatus,
       String? error}) {
     return OnLeaveState(
@@ -39,13 +36,12 @@ class OnLeaveState extends Equatable {
         expirationDate: expirationDate ?? this.expirationDate,
         fromDate: fromDate ?? this.fromDate,
         toDate: toDate ?? this.toDate,
-        totalDay: totalDay ?? this.totalDay,
-        onDay: onDay ?? this.onDay,
+        qty: qty ?? this.qty,
         sendStatus: sendStatus ?? this.sendStatus,
         error: error ?? this.error);
   }
 
   @override
   List<Object?> get props =>
-      [onLeaveKindModel, expirationDate, fromDate, toDate, onDay,sendStatus];
+      [onLeaveKindModel, expirationDate, fromDate, toDate, sendStatus];
 }

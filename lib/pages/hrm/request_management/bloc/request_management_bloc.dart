@@ -23,9 +23,9 @@ class RequestManagementBloc
       for (var request in listRequestAll) {
         if (request.status == 0) {
           listRequestNew.add(request);
-        } else if (request.status == 1) {
+        } else if (request.status == 3) {
           listRequestApprove.add(request);
-        } else if (request.status == 2) {
+        } else if (request.status == 4) {
           listRequestReject.add(request);
         }
       }
@@ -46,15 +46,16 @@ Future<List<TimekeepingOffsetRequestModel>>
 }
 
 Future<List<OnLeaveRequestModel>> _getListOnLeaveRequest() async {
-  List<OnLeaveRequestModel> list = await ApiProvider()
-      .getListOnLeaveRequest(
-          EmployeeModel.siteName, EmployeeModel.id, DateTime.now().year, User.token);
+  List<OnLeaveRequestModel> list = await ApiProvider().getListOnLeaveRequest(
+      EmployeeModel.siteName,
+      EmployeeModel.id,
+      DateTime.now().year,
+      User.token);
   return list;
 }
 
 Future<List<AdvanceRequestModel>> _getListAdvanceRequest() async {
-  List<AdvanceRequestModel> list = await ApiProvider()
-      .getListAdvanceRequest(
-          EmployeeModel.siteName, EmployeeModel.id, User.token);
+  List<AdvanceRequestModel> list = await ApiProvider().getListAdvanceRequest(
+      EmployeeModel.siteName, EmployeeModel.id, User.token);
   return list;
 }

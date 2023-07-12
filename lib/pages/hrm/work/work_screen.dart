@@ -480,7 +480,10 @@ class _WorkScreenState extends State<WorkScreen> {
         children: [
           const Text(
             'Thư mục',
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87),
           ),
           const SizedBox(height: 15),
           Row(
@@ -563,7 +566,10 @@ class _WorkScreenState extends State<WorkScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            Text(name)
+            Text(
+              name,
+              style: TextStyle(fontSize: 15),
+            )
           ]),
         ),
       ),
@@ -581,7 +587,10 @@ class _WorkScreenState extends State<WorkScreen> {
             children: [
               Text(
                 'Ai đang làm việc?',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87),
               ),
               Icon(
                 Icons.arrow_forward_ios,

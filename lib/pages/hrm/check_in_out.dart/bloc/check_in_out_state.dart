@@ -41,8 +41,9 @@ class CheckInOutState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [confirmStatus,shiftModel,locationModel];
+  List<Object?> get props => [confirmStatus, shiftModel, locationModel];
 }
 
-class CheckInWaittingEvent extends CheckInOutState {}
+class CheckInWaitingEvent extends CheckInOutState {}
+
 class CheckInSuccessEvent extends CheckInOutState {}

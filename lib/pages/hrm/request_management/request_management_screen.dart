@@ -208,7 +208,7 @@ Widget _buildTabar(
                   child: Center(
                       child: Text(
                     '$listNewLength',
-                    style: const TextStyle(color: Colors.orange),
+                    style: const TextStyle(color: Colors.blue),
                   )),
                 )
               ],
@@ -348,6 +348,7 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
 
 Widget _buildOnLeaveRequestItem(OnLeaveRequestModel model) {
   return Card(
+    color: Colors.white,
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: Column(children: [
@@ -427,11 +428,11 @@ Widget _buildOnLeaveRequestItem(OnLeaveRequestModel model) {
                         style: const TextStyle(color: blueBlack, fontSize: 13),
                         overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 10),
-                    Text('GHI CHÚ ',
+                    Text('SỐ LƯỢNG ',
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
-                    Text(model.description,
+                    Text(model.qty.toString(),
                         //overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: blueBlack, fontSize: 13)),
                   ],
@@ -643,8 +644,8 @@ Widget _buildAdvanceRequestItem(AdvanceRequestModel model) {
 
 Color getColor(int kind) {
   if (kind == 0) {
-    return Colors.orange[600]!;
-  } else if (kind == 1) {
+    return Colors.blue;
+  } else if (kind == 3) {
     return mainColor;
   }
   return Colors.red;

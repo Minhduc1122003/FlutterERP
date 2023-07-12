@@ -70,7 +70,7 @@ class TimekeepingOffsetRequestModel {
         status = json['status'],
         dateApply = DateTime.parse(json['dateApply']).toLocal(),
         shiftID = json['shiftID'],
-        shiftName = json['shiftName']??'',
+        shiftName = json['shiftName'] ?? '',
         fromTime = DateTime.parse(json['fromTime']).toLocal(),
         toTime = DateTime.parse(json['toTime']).toLocal(),
         createDate = json['createDate'] == null
@@ -90,9 +90,7 @@ class OnLeaveRequestModel {
   final DateTime fromDate;
   final DateTime toDate;
   final DateTime? createDate;
-  final bool isHalfDay;
-  final bool isOneDay;
-  final int totalDay;
+  final double qty;
   OnLeaveRequestModel(
       {required this.id,
       required this.status,
@@ -101,9 +99,7 @@ class OnLeaveRequestModel {
       required this.permissionName,
       required this.fromDate,
       required this.toDate,
-      required this.isHalfDay,
-      required this.isOneDay,
-      required this.totalDay,
+      required this.qty,
       required this.createDate,
       required this.description});
   OnLeaveRequestModel.fromJson(Map<String, dynamic> json)
@@ -114,9 +110,7 @@ class OnLeaveRequestModel {
         permissionName = json['permissionName'] ?? '',
         fromDate = DateTime.parse(json['fromDate']).toLocal(),
         toDate = DateTime.parse(json['toDate']).toLocal(),
-        isHalfDay = json['isHalfDay'] ?? false,
-        isOneDay = json['isOneDay'] ?? false,
-        totalDay = json['totalDay'],
+        qty = json['qty'] + .0,
         createDate = json['createDate'] == null
             ? null
             : DateTime.parse(json['createDate']).toLocal(),
@@ -131,7 +125,7 @@ class AdvanceRequestModel {
   final int qty;
   final DateTime effectFrom;
   final DateTime effectTo;
-  final DateTime ?createDate;
+  final DateTime? createDate;
   final String description;
   AdvanceRequestModel(
       {required this.id,

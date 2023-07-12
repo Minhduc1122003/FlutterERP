@@ -6,10 +6,10 @@ import '../../../config/color.dart';
 import '../../../method/hrm_method.dart';
 import 'bloc/on_leave_bloc.dart';
 
-
 class ChooseOnLeaveKindScreen extends StatelessWidget {
-  const ChooseOnLeaveKindScreen({Key? key,required this.listOnLeaveKindModel}) : super(key: key);
-   final List<OnLeaveKindModel> listOnLeaveKindModel;
+  const ChooseOnLeaveKindScreen({Key? key, required this.listOnLeaveKindModel})
+      : super(key: key);
+  final List<OnLeaveKindModel> listOnLeaveKindModel;
   @override
   Widget build(BuildContext context) {
     //NewOnleaveController controller = Get.find<NewOnleaveController>();
@@ -19,8 +19,8 @@ class ChooseOnLeaveKindScreen extends StatelessWidget {
       appBar: AppBar(
         // toolbarHeight: 0,
         title: const Text(
-          'Chọn',
-          style: TextStyle(color: blueBlack),
+          'Loại nghỉ phép',
+          style: TextStyle(color: blueBlack, fontSize: 24),
         ),
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: blueBlack),
@@ -33,27 +33,26 @@ class ChooseOnLeaveKindScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child:ListView.separated(
-          padding: const EdgeInsets.all(8),
-          itemCount: listOnLeaveKindModel.length,
-          itemBuilder: (BuildContext context, int index) {
-            return buildChooseItem(context,
-                index,
-                listOnLeaveKindModel[index].name,
-                (int id){
-                   BlocProvider.of<OnLeaveBloc>(context)
-                    .add(ChoosseOnLeaveKindEvent(onLeaveKind: listOnLeaveKindModel[id]));
-                });
-          },
-          separatorBuilder: (BuildContext context, int index) =>
-              Container(height: 1, color: Colors.grey[200])
-        ),
+        child: ListView.separated(
+            padding: const EdgeInsets.all(8),
+            itemCount: listOnLeaveKindModel.length,
+            itemBuilder: (BuildContext context, int index) {
+              return buildChooseItem(
+                  context, index, listOnLeaveKindModel[index].name, (int id) {
+                BlocProvider.of<OnLeaveBloc>(context).add(
+                    ChooseOnLeaveKindEvent(
+                        onLeaveKind: listOnLeaveKindModel[id]));
+              });
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                Container(height: 1, color: Colors.grey[200])),
       ),
     );
   }
 }
 
-Widget buildChooseItem(BuildContext context, int id, String name, Function(int) selected) {
+Widget buildChooseItem(
+    BuildContext context, int id, String name, Function(int) selected) {
   return InkWell(
     onTap: () {
       Navigator.pop(context);
@@ -63,7 +62,7 @@ Widget buildChooseItem(BuildContext context, int id, String name, Function(int) 
       height: 50,
       alignment: Alignment.centerLeft,
       child: Text(
-          capitalize(name),
+        capitalize(name),
         style: const TextStyle(fontSize: 17, color: blueBlack),
       ),
     ),

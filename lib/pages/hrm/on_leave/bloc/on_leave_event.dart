@@ -11,30 +11,31 @@ class InitialOnLeaveEvent extends OnLeaveEvent {}
 
 class SendOnLeaveEvent extends OnLeaveEvent {
   final String note;
-  SendOnLeaveEvent({required this.note});
+  final double qty;
+  SendOnLeaveEvent({required this.note, required this.qty});
 }
 
-class ChoosseOnLeaveKindEvent extends OnLeaveEvent {
+class ChooseOnLeaveKindEvent extends OnLeaveEvent {
   final OnLeaveKindModel onLeaveKind;
-  ChoosseOnLeaveKindEvent({required this.onLeaveKind});
+  ChooseOnLeaveKindEvent({required this.onLeaveKind});
 }
 
-class ChoosseExpirationDateEvent extends OnLeaveEvent {
+class ChooseExpirationDateEvent extends OnLeaveEvent {
   final DateTime expirationDate;
-  ChoosseExpirationDateEvent({required this.expirationDate});
+  ChooseExpirationDateEvent({required this.expirationDate});
 }
 
-class ChoosseFromDateEvent extends OnLeaveEvent {
+class ChooseFromDateEvent extends OnLeaveEvent {
   final DateTime fromDate;
-  ChoosseFromDateEvent({required this.fromDate});
+  ChooseFromDateEvent({required this.fromDate});
 }
 
-class ChoosseToDateEvent extends OnLeaveEvent {
+class ChooseToDateEvent extends OnLeaveEvent {
   final DateTime toDate;
-  ChoosseToDateEvent({required this.toDate});
+  ChooseToDateEvent({required this.toDate});
 }
 
-class ChoosseOnDayEvent extends OnLeaveEvent {
+class ChooseOnDayEvent extends OnLeaveEvent {
   final int onDay;
-  ChoosseOnDayEvent({required this.onDay});
+  ChooseOnDayEvent({required this.onDay});
 }

@@ -59,7 +59,7 @@ class _ShiftAssignmentScreenState extends State<ShiftAssignmentScreen> {
                         showModalBottomSheet(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(20),
+                              top: Radius.circular(5),
                             ),
                           ),
                           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -92,27 +92,33 @@ class _ShiftAssignmentScreenState extends State<ShiftAssignmentScreen> {
                                                       CreateShiftSreen()));
                                         },
                                         child: const ListTile(
-                                          title: Text(
-                                            'Thêm ca làm',
-                                            style: TextStyle(fontSize: 17),
+                                          title: Center(
+                                            child: Text(
+                                              'Thêm ca làm',
+                                              style: TextStyle(fontSize: 17),
+                                            ),
                                           ),
                                         ),
                                       ),
                                       InkWell(
                                         onTap: () => Navigator.pop(context),
                                         child: const ListTile(
-                                          title: Text(
-                                            'Danh sách ca',
-                                            style: TextStyle(fontSize: 17),
+                                          title: Center(
+                                            child: Text(
+                                              'Danh sách ca',
+                                              style: TextStyle(fontSize: 17),
+                                            ),
                                           ),
                                         ),
                                       ),
                                       InkWell(
                                         onTap: () => Navigator.pop(context),
                                         child: const ListTile(
-                                          title: Text(
-                                            'Hủy',
-                                            style: TextStyle(fontSize: 17),
+                                          title: Center(
+                                            child: Text(
+                                              'Hủy',
+                                              style: TextStyle(fontSize: 17),
+                                            ),
                                           ),
                                         ),
                                       ),

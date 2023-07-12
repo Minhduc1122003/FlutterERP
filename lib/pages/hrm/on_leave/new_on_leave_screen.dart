@@ -21,6 +21,7 @@ class NewOnLeaveScreen extends StatefulWidget {
 
 class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
   TextEditingController noteController = TextEditingController();
+  TextEditingController qtyController = TextEditingController();
   late OnLeaveBloc onLeaveBloc;
   DateTime expirationDateChange = DateTime.now();
   DateTime fromDateChange = DateTime.now();
@@ -80,8 +81,9 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
                         style: TextStyle(color: mainColor, fontSize: 16)),
                   ),
                   onTap: () {
-                    onLeaveBloc
-                        .add(SendOnLeaveEvent(note: noteController.text));
+                    onLeaveBloc.add(SendOnLeaveEvent(
+                        note: noteController.text,
+                        qty: double.parse(qtyController.text)));
                   },
                 )
               ],
@@ -91,7 +93,7 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
               child: BlocBuilder<OnLeaveBloc, OnLeaveState>(
                 builder: (context, state) {
                   return state.sendStatus == SendOnLeaveStatus.loading
-                      ?const  Center(
+                      ? const Center(
                           child: CircularProgressIndicator(color: mainColor))
                       : SingleChildScrollView(
                           child: Column(
@@ -247,7 +249,7 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
                                                             Navigator.pop(
                                                                 context);
                                                             onLeaveBloc.add(
-                                                                ChoosseExpirationDateEvent(
+                                                                ChooseExpirationDateEvent(
                                                                     expirationDate:
                                                                         expirationDateChange));
                                                           },
@@ -389,7 +391,7 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
                                                             Navigator.pop(
                                                                 context);
                                                             onLeaveBloc.add(
-                                                                ChoosseFromDateEvent(
+                                                                ChooseFromDateEvent(
                                                                     fromDate:
                                                                         fromDateChange));
                                                           },
@@ -529,7 +531,7 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
                                                             Navigator.pop(
                                                                 context);
                                                             onLeaveBloc.add(
-                                                                ChoosseToDateEvent(
+                                                                ChooseToDateEvent(
                                                                     toDate:
                                                                         toDateChange));
                                                           },
@@ -587,76 +589,82 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
                                       )),
                                 ),
                                 const SizedBox(height: 10),
-                                Container(
-                                    decoration: BoxDecoration(
-                                        color: mainColor.withOpacity(0.3),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    padding: const EdgeInsets.only(left: 15),
-                                    height: 45,
-                                    width: double.infinity,
-                                    alignment: Alignment.centerLeft,
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: 'Tổng số ngày nghỉ: ',
-                                        style: const TextStyle(
-                                            color: blueBlack, fontSize: 16),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            text: '${state.totalDay}',
-                                            style: TextStyle(
-                                                color: state.totalDay < 0
-                                                    ? Colors.red
-                                                    : blueBlack),
-                                          ),
-                                          const TextSpan(text: ' ngày'),
-                                        ],
-                                      ),
-                                    )),
-                                const SizedBox(height: 10),
-                                Theme(
-                                  data: ThemeData(
-                                      unselectedWidgetColor: mainColor),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
+                                const Text('Số lượng',
+                                    style: TextStyle(color: blueGrey1)),
+                                const SizedBox(height: 5),
+                                InkWell(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xFFF3F6FF),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      height: 50,
+                                      width: double.infinity,
+                                      child: Row(
                                         children: [
-                                          const Text('Nghỉ nửa ngày',
-                                              style: TextStyle(
-                                                  color: blueGrey1,
-                                                  fontSize: 16)),
-                                          Radio<int>(
-                                            value: 1,
-                                            activeColor: mainColor,
-                                            groupValue: state.onDay,
-                                            onChanged: (value) {
-                                              onLeaveBloc.add(
-                                                  ChoosseOnDayEvent(onDay: 1));
-                                            },
+                                          const Icon(
+                                            Icons.numbers_outlined,
+                                            color: blueGrey2,
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Expanded(
+                                            child: TextFormField(
+                                              controller: qtyController,
+                                              keyboardType: TextInputType
+                                                  .numberWithOptions(
+                                                      decimal: true),
+                                            ),
                                           ),
                                         ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          const Text('Nghỉ nguyên ngày',
-                                              style: TextStyle(
-                                                  color: blueGrey1,
-                                                  fontSize: 16)),
-                                          Radio<int>(
-                                            value: 2,
-                                            activeColor: mainColor,
-                                            groupValue: state.onDay,
-                                            onChanged: (value) {
-                                              onLeaveBloc.add(
-                                                  ChoosseOnDayEvent(onDay: 2));
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                      )),
                                 ),
+                                const SizedBox(height: 10),
+                                // Theme(
+                                //   data: ThemeData(
+                                //       unselectedWidgetColor: mainColor),
+                                //   child: Row(
+                                //     mainAxisAlignment:
+                                //         MainAxisAlignment.spaceBetween,
+                                //     children: [
+                                //       Row(
+                                //         children: [
+                                //           const Text('Nghỉ nửa ngày',
+                                //               style: TextStyle(
+                                //                   color: blueGrey1,
+                                //                   fontSize: 16)),
+                                //           Radio<int>(
+                                //             value: 1,
+                                //             activeColor: mainColor,
+                                //             groupValue: state.onDay,
+                                //             onChanged: (value) {
+                                //               onLeaveBloc.add(
+                                //                   ChooseOnDayEvent(onDay: 1));
+                                //             },
+                                //           ),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         children: [
+                                //           const Text('Nghỉ nguyên ngày',
+                                //               style: TextStyle(
+                                //                   color: blueGrey1,
+                                //                   fontSize: 16)),
+                                //           Radio<int>(
+                                //             value: 2,
+                                //             activeColor: mainColor,
+                                //             groupValue: state.onDay,
+                                //             onChanged: (value) {
+                                //               onLeaveBloc.add(
+                                //                   ChooseOnDayEvent(onDay: 2));
+                                //             },
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
                                 const Text('Ghi chú',
                                     style: TextStyle(color: blueGrey1)),
                                 const SizedBox(height: 5),

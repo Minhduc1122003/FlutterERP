@@ -13,14 +13,14 @@ class CheckInOutLoadLocationEvent extends CheckInOutEvent {}
 
 class CheckInOutConfirmEvent extends CheckInOutEvent {}
 
-class ChoosseLocationEvent extends CheckInOutEvent {
+class ChooseLocationEvent extends CheckInOutEvent {
   final LocationModel location;
-  const ChoosseLocationEvent({required this.location});
+  const ChooseLocationEvent({required this.location});
 }
 
-class ChoosseShiftEvent extends CheckInOutEvent {
+class ChooseShiftEvent extends CheckInOutEvent {
   final ShiftModel shiftModel;
-  const ChoosseShiftEvent({required this.shiftModel});
+  const ChooseShiftEvent({required this.shiftModel});
 }
 
 class CheckInPostEvent extends CheckInOutEvent {
@@ -38,5 +38,3 @@ class CheckInPostEvent extends CheckInOutEvent {
       required this.locationID,
       required this.token});
 }
-
-

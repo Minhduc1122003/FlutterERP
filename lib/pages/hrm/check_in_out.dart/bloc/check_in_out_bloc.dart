@@ -32,15 +32,15 @@ class CheckInOutBloc extends Bloc<CheckInOutEvent, CheckInOutState> {
       emit(state.copyWith(
           confirmStatus: CheckInOutConfirmStatus.initialConfirm));
     });
-    on<ChoosseLocationEvent>((event, emit) {
+    on<ChooseLocationEvent>((event, emit) {
       emit(state.copyWith(locationModel: event.location));
     });
 
-    on<ChoosseShiftEvent>((event, emit) {
+    on<ChooseShiftEvent>((event, emit) {
       emit(state.copyWith(shiftModel: event.shiftModel));
     });
     on<CheckInPostEvent>((event, emit) async {
-      emit(CheckInWaittingEvent());
+      emit(CheckInWaitingEvent());
       //List<RegionModel> regionList = await ApiProvider().getRegion();
       await ApiProvider().postCheckin(event.id, event.employeeID,
           event.authDate, event.authTime, event.locationID, event.token);

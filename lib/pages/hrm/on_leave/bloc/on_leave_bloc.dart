@@ -14,54 +14,37 @@ class OnLeaveBloc extends Bloc<OnLeaveEvent, OnLeaveState> {
   OnLeaveBloc() : super(const OnLeaveState()) {
     //on<OnLeaveEvent>((event, emit) {});
     on<InitialOnLeaveEvent>((event, emit) async {
-      List<OnLeaveKindModel> listOnLeaveKindModel =
-          await ApiProvider().getListOnLeaveKind(EmployeeModel.siteName, User.token);
+      List<OnLeaveKindModel> listOnLeaveKindModel = await ApiProvider()
+          .getListOnLeaveKind(EmployeeModel.siteName, User.token);
       emit(OnLeaveState(listOnLeaveKindModel: listOnLeaveKindModel));
     });
-    on<ChoosseOnLeaveKindEvent>((event, emit) {
+    on<ChooseOnLeaveKindEvent>((event, emit) {
       emit(state.copyWith(
           onLeaveKindModel: event.onLeaveKind,
           sendStatus: SendOnLeaveStatus.initial));
     });
-    on<ChoosseExpirationDateEvent>((event, emit) {
+    on<ChooseExpirationDateEvent>((event, emit) {
       emit(state.copyWith(
           expirationDate: event.expirationDate,
           sendStatus: SendOnLeaveStatus.initial));
     });
-    on<ChoosseFromDateEvent>((event, emit) {
+    on<ChooseFromDateEvent>((event, emit) {
       if (state.toDate != null) {
-        int totalDay = getTotalDay(event.fromDate, state.toDate!);
-        int onDay = 0;
-        if (totalDay == 1) onDay = 1;
         emit(state.copyWith(
-            fromDate: event.fromDate,
-            totalDay: totalDay,
-            onDay: onDay,
-            sendStatus: SendOnLeaveStatus.initial));
+            fromDate: event.fromDate, sendStatus: SendOnLeaveStatus.initial));
       } else {
         emit(state.copyWith(
             fromDate: event.fromDate, sendStatus: SendOnLeaveStatus.initial));
       }
     });
-    on<ChoosseToDateEvent>((event, emit) {
+    on<ChooseToDateEvent>((event, emit) {
       if (state.fromDate != null) {
-        int totalDay = getTotalDay(state.fromDate!, event.toDate);
-        int onDay = 0;
-        if (totalDay == 1) onDay = 1;
         emit(state.copyWith(
-            toDate: event.toDate,
-            totalDay: totalDay,
-            onDay: onDay,
-            sendStatus: SendOnLeaveStatus.initial));
+            toDate: event.toDate, sendStatus: SendOnLeaveStatus.initial));
       } else {
         emit(state.copyWith(
             toDate: event.toDate, sendStatus: SendOnLeaveStatus.initial));
       }
-    });
-    on<ChoosseOnDayEvent>((event, emit) {
-      if (state.onDay == 0) return;
-      emit(state.copyWith(
-          onDay: event.onDay, sendStatus: SendOnLeaveStatus.initial));
     });
     on<SendOnLeaveEvent>((event, emit) async {
       if (state.sendStatus == SendOnLeaveStatus.loading) return;
@@ -75,17 +58,10 @@ class OnLeaveBloc extends Bloc<OnLeaveEvent, OnLeaveState> {
         emit(state.copyWith(sendStatus: SendOnLeaveStatus.initial, error: ''));
         return;
       }
-      if (state.totalDay < 0) {
+      if (daysBetween(state.fromDate!, state.toDate!) < 0) {
         emit(state.copyWith(
             sendStatus: SendOnLeaveStatus.failure,
-            error: 'Tổng số ngày nghỉ không hợp lệ'));
-        emit(state.copyWith(sendStatus: SendOnLeaveStatus.initial, error: ''));
-        return;
-      }
-      if (daysBetween(state.expirationDate!, state.fromDate!) < 0) {
-        emit(state.copyWith(
-            sendStatus: SendOnLeaveStatus.failure,
-            error: 'Ngày hết hạn không hợp lệ'));
+            error: 'Ngày kết thúc không được lớn hơn ngày bắt đầu'));
         emit(state.copyWith(sendStatus: SendOnLeaveStatus.initial, error: ''));
         return;
       }
@@ -96,13 +72,12 @@ class OnLeaveBloc extends Bloc<OnLeaveEvent, OnLeaveState> {
         'expired': state.expirationDate!.toIso8601String(),
         'fromDate': state.fromDate!.toIso8601String(),
         'toDate': state.toDate!.toIso8601String(),
-        'totalDay': state.totalDay,
-        'isHalfDay': state.onDay == 1,
-        'isOneDay': state.onDay == 2,
+        'qty': event.qty,
         'status': 0,
         'siteID': EmployeeModel.siteName,
         'description': event.note,
         'year': DateTime.now().year,
+        'docType': 'OLDocType'
       };
       String result = await ApiProvider().sendOnLeaveRequest(data, User.token);
       if (result == "ADD") {

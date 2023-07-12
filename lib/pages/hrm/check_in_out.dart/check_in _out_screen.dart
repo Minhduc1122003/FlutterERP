@@ -347,7 +347,7 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                                 barrierDismissible: false,
                                 builder: (BuildContext context) {
                                   return closeDialog(context, 'Thông báo',
-                                      'Vui lòng chọn ca làm');
+                                      'Vui lòng chọn ca làm việc');
                                 });
                             return;
                           }
@@ -390,7 +390,7 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                           //       });
                           //   return;
                           // }
-                          
+
                           bloc.add(CheckInPostEvent(
                               id: -1,
                               employeeID: EmployeeModel.id.toString(),
