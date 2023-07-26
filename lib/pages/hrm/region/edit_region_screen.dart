@@ -46,7 +46,7 @@ class EditRegionScreen extends StatelessWidget {
               }
               BlocProvider.of<RegionBloc>(context).add(AddRegionEvent(
                   id: regionModel.id,
-                  site: EmployeeModel.siteName,
+                  site: UserModel.siteName,
                   name: regionController.text,
                   description: noteController.text,
                   token: User.token));

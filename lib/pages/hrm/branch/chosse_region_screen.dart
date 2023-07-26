@@ -3,11 +3,11 @@ import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
 
 class ChooseRegionScreen extends StatelessWidget {
-  const ChooseRegionScreen({Key? key,required this.regionList}) : super(key: key);
-  final List<RegionModel> regionList ;
+  const ChooseRegionScreen({Key? key, required this.regionList})
+      : super(key: key);
+  final List<RegionModel> regionList;
   @override
   Widget build(BuildContext context) {
-    //List<RegionModel> regionList = CompanyModel.regionList;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -26,7 +26,7 @@ class ChooseRegionScreen extends StatelessWidget {
             icon: const Icon(Icons.clear)),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 15,right: 15, bottom: 10),
+        padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
         child: ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             itemCount: regionList.length,
@@ -40,7 +40,7 @@ class ChooseRegionScreen extends StatelessWidget {
   }
 }
 
-Widget buildChooseItem(BuildContext context,RegionModel model) {
+Widget buildChooseItem(BuildContext context, RegionModel model) {
   return InkWell(
     onTap: () {
       Navigator.pop(context, model);

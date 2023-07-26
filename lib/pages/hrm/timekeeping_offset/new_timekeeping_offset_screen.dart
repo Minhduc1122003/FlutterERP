@@ -103,7 +103,8 @@ class _NewTimekeepingOffsetScreenState
             child: BlocBuilder<TimekeepingOffsetBloc, TimekeepingOffsetState>(
                 builder: (context, state) {
               return state.sendStatus == SendTimekeepingOffsetStatus.loading
-                  ?const  Center(child: CircularProgressIndicator(color: mainColor))
+                  ? const Center(
+                      child: CircularProgressIndicator(color: mainColor))
                   : SingleChildScrollView(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,94 +177,104 @@ class _NewTimekeepingOffsetScreenState
                                     barrierDismissible: false,
                                     builder: (BuildContext context) {
                                       return Dialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
                                           child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const SizedBox(height: 10),
-                                          const Text('Chọn',
-                                              style: TextStyle(fontSize: 20)),
-                                          SizedBox(
-                                            height: 200,
-                                            child: CupertinoDatePicker(
-                                              initialDateTime:
-                                                  (state.applyDate == null)
-                                                      ? DateTime.now()
-                                                      : state.applyDate,
-                                              onDateTimeChanged: (value) {
-                                                applyDateChange = value;
-                                              },
-                                              mode:
-                                                  CupertinoDatePickerMode.date,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Row(children: [
-                                              Expanded(
-                                                child: SizedBox(
-                                                  height: 50,
-                                                  child: OutlinedButton(
-                                                      style: OutlinedButton
-                                                          .styleFrom(
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        padding:
-                                                            EdgeInsets.zero,
-                                                        side: BorderSide(
-                                                            color: mainColor,
-                                                            width: 1),
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
-                                                        ),
-                                                      ),
-                                                      child: Text('HỦY',
-                                                          style: TextStyle(
-                                                              fontSize: 17,
-                                                              color:
-                                                                  mainColor)),
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      }),
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const SizedBox(height: 10),
+                                              const Text('Chọn',
+                                                  style:
+                                                      TextStyle(fontSize: 20)),
+                                              SizedBox(
+                                                height: 200,
+                                                child: CupertinoDatePicker(
+                                                  initialDateTime:
+                                                      (state.applyDate == null)
+                                                          ? DateTime.now()
+                                                          : state.applyDate,
+                                                  onDateTimeChanged: (value) {
+                                                    applyDateChange = value;
+                                                  },
+                                                  mode: CupertinoDatePickerMode
+                                                      .date,
                                                 ),
                                               ),
-                                              const SizedBox(width: 15),
-                                              Expanded(
-                                                child: SizedBox(
-                                                  height: 50,
-                                                  child: ElevatedButton(
-                                                      style: ElevatedButton.styleFrom(
-                                                          elevation: 0.0,
-                                                          shadowColor: Colors
-                                                              .transparent,
-                                                          shape: RoundedRectangleBorder(
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10.0),
+                                                child: Row(children: [
+                                                  Expanded(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: OutlinedButton(
+                                                          style: OutlinedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            padding:
+                                                                EdgeInsets.zero,
+                                                            side: BorderSide(
+                                                                color:
+                                                                    mainColor,
+                                                                width: 1),
+                                                            shape:
+                                                                RoundedRectangleBorder(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          10)),
-                                                          backgroundColor:
-                                                              mainColor),
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                        timekeepingBloc.add(
-                                                            ChoosseApplyDateEvent(
-                                                                applyDate:
-                                                                    applyDateChange));
-                                                      },
-                                                      child: const Text(
-                                                        "XONG",
-                                                        style: TextStyle(
-                                                            fontSize: 17),
-                                                      )),
-                                                ),
+                                                                          10.0),
+                                                            ),
+                                                          ),
+                                                          child: Text('HỦY',
+                                                              style: TextStyle(
+                                                                  fontSize: 17,
+                                                                  color:
+                                                                      mainColor)),
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          }),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 15),
+                                                  Expanded(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: ElevatedButton(
+                                                          style: ElevatedButton.styleFrom(
+                                                              elevation: 0.0,
+                                                              shadowColor: Colors
+                                                                  .transparent,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10)),
+                                                              backgroundColor:
+                                                                  mainColor),
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                            timekeepingBloc.add(
+                                                                ChoosseApplyDateEvent(
+                                                                    applyDate:
+                                                                        applyDateChange));
+                                                          },
+                                                          child: const Text(
+                                                            "XONG",
+                                                            style: TextStyle(
+                                                                fontSize: 17,
+                                                                color: Colors
+                                                                    .white),
+                                                          )),
+                                                    ),
+                                                  ),
+                                                ]),
                                               ),
-                                            ]),
-                                          ),
-                                        ],
-                                      ));
+                                            ],
+                                          ));
                                     });
                               },
                               child: Container(

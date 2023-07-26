@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:erp/base/empty_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../config/color.dart';
@@ -16,7 +17,7 @@ class BranchListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<BranchBloc>(context)
-        .add(GetBranchEvent(site: EmployeeModel.siteName, token: User.token));
+        .add(GetBranchEvent(site: UserModel.siteName, token: User.token));
     return Scaffold(
         backgroundColor: const Color(0xFFF3F6FF),
         appBar: AppBar(
@@ -45,15 +46,12 @@ class BranchListScreen extends StatelessWidget {
                   child: CircularProgressIndicator(color: mainColor));
             }
             if (state is BranchAddSuccess) {
-              BlocProvider.of<BranchBloc>(context).add(GetBranchEvent(
-                  site: EmployeeModel.siteName, token: User.token));
+              BlocProvider.of<BranchBloc>(context).add(
+                  GetBranchEvent(site: UserModel.siteName, token: User.token));
             }
             if (state is BranchSuccess) {
               return state.branchList.isEmpty
-                  ? const Center(
-                      child: Text('Trang này chưa có dữ liệu',
-                          style:
-                              TextStyle(fontSize: 17, color: Colors.blueGrey)))
+                  ? const EmptyScreen()
                   : Column(
                       children: [
                         const SizedBox(height: 10),
@@ -63,15 +61,21 @@ class BranchListScreen extends StatelessWidget {
                               itemBuilder: (BuildContext context, int index) {
                                 return InkWell(
                                   onTap: () async {
-                                    List<RegionModel> regionList = await ApiProvider().getRegion(EmployeeModel.siteName, User.token);
-                                    RegionModel region = regionList.firstWhere((element) => element.id == state.branchList[index].areaID);
+                                    List<RegionModel> regionList =
+                                        await ApiProvider().getRegion(
+                                            UserModel.siteName, User.token);
+                                    RegionModel region = regionList.firstWhere(
+                                        (element) =>
+                                            element.id ==
+                                            state.branchList[index].areaID);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               EditBranchScreen(
                                                   branchModel:
-                                                      state.branchList[index], areaName: region.name)),
+                                                      state.branchList[index],
+                                                  areaName: region.name)),
                                     );
                                   },
                                   child: Container(
@@ -104,43 +108,8 @@ class BranchListScreen extends StatelessWidget {
                       ],
                     );
             }
-            return const Center(
-                child: Text(
-              'Trang này chưa có dữ liệu',
-              style: TextStyle(fontSize: 17, color: Colors.blueGrey),
-            ));
+            return const EmptyScreen();
           },
-        )
-        // : SingleChildScrollView(
-        //     child: Column(children: [
-        //       const SizedBox(height: 15),
-        //       for(String s in wanIPList)
-        //       InkWell(
-        //         onTap: (){
-        //                 Navigator.push(
-        //         context,
-        //         MaterialPageRoute(builder: (context) => const EditBranchScreen()),
-        //       );
-        //         },
-        //         child: Container(
-        //             color: Colors.white,
-        //             padding: const EdgeInsets.symmetric(horizontal: 15),
-        //             height: 45,
-        //             width: double.infinity,
-        //             child: Row(
-        //               children:  [
-        //                 Expanded(
-        //                     child: Text(
-        //                   s,
-        //                   style: TextStyle(color: blueBlack, fontSize: 16),
-        //                 )),
-        //                 Icon(Icons.arrow_forward_ios,
-        //                     color: blueGrey1, size: 20)
-        //               ],
-        //             )),
-        //       ),
-        //     ]),
-        //   ),
-        );
+        ));
   }
 }

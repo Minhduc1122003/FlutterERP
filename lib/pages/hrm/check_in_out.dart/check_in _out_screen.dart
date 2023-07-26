@@ -317,7 +317,7 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                           )),
                       onTap: () async {
                         List<LocationModel> locationList = await ApiProvider()
-                            .getLocation(EmployeeModel.siteName, User.token);
+                            .getLocation(UserModel.siteName, User.token);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -393,7 +393,7 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
 
                           bloc.add(CheckInPostEvent(
                               id: -1,
-                              employeeID: EmployeeModel.id.toString(),
+                              employeeID: UserModel.id.toString(),
                               authDate: DateTime.now().toString(),
                               authTime: DateTime.now().toString(),
                               locationID: 1,

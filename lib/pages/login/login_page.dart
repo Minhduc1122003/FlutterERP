@@ -39,6 +39,7 @@ class LoginPageState extends State<LoginPage> {
   void initState() {
     loginBloc = BlocProvider.of<LoginBloc>(context);
     getUser();
+    passwordController.text = 'chi@2023';
     super.initState();
   }
 
@@ -86,7 +87,7 @@ class LoginPageState extends State<LoginPage> {
               User.no_ = state.loginData.profile['userName'];
               User.site = state.loginData.profile['site'];
               User.token = state.loginData.accessToken;
-              EmployeeModel.id =
+              UserModel.id =
                   int.parse(state.loginData.profile['id'].toString());
               saveUser();
               Navigator.push(

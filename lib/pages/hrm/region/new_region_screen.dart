@@ -42,7 +42,7 @@ class NewRegionScreen extends StatelessWidget {
               }
               BlocProvider.of<RegionBloc>(context).add(AddRegionEvent(
                   id: -1,
-                  site: EmployeeModel.siteName,
+                  site: UserModel.siteName,
                   name: regionController.text,
                   description: noteController.text,
                   token: User.token));

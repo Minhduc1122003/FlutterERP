@@ -56,7 +56,7 @@ class ShiftCalendarBloc extends Bloc<ShiftCalendarEvent, ShiftCalendarState> {
               '${DateFormat('dd.MM').format(fromDate)} - ${DateFormat('dd.MM').format(toDate)}',
           loadStatus: LoadShiftCalendarStatus.success));
     });
-    
+
     on<ShiftCalendarLoadRangeDate>((event, emit) async {
       emit(state.copyWith(loadStatus: LoadShiftCalendarStatus.loading));
       List<AttendanceModel> list =
@@ -75,11 +75,11 @@ class ShiftCalendarBloc extends Bloc<ShiftCalendarEvent, ShiftCalendarState> {
 Future<List<AttendanceModel>> _getListAttendance(
     DateTime fromDate, DateTime toDate) async {
   Map<String, dynamic> data = {
-    'employeeId': EmployeeModel.id,
+    'employeeId': UserModel.id,
     'fromDate': DateFormat('yyyy-MM-dd').format(fromDate),
     'toDate': DateFormat('yyyy-MM-dd').format(toDate)
   };
-  List<AttendanceModel> list =
-      await ApiProvider().getListAttendance(EmployeeModel.siteName, data, User.token);
+  List<AttendanceModel> list = await ApiProvider()
+      .getListAttendance(UserModel.siteName, data, User.token);
   return list;
 }

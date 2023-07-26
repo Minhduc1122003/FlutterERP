@@ -12,7 +12,7 @@ class RegionListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<RegionBloc>(context)
-        .add(GetRegionEvent(site: EmployeeModel.siteName, token: User.token));
+        .add(GetRegionEvent(site: UserModel.siteName, token: User.token));
     return Scaffold(
         backgroundColor: const Color(0xFFF3F6FF),
         appBar: AppBar(
@@ -42,8 +42,8 @@ class RegionListScreen extends StatelessWidget {
                   child: CircularProgressIndicator(color: mainColor));
             }
             if (state is RegionAddSuccess) {
-              BlocProvider.of<RegionBloc>(context).add(GetRegionEvent(
-                  site: EmployeeModel.siteName, token: User.token));
+              BlocProvider.of<RegionBloc>(context).add(
+                  GetRegionEvent(site: UserModel.siteName, token: User.token));
             }
             if (state is RegionSuccess) {
               return (state.regionList.isEmpty)

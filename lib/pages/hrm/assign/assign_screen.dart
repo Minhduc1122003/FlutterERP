@@ -117,8 +117,8 @@ Widget _buildAppbar() {
   return Row(
     children: [
       Container(
-        width: 30,
-        height: 30,
+        width: 40,
+        height: 40,
         decoration: BoxDecoration(
             color: backgroundColor, borderRadius: BorderRadius.circular(10)),
         child: const Center(
@@ -212,7 +212,7 @@ Widget buildSearchBar(bool k, Function(bool) selectedList) {
       ),
       InkWell(
         onTap: () {
-         // Get.to(() => FilterAssignScreen());
+          // Get.to(() => FilterAssignScreen());
         },
         child: Container(
           width: 40,

@@ -20,7 +20,6 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
   List day = [false, false, false, false, false, false, false];
   @override
   Widget build(BuildContext context) {
-    print("abc");
     List<String> timeZoneList = ['Asia/Jakarta'];
     List<String> branchList = [];
     return Scaffold(
@@ -316,7 +315,7 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
                         child: InkWell(
                           onTap: () async {
                             List<BranchModel> branchList = await ApiProvider()
-                                .getBranch(EmployeeModel.siteName, User.token);
+                                .getBranch(UserModel.siteName, User.token);
                             if (!mounted) return;
                             dynamic result = await Navigator.push(
                               context,
@@ -359,10 +358,11 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
                         Theme(
                             data: Theme.of(context)
                                 .copyWith(unselectedWidgetColor: mainColor),
-                            child:
-                                Checkbox(value: day[i-1], onChanged: (value) {
+                            child: Checkbox(
+                                value: day[i - 1],
+                                onChanged: (value) {
                                   setState(() {
-                                    day[i-1] = value;
+                                    day[i - 1] = value;
                                   });
                                 })),
                         // Icon(

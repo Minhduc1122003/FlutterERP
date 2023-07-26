@@ -14,9 +14,9 @@ class CheckInOutBloc extends Bloc<CheckInOutEvent, CheckInOutState> {
   CheckInOutBloc() : super(const CheckInOutState()) {
     on<InitialCheckInOutEvent>((event, emit) async {
       List<ShiftModel> listShiftModel = await ApiProvider()
-          .getListShiftModelByUser(EmployeeModel.id, User.site, User.token);
+          .getListShiftModelByUser(UserModel.id, User.site, User.token);
       List<LocationModel> locationList =
-          await ApiProvider().getLocation(EmployeeModel.siteName, User.token);
+          await ApiProvider().getLocation(UserModel.siteName, User.token);
       emit(state.copyWith(
           listShiftModel: listShiftModel, listLocationModel: locationList));
     });

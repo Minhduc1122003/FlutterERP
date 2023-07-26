@@ -13,21 +13,23 @@ class SalaryCaculateBloc
     extends Bloc<SalaryCaculateEvent, SalaryCaculateState> {
   SalaryCaculateBloc() : super(const SalaryCaculateState()) {
     on<InitialSalaryCaculateEvent>((event, emit) async {
-      List<SalaryPeriodModel> listSalaryPeriodModel =
-          await ApiProvider().getListSalaryPeriod(EmployeeModel.siteName, User.token);
+      List<SalaryPeriodModel> listSalaryPeriodModel = await ApiProvider()
+          .getListSalaryPeriod(UserModel.siteName, User.token);
       emit(SalaryCaculateState(listSalaryPeriodModel: listSalaryPeriodModel));
     });
     on<ChooseSalaryPeriod>((event, emit) async {
       emit(state.copyWith(status: SalaryCaculateStatus.loading));
       List<SalaryCaculateModel> listSalaryCaculateModel = await ApiProvider()
-          .getSalaryCaculate(EmployeeModel.id, event.salaryPeriod.id, User.token);
+          .getSalaryCaculate(UserModel.id, event.salaryPeriod.id, User.token);
       if (listSalaryCaculateModel.length == 1) {
         emit(state.copyWith(
             salaryCaculateModel: listSalaryCaculateModel.first,
             salaryPeriodModel: event.salaryPeriod,
             status: SalaryCaculateStatus.success));
       } else {
-        emit(state.copyWith(salaryPeriodModel: event.salaryPeriod, status: SalaryCaculateStatus.failure));
+        emit(state.copyWith(
+            salaryPeriodModel: event.salaryPeriod,
+            status: SalaryCaculateStatus.failure));
       }
     });
   }

@@ -1,8 +1,6 @@
 import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
 
-
-
 class WanIPScreen extends StatelessWidget {
   const WanIPScreen({super.key});
 
@@ -86,38 +84,9 @@ class WanIPScreen extends StatelessWidget {
                       'Chọn chi nhánh',
                       style: TextStyle(color: blueGrey2, fontSize: 16),
                     )),
-                    Icon(Icons.arrow_forward_ios, color: blueGrey1,size: 22)
+                    Icon(Icons.arrow_forward_ios, color: blueGrey1, size: 22)
                   ],
                 )),
-
-            // Container(
-            //   color: const Color(0xFFF3F6FF),
-            //   height: 45,
-            //   width: double.infinity,
-            //   padding: const EdgeInsets.symmetric(horizontal: 10),
-            //   child: DropdownButton<String>(
-            //     underline: const SizedBox.shrink(),
-            //     elevation: 0,
-            //     value: null,
-            //     hint: Row(
-            //       children: [
-            //         Text('* ', style: TextStyle(color: Colors.red)),
-            //         Text('Chọn chi nhánh',
-            //             style: TextStyle(color: blueGrey2, fontSize: 16)),
-            //       ],
-            //     ),
-            //     isExpanded: true,
-            //     icon: const Icon(Icons.arrow_forward_ios,color:blueGrey1),
-            //     style: const TextStyle(color: Colors.grey),
-            //     onChanged: (String? value) {},
-            //     items: list.map<DropdownMenuItem<String>>((String value) {
-            //       return DropdownMenuItem<String>(
-            //         value: value,
-            //         child: Text(value),
-            //       );
-            //     }).toList(),
-            //   ),
-            // ),
             const SizedBox(height: 20),
             const Text('Chi nhánh phụ', style: TextStyle(color: blueGrey1)),
             const SizedBox(height: 10),
@@ -135,32 +104,9 @@ class WanIPScreen extends StatelessWidget {
                       'Chọn chi nhánh phụ',
                       style: TextStyle(color: blueGrey2, fontSize: 16),
                     )),
-                    Icon(Icons.arrow_forward_ios, color: blueGrey1,size: 22)
+                    Icon(Icons.arrow_forward_ios, color: blueGrey1, size: 22)
                   ],
                 )),
-            // Container(
-            //   color: const Color(0xFFF3F6FF),
-            //   height: 45,
-            //   width: double.infinity,
-            //   padding: const EdgeInsets.symmetric(horizontal: 10),
-            //   child: DropdownButton<String>(
-            //     underline: const SizedBox.shrink(),
-            //     elevation: 0,
-            //     value: null,
-            //     hint: Text('Chọn chi nhánh phụ',
-            //         style: TextStyle(color: blueGrey2, fontSize: 16)),
-            //     isExpanded: true,
-            //     icon: const Icon(Icons.arrow_forward_ios, color: blueGrey1),
-            //     style: const TextStyle(color: Colors.grey),
-            //     onChanged: (String? value) {},
-            //     items: list.map<DropdownMenuItem<String>>((String value) {
-            //       return DropdownMenuItem<String>(
-            //         value: value,
-            //         child: Text(value),
-            //       );
-            //     }).toList(),
-            //   ),
-            // ),
             const SizedBox(height: 20),
             Row(
               children: const [

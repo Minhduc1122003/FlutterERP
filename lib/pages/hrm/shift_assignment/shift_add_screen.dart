@@ -96,7 +96,7 @@ class _ShiftAddScreenState extends State<ShiftAddScreen> {
             InkWell(
               onTap: () async {
                 List<BranchModel> branchList = await ApiProvider()
-                    .getBranch(EmployeeModel.siteName, User.token);
+                    .getBranch(UserModel.siteName, User.token);
                 if (!mounted) return;
                 dynamic result = await Navigator.push(
                   context,

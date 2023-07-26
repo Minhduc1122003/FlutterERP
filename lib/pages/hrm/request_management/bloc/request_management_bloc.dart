@@ -41,21 +41,18 @@ Future<List<TimekeepingOffsetRequestModel>>
     _getListTimekeepingOffsetRequest() async {
   List<TimekeepingOffsetRequestModel> list = await ApiProvider()
       .getListTimekeepingOffsetRequest(
-          EmployeeModel.siteName, EmployeeModel.id, User.token);
+          UserModel.siteName, UserModel.id, User.token);
   return list;
 }
 
 Future<List<OnLeaveRequestModel>> _getListOnLeaveRequest() async {
   List<OnLeaveRequestModel> list = await ApiProvider().getListOnLeaveRequest(
-      EmployeeModel.siteName,
-      EmployeeModel.id,
-      DateTime.now().year,
-      User.token);
+      UserModel.siteName, UserModel.id, DateTime.now().year, User.token);
   return list;
 }
 
 Future<List<AdvanceRequestModel>> _getListAdvanceRequest() async {
-  List<AdvanceRequestModel> list = await ApiProvider().getListAdvanceRequest(
-      EmployeeModel.siteName, EmployeeModel.id, User.token);
+  List<AdvanceRequestModel> list = await ApiProvider()
+      .getListAdvanceRequest(UserModel.siteName, UserModel.id, User.token);
   return list;
 }

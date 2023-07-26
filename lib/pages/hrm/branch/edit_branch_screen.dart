@@ -7,7 +7,8 @@ import '../../../model/login_model.dart';
 import 'bloc/branch_bloc.dart';
 
 class EditBranchScreen extends StatelessWidget {
-  const EditBranchScreen({super.key, required this.branchModel, required this.areaName});
+  const EditBranchScreen(
+      {super.key, required this.branchModel, required this.areaName});
   final BranchModel branchModel;
   final String areaName;
   @override
@@ -34,17 +35,11 @@ class EditBranchScreen extends StatelessWidget {
             onTap: () {
               BlocProvider.of<BranchBloc>(context).add(AddBranchEvent(
                   id: branchModel.id,
-                  idArea: branchModel.areaID,
-                  site: EmployeeModel.siteName,
+                  areaID: branchModel.areaID,
+                  site: UserModel.siteName,
                   name: branchController.text,
-                  description: noteController.text,
-                  token: User.token));
-              //addRegion(regionController.text, noteController.text);
+                  description: noteController.text));
               Navigator.pop(context);
-              // editBranch(branchModel, branchController.text,
-              //     noteController.text);
-              // Navigator.pop(context);
-              // BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
             },
           )
         ],
@@ -97,7 +92,6 @@ class EditBranchScreen extends StatelessWidget {
               cursorColor: backgroundColor,
               textInputAction: TextInputAction.done,
               decoration: const InputDecoration(
-                //contentPadding: EdgeInsets.zero,
                 contentPadding: EdgeInsets.only(left: 10),
                 hintText: 'Nhập chữ',
                 hintStyle: TextStyle(color: blueGrey2),
@@ -115,9 +109,7 @@ class EditBranchScreen extends StatelessWidget {
             child: TextFormField(
               controller: noteController,
               cursorColor: backgroundColor,
-              //textInputAction: TextInputAction.done,
               decoration: const InputDecoration(
-                //contentPadding: EdgeInsets.zero,
                 contentPadding: EdgeInsets.only(left: 10),
                 hintText: 'Nhập chữ',
                 hintStyle: TextStyle(color: blueGrey2),
@@ -135,8 +127,6 @@ class EditBranchScreen extends StatelessWidget {
               width: double.infinity,
               child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    //primary: mainColor,
-                    // backgroundColor: mainColor,
                     padding: EdgeInsets.zero,
                     side: const BorderSide(color: Colors.red, width: 1),
                     shape: RoundedRectangleBorder(
@@ -148,7 +138,7 @@ class EditBranchScreen extends StatelessWidget {
                   onPressed: () {
                     deleteBranch(branchModel);
                     Navigator.pop(context);
-                    BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
+                    // BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
                   }),
             ),
           ),
@@ -158,31 +148,6 @@ class EditBranchScreen extends StatelessWidget {
   }
 }
 
-editBranch(BranchModel branchModel, String name, String note) {
-  // List<RegionModel> regionList = CompanyModel.regionList;
-  // for (int i = 0; i < regionList.length; i++) {
-  //   if (regionList[i].id == branchModel.regionID) {
-  //     for (int j = 0; j < regionList[i].branchList.length; j++) {
-  //       if (regionList[i].branchList[j].id == branchModel.id) {
-  //         CompanyModel.regionList[i].branchList[j] =
-  //             branchModel.copyWith(name: name, note: note);
-  //         return;
-  //       }
-  //     }
-  //   }
-  // }
-}
-
 deleteBranch(BranchModel branchModel) {
-  // List<RegionModel> regionList = CompanyModel.regionList;
-  // for (int i = 0; i < regionList.length; i++) {
-  //   if (regionList[i].id == branchModel.regionID) {
-  //     for (int j = 0; j < regionList[i].branchList.length; j++) {
-  //       if (regionList[i].branchList[j].id == branchModel.id) {
-  //         CompanyModel.regionList[i].branchList.removeAt(j);
-  //         return;
-  //       }
-  //     }
-  //   }
-  // }
+  print('abc');
 }

@@ -16,7 +16,7 @@ class AdvanceBloc extends Bloc<AdvanceEvent, AdvanceState> {
   AdvanceBloc() : super(const AdvanceState()) {
     on<InitialAdvanceEvent>((event, emit) async {
       List<AdvanceKindModel> listAdvanceKindModel = await ApiProvider()
-          .getListAdvanceKind(EmployeeModel.siteName, User.token);
+          .getListAdvanceKind(UserModel.siteName, User.token);
       emit(AdvanceState(listAdvanceKindModel: listAdvanceKindModel));
     });
     on<ChoosseAdvanceKindEvent>((event, emit) {
@@ -36,7 +36,9 @@ class AdvanceBloc extends Bloc<AdvanceEvent, AdvanceState> {
       if (state.sendStatus == SendAdvanceStatus.loading) return;
       if (state.advanceKindModel == null ||
           state.fromDate == null ||
-          state.toDate == null||event.note.isEmpty||event.money.isEmpty) {
+          state.toDate == null ||
+          event.note.isEmpty ||
+          event.money.isEmpty) {
         emit(state.copyWith(
             sendStatus: SendAdvanceStatus.failure,
             error: 'Vui lòng điền đầy đủ thông tin'));
@@ -54,17 +56,17 @@ class AdvanceBloc extends Bloc<AdvanceEvent, AdvanceState> {
 
       Map<String, dynamic> data = {
         'ID': 0,
-        'Code':'',
-        'Reduce':state.advanceKindModel!.id,
-        'Qty':event.money.replaceAll('.', ''),
-        'EmployeeID':EmployeeModel.id, //8758,
+        'Code': '',
+        'Reduce': state.advanceKindModel!.id,
+        'Qty': event.money.replaceAll('.', ''),
+        'EmployeeID': UserModel.id, //8758,
         'EffectFrom': state.fromDate!.toIso8601String(),
         'EffectTo': state.toDate!.toIso8601String(),
         'CreateBy': User.name,
         'UpdateBy': User.name,
         'Status': 0,
-        'SiteID': EmployeeModel.siteName,
-        'Description':event.note
+        'SiteID': UserModel.siteName,
+        'Description': event.note
       };
       String? result = await ApiProvider().sendAdvanceRequest(data, User.token);
       if (result != null) {

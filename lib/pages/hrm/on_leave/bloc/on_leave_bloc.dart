@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -15,7 +17,7 @@ class OnLeaveBloc extends Bloc<OnLeaveEvent, OnLeaveState> {
     //on<OnLeaveEvent>((event, emit) {});
     on<InitialOnLeaveEvent>((event, emit) async {
       List<OnLeaveKindModel> listOnLeaveKindModel = await ApiProvider()
-          .getListOnLeaveKind(EmployeeModel.siteName, User.token);
+          .getListOnLeaveKind(UserModel.siteName, User.token);
       emit(OnLeaveState(listOnLeaveKindModel: listOnLeaveKindModel));
     });
     on<ChooseOnLeaveKindEvent>((event, emit) {
@@ -68,13 +70,13 @@ class OnLeaveBloc extends Bloc<OnLeaveEvent, OnLeaveState> {
       emit(state.copyWith(sendStatus: SendOnLeaveStatus.loading));
       Map<String, dynamic> data = {
         'permissionType': state.onLeaveKindModel!.id,
-        'employeeID': EmployeeModel.id, //8758,
+        'employeeID': UserModel.id, //8758,
         'expired': state.expirationDate!.toIso8601String(),
         'fromDate': state.fromDate!.toIso8601String(),
         'toDate': state.toDate!.toIso8601String(),
         'qty': event.qty,
         'status': 0,
-        'siteID': EmployeeModel.siteName,
+        'siteID': UserModel.siteName,
         'description': event.note,
         'year': DateTime.now().year,
         'docType': 'OLDocType'

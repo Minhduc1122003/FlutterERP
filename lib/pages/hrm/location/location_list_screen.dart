@@ -17,7 +17,7 @@ class LocationListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<LocationBloc>(context)
-        .add(GetLocationEvent(site: EmployeeModel.siteName, token: User.token));
+        .add(GetLocationEvent(site: UserModel.siteName, token: User.token));
     return Scaffold(
       backgroundColor: const Color(0xFFF3F6FF),
       appBar: AppBar(
@@ -47,8 +47,8 @@ class LocationListScreen extends StatelessWidget {
                 child: CircularProgressIndicator(color: mainColor));
           }
           if (state is LocationAddSuccess) {
-            BlocProvider.of<LocationBloc>(context).add(GetLocationEvent(
-                site: EmployeeModel.siteName, token: User.token));
+            BlocProvider.of<LocationBloc>(context).add(
+                GetLocationEvent(site: UserModel.siteName, token: User.token));
           }
           if (state is LocationSuccess) {
             return state.locationList.isEmpty
@@ -64,14 +64,20 @@ class LocationListScreen extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               onTap: () async {
-                                List<BranchModel> regionList = await ApiProvider().getBranch(EmployeeModel.siteName, User.token);
-                                    BranchModel branch = regionList.firstWhere((element) => element.id == state.locationList[index].branchID);
+                                List<BranchModel> regionList =
+                                    await ApiProvider().getBranch(
+                                        UserModel.siteName, User.token);
+                                BranchModel branch = regionList.firstWhere(
+                                    (element) =>
+                                        element.id ==
+                                        state.locationList[index].branchID);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => EditLocationScreen(
                                           locationModel:
-                                              state.locationList[index], branchName: branch.name)),
+                                              state.locationList[index],
+                                          branchName: branch.name)),
                                 );
                               },
                               child: Container(

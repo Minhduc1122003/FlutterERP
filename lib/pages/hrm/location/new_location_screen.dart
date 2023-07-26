@@ -119,7 +119,7 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                 address: addressController.text,
                 longitude: longitudeController.text,
                 latitude: latitudeController.text,
-                site: EmployeeModel.siteName,
+                site: UserModel.siteName,
                 token: User.token,
               ));
               Navigator.pop(context, 'new');
@@ -281,7 +281,7 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                   InkWell(
                     onTap: () async {
                       List<BranchModel> branchList = await ApiProvider()
-                          .getBranch(EmployeeModel.siteName, User.token);
+                          .getBranch(UserModel.siteName, User.token);
                       if (!mounted) return;
                       dynamic result = await Navigator.push(
                         context,

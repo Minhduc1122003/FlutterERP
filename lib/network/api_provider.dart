@@ -75,7 +75,6 @@ class ApiProvider {
     var postData = {'no_': email, 'password': password, 'site': site};
     response = await postConnect(loginAPI, postData, token);
     if (response.statusCode == statusOk) {
-      //var responseJson = jsonEncode(response.body);
       LoginModel model = LoginModel.fromJson(jsonDecode(response.body));
       return model;
     } else {
@@ -83,6 +82,20 @@ class ApiProvider {
     }
   }
 
+  // GET INFO EMPLOYEE
+  Future<EmployeeModel> getInfoEmployee(
+      int id, String siteName, String token) async {
+    response = await getConnect('$getInfoEmployeeAPI$id/$siteName', token);
+    if (response.statusCode == statusOk) {
+      List model = json.decode(response.body);
+      var a = model.map((val) => EmployeeModel.fromMap(val)).toList();
+      return a[0];
+    } else {
+      return null!;
+    }
+  }
+
+  // GET LIST ONLEAVE KIND
   Future<List<OnLeaveKindModel>> getListOnLeaveKind(
       String siteName, String token) async {
     response = await getConnect(getOnLeaveKindAPI + siteName, token);
@@ -299,8 +312,6 @@ class ApiProvider {
   }
 
   Future<List<RegionModel>> getRegion(String site, String token) async {
-    // await Future.delayed(const Duration(milliseconds: 500), () {});
-    // return CompanyModel.regionList;
     response = await getConnect('$getRegionAPI$site', token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
@@ -315,8 +326,6 @@ class ApiProvider {
 
   Future<String> postAddRegion(int id, String site, String name,
       String description, String token) async {
-    // await Future.delayed(const Duration(milliseconds: 500), () {});
-    // return CompanyModel.regionList;
     var postData;
     if (id == -1) {
       postData = {'name': name, 'description': description, 'siteID': site};
@@ -339,13 +348,6 @@ class ApiProvider {
   }
 
   Future<List<BranchModel>> getBranch(String site, String token) async {
-    // await Future.delayed(const Duration(milliseconds: 500), () {});
-    // List<RegionModel> regionList = CompanyModel.regionList;
-    // List<BranchModel> branchList = [];
-    // for (RegionModel model in regionList) {
-    //   branchList.addAll(model.branchList);
-    // }
-    // return branchList;
     response = await getConnect('$getBranchAPI$site', token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
@@ -358,14 +360,12 @@ class ApiProvider {
     }
   }
 
-  Future<String> postAddBranch(int id, int idArea, String site, String name,
+  Future<String> postAddBranch(int id, int areaID, String site, String name,
       String description, String token) async {
-    // await Future.delayed(const Duration(milliseconds: 500), () {});
-    // return CompanyModel.regionList;
     var postData;
     if (id == -1) {
       postData = {
-        'areaID': idArea,
+        'areaID': areaID,
         'name': name,
         'description': description,
         'siteID': site
@@ -373,7 +373,7 @@ class ApiProvider {
     } else {
       postData = {
         'id': id,
-        'areaID': idArea,
+        'areaID': areaID,
         'name': name,
         'description': description,
         'siteID': site
@@ -391,8 +391,6 @@ class ApiProvider {
 
   Future<String> postCheckin(int id, String employeeID, String authDate,
       String authTime, int location, String token) async {
-    // await Future.delayed(const Duration(milliseconds: 500), () {});
-    // return CompanyModel.regionList;
     var postData;
     if (id == -1) {
       postData = {
@@ -421,8 +419,6 @@ class ApiProvider {
   }
 
   Future<List<LocationModel>> getLocation(String site, String token) async {
-    // await Future.delayed(const Duration(milliseconds: 500), () {});
-    // return CompanyModel.locationList;
     response = await getConnect('$getLocationAPI$site', token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
@@ -444,8 +440,6 @@ class ApiProvider {
       String latitude,
       String site,
       String token) async {
-    // await Future.delayed(const Duration(milliseconds: 500), () {});
-    // return CompanyModel.regionList;
     var postData;
     if (id == -1) {
       postData = {
@@ -481,7 +475,7 @@ class ApiProvider {
     DateTime now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
-    var postData = {"employeeID": EmployeeModel.id, "day": formattedDate};
+    var postData = {"employeeID": UserModel.id, "day": formattedDate};
 
     response = await postConnect('$getScanByDay$site', postData, token);
     if (response.statusCode == statusOk ||

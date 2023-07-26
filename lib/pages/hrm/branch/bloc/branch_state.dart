@@ -14,7 +14,7 @@ class BranchError extends BranchState {
 }
 
 class BranchWaiting extends BranchState {}
-class BranchAddWaiting extends BranchState {}
+
 class BranchSuccess extends BranchState {
   final List<BranchModel> branchList;
   const BranchSuccess({required this.branchList});

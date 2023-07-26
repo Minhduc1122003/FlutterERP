@@ -292,7 +292,7 @@ class _WorkScreenState extends State<WorkScreen> {
                           BlocProvider.of<CheckInOutBloc>(context).add(
                               CheckInPostEvent(
                                   id: -1,
-                                  employeeID: EmployeeModel.id.toString(),
+                                  employeeID: UserModel.id.toString(),
                                   authDate: DateTime.now().toString(),
                                   authTime: DateTime.now().toString(),
                                   locationID: 1,

@@ -45,3 +45,8 @@ class OnLeaveState extends Equatable {
   List<Object?> get props =>
       [onLeaveKindModel, expirationDate, fromDate, toDate, sendStatus];
 }
+
+class RemoteState {
+  final int volume;
+  RemoteState(this.volume);
+}

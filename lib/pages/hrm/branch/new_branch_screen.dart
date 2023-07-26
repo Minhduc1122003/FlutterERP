@@ -52,18 +52,11 @@ class _NewBranchScreenState extends State<NewBranchScreen> {
                 return;
               }
               BlocProvider.of<BranchBloc>(context).add(AddBranchEvent(
-                  id: -1,
-                  idArea: regionModel!.id,
-                  site: EmployeeModel.siteName,
+                  areaID: regionModel!.id,
+                  site: UserModel.siteName,
                   name: branchController.text,
-                  description: noteController.text,
-                  token: User.token));
-              //addRegion(regionController.text, noteController.text);
-              Navigator.pop(context);
-              // addBranch(
-              //     regionModel!.id, branchController.text, noteController.text);
+                  description: noteController.text));
               // Navigator.pop(context);
-              // BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
             },
           )
         ],
@@ -82,7 +75,8 @@ class _NewBranchScreenState extends State<NewBranchScreen> {
             const SizedBox(height: 10),
             InkWell(
               onTap: () async {
-                List<RegionModel> regionList = await ApiProvider().getRegion(EmployeeModel.siteName, User.token);
+                List<RegionModel> regionList = await ApiProvider()
+                    .getRegion(UserModel.siteName, User.token);
                 if (!mounted) return;
                 dynamic result = await Navigator.push(
                     context,
@@ -141,7 +135,6 @@ class _NewBranchScreenState extends State<NewBranchScreen> {
                 cursorColor: backgroundColor,
                 textInputAction: TextInputAction.done,
                 decoration: const InputDecoration(
-                  //contentPadding: EdgeInsets.zero,
                   contentPadding: EdgeInsets.only(left: 15),
                   hintText: 'Nhập chữ',
                   hintStyle: TextStyle(color: blueGrey2),
@@ -161,7 +154,6 @@ class _NewBranchScreenState extends State<NewBranchScreen> {
                 cursorColor: backgroundColor,
                 textInputAction: TextInputAction.done,
                 decoration: const InputDecoration(
-                  //contentPadding: EdgeInsets.zero,
                   contentPadding: EdgeInsets.only(left: 15),
                   hintText: 'Nhập chữ',
                   hintStyle: TextStyle(color: blueGrey2),
@@ -174,25 +166,4 @@ class _NewBranchScreenState extends State<NewBranchScreen> {
       ),
     );
   }
-}
-
-addBranch(int idRegion, String name, String note) {
-  List<RegionModel> regionList = CompanyModel.regionList;
-  List<BranchModel> branchList = [];
-  // int iR = -1;
-  // for (int i = 0; i < regionList.length; i++) {
-  //   if (regionList[i].id == idRegion) {
-  //     branchList = regionList[i].branchList;
-  //     iR = i;
-  //     break;
-  //   }
-  // }
-  // if (iR < 0) return;
-  // int id = branchList.isEmpty ? 1 : branchList.last.id + 1;
-  // CompanyModel.regionList[iR].branchList.add(BranchModel(
-  //     id: id,
-  //     name: name,
-  //     regionName: regionList[iR].name,
-  //     regionID: regionList[iR].id,
-  //     note: note));
 }

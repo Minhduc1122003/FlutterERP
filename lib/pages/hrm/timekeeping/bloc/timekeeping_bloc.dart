@@ -13,7 +13,7 @@ class TimekeepingBloc extends Bloc<TimekeepingEvent, TimekeepingState> {
   TimekeepingBloc() : super(const TimekeepingState()) {
     on<InitialTimekeepingEvent>((event, emit) async {
       List<SalaryPeriodModel> listSalaryPeriodModel = await ApiProvider()
-          .getListSalaryPeriod(EmployeeModel.siteName, User.token);
+          .getListSalaryPeriod(UserModel.siteName, User.token);
       emit(TimekeepingState(listSalaryPeriodModel: listSalaryPeriodModel));
     });
 
@@ -49,12 +49,12 @@ class TimekeepingBloc extends Bloc<TimekeepingEvent, TimekeepingState> {
 Future<List<AttendanceModel>> _getListAttendance(
     DateTime fromDate, DateTime toDate) async {
   Map<String, dynamic> data = {
-    'employeeId': EmployeeModel.id,
+    'employeeId': UserModel.id,
     'fromDate': DateFormat('yyyy-MM-dd').format(fromDate),
     'toDate': DateFormat('yyyy-MM-dd').format(toDate)
   };
   List<AttendanceModel> list = await ApiProvider()
-      .getListAttendance(EmployeeModel.siteName, data, User.token);
+      .getListAttendance(UserModel.siteName, data, User.token);
   return list.reversed.toList();
 }
 
@@ -62,21 +62,21 @@ Future<int> _getListAttendanceInvalid(
     DateTime fromDate, DateTime toDate) async {
   Map<String, dynamic> data = {
     'deptId': 0,
-    'empCode': EmployeeModel.id.toString(),
+    'empCode': UserModel.id.toString(),
     'fromDate': DateFormat('yyyy-MM-dd').format(fromDate),
     'toDate': DateFormat('yyyy-MM-dd').format(toDate)
   };
   // int n = await ApiProvider()
-  //     .getListAttendanceInvalid(EmployeeModel.siteName, data, User.token);
+  //     .getListAttendanceInvalid(UserModel.siteName, data, User.token);
   return await ApiProvider()
-      .getListAttendanceInvalid(EmployeeModel.siteName, data, User.token);
+      .getListAttendanceInvalid(UserModel.siteName, data, User.token);
 }
 
 Future<List<TimeSheetModel>> _getTimeSheets(int periodId) async {
   Map<String, dynamic> data = {
-    'listEmpId': [EmployeeModel.id],
+    'listEmpId': [UserModel.id],
     'period': periodId,
-    'siteID': EmployeeModel.siteName
+    'siteID': UserModel.siteName
   };
   // List<TimeSheetModel> list =
   //     await ApiProvider().getTimeSheets(data, User.token);
@@ -85,9 +85,9 @@ Future<List<TimeSheetModel>> _getTimeSheets(int periodId) async {
 
 Future<List<SummaryOffsetModel>> _getOffsetAndOnLeave(int periodId) async {
   Map<String, dynamic> data = {
-    'listEmpId': [EmployeeModel.id],
+    'listEmpId': [UserModel.id],
     'period': periodId,
-    'siteID': EmployeeModel.siteName
+    'siteID': UserModel.siteName
   };
   // List<SummaryOffsetModel> list =
   //     await ApiProvider().getOffsetAndOnLeave(data, User.token);

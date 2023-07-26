@@ -1,3 +1,4 @@
+import 'package:erp/pages/hrm/account/bloc/account_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'pages/hrm/advance/bloc/advance_bloc.dart';
@@ -52,6 +53,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<CheckInOutBloc>(
             create: (BuildContext context) => CheckInOutBloc()),
         BlocProvider<WorkBloc>(create: (BuildContext context) => WorkBloc()),
+        BlocProvider<AccountBloc>(
+            create: (BuildContext context) => AccountBloc()),
       ],
       child: MaterialApp(
         title: 'CRM',
@@ -62,11 +65,10 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         theme: ThemeData(
-          //fontFamily: 'Gilroy',
-          fontFamily: 'Be VietNam',
-          primarySwatch: Colors.blue,
-          useMaterial3: true
-        ),
+            //fontFamily: 'Gilroy',
+            fontFamily: 'Be VietNam',
+            primarySwatch: Colors.blue,
+            useMaterial3: true),
         home: const SplashScreen(),
         locale: const Locale('vn'),
         supportedLocales: const [
