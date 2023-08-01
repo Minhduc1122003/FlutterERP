@@ -1,3 +1,5 @@
+import 'package:erp/base/empty_screen.dart';
+import 'package:erp/base/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -97,22 +99,6 @@ class _RequestManagementScreenState extends State<RequestManagementScreen> {
             }
           },
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   elevation: 0,
-        //   heroTag: "btn",
-        //   backgroundColor: Colors.black26,
-        //   onPressed: () {
-        //     Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //             builder: (context) => const ChooseRequestScreen()));
-        //   },
-        //   child: const Icon(
-        //     Icons.add,
-        //     size: 25,
-        //     color: Colors.white,
-        //   ),
-        // )
       ),
     );
   }
@@ -179,18 +165,11 @@ Widget _buildTabBar(
   return SizedBox(
     height: 30,
     child: TabBar(
-        //labelColor: appColor,
-        //unselectedLabelColor: Colors.white,
         labelColor: mainColor,
         indicatorColor: mainColor,
-        //isScrollable: true,
         unselectedLabelColor: blueGrey3,
         padding: const EdgeInsets.all(0),
         labelPadding: const EdgeInsets.symmetric(horizontal: 0),
-        // indicator: BoxDecoration(
-        //color: Colors.white,
-        //color: appColor,
-        //  borderRadius: BorderRadius.circular(5)),
         tabs: [
           Tab(
               child: Center(
@@ -270,15 +249,15 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
           child: TabBarView(children: [
             LayoutBuilder(builder: (context, constraints) {
               if (isLoading) {
-                return const Center(
-                    child: CircularProgressIndicator(color: mainColor));
+                return const Loading();
               } else if (listNew.isNotEmpty) {
                 return ListView.separated(
                     padding: const EdgeInsets.all(8),
                     itemCount: listNew.length,
                     itemBuilder: (BuildContext context, int index) {
                       if (listNew[index] is OnLeaveRequestModel) {
-                        return _buildOnLeaveRequestItem(listNew[index]);
+                        return _buildOnLeaveRequestItem(
+                            listNew[index], context);
                       } else if (listNew[index]
                           is TimekeepingOffsetRequestModel) {
                         return _buildTimekeepingOffsetRequestItem(
@@ -290,7 +269,7 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 5));
               } else {
-                return const SizedBox.shrink();
+                return const EmptyScreen();
               }
             }),
             LayoutBuilder(builder: (context, constraints) {
@@ -303,7 +282,8 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
                     itemCount: listApprove.length,
                     itemBuilder: (BuildContext context, int index) {
                       if (listApprove[index] is OnLeaveRequestModel) {
-                        return _buildOnLeaveRequestItem(listApprove[index]);
+                        return _buildOnLeaveRequestItem(
+                            listApprove[index], context);
                       } else if (listApprove[index]
                           is TimekeepingOffsetRequestModel) {
                         return _buildTimekeepingOffsetRequestItem(
@@ -315,7 +295,7 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 5));
               } else {
-                return const SizedBox.shrink();
+                return const EmptyScreen();
               }
             }),
             LayoutBuilder(builder: (context, constraints) {
@@ -328,7 +308,8 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
                     itemCount: listReject.length,
                     itemBuilder: (BuildContext context, int index) {
                       if (listReject[index] is OnLeaveRequestModel) {
-                        return _buildOnLeaveRequestItem(listReject[index]);
+                        return _buildOnLeaveRequestItem(
+                            listReject[index], context);
                       } else if (listReject[index]
                           is TimekeepingOffsetRequestModel) {
                         return _buildTimekeepingOffsetRequestItem(
@@ -340,124 +321,153 @@ Widget _buildTabarView(List<dynamic> listNew, List<dynamic> listApprove,
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 5));
               } else {
-                return const SizedBox.shrink();
+                return const EmptyScreen();
               }
             }),
           ])));
 }
 
-Widget _buildOnLeaveRequestItem(OnLeaveRequestModel model) {
-  return GestureDetector(
-      onLongPress: () {
-        print(1);
-      },
-      child: Card(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          child: Column(children: [
-            Stack(children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Nghỉ phép',
-                        style: TextStyle(
-                            color: blueBlack,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17)),
-                    Text(
-                        model.createDate == null
-                            ? ''
-                            : DateFormat('dd/MM/yyyy')
-                                .format(model.createDate!),
-                        style: const TextStyle(color: blueBlack, fontSize: 12)),
-                  ],
-                ),
+Widget _buildOnLeaveRequestItem(
+    OnLeaveRequestModel model, BuildContext context) {
+  return Container(
+    decoration: BoxDecoration(
+      boxShadow: [
+        BoxShadow(
+          color: Color.fromARGB(255, 213, 213, 213).withOpacity(.5),
+          blurRadius: 3.0, // soften the shadow
+          spreadRadius: 0.0, //extend the shadow
+        )
+      ],
+    ),
+    child: GestureDetector(
+        onTap: () => {
+              print(1),
+            },
+        onLongPress: () {
+          showModalBottomSheet(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(10),
               ),
-              Positioned(
-                top: 0,
-                left: 1,
-                child: Container(
-                    width: 4, height: 40, color: getColor(model.status)),
-              )
-            ]),
-            const SizedBox(height: 10),
-            Container(
-                height: 1, color: Colors.grey[200], width: double.infinity),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('NGÀY HẾT HẠN',
-                            style: TextStyle(
-                                color: blueBlack.withOpacity(0.7),
-                                fontSize: 12)),
-                        const SizedBox(height: 5),
-                        Text(DateFormat('dd/MM/yyyy').format(model.expired),
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                color: blueBlack, fontSize: 13)),
-                        const SizedBox(height: 10),
-                        Text('THỜI GIAN ',
-                            style: TextStyle(
-                                color: blueBlack.withOpacity(0.7),
-                                fontSize: 12)),
-                        const SizedBox(height: 5),
-                        Text(
-                            '${DateFormat('dd/MM/yyyy').format(model.fromDate)} - ${DateFormat('dd/MM/yyyy').format(model.toDate)}'
-                                .replaceAll("", "\u{200B}"),
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                color: blueBlack, fontSize: 13)),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('LOẠI PHÉP',
-                            style: TextStyle(
-                                color: blueBlack.withOpacity(0.7),
-                                fontSize: 12)),
-                        const SizedBox(height: 5),
-                        Text(
-                            capitalize(model.permissionName)
-                                .replaceAll("", "\u{200B}"),
-                            style:
-                                const TextStyle(color: blueBlack, fontSize: 13),
-                            overflow: TextOverflow.ellipsis),
-                        const SizedBox(height: 10),
-                        Text('SỐ LƯỢNG ',
-                            style: TextStyle(
-                                color: blueBlack.withOpacity(0.7),
-                                fontSize: 12)),
-                        const SizedBox(height: 5),
-                        Text(model.qty.toString(),
-                            //overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                color: blueBlack, fontSize: 13)),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
             ),
-          ]),
-        ),
-      ));
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            isScrollControlled: true,
+            context: context,
+            //useRootNavigator: false,
+            builder: (BuildContext context) {
+              return buildModalBottom(context);
+            },
+          );
+        },
+        child: Card(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: Column(children: [
+              Stack(children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('NGHỈ PHÉP',
+                          style: TextStyle(
+                              color: blueBlack,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 17)),
+                      Text(
+                          model.createDate == null
+                              ? ''
+                              : DateFormat('dd/MM/yyyy')
+                                  .format(model.createDate!),
+                          style:
+                              const TextStyle(color: blueBlack, fontSize: 12)),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  left: 1,
+                  child: Container(
+                      width: 4, height: 40, color: getColor(model.status)),
+                )
+              ]),
+              const SizedBox(height: 10),
+              Container(
+                  height: 1, color: Colors.grey[200], width: double.infinity),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('NGÀY HẾT HẠN',
+                              style: TextStyle(
+                                  color: blueBlack.withOpacity(0.7),
+                                  fontSize: 12)),
+                          const SizedBox(height: 5),
+                          Text(DateFormat('dd/MM/yyyy').format(model.expired),
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: blueBlack, fontSize: 13)),
+                          const SizedBox(height: 10),
+                          Text('THỜI GIAN ',
+                              style: TextStyle(
+                                  color: blueBlack.withOpacity(0.7),
+                                  fontSize: 12)),
+                          const SizedBox(height: 5),
+                          Text(
+                              '${DateFormat('dd/MM/yyyy').format(model.fromDate)} - ${DateFormat('dd/MM/yyyy').format(model.toDate)}'
+                                  .replaceAll("", "\u{200B}"),
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: blueBlack, fontSize: 13)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('LOẠI PHÉP',
+                              style: TextStyle(
+                                  color: blueBlack.withOpacity(0.7),
+                                  fontSize: 12)),
+                          const SizedBox(height: 5),
+                          Text(
+                              capitalize(model.permissionName)
+                                  .replaceAll("", "\u{200B}"),
+                              style: const TextStyle(
+                                  color: blueBlack, fontSize: 13),
+                              overflow: TextOverflow.ellipsis),
+                          const SizedBox(height: 10),
+                          Text('SỐ LƯỢNG ',
+                              style: TextStyle(
+                                  color: blueBlack.withOpacity(0.7),
+                                  fontSize: 12)),
+                          const SizedBox(height: 5),
+                          Text(model.qty.toString(),
+                              //overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: blueBlack, fontSize: 13)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ]),
+          ),
+        )),
+  );
 }
 
 Widget _buildTimekeepingOffsetRequestItem(TimekeepingOffsetRequestModel model) {
@@ -467,14 +477,14 @@ Widget _buildTimekeepingOffsetRequestItem(TimekeepingOffsetRequestModel model) {
       child: Column(children: [
         Stack(children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Bù công',
+                const Text('BÙ CÔNG',
                     style: TextStyle(
                         color: blueBlack,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w700,
                         fontSize: 17)),
                 Text(
                     model.createDate == null
@@ -564,14 +574,14 @@ Widget _buildAdvanceRequestItem(AdvanceRequestModel model) {
       child: Column(children: [
         Stack(children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Tạm ứng',
+                const Text('TẠM ỨNG',
                     style: TextStyle(
                         color: blueBlack,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w700,
                         fontSize: 17)),
                 Text(
                     model.createDate == null
@@ -652,6 +662,66 @@ Widget _buildAdvanceRequestItem(AdvanceRequestModel model) {
           ],
         ),
       ]),
+    ),
+  );
+}
+
+Widget buildModalBottom(BuildContext context) {
+  return Padding(
+    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+    child: Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: 2,
+            width: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 15),
+          Container(
+            height: 40,
+            width: double.infinity,
+            padding: const EdgeInsets.only(left: 5),
+            child: Expanded(
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        elevation: 0,
+                        backgroundColor: mainColor),
+                    child: const Text('Sửa',
+                        style: TextStyle(color: Colors.white, fontSize: 18))),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            height: 40,
+            width: double.infinity,
+            padding: const EdgeInsets.only(left: 5),
+            child: Expanded(
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        elevation: 0,
+                        backgroundColor: Colors.black38),
+                    child: const Text('Xóa',
+                        style: TextStyle(color: Colors.white, fontSize: 18))),
+              ),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

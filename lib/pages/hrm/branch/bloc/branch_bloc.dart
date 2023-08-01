@@ -21,5 +21,9 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
           event.areaID, event.site, event.name, event.description, User.token);
       emit(BranchAddSuccess(message: result));
     });
+    on<DeleteBranchEvent>((event, emit) async {
+      String result = await ApiProvider().deleteBranch(event.id, User.token);
+      emit(BranchAddSuccess(message: result));
+    });
   }
 }

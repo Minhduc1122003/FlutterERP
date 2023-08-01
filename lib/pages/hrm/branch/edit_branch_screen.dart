@@ -1,10 +1,12 @@
 import 'package:erp/config/color.dart';
+import 'package:erp/pages/hrm/branch/branch_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../model/hrm_model/company_model.dart';
 import '../../../model/hrm_model/employee_model.dart';
 import '../../../model/login_model.dart';
 import 'bloc/branch_bloc.dart';
+import 'package:quickalert/quickalert.dart';
 
 class EditBranchScreen extends StatelessWidget {
   const EditBranchScreen(
@@ -136,9 +138,20 @@ class EditBranchScreen extends StatelessWidget {
                   child: const Text('Xóa',
                       style: TextStyle(fontSize: 18, color: Colors.red)),
                   onPressed: () {
-                    deleteBranch(branchModel);
-                    Navigator.pop(context);
-                    // BlocProvider.of<BranchBloc>(context).add(BranchLoadEvent());
+                    QuickAlert.show(
+                      context: context,
+                      type: QuickAlertType.confirm,
+                      text: 'Are you sure',
+                      onConfirmBtnTap: () {
+                        BlocProvider.of<BranchBloc>(context)
+                            .add(DeleteBranchEvent(id: branchModel.id));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const BranchListScreen()));
+                      },
+                    );
                   }),
             ),
           ),
@@ -146,8 +159,4 @@ class EditBranchScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-deleteBranch(BranchModel branchModel) {
-  print('abc');
 }

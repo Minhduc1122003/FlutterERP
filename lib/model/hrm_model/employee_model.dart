@@ -14,9 +14,8 @@ class EmployeeModel {
   String? fullName;
   String? address;
   String? phone;
-  String? birthDay;
+  DateTime? birthDay;
   bool? gender;
-  // int radius;
   EmployeeModel({
     this.id,
     this.code,
@@ -63,7 +62,7 @@ class EmployeeModel {
     String? code,
     String? attendCode,
     String? fullName,
-    String? birthDay,
+    DateTime? birthDay,
     String? phone,
     String? address,
   }) {

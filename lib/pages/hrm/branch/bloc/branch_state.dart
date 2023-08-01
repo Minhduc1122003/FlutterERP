@@ -24,3 +24,8 @@ class BranchAddSuccess extends BranchState {
   final String message;
   const BranchAddSuccess({required this.message});
 }
+
+class BranchDeleteSuccess extends BranchState {
+  final String message;
+  const BranchDeleteSuccess({required this.message});
+}

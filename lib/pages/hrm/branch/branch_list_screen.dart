@@ -41,6 +41,7 @@ class BranchListScreen extends StatelessWidget {
         ),
         body: BlocBuilder<BranchBloc, BranchState>(
           builder: (context, state) {
+            print(state);
             if (state is BranchWaiting) {
               return const Center(
                   child: CircularProgressIndicator(color: mainColor));

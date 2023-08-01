@@ -90,8 +90,6 @@ class _WorkScreenState extends State<WorkScreen> {
                 ),
               ),
               const SizedBox(height: 15),
-              // _buildManipulation(context),
-              // const SizedBox(height: 15),
               _buildFolder(context),
               buildCheckWork(),
             ],
@@ -286,9 +284,6 @@ class _WorkScreenState extends State<WorkScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                         onPressed: () {
-                          //bloc.add(CheckOutEvent());
-                          // CompanyModel.checkInStatus = false;
-                          // getCheckInStatus();
                           BlocProvider.of<CheckInOutBloc>(context).add(
                               CheckInPostEvent(
                                   id: -1,

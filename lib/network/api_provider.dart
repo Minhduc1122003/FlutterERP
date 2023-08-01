@@ -70,6 +70,24 @@ class ApiProvider {
     }
   }
 
+  Future<Response> deleteConnect(String url, String token) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final uri = Uri.parse(url);
+    final encoding = Encoding.getByName('utf-8');
+    try {
+      return await delete(
+        uri,
+        headers: headers,
+        encoding: encoding,
+      );
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   Future<LoginModel?> login(
       String email, String password, String site, String token) async {
     var postData = {'no_': email, 'password': password, 'site': site};
@@ -165,7 +183,7 @@ class ApiProvider {
     response = await getConnect(getListShiftModelAPI + siteName, token);
     if (response.statusCode == statusOk) {
       List responseList = json.decode(response.body);
-      return responseList.map((val) => ShiftModel.fromJson(val)).toList();
+      return responseList.map((val) => ShiftModel.fromMap(val)).toList();
     } else {
       return [];
     }
@@ -381,6 +399,16 @@ class ApiProvider {
     }
 
     response = await postConnect(postAddBranchAPI, postData, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      return "OK";
+    } else {
+      return "";
+    }
+  }
+
+  Future<String> deleteBranch(int id, String token) async {
+    response = await deleteConnect('$getBranchAPI$id', token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       return "OK";

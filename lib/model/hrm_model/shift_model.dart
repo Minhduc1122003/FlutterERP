@@ -30,12 +30,6 @@ class ShiftModel {
     this.fromTime,
     this.toTime,
   });
-  // ShiftModel( 
-  //     {required this.id,
-  //     required this.name,
-  //     required this.code,
-  //     required this.fromTime,
-  //     required this.toTime});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -50,12 +44,11 @@ class ShiftModel {
       id: map['id'] as int,
       name: map['title'] as String,
       code: map['code'] as String,
-      // fromTime: DateTime.fromMillisecondsSinceEpoch(map['fromTime'] as int),
-      // toTime: DateTime.fromMillisecondsSinceEpoch(map['toTime'] as int),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ShiftModel.fromJson(String source) => ShiftModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ShiftModel.fromJson(String source) =>
+      ShiftModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

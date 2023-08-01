@@ -32,12 +32,6 @@ class ChooseRequestScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Column(children: [
-          // buildChooseItem(1,Entypo.briefcase, 'Công tác/Ra ngoài'),
-          // Container(height: 1, color: Colors.grey[200]),
-          // buildChooseItem(2,Icons.access_time_rounded, 'Làm thêm giờ'),
-          // Container(height: 1, color: Colors.grey[200]),
-          // buildChooseItem(3,Icons.more_time, 'Thay đổi giờ vào/ra'),
-          // Container(height: 1, color: Colors.grey[200]),
           buildChooseItem(context, 1, FontAwesome.bed, 'Nghỉ phép'),
           Container(height: 1, color: Colors.grey[200]),
           buildChooseItem(context, 2, FontAwesome.money, 'Tạm ứng'),
@@ -62,8 +56,7 @@ Widget buildChooseItem(
       } else if (id == 2) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => const NewAdvanceScreen()),
+          MaterialPageRoute(builder: (context) => const NewAdvanceScreen()),
         );
       } else if (id == 3) {
         Navigator.push(

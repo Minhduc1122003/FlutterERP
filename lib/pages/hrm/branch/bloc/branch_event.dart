@@ -27,3 +27,8 @@ class AddBranchEvent extends BranchEvent {
       required this.name,
       required this.description});
 }
+
+class DeleteBranchEvent extends BranchEvent {
+  final int id;
+  const DeleteBranchEvent({required this.id});
+}

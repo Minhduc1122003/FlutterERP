@@ -169,101 +169,117 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
                                         barrierDismissible: false,
                                         builder: (BuildContext context) {
                                           return Dialog(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
                                               child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const SizedBox(height: 10),
-                                              const Text('Chọn',
-                                                  style:
-                                                      TextStyle(fontSize: 20)),
-                                              SizedBox(
-                                                height: 200,
-                                                child: CupertinoDatePicker(
-                                                  initialDateTime: (state
-                                                              .expirationDate ==
-                                                          null)
-                                                      ? DateTime.now()
-                                                      : state.expirationDate,
-                                                  onDateTimeChanged: (value) {
-                                                    expirationDateChange =
-                                                        value;
-                                                  },
-                                                  mode: CupertinoDatePickerMode
-                                                      .date,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: Row(children: [
-                                                  Expanded(
-                                                    child: SizedBox(
-                                                      height: 50,
-                                                      child: OutlinedButton(
-                                                          style: OutlinedButton
-                                                              .styleFrom(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            padding:
-                                                                EdgeInsets.zero,
-                                                            side: BorderSide(
-                                                                color:
-                                                                    mainColor,
-                                                                width: 1),
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10.0),
-                                                            ),
-                                                          ),
-                                                          child: Text('HỦY',
-                                                              style: TextStyle(
-                                                                  fontSize: 17,
-                                                                  color:
-                                                                      mainColor)),
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          }),
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const SizedBox(height: 10),
+                                                  const Text('Chọn',
+                                                      style: TextStyle(
+                                                          fontSize: 20)),
+                                                  SizedBox(
+                                                    height: 200,
+                                                    child: CupertinoDatePicker(
+                                                      initialDateTime:
+                                                          (state.expirationDate ==
+                                                                  null)
+                                                              ? DateTime.now()
+                                                              : state
+                                                                  .expirationDate,
+                                                      onDateTimeChanged:
+                                                          (value) {
+                                                        expirationDateChange =
+                                                            value;
+                                                      },
+                                                      mode:
+                                                          CupertinoDatePickerMode
+                                                              .date,
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 15),
-                                                  Expanded(
-                                                    child: SizedBox(
-                                                      height: 50,
-                                                      child: ElevatedButton(
-                                                          style: ElevatedButton.styleFrom(
-                                                              elevation: 0.0,
-                                                              shadowColor: Colors
-                                                                  .transparent,
-                                                              shape: RoundedRectangleBorder(
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10.0),
+                                                    child: Row(children: [
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          height: 50,
+                                                          child: OutlinedButton(
+                                                              style:
+                                                                  OutlinedButton
+                                                                      .styleFrom(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                side: BorderSide(
+                                                                    color:
+                                                                        mainColor,
+                                                                    width: 1),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
+                                                                              10.0),
+                                                                ),
+                                                              ),
+                                                              child: Text('HỦY',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          17,
+                                                                      color:
+                                                                          mainColor)),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          height: 50,
+                                                          child: ElevatedButton(
+                                                              style: ElevatedButton.styleFrom(
+                                                                  elevation:
+                                                                      0.0,
+                                                                  shadowColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
                                                                               10)),
-                                                              backgroundColor:
-                                                                  mainColor),
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                            onLeaveBloc.add(
-                                                                ChooseExpirationDateEvent(
-                                                                    expirationDate:
-                                                                        expirationDateChange));
-                                                          },
-                                                          child: const Text(
-                                                            "XONG",
-                                                            style: TextStyle(
-                                                                fontSize: 17),
-                                                          )),
-                                                    ),
+                                                                  backgroundColor:
+                                                                      mainColor),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                                onLeaveBloc.add(
+                                                                    ChooseExpirationDateEvent(
+                                                                        expirationDate:
+                                                                            expirationDateChange));
+                                                              },
+                                                              child: const Text(
+                                                                "XONG",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        17,
+                                                                    color: Colors
+                                                                        .white),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                    ]),
                                                   ),
-                                                ]),
-                                              ),
-                                            ],
-                                          ));
+                                                ],
+                                              ));
                                         });
                                   },
                                   child: Container(
@@ -313,99 +329,115 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
                                         barrierDismissible: false,
                                         builder: (BuildContext context) {
                                           return Dialog(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
                                               child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const SizedBox(height: 10),
-                                              const Text('Chọn',
-                                                  style:
-                                                      TextStyle(fontSize: 20)),
-                                              SizedBox(
-                                                height: 200,
-                                                child: CupertinoDatePicker(
-                                                  initialDateTime:
-                                                      (state.fromDate == null)
-                                                          ? DateTime.now()
-                                                          : state.fromDate,
-                                                  onDateTimeChanged: (value) {
-                                                    fromDateChange = value;
-                                                  },
-                                                  mode: CupertinoDatePickerMode
-                                                      .date,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: Row(children: [
-                                                  Expanded(
-                                                    child: SizedBox(
-                                                      height: 50,
-                                                      child: OutlinedButton(
-                                                          style: OutlinedButton
-                                                              .styleFrom(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            padding:
-                                                                EdgeInsets.zero,
-                                                            side: BorderSide(
-                                                                color:
-                                                                    mainColor,
-                                                                width: 1),
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10.0),
-                                                            ),
-                                                          ),
-                                                          child: Text('HỦY',
-                                                              style: TextStyle(
-                                                                  fontSize: 17,
-                                                                  color:
-                                                                      mainColor)),
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          }),
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const SizedBox(height: 10),
+                                                  const Text('Chọn',
+                                                      style: TextStyle(
+                                                          fontSize: 20)),
+                                                  SizedBox(
+                                                    height: 200,
+                                                    child: CupertinoDatePicker(
+                                                      initialDateTime:
+                                                          (state.fromDate ==
+                                                                  null)
+                                                              ? DateTime.now()
+                                                              : state.fromDate,
+                                                      onDateTimeChanged:
+                                                          (value) {
+                                                        fromDateChange = value;
+                                                      },
+                                                      mode:
+                                                          CupertinoDatePickerMode
+                                                              .date,
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 15),
-                                                  Expanded(
-                                                    child: SizedBox(
-                                                      height: 50,
-                                                      child: ElevatedButton(
-                                                          style: ElevatedButton.styleFrom(
-                                                              elevation: 0.0,
-                                                              shadowColor: Colors
-                                                                  .transparent,
-                                                              shape: RoundedRectangleBorder(
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10.0),
+                                                    child: Row(children: [
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          height: 50,
+                                                          child: OutlinedButton(
+                                                              style:
+                                                                  OutlinedButton
+                                                                      .styleFrom(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                side: BorderSide(
+                                                                    color:
+                                                                        mainColor,
+                                                                    width: 1),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
+                                                                              10.0),
+                                                                ),
+                                                              ),
+                                                              child: Text('HỦY',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          17,
+                                                                      color:
+                                                                          mainColor)),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          height: 50,
+                                                          child: ElevatedButton(
+                                                              style: ElevatedButton.styleFrom(
+                                                                  elevation:
+                                                                      0.0,
+                                                                  shadowColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
                                                                               10)),
-                                                              backgroundColor:
-                                                                  mainColor),
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                            onLeaveBloc.add(
-                                                                ChooseFromDateEvent(
-                                                                    fromDate:
-                                                                        fromDateChange));
-                                                          },
-                                                          child: const Text(
-                                                            "XONG",
-                                                            style: TextStyle(
-                                                                fontSize: 17),
-                                                          )),
-                                                    ),
+                                                                  backgroundColor:
+                                                                      mainColor),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                                onLeaveBloc.add(
+                                                                    ChooseFromDateEvent(
+                                                                        fromDate:
+                                                                            fromDateChange));
+                                                              },
+                                                              child: const Text(
+                                                                "XONG",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        17,
+                                                                    color: Colors
+                                                                        .white),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                    ]),
                                                   ),
-                                                ]),
-                                              ),
-                                            ],
-                                          ));
+                                                ],
+                                              ));
                                         });
                                   },
                                   child: Container(
@@ -453,99 +485,114 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
                                         barrierDismissible: false,
                                         builder: (BuildContext context) {
                                           return Dialog(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
                                               child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const SizedBox(height: 10),
-                                              const Text('Chọn',
-                                                  style:
-                                                      TextStyle(fontSize: 20)),
-                                              SizedBox(
-                                                height: 200,
-                                                child: CupertinoDatePicker(
-                                                  initialDateTime:
-                                                      state.toDate == null
-                                                          ? DateTime.now()
-                                                          : state.toDate!,
-                                                  onDateTimeChanged: (value) {
-                                                    toDateChange = value;
-                                                  },
-                                                  mode: CupertinoDatePickerMode
-                                                      .date,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: Row(children: [
-                                                  Expanded(
-                                                    child: SizedBox(
-                                                      height: 50,
-                                                      child: OutlinedButton(
-                                                          style: OutlinedButton
-                                                              .styleFrom(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            padding:
-                                                                EdgeInsets.zero,
-                                                            side: BorderSide(
-                                                                color:
-                                                                    mainColor,
-                                                                width: 1),
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10.0),
-                                                            ),
-                                                          ),
-                                                          child: Text('HỦY',
-                                                              style: TextStyle(
-                                                                  fontSize: 17,
-                                                                  color:
-                                                                      mainColor)),
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          }),
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const SizedBox(height: 10),
+                                                  const Text('Chọn',
+                                                      style: TextStyle(
+                                                          fontSize: 20)),
+                                                  SizedBox(
+                                                    height: 200,
+                                                    child: CupertinoDatePicker(
+                                                      initialDateTime:
+                                                          state.toDate == null
+                                                              ? DateTime.now()
+                                                              : state.toDate!,
+                                                      onDateTimeChanged:
+                                                          (value) {
+                                                        toDateChange = value;
+                                                      },
+                                                      mode:
+                                                          CupertinoDatePickerMode
+                                                              .date,
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 15),
-                                                  Expanded(
-                                                    child: SizedBox(
-                                                      height: 50,
-                                                      child: ElevatedButton(
-                                                          style: ElevatedButton.styleFrom(
-                                                              elevation: 0.0,
-                                                              shadowColor: Colors
-                                                                  .transparent,
-                                                              shape: RoundedRectangleBorder(
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10.0),
+                                                    child: Row(children: [
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          height: 50,
+                                                          child: OutlinedButton(
+                                                              style:
+                                                                  OutlinedButton
+                                                                      .styleFrom(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                side: BorderSide(
+                                                                    color:
+                                                                        mainColor,
+                                                                    width: 1),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
+                                                                              10.0),
+                                                                ),
+                                                              ),
+                                                              child: Text('HỦY',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          17,
+                                                                      color:
+                                                                          mainColor)),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          height: 50,
+                                                          child: ElevatedButton(
+                                                              style: ElevatedButton.styleFrom(
+                                                                  elevation:
+                                                                      0.0,
+                                                                  shadowColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
                                                                               10)),
-                                                              backgroundColor:
-                                                                  mainColor),
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                            onLeaveBloc.add(
-                                                                ChooseToDateEvent(
-                                                                    toDate:
-                                                                        toDateChange));
-                                                          },
-                                                          child: const Text(
-                                                            "XONG",
-                                                            style: TextStyle(
-                                                                fontSize: 17),
-                                                          )),
-                                                    ),
+                                                                  backgroundColor:
+                                                                      mainColor),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                                onLeaveBloc.add(
+                                                                    ChooseToDateEvent(
+                                                                        toDate:
+                                                                            toDateChange));
+                                                              },
+                                                              child: const Text(
+                                                                "XONG",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        17,
+                                                                    color: Colors
+                                                                        .white),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                    ]),
                                                   ),
-                                                ]),
-                                              ),
-                                            ],
-                                          ));
+                                                ],
+                                              ));
                                         });
                                   },
                                   child: Container(

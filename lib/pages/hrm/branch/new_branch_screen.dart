@@ -1,6 +1,7 @@
 import 'package:erp/config/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/quickalert.dart';
 import '../../../model/hrm_model/company_model.dart';
 import '../../../model/hrm_model/employee_model.dart';
 import '../../../model/login_model.dart';
@@ -52,11 +53,17 @@ class _NewBranchScreenState extends State<NewBranchScreen> {
                 return;
               }
               BlocProvider.of<BranchBloc>(context).add(AddBranchEvent(
+                  id: -1,
                   areaID: regionModel!.id,
                   site: UserModel.siteName,
                   name: branchController.text,
                   description: noteController.text));
-              // Navigator.pop(context);
+              Navigator.pop(context);
+              QuickAlert.show(
+                context: context,
+                type: QuickAlertType.success,
+                text: 'Create branch success',
+              );
             },
           )
         ],

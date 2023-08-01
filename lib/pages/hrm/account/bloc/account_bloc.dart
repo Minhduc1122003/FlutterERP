@@ -9,16 +9,13 @@ part 'account_state.dart';
 
 class AccountBloc extends Bloc<InitialAccountEvent, AccountState> {
   AccountBloc() : super(AccountInitial()) {
-    // on<AccountEvent>((event, emit) {
-    //   // TODO: implement event handler
-    // });
     on<InitialAccountEvent>((event, emit) async {
       emit(AccountInfoLoadState());
       EmployeeModel employeeModel = await ApiProvider()
           .getInfoEmployee(UserModel.id, User.site, User.token);
       if (employeeModel != null) {
-        print('-----');
-        print(employeeModel.id);
+        print(1);
+        print(employeeModel);
         emit(AccountInfoState(infoEmployee: employeeModel));
       }
     });

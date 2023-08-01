@@ -1,3 +1,6 @@
+import 'package:erp/model/login_model.dart';
+import 'package:erp/pages/login/login_page.dart';
+import 'package:erp/pages/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/entypo_icons.dart';
 import '../../../config/color.dart';
@@ -32,29 +35,34 @@ class AccountScreen extends StatelessWidget {
             children: [
               _buildAppbar(context),
               const SizedBox(height: 10),
-              buildInfor('trung nguyen', 'Quản lý', '+84888888888'),
+              buildInfor('Quản lý', '+84888888888'),
             ],
           ),
         ),
         const SizedBox(height: 15),
-        // buildAdvertisement(),
-        //const SizedBox(height: 15),
         _buildActionItem(
-            context, 1, Icons.settings, mainColor, 'Thiết lập quản lý'),
+            context, 1, Icons.settings, mainColor, 'Thiết lập quản lý', true),
+        _buildActionItem(context, 2, Icons.signal_cellular_alt_sharp, mainColor,
+            'Báo cáo', true),
         _buildActionItem(
-            context, 2, Icons.signal_cellular_alt_sharp, mainColor, 'Báo cáo'),
+            context, 3, Icons.date_range, mainColor, 'Quản lý phép', true),
+        _buildActionItem(context, 4, Icons.description_rounded, mainColor,
+            'Phiếu lương', true),
         _buildActionItem(
-            context, 3, Icons.date_range, mainColor, 'Quản lý phép'),
-        _buildActionItem(
-            context, 4, Icons.description_rounded, mainColor, 'Phiếu lương'),
-        _buildActionItem(context, 5, Entypo.trophy, mainColor, 'Quản lý KPI'),
+            context, 5, Entypo.trophy, mainColor, 'Quản lý KPI', true),
         const SizedBox(height: 15),
         buildLanguage(),
-        _buildActionItem(
-            context, 6, Icons.notifications, Colors.blue, 'Cài đặt cảnh báo '),
+        _buildActionItem(context, 6, Icons.notifications, Colors.blue,
+            'Cài đặt cảnh báo ', true),
         _buildActionItem(context, 7, Icons.business_center_outlined,
-            Colors.blue, 'Đổi doanh nghiệp'),
-
+            Colors.blue, 'Đổi doanh nghiệp', true),
+        _buildActionItem(context, 8, Icons.account_circle, Colors.blue,
+            'Quản lý tài khoản', true),
+        const SizedBox(height: 15),
+        _buildActionItem(context, 9, Icons.info,
+            const Color.fromARGB(255, 223, 69, 58), 'Thông tin ứng dụng', true),
+        _buildActionItem(context, 10, Icons.refresh,
+            const Color.fromARGB(255, 234, 73, 61), 'Làm mới ứng dụng', false),
         const SizedBox(height: 30),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -70,7 +78,8 @@ class AccountScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                //Get.back();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
               },
               child: const Text('Đăng xuất',
                   style: TextStyle(color: Colors.red, fontSize: 22)),
@@ -100,14 +109,16 @@ Widget _buildAppbar(BuildContext context) {
         InkWell(
             child: const Text('Sửa',
                 style: TextStyle(fontSize: 18, color: blueBlack)),
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const EditAccountScreen()))),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const EditAccountScreen()))),
       ],
     ),
   );
 }
 
-Widget buildInfor(String name, String position, String phone) {
+Widget buildInfor(String position, String phone) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
@@ -118,19 +129,18 @@ Widget buildInfor(String name, String position, String phone) {
             color: backgroundColor, borderRadius: BorderRadius.circular(25)),
         child: Center(
             child: Text(
-          acronymName(name),
+          acronymName(User.name),
           style: const TextStyle(fontSize: 40, color: Colors.white),
         )),
       ),
       const SizedBox(height: 10),
-      Text(name, style: const TextStyle(fontSize: 17, color: blueBlack)),
+      Text(User.name, style: const TextStyle(fontSize: 17, color: blueBlack)),
       const SizedBox(height: 10),
       Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(position, style: const TextStyle(color: backgroundColor)),
           const SizedBox(width: 10),
-          //const Text('.',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),),
           Text(phone, style: const TextStyle(color: backgroundColor)),
         ],
       )
@@ -178,28 +188,34 @@ Widget buildAdvertisement() {
   );
 }
 
-Widget _buildActionItem(
-    BuildContext context, int id, IconData icon, Color color, String name) {
+Widget _buildActionItem(BuildContext context, int id, IconData icon,
+    Color color, String name, bool isNotMore) {
   return InkWell(
     onTap: () {
       if (id == 1) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ManagementSettingScreen()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ManagementSettingScreen()));
       } else if (id == 2) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const ReportScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ReportScreen()));
       } else if (id == 3) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const OnLeaveScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const OnLeaveScreen()));
       } else if (id == 4) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const SalaryCaculateScreen()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => const SalaryCaculateScreen()));
       } else if (id == 5) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const KPIScreen()));
-      } else if (id == 6) {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const WarningSettingScreen()));
+            MaterialPageRoute(builder: (context) => const KPIScreen()));
+      } else if (id == 6) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const WarningSettingScreen()));
       }
     },
     child: Container(
@@ -221,15 +237,17 @@ Widget _buildActionItem(
             style: const TextStyle(fontSize: 17),
           ),
           const Expanded(child: SizedBox.shrink()),
-          const SizedBox(
-            height: 40,
-            width: 40,
-            child: Icon(
-              Icons.arrow_forward_ios_outlined,
-              size: 18,
-              color: Colors.grey,
-            ),
-          )
+          isNotMore
+              ? const SizedBox(
+                  height: 40,
+                  width: 40,
+                  child: Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    size: 18,
+                    color: Colors.grey,
+                  ),
+                )
+              : const SizedBox(width: 15),
         ],
       ),
     ),
@@ -251,16 +269,20 @@ Widget buildLanguage() {
           color: Colors.blue,
         ),
         SizedBox(width: 15),
-        Text('Ngôn ngữ'),
+        Text('Ngôn ngữ', style: TextStyle(fontSize: 17)),
         Expanded(child: SizedBox.shrink()),
         Text(
           'Tiếng việt',
           style: TextStyle(color: Colors.grey),
         ),
-        Icon(
-          Icons.arrow_forward_ios_outlined,
-          size: 18,
-          color: Colors.grey,
+        SizedBox(
+          height: 40,
+          width: 40,
+          child: Icon(
+            Icons.arrow_forward_ios_outlined,
+            size: 18,
+            color: Colors.grey,
+          ),
         )
       ],
     ),

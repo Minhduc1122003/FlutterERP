@@ -23,15 +23,16 @@ class AssignScreen extends StatelessWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(50.0))),
           elevation: 0,
           heroTag: "btn",
           backgroundColor: mainColor,
           onPressed: () {
-            // BottomDialog().showBottomDialog(context);
             showModalBottomSheet(
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
+                  top: Radius.circular(10),
                 ),
               ),
               clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -43,7 +44,7 @@ class AssignScreen extends StatelessWidget {
               },
             );
           },
-          child: const Icon(Icons.add, size: 25),
+          child: const Icon(Icons.add, size: 30, color: Colors.white),
         ));
   }
 }
@@ -255,7 +256,6 @@ Widget buildModalBottom(BuildContext context) {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          //const SizedBox(height: 10),
           Container(
             height: 2,
             width: 50,
@@ -273,28 +273,28 @@ Widget buildModalBottom(BuildContext context) {
                   style: TextStyle(color: Colors.grey[600], fontSize: 17)),
               const Expanded(child: SizedBox.shrink()),
               Text('Tạo', style: TextStyle(color: mainColor, fontSize: 17)),
+              const SizedBox(width: 5),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           Container(
-            height: 40,
+            height: 50,
             width: double.infinity,
             padding: const EdgeInsets.only(left: 5),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: backgroundColor.withOpacity(0.3),
               borderRadius: BorderRadius.circular(5),
-              border: Border.all(width: 1, color: Colors.grey[400]!),
             ),
             child: TextFormField(
               autofocus: false,
               decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Tên công việc',
-                hintStyle: TextStyle(color: Colors.grey[400]!),
-              ),
+                  border: InputBorder.none,
+                  hintText: 'Tên công việc',
+                  hintStyle: TextStyle(color: Colors.grey[400]!),
+                  contentPadding: EdgeInsets.only(left: 5)),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Row(
             children: [
               Container(
@@ -338,10 +338,10 @@ Widget buildModalBottom(BuildContext context) {
             child: TextFormField(
                 autofocus: false,
                 decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Mô tả',
-                  hintStyle: TextStyle(color: Colors.grey[400]!),
-                ),
+                    border: InputBorder.none,
+                    hintText: 'Mô tả',
+                    hintStyle: TextStyle(color: Colors.grey[400]!),
+                    contentPadding: EdgeInsets.only(left: 5)),
                 keyboardType: TextInputType.multiline),
           ),
         ],
