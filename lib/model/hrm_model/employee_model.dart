@@ -42,6 +42,8 @@ class EmployeeModel {
     this.organization,
     this.organizationTitle,
   });
+
+  // Định dạng ngày sinh theo chuẩn dd/MM/yyyy
   String get formattedBirthDay {
     if (birthDay != null) {
       return DateFormat('dd/MM/yyyy').format(birthDay!);
@@ -56,7 +58,7 @@ class EmployeeModel {
       'code': code,
       'attendCode': attendCode,
       'fullName': fullName,
-      'birthDay': birthDay,
+      'birthDay': birthDay != null ? birthDay!.toIso8601String() : null,
       'phone': phone,
       'address': address,
       'position': positionID,
@@ -71,28 +73,24 @@ class EmployeeModel {
     }
 
     return EmployeeModel(
-      id: map['id'] != null ? map['id'] as dynamic : null,
-      gender: map['gender'] != null ? map['gender'] as dynamic : null,
-      code: map['code'] != null ? map['code'] as dynamic : null,
-      attendCode:
-          map['attendCode'] != null ? map['attendCode'] as dynamic : null,
-      fullName: map['fullName'] != null ? map['fullName'] as dynamic : null,
-      birthDay:
-          map['birthday'] != null ? DateTime.parse(map['birthday']) : null,
-      phone: map['phonePri'] != null ? map['phonePri'] as dynamic : null,
-      address: address.isNotEmpty ? address : null, // Gán địa chỉ
-      cityPri: map['cityPri'] != null ? map['cityPri'] as dynamic : null,
-      districtPri:
-          map['districtPri'] != null ? map['districtPri'] as dynamic : null,
-      streetPri: map['streetPri'] != null ? map['streetPri'] as dynamic : null,
-      positionID: map['position'] != null ? map['position'] as dynamic : null,
-      positionName:
-          map['positionName'] != null ? map['positionName'] as dynamic : null,
-      organization:
-          map['organization'] != null ? map['organization'] as dynamic : null,
-      organizationTitle: map['organizationTitle'] != null
-          ? map['organizationTitle'] as dynamic
+      id: map['id'],
+      gender: map['gender'],
+      code: map['code'],
+      attendCode: map['attendCode'],
+      fullName: map['fullName'],
+      // Chuyển đổi từ định dạng ISO 8601 và xử lý múi giờ
+      birthDay: map['birthday'] != null
+          ? DateTime.parse(map['birthday']).toLocal()
           : null,
+      phone: map['phonePri'],
+      address: address.isNotEmpty ? address : null,
+      cityPri: map['cityPri'],
+      districtPri: map['districtPri'],
+      streetPri: map['streetPri'],
+      positionID: map['position'],
+      positionName: map['positionName'],
+      organization: map['organization'],
+      organizationTitle: map['organizationTitle'],
     );
   }
 

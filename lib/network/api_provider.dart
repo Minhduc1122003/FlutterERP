@@ -137,6 +137,7 @@ class ApiProvider {
   Future<Map<String, dynamic>?> getInfoMobile(
       int id, String siteID, String token) async {
     response = await getConnect('$getInfoMobileAPI$id/$siteID', token);
+    print(response.body);
     if (response.statusCode == statusOk) {
       try {
         dynamic responseBody = json.decode(response.body);

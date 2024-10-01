@@ -1,8 +1,10 @@
+// Bloc Code
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:erp/model/hrm_model/employee_model.dart';
 import 'package:erp/model/login_model.dart';
 import 'package:erp/network/api_provider.dart';
+import 'package:intl/intl.dart';
 
 part 'account_event.dart';
 part 'account_state.dart';
@@ -19,6 +21,9 @@ class AccountBloc extends Bloc<InitialAccountEvent, AccountState> {
             .getInfoMobile(UserModel.id, User.site, User.token);
 
         employeeModel.organizationTitle = infoMobile?['organization'];
+
+        print('${employeeModel.birthDay}');
+
         employeeModel.positionName = infoMobile?['position'];
 
         emit(AccountInfoState(infoEmployee: employeeModel));
