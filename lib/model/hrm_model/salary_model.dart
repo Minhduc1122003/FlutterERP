@@ -91,53 +91,69 @@ class SalaryCaculateModel {
     required this.luongThucLinh,
     required this.luongThucLinhLamTron,
   });
+
   SalaryCaculateModel.fromJson(Map<String, dynamic> json)
-      : luongCoBan = json['LƯƠNG CƠ BẢN - LCB'] ?? '',
-        ngayCongChuan = json['NGÀY CÔNG CHUẨN - NCC'] ?? '',
+      : luongCoBan = convertNumber(json['LƯƠNG CƠ BẢN - LCB'] ?? ''),
+        ngayCongChuan = convertNumber(json['NGÀY CÔNG CHUẨN - NCC'] ?? ''),
         ngayCongLamViecThucTe =
-            json['NGÀY CÔNG LÀM VIỆC THỰC TẾ - NCLVTT'] ?? '',
-        ngayLe = json['NGÀY LỄ - NPL'] ?? '',
-        ngayCuoi = json['NGÀY CƯỚI - NPC'] ?? '',
-        ngayNghiTang = json['NGÀY NGHỈ TANG - NNPT'] ?? '',
-        ngayNghiPhepNam = json['PHÉP NĂM - PN'] ?? '',
-        ngayLeCheDo = json['NC LUẬT ĐỊNH(LỄ+CƯỚI+TANG)'] ?? '',
-        tangCaThuong = json['TĂNG CA NGÀY THƯỜNG - TC1'] ?? '',
-        tangCaDem = json['TĂNG CA ĐÊM - TC2'] ?? '',
-        tangCaChuNhat = json['TĂNG CA CHỦ NHẬT - TC4'] ?? '',
-        tangCaNgayle = json['TĂNG CA NGÀY LỄ - TC3'] ?? '',
-        luongTheoNgayCong = json['LƯƠNG THEO NGÀY CÔNG'] ?? '',
-        luongNgoaiGioThuong = json['LƯƠNG NGOÀI GIỜ THƯỜNG'] ?? '',
-        luongNgoaiGioDem = json['LƯƠNG NGOÀI GIỜ ĐÊM'] ?? '',
-        luongNgoaiGioNgayLe = json['LƯƠNG NGOÀI GIỜ LỄ'] ?? '',
-        luongNgoaiGioChuNhat = json['LƯƠNG NGOÀI GIỜ CHỦ NHẬT'] ?? '',
-        luongNgoaiGio = json['LƯƠNG NGOÀI GIỜ'] ?? '',
-        phuCapDocHai = json['PHỤ CẤP ĐỘC HẠI'] ?? '',
-        phuCapNhaO = json['PHỤ CẤP NHÀ Ở'] ?? '',
-        phuCapDiLai = json['PHỤ CẤP ĐI LẠI'] ?? '',
-        phuCapChuyenCan=json['PHỤ CẤP CHUYÊN CẦN'] ?? '',
-        phuCapBocHang=json['PHỤ CẤP BỐC HÀNG']??'',
-        phuCapComTangCa = json['PHỤ CẤP CƠM TĂNG CA'] ?? '',
-        phuCapComTrua = json['PHỤ CẤP CƠM TRƯA'] ?? '',
-        phuCapComChieu = json['PHỤ CẤP CƠM CHIỀU'] ?? '',
-        phuCapCongTacPhi = json['PHỤ CẤP CÔNG TÁC PHÍ'] ?? '',
-        phuCapNhamPu = json['PHỤ CẤP NHÁM PU'] ?? '',
-        phuCapDungMay = json['PHỤ CẤP ĐỨNG MÁY'] ?? '',
-        phuCapHoTroKhac = json['PHỤ CẤP HỖ TRỢ KHÁC'] ?? '',
-        tongPhuCap = json['TỔNG PHỤ CẤP'] ?? '',
-        tongThuNhap = json['TỔNG THU NHẬP'] ?? '',
-        baoHiem = json['BHYT-BHXH-BHTN - BH'] ?? '',
-        congDoan = json['CÔNG ĐOÀN CHO NGƯỜI LAO ĐỘNG - CDNLD'] ?? '',
-        nguoiPhuThuoc = json['NGƯỜI PHỤ THUỘC'] ?? '',
-        thuNhapChiuThue = json['THU NHẬP CHỊU THUẾ'] ?? '',
-        thuNhapTrucTiep = json['THU NHẬP TRỰC TIẾP'] ?? '',
-        thueThuNhapCaNhan = json['THUẾ THU NHẬP CÁ NHÂN'] ?? '',
-        tamUng = json['TẠM ỨNG '] ?? '',
-        khauTruKhac = json['TỔNG KHẤU TRỪ KHÁC - TKTK'] ?? '',
-        dongPhuc = json['ĐỒNG PHỤC'] ?? '',
-        theBHYT = json['THẺ BHYT'] ?? '',
-        tongKhauTru = json['TỔNG KHẤU TRỪ - TKT'] ?? '',
-        luongThucLinh = json['LƯƠNG THỰC LĨNH'] ?? '',
-        luongThucLinhLamTron = json['LƯƠNG THỰC LĨNH (LÀM TRÒN)'] ?? ''
-  //
-  ;
+            convertNumber(json['NGÀY CÔNG LÀM VIỆC THỰC TẾ - NCLVTT'] ?? ''),
+        ngayLe = convertNumber(json['NGÀY LỄ - NPL'] ?? ''),
+        ngayCuoi = convertNumber(json['NGÀY CƯỚI - NPC'] ?? ''),
+        ngayNghiTang = convertNumber(json['NGÀY NGHỈ TANG - NNPT'] ?? ''),
+        ngayNghiPhepNam = convertNumber(json['PHÉP NĂM - PN'] ?? ''),
+        ngayLeCheDo = convertNumber(json['NC LUẬT ĐỊNH(LỄ+CƯỚI+TANG)'] ?? ''),
+        tangCaThuong = convertNumber(json['TĂNG CA NGÀY THƯỜNG - TC1'] ?? ''),
+        tangCaDem = convertNumber(json['TĂNG CA ĐÊM - TC2'] ?? ''),
+        tangCaChuNhat = convertNumber(json['TĂNG CA CHỦ NHẬT - TC4'] ?? ''),
+        tangCaNgayle = convertNumber(json['TĂNG CA NGÀY LỄ - TC3'] ?? ''),
+        luongTheoNgayCong = convertNumber(json['LƯƠNG THEO NGÀY CÔNG'] ?? ''),
+        luongNgoaiGioThuong =
+            convertNumber(json['LƯƠNG NGOÀI GIỜ THƯỜNG'] ?? ''),
+        luongNgoaiGioDem = convertNumber(json['LƯƠNG NGOÀI GIỜ ĐÊM'] ?? ''),
+        luongNgoaiGioNgayLe = convertNumber(json['LƯƠNG NGOÀI GIỜ LỄ'] ?? ''),
+        luongNgoaiGioChuNhat =
+            convertNumber(json['LƯƠNG NGOÀI GIỜ CHỦ NHẬT'] ?? ''),
+        luongNgoaiGio = convertNumber(json['LƯƠNG NGOÀI GIỜ'] ?? ''),
+        phuCapDocHai = convertNumber(json['PHỤ CẤP ĐỘC HẠI'] ?? ''),
+        phuCapNhaO = convertNumber(json['PHỤ CẤP NHÀ Ở'] ?? ''),
+        phuCapDiLai = convertNumber(json['PHỤ CẤP ĐI LẠI'] ?? ''),
+        phuCapChuyenCan = convertNumber(json['PHỤ CẤP CHUYÊN CẦN'] ?? ''),
+        phuCapBocHang = convertNumber(json['PHỤ CẤP BỐC HÀNG'] ?? ''),
+        phuCapComTangCa = convertNumber(json['PHỤ CẤP CƠM TĂNG CA'] ?? ''),
+        phuCapComTrua = convertNumber(json['PHỤ CẤP CƠM TRƯA'] ?? ''),
+        phuCapComChieu = convertNumber(json['PHỤ CẤP CƠM CHIỀU'] ?? ''),
+        phuCapCongTacPhi = convertNumber(json['PHỤ CẤP CÔNG TÁC PHÍ'] ?? ''),
+        phuCapNhamPu = convertNumber(json['PHỤ CẤP NHÁM PU'] ?? ''),
+        phuCapDungMay = convertNumber(json['PHỤ CẤP ĐỨNG MÁY'] ?? ''),
+        phuCapHoTroKhac = convertNumber(json['PHỤ CẤP HỖ TRỢ KHÁC'] ?? ''),
+        tongPhuCap = convertNumber(json['TỔNG PHỤ CẤP'] ?? ''),
+        tongThuNhap = convertNumber(json['TỔNG THU NHẬP'] ?? ''),
+        baoHiem = convertNumber(json['BHYT-BHXH-BHTN - BH'] ?? ''),
+        congDoan =
+            convertNumber(json['CÔNG ĐOÀN CHO NGƯỜI LAO ĐỘNG - CDNLD'] ?? ''),
+        nguoiPhuThuoc = convertNumber(json['NGƯỜI PHỤ THUỘC'] ?? ''),
+        thuNhapChiuThue = convertNumber(json['THU NHẬP CHỊU THUẾ'] ?? ''),
+        thuNhapTrucTiep = convertNumber(json['THU NHẬP TRỰC TIẾP'] ?? ''),
+        thueThuNhapCaNhan = convertNumber(json['THUẾ THU NHẬP CÁ NHÂN'] ?? ''),
+        tamUng = convertNumber(json['TẠM ỨNG '] ?? ''),
+        khauTruKhac = convertNumber(json['TỔNG KHẤU TRỪ KHÁC - TKTK'] ?? ''),
+        dongPhuc = convertNumber(json['ĐỒNG PHỤC'] ?? ''),
+        theBHYT = convertNumber(json['THẺ BHYT'] ?? ''),
+        tongKhauTru = convertNumber(json['TỔNG KHẤU TRỪ - TKT'] ?? ''),
+        luongThucLinh = convertNumber(json['LƯƠNG THỰC LĨNH'] ?? ''),
+        luongThucLinhLamTron =
+            convertNumber(json['LƯƠNG THỰC LĨNH (LÀM TRÒN)'] ?? '');
+}
+
+String convertNumber(String numberStr) {
+  String sanitized = numberStr.replaceAll(RegExp(r'[^\d.]'), '');
+  if (sanitized.isEmpty || sanitized == '.') {
+    return '0.0';
+  }
+  try {
+    double number = double.parse(sanitized);
+    return number.toString();
+  } catch (e) {
+    return '0.0';
+  }
 }

@@ -39,67 +39,73 @@ class _RequestManagementScreenState extends State<RequestManagementScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Text(
-            'Quản lý yêu cầu',
-            style: TextStyle(color: blueBlack),
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: const Text(
+              'Quản lý yêu cầu',
+              style: TextStyle(color: blueBlack),
+            ),
+            iconTheme: const IconThemeData(color: blueBlack),
+            elevation: 0,
+            actions: [
+              InkWell(
+                  child: Container(
+                      margin: const EdgeInsets.all(5),
+                      child: const Icon(Icons.tune)),
+                  // onTap: () => Get.to(() => const FilterRequestScreen()),
+                  onTap: () {}),
+            ],
           ),
-          iconTheme: const IconThemeData(color: blueBlack),
-          elevation: 0,
-          actions: [
-            InkWell(
-                child: Container(
-                    margin: const EdgeInsets.all(5),
-                    child: const Icon(Icons.tune)),
-                // onTap: () => Get.to(() => const FilterRequestScreen()),
-                onTap: () {}),
-            InkWell(
-                child: Container(
-                    margin: const EdgeInsets.all(5),
-                    child: const Icon(Icons.add)),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ChooseRequestScreen()));
-                }),
-          ],
-        ),
-        body: BlocBuilder<RequestManagementBloc, RequestManagementState>(
-          builder: (context, state) {
-            if (state is RequestManagementLoaded) {
-              return Column(
-                children: [
-                  // _buildFromDayToDay(
-                  //   context,
-                  //   controller.startDate.value,
-                  //   controller.endDate.value,
-                  //   (PickerDateRange pickerDateRange) =>
-                  //       controller.setDateRange(pickerDateRange),
-                  // ),
-                  const SizedBox(height: 10),
-                  _buildTabBar(
-                      state.listRequestNew.length,
-                      state.listRequestApprove.length,
-                      state.listRequestReject.length),
-                  _buildTabarView(state.listRequestNew,
-                      state.listRequestApprove, state.listRequestReject, false)
-                ],
-              );
-            } else {
-              return Column(
-                children: [
-                  const SizedBox(height: 10),
-                  _buildTabBar(0, 0, 0),
-                  _buildTabarView([], [], [], true)
-                ],
-              );
-            }
-          },
-        ),
-      ),
+          body: BlocBuilder<RequestManagementBloc, RequestManagementState>(
+            builder: (context, state) {
+              if (state is RequestManagementLoaded) {
+                return Column(
+                  children: [
+                    // _buildFromDayToDay(
+                    //   context,
+                    //   controller.startDate.value,
+                    //   controller.endDate.value,
+                    //   (PickerDateRange pickerDateRange) =>
+                    //       controller.setDateRange(pickerDateRange),
+                    // ),
+                    const SizedBox(height: 10),
+                    _buildTabBar(
+                        state.listRequestNew.length,
+                        state.listRequestApprove.length,
+                        state.listRequestReject.length),
+                    _buildTabarView(
+                        state.listRequestNew,
+                        state.listRequestApprove,
+                        state.listRequestReject,
+                        false)
+                  ],
+                );
+              } else {
+                return Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    _buildTabBar(0, 0, 0),
+                    _buildTabarView([], [], [], true)
+                  ],
+                );
+              }
+            },
+          ),
+          floatingActionButton: FloatingActionButton(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(50.0))),
+            elevation: 0,
+            heroTag: "btn",
+            backgroundColor: mainColor,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ChooseRequestScreen()));
+            },
+            child: const Icon(Icons.add, size: 30, color: Colors.white),
+          )),
     );
   }
 }
@@ -163,7 +169,7 @@ Widget _buildTabBar(
   int listRejectLength,
 ) {
   return SizedBox(
-    height: 30,
+    height: 50,
     child: TabBar(
         labelColor: mainColor,
         indicatorColor: mainColor,
@@ -624,7 +630,7 @@ Widget _buildAdvanceRequestItem(AdvanceRequestModel model) {
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
                     Text(
-                        '${DateFormat('dd/MM/yyyy').format(model.effectFrom)} - ${DateFormat('dd/MM/yyyy').format(model.effectTo)}'
+                        '${model.effectFrom != null ? DateFormat('dd/MM/yyyy').format(model.effectFrom!) : 'N/A'} - ${model.effectTo != null ? DateFormat('dd/MM/yyyy').format(model.effectTo!) : 'N/A'}'
                             .replaceAll("", "\u{200B}"),
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: blueBlack, fontSize: 13)),
@@ -652,7 +658,7 @@ Widget _buildAdvanceRequestItem(AdvanceRequestModel model) {
                         style: TextStyle(
                             color: blueBlack.withOpacity(0.7), fontSize: 12)),
                     const SizedBox(height: 5),
-                    Text(model.description,
+                    Text(model.description ?? 'No description available',
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: blueBlack, fontSize: 13)),
                   ],

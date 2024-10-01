@@ -87,10 +87,16 @@ class LoginScreenState extends State<LoginScreen> {
               showProgressDialog(context);
             } else if (state is LoginSuccess) {
               Navigator.pop(context);
-              User.name = state.loginData.profile['name'];
-              User.no_ = state.loginData.profile['userName'];
-              User.site = state.loginData.profile['site'];
-              User.token = state.loginData.accessToken;
+              // User.name = state.loginData.profile['name'];
+              // User.no_ = state.loginData.profile['userName'];
+              // User.site = state.loginData.profile['site'];
+              // User.token = state.loginData.accessToken;
+
+              // User.name = state.loginData.name!;
+              // User.no_ = state.loginData.no_!;
+              // User.site = state.loginData.site ?? 'REEME';
+              // User.token = state.loginData.jwTtoken!;
+
               saveUser();
               Navigator.push(
                 context,
@@ -186,8 +192,7 @@ class LoginScreenState extends State<LoginScreen> {
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: GestureDetector(
-                                  onTap: () {
-                                  },
+                                  onTap: () {},
                                   child: const Text(
                                     'Forgot Password?',
                                     style: TextStyle(fontSize: 13),
@@ -239,7 +244,7 @@ class LoginScreenState extends State<LoginScreen> {
                                           passwordController.text);
                                       String no_ = list1[0];
                                       loginBloc.add(
-                                          Login(no_, password, User.site, ''));
+                                          Login(no_, passwordController.text, User.site, ''));
                                     },
                                     child: const Padding(
                                       padding:
@@ -262,8 +267,7 @@ class LoginScreenState extends State<LoginScreen> {
                         children: <Widget>[
                           const Text('New User? '),
                           GestureDetector(
-                            onTap: () {
-                            },
+                            onTap: () {},
                             child: Text(
                               'Sign Up',
                               style: TextStyle(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:erp/config/mythemes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../model/hrm_model/employee_model.dart';
 import '../../model/login_model.dart';
-import '../../network/api_provider.dart';
 import '../../widget/dialog.dart';
 import '../hrm/main_hrm_screen.dart';
 import 'bloc/login_bloc.dart';
@@ -17,6 +18,7 @@ import 'widget/divider_widget.dart';
 import 'widget/edit_text_widger.dart';
 import 'widget/login_button_widget.dart';
 import 'widget/title_widget.dart';
+import 'package:crypto/crypto.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -39,7 +41,8 @@ class LoginPageState extends State<LoginPage> {
   void initState() {
     loginBloc = BlocProvider.of<LoginBloc>(context);
     getUser();
-    passwordController.text = 'chi@2023';
+
+    passwordController.text = '111';
     super.initState();
   }
 
@@ -53,7 +56,7 @@ class LoginPageState extends State<LoginPage> {
       SharedPreferencesAndroid.registerWith();
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    emailController.text = prefs.getString('user') ?? '';
+    emailController.text = prefs.getString('user') ?? 'admin@REEME.com';
   }
 
   saveUser() async {
@@ -83,13 +86,34 @@ class LoginPageState extends State<LoginPage> {
               showProgressDialog(context);
             } else if (state is LoginSuccess) {
               Navigator.pop(context);
-              User.name = state.loginData.profile['name'];
-              User.no_ = state.loginData.profile['userName'];
-              User.site = state.loginData.profile['site'];
+
+              User.name =
+                  (state.loginData.profile['name'] != null) ? '' : 'Admin';
+              User.name =
+                  (state.loginData.profile['name'] != null) ? '' : 'Admin';
+              User.no_ =
+                  (state.loginData.profile['userName'] != null) ? '' : 'Admin';
+              User.site =
+                  (state.loginData.profile['site'] != null) ? '' : 'REEME';
+              UserModel.siteName =
+                  (state.loginData.profile['site'] != null) ? '' : 'REEME';
+              print('site: ${User.site}');
+              print('token: ${state.loginData.accessToken}');
               User.token = state.loginData.accessToken;
-              UserModel.id =
-                  int.parse(state.loginData.profile['id'].toString());
+              UserModel.id = (state.loginData.profile['id'] != null)
+                  ? int.parse(state.loginData.profile['id'].toString())
+                  : 5;
+
+              // User.name = state.loginData.name!;
+              // User.no_ = state.loginData.no_!;
+              // User.site = state.loginData.site ?? 'REEME';
+              // User.token = state.loginData.jwTtoken!;flu
+              // UserModel.id = (state.loginData.id != null)
+              //     ? int.parse(state.loginData.id.toString())
+              //     : 10088;
+
               saveUser();
+              print('token: ${User.token}');
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const MainHRMScreen()),
@@ -148,8 +172,11 @@ class LoginPageState extends State<LoginPage> {
                                   String password =
                                       convertPassword(passwordController.text);
                                   String no_ = list1[0];
-                                  loginBloc
-                                      .add(Login(no_, password, User.site, ''));
+                                  print('NO: $no_');
+                                  print('password: $password');
+                                  print('Site: ${User.site}');
+                                  loginBloc.add(Login(no_,
+                                      passwordController.text, User.site, ''));
                                 },
                                 child: const LoginButtonWidget(text: 'Login')),
                             Container(
@@ -224,13 +251,13 @@ class LoginPageState extends State<LoginPage> {
   }
 
   String convertPassword(String s) {
-    return s;
-    // String pw = "";
-    // List<int> bytes = utf8.encode(s);
-    // bytes = sha1.convert(bytes).bytes;
-    // for (var item in bytes) {
-    //   pw += item.toString();
-    // }
-    // return pw;
+    // return s;
+    String pw = "";
+    List<int> bytes = utf8.encode(s);
+    bytes = sha1.convert(bytes).bytes;
+    for (var item in bytes) {
+      pw += item.toString();
+    }
+    return pw;
   }
 }

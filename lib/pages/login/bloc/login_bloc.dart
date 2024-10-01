@@ -14,8 +14,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 void _login(Login event, Emitter<LoginState> emit) async {
   emit(LoginWaiting());
 
-  LoginModel? data = await ApiProvider()
-      .login(event.no_, event.password, event.site, event.apiToken);
+  LoginModel? data = await ApiProvider().login(event.no_, event.password, event.site, event.apiToken);
+  print('model: $data');
   if (data != null) {
     emit(LoginSuccess(loginData: data));
   } else {

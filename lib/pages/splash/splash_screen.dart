@@ -70,10 +70,10 @@ class SplashScreenState extends State<SplashScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(child: Text("DPT Solution", style: MyThemes.textIntro)),
-          Center(
-              child:
-                  Text("Giải pháp toàn diện", style: MyThemes.textIntroSmall))
+          Center(child: Text("REEME", style: MyThemes.textIntro)),
+          // Center(
+          //     child:
+          //         Text("Giải pháp toàn diện", style: MyThemes.textIntroSmall))
         ],
       ),
     );

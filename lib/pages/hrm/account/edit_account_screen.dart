@@ -418,7 +418,7 @@ class EditAccountScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
+                          const Row(
                             children: [
                               Text('Phòng ban'),
                             ],
@@ -430,9 +430,22 @@ class EditAccountScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             height: 50,
                             width: double.infinity,
+                            child: Center(
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.zero,
+                                  hintText: 'Địa chỉ',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: InputBorder.none,
+                                ),
+                                initialValue:
+                                    state.infoEmployee.organizationTitle,
+                                inputFormatters: [],
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 10),
-                          Row(
+                          const Row(
                             children: [
                               Text('Chức vụ'),
                             ],
@@ -444,6 +457,18 @@ class EditAccountScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             height: 50,
                             width: double.infinity,
+                            child: Center(
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.zero,
+                                  hintText: 'Chức vụ',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: InputBorder.none,
+                                ),
+                                initialValue: state.infoEmployee.positionName,
+                                inputFormatters: [],
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 10),
                           Row(

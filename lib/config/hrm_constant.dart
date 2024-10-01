@@ -13,10 +13,25 @@ const int statusNotfound = 404;
 const int statusInternalError = 500;
 
 const String errorOccured = 'Error occured, please try again later';
-const String serverURL = 'http://erp.vietgoat.com:853';
 
-const String loginAPI = 'http://erp.vietgoat.com:853/erp/Users/weblogin';
-const String getInfoEmployeeAPI = '$serverURL/hrm/api/employee/allInfo/';
+const String serverURL = 'http://uat-hrm.reecorp.vn';
+const String serverLOCALURL = 'http://localhost:3003';
+// Link api-rms.reetech.vn
+//const String serverURL = 'http://api-rms.reetech.vn/';
+
+String loginAPI = '$serverURL/hrm/api/userv2/login';
+// Link api-rms.reetech.vn
+// const String loginAPI = 'http://api-rms.reetech.vn/api/Users/loginv1';
+
+// mduc edit
+
+const String getInfoEmployeeAPI = '$serverURL/hrm/api/Employee/allInfo/';
+
+const String getInfoMobileAPI = '$serverURL/hrm/api/Employee/infoMobile/';
+
+const String getPositionAPI = '$serverURL/hrm/api/Position/';
+
+// const String getInfoEmployeeAPI = '$serverURL/hrm/api/employee/allInfo/';
 const String getListOnLeaveRequestAPI = '$serverURL/hrm/api/onLeaveFileLine/';
 const String getListTimekeepingOffsetRequestAPI =
     '$serverURL/hrm/api/TimekeepingOffset/getByEmployee/';
@@ -34,7 +49,7 @@ const String sendTimekeepingOffsetRequestAPI =
 const String getAdvanceKindAPI = '$serverURL/hrm/api/ReduceList/GetAll/';
 const String sendAdvanceRequestAPI = '$serverURL/hrm/api/Reduce/SaveAll/0';
 
-const String getListAttendanceAPI = '$serverURL/hrm/api/attendance/ByEmployee/';
+const String getListAttendanceAPI = '$serverURL/hrm/api/attendance/byEmployee/';
 const String getListAttendanceInvalidAPI =
     '$serverURL/hrm/api/attendance/invalid/';
 const String getTimeSheetsAPI = '$serverURL/hrm/api/workOfDayAnalysis/total';
@@ -43,7 +58,7 @@ const String getOffsetAndOnLeaveAPI =
 const String getListSalaryPeriodAPI = '$serverURL/hrm/api/SalaryPeriod/GetAll/';
 
 const String getSalaryCaculateAPI =
-    '$serverURL/hrm/api/salarycaculate/GetSalaryByID/';
+    '$serverURL/hrm/api/SalaryCaculate/GetSalaryByID/';
 const String getRegionAPI = '$serverURL/hrm/api/area/';
 const String postAddRegionAPI = '$serverURL/hrm/api/area';
 

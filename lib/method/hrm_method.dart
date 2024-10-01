@@ -69,6 +69,24 @@ String converNumber(String n, {bool isInt = false}) {
   return NumberFormat.decimalPattern().format(d);
 }
 
+String convertNumber2(String n, {bool isInt = false}) {
+  if (n.isEmpty) return '';
+
+  // Loại bỏ dấu phẩy khỏi chuỗi
+  String sanitized = n.replaceAll(',', '');
+
+  try {
+    double d = double.parse(sanitized);
+    if (isInt) {
+      return NumberFormat.decimalPattern().format(d.toInt());
+    }
+    return NumberFormat.decimalPattern().format(d);
+  } catch (e) {
+    // Xử lý lỗi nếu có lỗi trong việc chuyển đổi
+    return ''; // Trả về chuỗi rỗng hoặc một thông báo lỗi nếu cần
+  }
+}
+
 String sumNumber(String n1, String n2) {
   double d1 = n1.isNotEmpty ? double.parse(n1) : 0.0;
   double d2 = n2.isNotEmpty ? double.parse(n2) : 0.0;

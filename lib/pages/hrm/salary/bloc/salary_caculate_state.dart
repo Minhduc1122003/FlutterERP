@@ -28,7 +28,7 @@ class SalaryCaculateState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [salaryPeriodModel,salaryCaculateModel, status];
+  List<Object?> get props => [salaryPeriodModel, salaryCaculateModel, status];
 }
 
 //class SalaryCaculateInitial extends SalaryCaculateState {}

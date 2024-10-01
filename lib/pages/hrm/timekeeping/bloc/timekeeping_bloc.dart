@@ -19,12 +19,19 @@ class TimekeepingBloc extends Bloc<TimekeepingEvent, TimekeepingState> {
 
     on<ChooseSalaryPeriod>((event, emit) async {
       emit(state.copyWith(status: TimekeepingStatus.loading));
+
       List<AttendanceModel> listAttendanceModel = await _getListAttendance(
           event.salaryPeriod.fromDate, event.salaryPeriod.toDate);
       List<TimeSheetModel> listTimeSheetModel =
           await _getTimeSheets(event.salaryPeriod.id);
       List<SummaryOffsetModel> listSummaryOffsetModel =
           await _getOffsetAndOnLeave(event.salaryPeriod.id);
+
+      // In dữ liệu đã nhận từ server
+      print("Attendance Model: $listAttendanceModel");
+      print("TimeSheet Model: $listTimeSheetModel");
+      print("Summary Offset Model: $listSummaryOffsetModel");
+
       int nOffset = -1;
       int nOnleave = -1;
       if (listSummaryOffsetModel.length == 1) {
@@ -53,6 +60,7 @@ Future<List<AttendanceModel>> _getListAttendance(
     'fromDate': DateFormat('yyyy-MM-dd').format(fromDate),
     'toDate': DateFormat('yyyy-MM-dd').format(toDate)
   };
+  print(data);
   List<AttendanceModel> list = await ApiProvider()
       .getListAttendance(UserModel.siteName, data, User.token);
   return list.reversed.toList();

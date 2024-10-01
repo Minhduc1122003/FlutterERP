@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:erp/model/hrm_model/employee_model.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
@@ -35,6 +36,25 @@ class ApiProvider {
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
+    };
+    final uri = Uri.parse(url);
+    var body = jsonEncode(map);
+    final encoding = Encoding.getByName('utf-8');
+    try {
+      return await post(
+        uri,
+        headers: headers,
+        body: body,
+        encoding: encoding,
+      );
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<Response> postConnectDuc(String url, Map<String, dynamic> map) async {
+    var headers = {
+      'Content-Type': 'application/json',
     };
     final uri = Uri.parse(url);
     var body = jsonEncode(map);
@@ -101,15 +121,39 @@ class ApiProvider {
   }
 
   // GET INFO EMPLOYEE
-  Future<EmployeeModel> getInfoEmployee(
+  Future<Map<String, dynamic>> getInfoEmployee(
       int id, String siteName, String token) async {
-    response = await getConnect('$getInfoEmployeeAPI$id/$siteName', token);
+    response =
+        await getConnect('$getInfoEmployeeAPI$id/$siteName/salary', token);
     if (response.statusCode == statusOk) {
-      List model = json.decode(response.body);
-      var a = model.map((val) => EmployeeModel.fromMap(val)).toList();
-      return a[0];
+      List<dynamic> model = json.decode(response.body);
+      return model[0]; // Trả về phần tử đầu tiên của danh sách dưới dạng Map
     } else {
-      return null!;
+      throw Exception(
+          'Failed to load employee data'); // Ném ngoại lệ khi có lỗi
+    }
+  }
+
+  Future<Map<String, dynamic>?> getInfoMobile(
+      int id, String siteID, String token) async {
+    response = await getConnect('$getInfoMobileAPI$id/$siteID', token);
+    if (response.statusCode == statusOk) {
+      try {
+        dynamic responseBody = json.decode(response.body);
+        if (responseBody is List && responseBody.isNotEmpty) {
+          Map<String, dynamic> model =
+              responseBody.first as Map<String, dynamic>;
+          return model;
+        } else if (responseBody is Map<String, dynamic>) {
+          return responseBody;
+        } else {
+          return null;
+        }
+      } catch (e) {
+        return null;
+      }
+    } else {
+      return null;
     }
   }
 
@@ -129,6 +173,9 @@ class ApiProvider {
       String siteName, int employeeID, int year, String token) async {
     response = await getConnect(
         '$getListOnLeaveRequestAPI$employeeID/$year/$siteName', token);
+    print(response.statusCode);
+    print('OnLeaveRequestModel body: ${response.body}');
+
     if (response.statusCode == statusOk) {
       List responseList = json.decode(response.body);
       return responseList
@@ -143,6 +190,9 @@ class ApiProvider {
       String siteName, int employeeID, String token) async {
     response = await getConnect(
         '$getListTimekeepingOffsetRequestAPI$employeeID/$siteName', token);
+    print(response.statusCode);
+    print('TimekeepingOffsetRequestModelResponse body: ${response.body}');
+
     if (response.statusCode == statusOk) {
       List responseList = json.decode(response.body);
       return responseList
@@ -157,6 +207,9 @@ class ApiProvider {
       String siteName, int employeeID, String token) async {
     response = await getConnect(
         '$getListAdvanceRequestAPI$siteName/$employeeID', token);
+    print(response.statusCode);
+    print('AdvanceRequestModel body: ${response.body}');
+
     if (response.statusCode == statusOk) {
       List responseList = json.decode(response.body);
       return responseList
@@ -280,9 +333,9 @@ class ApiProvider {
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
-      return responseList
-          .map((val) => SalaryPeriodModel.fromJson(val))
-          .toList();
+      List<SalaryPeriodModel> lst =
+          responseList.map((val) => SalaryPeriodModel.fromJson(val)).toList();
+      return lst;
     } else {
       return [];
     }
@@ -316,11 +369,16 @@ class ApiProvider {
 
   Future<List<SalaryCaculateModel>> getSalaryCaculate(
       int employeeId, int periodId, String token) async {
+    print('Data: $employeeId,$periodId,$token');
+
     response =
         await getConnect('$getSalaryCaculateAPI$employeeId/$periodId', token);
+    print('respone code: ${response.statusCode}');
+
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
+
       return responseList
           .map((val) => SalaryCaculateModel.fromJson(val))
           .toList();

@@ -15,12 +15,21 @@ class SalaryCaculateBloc
     on<InitialSalaryCaculateEvent>((event, emit) async {
       List<SalaryPeriodModel> listSalaryPeriodModel = await ApiProvider()
           .getListSalaryPeriod(UserModel.siteName, User.token);
+
       emit(SalaryCaculateState(listSalaryPeriodModel: listSalaryPeriodModel));
     });
+
     on<ChooseSalaryPeriod>((event, emit) async {
       emit(state.copyWith(status: SalaryCaculateStatus.loading));
-      List<SalaryCaculateModel> listSalaryCaculateModel = await ApiProvider()
+
+      // Gọi API và nhận dữ liệu từ server
+      var listSalaryCaculateModel = await ApiProvider()
           .getSalaryCaculate(UserModel.id, event.salaryPeriod.id, User.token);
+
+      for (var listSalaryCaculate in listSalaryCaculateModel) {
+        print("Salary Period: ${listSalaryCaculate.luongThucLinh}");
+      }
+
       if (listSalaryCaculateModel.length == 1) {
         emit(state.copyWith(
             salaryCaculateModel: listSalaryCaculateModel.first,

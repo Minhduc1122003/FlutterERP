@@ -11,12 +11,19 @@ class AccountBloc extends Bloc<InitialAccountEvent, AccountState> {
   AccountBloc() : super(AccountInitial()) {
     on<InitialAccountEvent>((event, emit) async {
       emit(AccountInfoLoadState());
-      EmployeeModel employeeModel = await ApiProvider()
-          .getInfoEmployee(UserModel.id, User.site, User.token);
-      if (employeeModel != null) {
-        print(1);
-        print(employeeModel);
+      try {
+        Map<String, dynamic> employeeData = await ApiProvider()
+            .getInfoEmployee(UserModel.id, User.site, User.token);
+        EmployeeModel employeeModel = EmployeeModel.fromMap(employeeData);
+        Map<String, dynamic>? infoMobile = await ApiProvider()
+            .getInfoMobile(UserModel.id, User.site, User.token);
+
+        employeeModel.organizationTitle = infoMobile?['organization'];
+        employeeModel.positionName = infoMobile?['position'];
+
         emit(AccountInfoState(infoEmployee: employeeModel));
+      } catch (e) {
+        print(e);
       }
     });
   }

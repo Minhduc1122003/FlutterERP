@@ -49,6 +49,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
             builder: (context, state) {
               return InkWell(
                 onTap: () async {
+                  print(state.listSalaryPeriodModel.length);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -123,8 +124,11 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
         Expanded(child: BlocBuilder<SalaryCaculateBloc, SalaryCaculateState>(
             builder: (context, state) {
           if (state.status == SalaryCaculateStatus.loading) {
-            return const Center(child: CircularProgressIndicator(color: mainColor));
+            return const Center(
+                child: CircularProgressIndicator(color: mainColor));
           } else if (state.status == SalaryCaculateStatus.success) {
+            print(state.salaryCaculateModel);
+
             return state.salaryCaculateModel == null
                 ? const SizedBox.shrink()
                 : SingleChildScrollView(
@@ -141,7 +145,7 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                               style: TextStyle(fontSize: 16, color: blueBlack),
                             ),
                             Text(
-                              converNumber(
+                              convertNumber2(
                                   state.salaryCaculateModel!.luongCoBan),
                               style: const TextStyle(
                                   fontSize: 16, color: blueBlack),
@@ -169,14 +173,15 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                       //         .salaryCaculateModel!.ngayCongLamViecThucTe)),
                       _buildSalaryItem(
                           'Ngày công thường',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.ngayCongLamViecThucTe),
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.luongTheoNgayCong,
                               isInt: true)),
                       _buildSalaryItem(
                           'Ngày lễ/chế độ',
-                          converNumber(state.salaryCaculateModel!.ngayLeCheDo),
+                          convertNumber2(
+                              state.salaryCaculateModel!.ngayLeCheDo),
                           ''),
                       // _buildSalaryItem('Ngày lễ',
                       //     converNumber(state.salaryCaculateModel!.ngayLe)),
@@ -188,32 +193,34 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                       //         state.salaryCaculateModel!.ngayNghiTang)),
                       _buildSalaryItem(
                           'Ngày nghỉ phép năm',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.ngayNghiPhepNam),
                           ''),
                       _buildSalaryItem(
                           'Tăng ca ngày thường',
-                          converNumber(state.salaryCaculateModel!.tangCaThuong),
-                          converNumber(
+                          convertNumber2(
+                              state.salaryCaculateModel!.tangCaThuong),
+                          convertNumber2(
                               state.salaryCaculateModel!.luongNgoaiGioThuong,
                               isInt: true)),
                       _buildSalaryItem(
                           'Tăng ca đêm',
-                          converNumber(state.salaryCaculateModel!.tangCaDem),
-                          converNumber(
+                          convertNumber2(state.salaryCaculateModel!.tangCaDem),
+                          convertNumber2(
                               state.salaryCaculateModel!.luongNgoaiGioDem,
                               isInt: true)),
                       _buildSalaryItem(
                           'Tăng ca ngày lễ',
-                          converNumber(state.salaryCaculateModel!.tangCaNgayle),
-                          converNumber(
+                          convertNumber2(
+                              state.salaryCaculateModel!.tangCaNgayle),
+                          convertNumber2(
                               state.salaryCaculateModel!.luongNgoaiGioNgayLe,
                               isInt: true)),
                       _buildSalaryItem(
                           'Tăng ca chủ nhật',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.tangCaChuNhat),
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.luongNgoaiGioChuNhat,
                               isInt: true)),
 
@@ -225,11 +232,11 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-      
                               Text('Tổng lương [1]',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 16, color: Colors.deepOrange[900])),
+                                      fontSize: 16,
+                                      color: Colors.deepOrange[900])),
                               Text(
                                   sumNumber(
                                       state.salaryCaculateModel!
@@ -237,7 +244,8 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                       state.salaryCaculateModel!.luongNgoaiGio),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
-                                      fontSize: 16, color: Colors.deepOrange[900])),
+                                      fontSize: 16,
+                                      color: Colors.deepOrange[900])),
                             ]),
                       ),
                       Container(
@@ -252,48 +260,52 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                       ),
                       _buildAllowanceItem(
                           'Phụ cấp độc hại',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.phuCapDocHai)),
-                      _buildAllowanceItem('Phụ cấp nhà ở',
-                          converNumber(state.salaryCaculateModel!.phuCapNhaO)),
-                      _buildAllowanceItem('Phụ cấp đi lại',
-                          converNumber(state.salaryCaculateModel!.phuCapDiLai)),
+                      _buildAllowanceItem(
+                          'Phụ cấp nhà ở',
+                          convertNumber2(
+                              state.salaryCaculateModel!.phuCapNhaO)),
+                      _buildAllowanceItem(
+                          'Phụ cấp đi lại',
+                          convertNumber2(
+                              state.salaryCaculateModel!.phuCapDiLai)),
                       _buildAllowanceItem(
                           'Phụ cấp cơm tăng ca',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.phuCapComTangCa)),
                       _buildAllowanceItem(
                           'Phụ cấp chuyên cần',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.phuCapChuyenCan)),
                       _buildAllowanceItem(
                           'Phụ cấp bốc hàng',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.phuCapBocHang)),
                       _buildAllowanceItem(
                           'Phụ cấp công tác phí',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.phuCapCongTacPhi)),
 
                       _buildAllowanceItem(
                           'Phụ cấp cơm trưa',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.phuCapComTrua)),
                       _buildAllowanceItem(
                           'Phụ cấp cơm chiều',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.phuCapComChieu)),
                       _buildAllowanceItem(
                           'Phụ cấp nhám pu',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.phuCapNhamPu)),
                       _buildAllowanceItem(
                           'Phụ cấp đứng máy',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.phuCapDungMay)),
                       _buildAllowanceItem(
                           'Phụ cấp hỗ trợ khác',
-                          converNumber(
+                          convertNumber2(
                               state.salaryCaculateModel!.phuCapHoTroKhac)),
                       // _buildAllowanceItem('Thưởng', '-'),
                       // _buildAllowanceItem('Tổng phụ cấp',
@@ -308,13 +320,15 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                               Text('Tổng phụ cấp [2]',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 16, color: Colors.deepOrange[900])),
+                                      fontSize: 16,
+                                      color: Colors.deepOrange[900])),
                               Text(
-                                  converNumber(
+                                  convertNumber2(
                                       state.salaryCaculateModel!.tongPhuCap),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
-                                      fontSize: 16, color: Colors.deepOrange[900])),
+                                      fontSize: 16,
+                                      color: Colors.deepOrange[900])),
                             ]),
                       ),
                       Container(
@@ -331,8 +345,9 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                       fontSize: 16,
                                       color: Colors.indigo[700])),
                               Text(
-                                  converNumber(
-                                      state.salaryCaculateModel!.tongThuNhap,isInt: true),
+                                  convertNumber2(
+                                      state.salaryCaculateModel!.tongThuNhap,
+                                      isInt: true),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.indigo[700])),
@@ -349,19 +364,19 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                         ),
                       ),
                       _buildAllowanceItem('Tạm ứng',
-                          converNumber(state.salaryCaculateModel!.tamUng)),
-                      _buildAllowanceItem(
-                          'Tiền BHXH+BHYT',
-                          converNumber(
-                              state.salaryCaculateModel!.baoHiem)),
+                          convertNumber2(state.salaryCaculateModel!.tamUng)),
+                      _buildAllowanceItem('Tiền BHXH+BHYT',
+                          convertNumber2(state.salaryCaculateModel!.baoHiem)),
                       _buildAllowanceItem(
                           'Thuế TNCN',
-                          converNumber(converNumber(
+                          convertNumber2(convertNumber2(
                               state.salaryCaculateModel!.thueThuNhapCaNhan))),
                       _buildAllowanceItem('Công đoàn',
-                          converNumber(state.salaryCaculateModel!.congDoan)),
-                      _buildAllowanceItem('Khấu trừ khác',
-                          converNumber(state.salaryCaculateModel!.khauTruKhac)),
+                          convertNumber2(state.salaryCaculateModel!.congDoan)),
+                      _buildAllowanceItem(
+                          'Khấu trừ khác',
+                          convertNumber2(
+                              state.salaryCaculateModel!.khauTruKhac)),
                       Container(
                         color: Colors.lightBlue[200],
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -375,7 +390,9 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                       fontStyle: FontStyle.italic,
                                       fontSize: 16,
                                       color: Colors.red[800])),
-                              Text(converNumber( state.salaryCaculateModel!.tongKhauTru),
+                              Text(
+                                  converNumber(
+                                      state.salaryCaculateModel!.tongKhauTru),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.red[800])),
@@ -396,7 +413,8 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                       color: Colors.purple[900])),
                               Text(
                                   converNumber(
-                                      state.salaryCaculateModel!.luongThucLinh,isInt: true),
+                                      state.salaryCaculateModel!.luongThucLinh,
+                                      isInt: true),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 17, color: Colors.purple[900])),
@@ -416,8 +434,10 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                       fontSize: 17,
                                       color: Colors.purple[900])),
                               Text(
-                                  converNumber(state.salaryCaculateModel!
-                                      .luongThucLinhLamTron,isInt: true),
+                                  converNumber(
+                                      state.salaryCaculateModel!
+                                          .luongThucLinhLamTron,
+                                      isInt: true),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 17, color: Colors.purple[900])),

@@ -119,34 +119,41 @@ class OnLeaveRequestModel {
 
 class AdvanceRequestModel {
   final int id;
-  final String code;
+  final String? code; // Chấp nhận null
   final int status;
   final int reduce;
   final int qty;
-  final DateTime effectFrom;
-  final DateTime effectTo;
+  final DateTime? effectFrom; // Chấp nhận null
+  final DateTime? effectTo; // Chấp nhận null
   final DateTime? createDate;
-  final String description;
-  AdvanceRequestModel(
-      {required this.id,
-      required this.code,
-      required this.status,
-      required this.reduce,
-      required this.qty,
-      required this.effectFrom,
-      required this.effectTo,
-      required this.createDate,
-      required this.description});
+  final String? description; // Chấp nhận null
+
+  AdvanceRequestModel({
+    required this.id,
+    this.code,
+    required this.status,
+    required this.reduce,
+    required this.qty,
+    this.effectFrom,
+    this.effectTo,
+    this.createDate,
+    this.description,
+  });
+
   AdvanceRequestModel.fromJson(Map<String, dynamic> json)
-      : id = json['ID'],
-        code = json['Code'],
-        status = json['Status'],
-        reduce = json['Reduce'],
-        qty = json['Qty'],
-        effectFrom = DateTime.parse(json['EffectFrom']).toLocal(),
-        effectTo = DateTime.parse(json['EffectTo']).toLocal(),
+      : id = json['ID'] ?? 0, // Gán giá trị mặc định nếu null
+        code = json['Code'], // Giữ nguyên giá trị null nếu không có
+        status = json['Status'] ?? 0,
+        reduce = json['Reduce'] ?? 0,
+        qty = json['Qty'] ?? 0,
+        effectFrom = json['EffectFrom'] == null
+            ? null
+            : DateTime.parse(json['EffectFrom']).toLocal(),
+        effectTo = json['EffectTo'] == null
+            ? null
+            : DateTime.parse(json['EffectTo']).toLocal(),
         createDate = json['CreateDate'] == null
             ? null
             : DateTime.parse(json['CreateDate']).toLocal(),
-        description = json['Description'] ?? '';
+        description = json['Description']; // Có thể null
 }
