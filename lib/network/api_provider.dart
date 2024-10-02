@@ -139,22 +139,24 @@ class ApiProvider {
     response = await getConnect('$getInfoMobileAPI$id/$siteID', token);
     print(response.body);
     if (response.statusCode == statusOk) {
-      try {
-        dynamic responseBody = json.decode(response.body);
-        if (responseBody is List && responseBody.isNotEmpty) {
-          Map<String, dynamic> model =
-              responseBody.first as Map<String, dynamic>;
-          return model;
-        } else if (responseBody is Map<String, dynamic>) {
-          return responseBody;
-        } else {
-          return null;
-        }
-      } catch (e) {
-        return null;
+      dynamic responseBody = json.decode(response.body);
+      if (responseBody is List && responseBody.isNotEmpty) {
+        Map<String, dynamic> model = responseBody.first as Map<String, dynamic>;
+        return model;
       }
-    } else {
-      return null;
+    }
+    return null;
+  }
+
+  Future<Map<String, dynamic>?> GetInsuranceAreaByIdEmployee(
+      int id, String siteID, String token) async {
+    var postData = {'IdEmployee': id, 'siteID': siteID};
+    response =
+        await postConnect(GetInsuranceAreaByIdEmployeeAPI, postData, token);
+    dynamic responseBody = json.decode(response.body);
+    if (responseBody is List && responseBody.isNotEmpty) {
+      Map<String, dynamic> model = responseBody.first as Map<String, dynamic>;
+      return model;
     }
   }
 
@@ -370,15 +372,14 @@ class ApiProvider {
 
   Future<List<SalaryCaculateModel>> getSalaryCaculate(
       int employeeId, int periodId, String token) async {
-    print('Data: $employeeId,$periodId,$token');
-
     response =
         await getConnect('$getSalaryCaculateAPI$employeeId/$periodId', token);
-    print('respone code: ${response.statusCode}');
+    print("listSalaryCaculateModel: ${response.statusCode}");
 
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
+      print("listSalaryCaculateModel: $responseList");
 
       return responseList
           .map((val) => SalaryCaculateModel.fromJson(val))

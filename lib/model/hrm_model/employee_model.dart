@@ -24,6 +24,7 @@ class EmployeeModel {
   String? positionName;
   int? organization;
   String? organizationTitle;
+  String? insuranceAreaName;
 
   EmployeeModel({
     this.id,
@@ -41,6 +42,7 @@ class EmployeeModel {
     this.positionName,
     this.organization,
     this.organizationTitle,
+    this.insuranceAreaName,
   });
 
   // Định dạng ngày sinh theo chuẩn dd/MM/yyyy
@@ -63,6 +65,7 @@ class EmployeeModel {
       'address': address,
       'position': positionID,
       'organization': organization,
+      'insuranceAreaName': insuranceAreaName,
     };
   }
 
@@ -91,6 +94,7 @@ class EmployeeModel {
       positionName: map['positionName'],
       organization: map['organization'],
       organizationTitle: map['organizationTitle'],
+      insuranceAreaName: map['insuranceAreaName'],
     );
   }
 
@@ -108,6 +112,7 @@ class EmployeeModel {
     String? positionName,
     int? organization,
     String? organizationTitle,
+    String? insuranceAreaName2,
   }) {
     return EmployeeModel(
       id: id ?? this.id,
@@ -121,6 +126,7 @@ class EmployeeModel {
       positionName: positionName ?? this.positionName,
       organization: organization ?? this.organization,
       organizationTitle: organizationTitle ?? this.organizationTitle,
+      insuranceAreaName: insuranceAreaName ?? this.insuranceAreaName,
     );
   }
 }

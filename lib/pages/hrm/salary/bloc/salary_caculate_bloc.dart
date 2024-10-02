@@ -26,10 +26,6 @@ class SalaryCaculateBloc
       var listSalaryCaculateModel = await ApiProvider()
           .getSalaryCaculate(UserModel.id, event.salaryPeriod.id, User.token);
 
-      for (var listSalaryCaculate in listSalaryCaculateModel) {
-        print("Salary Period: ${listSalaryCaculate.luongThucLinh}");
-      }
-
       if (listSalaryCaculateModel.length == 1) {
         emit(state.copyWith(
             salaryCaculateModel: listSalaryCaculateModel.first,

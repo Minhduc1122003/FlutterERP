@@ -481,20 +481,33 @@ class EditAccountScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             height: 50,
                             width: double.infinity,
+                            child: Center(
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.zero,
+                                  hintText: 'Vùng',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: InputBorder.none,
+                                ),
+                                initialValue:
+                                    state.infoEmployee.insuranceAreaName,
+                                inputFormatters: [],
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 10),
-                          Row(
-                            children: [Text('Lương/Giờ công')],
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: backgroundColor.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(5)),
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            height: 50,
-                            width: double.infinity,
-                          ),
-                          const SizedBox(height: 20),
+                          // Row(
+                          //   children: [Text('Lương/Giờ công')],
+                          // ),
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //       color: backgroundColor.withOpacity(0.2),
+                          //       borderRadius: BorderRadius.circular(5)),
+                          //   padding: EdgeInsets.symmetric(horizontal: 10),
+                          //   height: 50,
+                          //   width: double.infinity,
+                          // ),
+                          // const SizedBox(height: 20),
                         ],
                       ),
                     )
