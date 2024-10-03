@@ -22,6 +22,7 @@ class TimekeepingBloc extends Bloc<TimekeepingEvent, TimekeepingState> {
 
       List<AttendanceModel> listAttendanceModel = await _getListAttendance(
           event.salaryPeriod.fromDate, event.salaryPeriod.toDate);
+
       List<TimeSheetModel> listTimeSheetModel =
           await _getTimeSheets(event.salaryPeriod.id);
       List<SummaryOffsetModel> listSummaryOffsetModel =
@@ -60,7 +61,7 @@ Future<List<AttendanceModel>> _getListAttendance(
     'fromDate': DateFormat('yyyy-MM-dd').format(fromDate),
     'toDate': DateFormat('yyyy-MM-dd').format(toDate)
   };
-  print(data);
+  print('data: $data');
   List<AttendanceModel> list = await ApiProvider()
       .getListAttendance(UserModel.siteName, data, User.token);
   return list.reversed.toList();
@@ -86,6 +87,8 @@ Future<List<TimeSheetModel>> _getTimeSheets(int periodId) async {
     'period': periodId,
     'siteID': UserModel.siteName
   };
+  print('data2: $data');
+
   // List<TimeSheetModel> list =
   //     await ApiProvider().getTimeSheets(data, User.token);
   return await ApiProvider().getTimeSheets(data, User.token);

@@ -255,11 +255,14 @@ class ApiProvider {
       "date": formattedDate,
       "siteID": siteName
     };
+    print('postData: $postData');
 
     response = await postConnect(getListShiftModelByUserAPI, postData, token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
+      print(responseList);
+
       List<ShiftModel> lst =
           responseList.map((f) => ShiftModel.fromMap(f)).toList();
       return lst;
@@ -308,9 +311,14 @@ class ApiProvider {
   Future<List<AttendanceModel>> getListAttendance(
       String siteName, Map<String, dynamic> map, String token) async {
     response = await postConnect(getListAttendanceAPI + siteName, map, token);
+
+    print('data: ${response.statusCode}');
+
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
+      print('body: ${response.body}');
+
       return responseList.map((val) => AttendanceModel.fromJson(val)).toList();
     } else {
       return [];
@@ -336,6 +344,7 @@ class ApiProvider {
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
+      print('responseList ${responseList}');
       List<SalaryPeriodModel> lst =
           responseList.map((val) => SalaryPeriodModel.fromJson(val)).toList();
       return lst;

@@ -72,7 +72,6 @@ String converNumber(String n, {bool isInt = false}) {
 String convertNumber2(String n, {bool isInt = false}) {
   if (n.isEmpty) return '';
 
-  // Loại bỏ dấu phẩy khỏi chuỗi
   String sanitized = n.replaceAll(',', '');
 
   try {
@@ -82,8 +81,7 @@ String convertNumber2(String n, {bool isInt = false}) {
     }
     return NumberFormat.decimalPattern().format(d);
   } catch (e) {
-    // Xử lý lỗi nếu có lỗi trong việc chuyển đổi
-    return ''; // Trả về chuỗi rỗng hoặc một thông báo lỗi nếu cần
+    return '';
   }
 }
 

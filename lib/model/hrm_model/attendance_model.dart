@@ -108,8 +108,8 @@ class SummaryOffsetModel {
     required this.code,
   });
   SummaryOffsetModel.fromJson(Map<String, dynamic> json)
-      : name = json['fullName']??'',
-        offset = json['offset']??0,
+      : name = json['fullName'] ?? '',
+        offset = json['offset'] ?? 0,
         onLeave = json['onLeave'] ?? 0,
         code = json['code'] ?? '';
 }
@@ -121,13 +121,15 @@ class SalaryPeriodModel {
   final int termInAMonth;
   final int month;
   final String period;
+  final String salaryName;
   SalaryPeriodModel(
       {required this.fromDate,
       required this.toDate,
       required this.id,
       required this.termInAMonth,
       required this.month,
-      required this.period});
+      required this.period,
+      required this.salaryName});
   SalaryPeriodModel.fromJson(Map<String, dynamic> json)
       : fromDate = json['FromDate'] == null
             ? DateTime.now()
@@ -138,5 +140,6 @@ class SalaryPeriodModel {
         id = json['ID'] ?? 0,
         termInAMonth = json['TermInAMonth'] ?? 0,
         month = json['Month'] ?? 0,
-        period = json['Period'] ?? '';
+        period = json['Period'] ?? '',
+        salaryName = json['SalaryName'] ?? '';
 }

@@ -5,7 +5,6 @@ import '../../../model/hrm_model/attendance_model.dart';
 import '../../../config/color.dart';
 import 'bloc/timekeeping_bloc.dart';
 
-
 class ChooseSalaryPeriodScreen extends StatelessWidget {
   const ChooseSalaryPeriodScreen(
       {Key? key, required this.listSalaryPeriodModel})
@@ -40,8 +39,9 @@ class ChooseSalaryPeriodScreen extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return _buildChooseItem(
                   context, index, listSalaryPeriodModel[index], (int id) {
-                BlocProvider.of<TimekeepingBloc>(context)
-                    .add(ChooseSalaryPeriod(salaryPeriod: listSalaryPeriodModel[id]));
+                BlocProvider.of<TimekeepingBloc>(context).add(
+                    ChooseSalaryPeriod(
+                        salaryPeriod: listSalaryPeriodModel[id]));
               });
             },
             separatorBuilder: (BuildContext context, int index) =>
@@ -51,8 +51,8 @@ class ChooseSalaryPeriodScreen extends StatelessWidget {
   }
 }
 
-Widget _buildChooseItem(
-    BuildContext context, int id, SalaryPeriodModel model, Function(int) selected) {
+Widget _buildChooseItem(BuildContext context, int id, SalaryPeriodModel model,
+    Function(int) selected) {
   return InkWell(
     onTap: () {
       Navigator.pop(context);
@@ -62,10 +62,12 @@ Widget _buildChooseItem(
       height: 50,
       alignment: Alignment.centerLeft,
       child: Text(
-       // model.period,
-        '${DateFormat('dd/MM/yyyy').format(model.fromDate)} - ${DateFormat('dd/MM/yyyy').format(model.toDate)} (Kỳ ${model.termInAMonth})',
+        // model.period,
+        '${model.salaryName}',
+
+        // '${DateFormat('dd/MM/yyyy').format(model.fromDate)} - ${DateFormat('dd/MM/yyyy').format(model.toDate)} (Kỳ ${model.termInAMonth})',
         //capitalize(name),
-       // '${DateFormat('dd/MM/yyyy').format(model.formDate)} - ${DateFormat('dd/MM/yyyy').format(model.toDate)}',
+        // '${DateFormat('dd/MM/yyyy').format(model.formDate)} - ${DateFormat('dd/MM/yyyy').format(model.toDate)}',
         style: const TextStyle(fontSize: 16, color: blueBlack),
       ),
     ),

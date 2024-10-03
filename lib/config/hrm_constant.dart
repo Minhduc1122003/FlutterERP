@@ -29,7 +29,7 @@ const String getInfoEmployeeAPI = '$serverURL/hrm/api/Employee/allInfo/';
 
 const String getInfoMobileAPI = '$serverURL/hrm/api/Employee/infoMobile/';
 const String GetInsuranceAreaByIdEmployeeAPI =
-    '$serverLOCALURL/api/InsuranceArea/GetInsuranceAreaByIdEmployee/';
+    '$serverURL/hrm/api/InsuranceArea/GetInsuranceAreaByIdEmployee/';
 
 const String getPositionAPI = '$serverURL/hrm/api/Position/';
 

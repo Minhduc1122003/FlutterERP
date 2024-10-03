@@ -64,7 +64,8 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                     Center(
                         child: Text(
                             (state.salaryPeriodModel != null)
-                                ? '${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.fromDate)} - ${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.toDate)} (Kỳ ${state.salaryPeriodModel!.termInAMonth})'
+                                ? '${state.salaryPeriodModel!.salaryName}'
+                                // '${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.fromDate)} - ${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.toDate)} (Kỳ ${state.salaryPeriodModel!.termInAMonth})'
                                 //'Tháng ${state.salaryPeriodModel!.month}, ${state.salaryPeriodModel!.fromDate.year}'
                                 : 'Chọn kỳ lương',
                             style: const TextStyle(
@@ -179,8 +180,8 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                               isInt: true)),
                       _buildSalaryItem(
                           'Ngày lễ/chế độ',
-                          convertNumber2(state.salaryCaculateModel!.ngayLe),
-                          ''),
+                          convertNumber2(state.salaryCaculateModel!.ngayLe_NPL),
+                          '0'),
                       // _buildSalaryItem('Ngày lễ',
                       //     converNumber(state.salaryCaculateModel!.ngayLe)),
                       // _buildSalaryItem('Ngày nghỉ cưới',
@@ -193,18 +194,20 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                           'Ngày nghỉ phép năm',
                           convertNumber2(
                               state.salaryCaculateModel!.ngayNghiPhepNam),
-                          ''),
+                          '0'),
                       _buildSalaryItem(
                           'Tăng ca ngày thường',
                           convertNumber2(
                               state.salaryCaculateModel!.tangCaNgayThuong),
                           convertNumber2(
-                              state.salaryCaculateModel!.luongNgoaiGioThuong,
+                              state
+                                  .salaryCaculateModel!.tienOTBanDemCoOTBanNgay,
                               isInt: true)),
                       _buildSalaryItem(
                           'Tăng ca đêm',
                           convertNumber2(state.salaryCaculateModel!.tangCaDem),
-                          convertNumber2(state.salaryCaculateModel!.tangCaDem,
+                          convertNumber2(
+                              state.salaryCaculateModel!.tienOTNgayThuongBanDem,
                               isInt: true)),
                       _buildSalaryItem(
                           'Tăng ca ngày lễ',
@@ -217,9 +220,9 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                           'Tăng ca chủ nhật',
                           convertNumber2(
                               state.salaryCaculateModel!.tangCaChuNhat),
-                          convertNumber2(
-                              state.salaryCaculateModel!.luongNgoaiGioThuong,
-                              isInt: true)),
+                          convertNumber2('0'
+                              // state.salaryCaculateModel!.luongNgoaiGioThuong,isInt: true
+                              )),
 
                       //_buildSalaryItem('Lương nghỉ dịch', '-'),
                       Container(
@@ -254,10 +257,10 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                           style: TextStyle(color: blueBlack.withOpacity(0.7)),
                         ),
                       ),
-                      _buildAllowanceItem(
-                          'Phụ cấp độc hại',
-                          convertNumber2(
-                              state.salaryCaculateModel!.phuCapDocHai)),
+                      // _buildAllowanceItem(
+                      //     'Phụ cấp độc hại',
+                      //     convertNumber2(
+                      //         state.salaryCaculateModel!.phuCapDocHai)),
                       _buildAllowanceItem(
                           'Phụ cấp nhà ở',
                           convertNumber2('0'
@@ -268,54 +271,81 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                           convertNumber2('0'
                               // state.salaryCaculateModel!.phucap
                               )),
-                      _buildAllowanceItem(
-                          'Phụ cấp cơm tăng ca',
-                          convertNumber2('0'
-                              // state.salaryCaculateModel!.phuCapComTangCa
-                              )),
-                      _buildAllowanceItem(
-                          'Phụ cấp chuyên cần',
-                          convertNumber2('0'
-                              // state.salaryCaculateModel!.phuCapChuyenCan
-                              )),
-                      _buildAllowanceItem(
-                          'Phụ cấp bốc hàng',
-                          convertNumber2('0'
-                              // state.salaryCaculateModel!.phuCapBocHang
-                              )),
-                      _buildAllowanceItem(
-                          'Phụ cấp công tác phí',
-                          convertNumber2(
-                              state.salaryCaculateModel!.phuCapCongTacPhi)),
+                      // _buildAllowanceItem(
+                      //     'Phụ cấp cơm tăng ca',
+                      //     convertNumber2('0'
+                      //         // state.salaryCaculateModel!.phuCapComTangCa
+                      //         )),
+                      // _buildAllowanceItem(
+                      //     'Phụ cấp chuyên cần',
+                      //     convertNumber2('0'
+                      //         // state.salaryCaculateModel!.phuCapChuyenCan
+                      //         )),
+                      // _buildAllowanceItem(
+                      //     'Phụ cấp bốc hàng',
+                      //     convertNumber2('0'
+                      //         // state.salaryCaculateModel!.phuCapBocHang
+                      //         )),
+                      // _buildAllowanceItem(
+                      //     'Phụ cấp công tác phí',
+                      //     convertNumber2(
+                      //         state.salaryCaculateModel!.phuCapCongTacPhi)),
 
-                      _buildAllowanceItem(
-                          'Phụ cấp cơm trưa',
-                          convertNumber2('0'
-                              // state.salaryCaculateModel!.phuCapComTrua
-                              )),
-                      _buildAllowanceItem(
-                          'Phụ cấp cơm chiều',
-                          convertNumber2('0'
-                              // state.salaryCaculateModel!.phuCapComChieu
-                              )),
-                      _buildAllowanceItem(
-                          'Phụ cấp nhám pu',
-                          convertNumber2('0'
-                              // state.salaryCaculateModel!.phuCapNhamPu
-                              )),
-                      _buildAllowanceItem(
-                          'Phụ cấp đứng máy',
-                          convertNumber2('0'
-                              // state.salaryCaculateModel!.phuCapDungMay
-                              )),
-                      _buildAllowanceItem(
-                          'Phụ cấp hỗ trợ khác',
-                          convertNumber2('0'
-                              // state.salaryCaculateModel!.phuCapHoTroKhac
-                              )),
+                      // _buildAllowanceItem(
+                      //     'Phụ cấp cơm trưa',
+                      //     convertNumber2('0'
+                      //         // state.salaryCaculateModel!.phuCapComTrua
+                      //         )),
+                      // _buildAllowanceItem(
+                      //     'Phụ cấp cơm chiều',
+                      //     convertNumber2('0'
+                      //         // state.salaryCaculateModel!.phuCapComChieu
+                      //         )),
+                      // _buildAllowanceItem(
+                      //     'Phụ cấp nhám phu',
+                      //     convertNumber2('0'
+                      //         // state.salaryCaculateModel!.phuCapNhamPu
+                      //         )),
+                      // _buildAllowanceItem(
+                      //     'Phụ cấp đứng máy',
+                      //     convertNumber2('0'
+                      //         // state.salaryCaculateModel!.phuCapDungMay
+                      //         )),
+                      // _buildAllowanceItem(
+                      //     'Phụ cấp hỗ trợ khác',
+                      //     convertNumber2('0'
+                      //         // state.salaryCaculateModel!.phuCapHoTroKhac
+                      //         )),
                       // _buildAllowanceItem('Thưởng', '-'),
                       // _buildAllowanceItem('Tổng phụ cấp',
                       //     state.salaryCaculateModel!.tongPhuCap),
+
+                      _buildAllowanceItem(
+                          'Phụ cấp SP/SPM/SM',
+                          convertNumber2(
+                              state.salaryCaculateModel!.phuCapPM_SPM_SM)),
+                      _buildAllowanceItem(
+                          'Phụ cấp công trình',
+                          convertNumber2(
+                              state.salaryCaculateModel!.phuCapCongTrinh)),
+                      _buildAllowanceItem(
+                          'Phụ cấp công trình xa',
+                          convertNumber2(
+                              state.salaryCaculateModel!.phuCapCongTrinhXa)),
+                      _buildAllowanceItem(
+                          'Chi phí năng suất',
+                          convertNumber2(
+                              state.salaryCaculateModel!.chiPhiNangXuat)),
+
+                      _buildAllowanceItem(
+                          'Hỗ trợ đi lại',
+                          convertNumber2(
+                              state.salaryCaculateModel!.tienHoTroDiLai)),
+                      _buildAllowanceItem(
+                          'Hỗ trợ tiền nhà',
+                          convertNumber2(
+                              state.salaryCaculateModel!.hoTroTienNha)),
+
                       Container(
                         color: Colors.white,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -373,18 +403,27 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                           'Tạm ứng',
                           convertNumber2(
                               state.salaryCaculateModel!.luongTamUngKy1)),
+                      // _buildAllowanceItem(
+                      //     'Tiền BHYT',
+                      //     convertNumber2(state
+                      //         .salaryCaculateModel!.baoHiemYTeNLD_BHYTNLD)),
+                      // _buildAllowanceItem(
+                      //     'Tiền BHXH',
+                      //     convertNumber2(state
+                      //         .salaryCaculateModel!.baoHiemXaHoiNLD_BHXHNLD)),
+                      // _buildAllowanceItem(
+                      //     'Tiền BHTN',
+                      //     convertNumber2(state.salaryCaculateModel!
+                      //         .baoHiemThatNghiepNLD_BHTNNLD)),
                       _buildAllowanceItem(
-                          'Tiền BHYT',
-                          convertNumber2(state
-                              .salaryCaculateModel!.baoHiemYTeNLD_BHYTNLD)),
-                      _buildAllowanceItem(
-                          'Tiền BHXH',
-                          convertNumber2(state
-                              .salaryCaculateModel!.baoHiemXaHoiNLD_BHXHNLD)),
+                          'Tiền BHXH + BHYT + BHTN',
+                          state.salaryCaculateModel!
+                              .tongBaoHiem_BHXH_BHYT_BHTN_lamTron
+                              .toString()),
                       _buildAllowanceItem(
                           'Thuế TNCN',
-                          convertNumber2(convertNumber2(
-                              state.salaryCaculateModel!.thueThuNhapCaNhan))),
+                          convertNumber2(
+                              state.salaryCaculateModel!.thueThuNhapCaNhan)),
                       _buildAllowanceItem(
                           'Công đoàn',
                           convertNumber2(
@@ -437,28 +476,28 @@ class _SalaryCaculateScreenState extends State<SalaryCaculateScreen> {
                                       fontSize: 17, color: Colors.purple[900])),
                             ]),
                       ),
-                      Container(
-                        color: Colors.purple[100],
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        height: 40,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Thực lãnh làm tròn:',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: 17,
-                                      color: Colors.purple[900])),
-                              Text(
-                                  converNumber(
-                                      state.salaryCaculateModel!.luongThucLanh,
-                                      isInt: true),
-                                  textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                      fontSize: 17, color: Colors.purple[900])),
-                            ]),
-                      ),
+                      // Container(
+                      //   color: Colors.purple[100],
+                      //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                      //   height: 40,
+                      //   child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         Text('Thực lãnh làm tròn:',
+                      //             textAlign: TextAlign.center,
+                      //             style: TextStyle(
+                      //                 fontStyle: FontStyle.italic,
+                      //                 fontSize: 17,
+                      //                 color: Colors.purple[900])),
+                      //         Text(
+                      //             converNumber(
+                      //                 state.salaryCaculateModel!.luongThucLanh,
+                      //                 isInt: true),
+                      //             textAlign: TextAlign.end,
+                      //             style: TextStyle(
+                      //                 fontSize: 17, color: Colors.purple[900])),
+                      //       ]),
+                      // ),
                     ]),
                   );
           }
