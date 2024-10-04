@@ -32,8 +32,7 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
 
   @override
   void initState() {
-    position = LatLng(double.parse(widget.locationModel.lat),
-        double.parse(widget.locationModel.lng));
+    position = LatLng(widget.locationModel.lat, widget.locationModel.lng);
     locationController.text = widget.locationModel.name;
     latitudeController.text = widget.locationModel.lat.toString();
     longitudeController.text = widget.locationModel.lng.toString();

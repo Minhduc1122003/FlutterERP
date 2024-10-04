@@ -255,7 +255,7 @@ class ApiProvider {
       "date": formattedDate,
       "siteID": siteName
     };
-    print('postData: $postData');
+    print('postData getListShiftModelByUser: $postData');
 
     response = await postConnect(getListShiftModelByUserAPI, postData, token);
     if (response.statusCode == statusOk ||
@@ -436,9 +436,11 @@ class ApiProvider {
 
   Future<List<BranchModel>> getBranch(String site, String token) async {
     response = await getConnect('$getBranchAPI$site', token);
+    print('response: ${response.statusCode}');
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
+      print('responseList body: $responseList');
       List<BranchModel> lst =
           responseList.map((f) => BranchModel.fromMap(f)).toList();
       return lst;
@@ -517,9 +519,12 @@ class ApiProvider {
 
   Future<List<LocationModel>> getLocation(String site, String token) async {
     response = await getConnect('$getLocationAPI$site', token);
+    print('response${response.statusCode}');
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
+      print('responseList${responseList}');
+
       List<LocationModel> lst =
           responseList.map((f) => LocationModel.fromMap(f)).toList();
       return lst;

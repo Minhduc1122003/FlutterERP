@@ -13,8 +13,13 @@ part 'check_in_out_state.dart';
 class CheckInOutBloc extends Bloc<CheckInOutEvent, CheckInOutState> {
   CheckInOutBloc() : super(const CheckInOutState()) {
     on<InitialCheckInOutEvent>((event, emit) async {
-      List<ShiftModel> listShiftModel = await ApiProvider()
-          .getListShiftModelByUser(UserModel.id, User.site, User.token);
+      List<ShiftModel> listShiftModel =
+          await ApiProvider().getListShiftModelByUser(
+              // id 9087 có data nên sử dụng
+              9087,
+              // UserModel.id
+              User.site,
+              User.token);
 
       List<LocationModel> locationList =
           await ApiProvider().getLocation(UserModel.siteName, User.token);

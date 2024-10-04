@@ -16,12 +16,18 @@ class CreateShiftSreen extends StatefulWidget {
   State<CreateShiftSreen> createState() => _CreateShiftSreenState();
 }
 
+String selectedValue = 'Chọn loại ca';
+String selectedTrangThai = 'New';
+String? selectedGioVao; // Declare selectedTime
+String? selectedGioRa; // Declare selectedTime
+String? selectedGioBDNghi; // Declare selectedTime
+String? selectedGioKTNghi; // Declare selectedTime
+
 class _CreateShiftSreenState extends State<CreateShiftSreen> {
   List day = [false, false, false, false, false, false, false];
+
   @override
   Widget build(BuildContext context) {
-    List<String> timeZoneList = ['Asia/Jakarta'];
-    List<String> branchList = [];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -72,6 +78,30 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      'Mã ca làm',
+                      style: TextStyle(color: Colors.grey[600]),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: backgroundColor.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 50,
+                      width: double.infinity,
+                      child: TextFormField(
+                        cursorColor: backgroundColor,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.zero,
+                          // contentPadding: EdgeInsets.only(top: -17),
+                          hintText: 'Nhập chữ',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
                       'Tên ca làm',
                       style: TextStyle(color: Colors.grey[600]),
                     ),
@@ -95,191 +125,348 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Text('Múi giờ', style: TextStyle(color: Colors.grey[600])),
-                    const SizedBox(height: 10),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: backgroundColor.withOpacity(0.4),
-                            borderRadius: BorderRadius.circular(5)),
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        height: 50,
-                        width: double.infinity,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Asia/Jakarta',
-                                style:
-                                    TextStyle(fontSize: 16, color: blueBlack)),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 20,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        )),
-                    const SizedBox(height: 20),
-                    Text('Giờ nghỉ', style: TextStyle(color: Colors.grey[600])),
-                    const SizedBox(height: 10),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: backgroundColor.withOpacity(0.4),
-                            borderRadius: BorderRadius.circular(5)),
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        height: 50,
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Giờ nghỉ',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: blueBlack.withOpacity(0.7))),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 20,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        )),
-                    const SizedBox(height: 20),
-                    Text('Bắt đầu lúc',
+                    Text('Loại ca làm',
                         style: TextStyle(color: Colors.grey[600])),
                     const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: backgroundColor.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 50,
+                      width: double.infinity,
+                      child: DropdownButton<String>(
+                        value: selectedValue, // Biến lưu giá trị được chọn
+                        isExpanded: true,
+                        icon: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: Colors.grey,
+                        ),
+                        underline: Container(), // Bỏ gạch dưới của dropdown
+                        items: <String>[
+                          'Chọn loại ca',
+                          'LOẠI CA CỐ ĐỊNH',
+                          'TĂNG CA NGÀY THƯỜNG',
+                          'TĂNG CA ĐÊM',
+                          'TĂNG CHỦ NHẬT',
+                          'TĂNG CA NGÀY LỄ'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: value == 'Chọn loại ca'
+                                    ? Colors.grey
+                                    : blueBlack, // Màu xám cho mục mặc định
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedValue = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text('Trạng thái',
+                        style: TextStyle(color: Colors.grey[600])),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: backgroundColor.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 50,
+                      width: double.infinity,
+                      child: DropdownButton<String>(
+                        value: selectedTrangThai,
+                        isExpanded: true,
+                        icon: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: Colors.grey,
+                        ),
+                        underline: Container(), // Bỏ gạch dưới của dropdown
+                        items: <String>[
+                          'New',
+                          'SendToManager',
+                          'Reopen',
+                          'Approved',
+                          'Rejected'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: blueBlack,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedTrangThai = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment
+                          .spaceBetween, // Space between elements
                       children: [
                         Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: backgroundColor.withOpacity(0.4),
-                                borderRadius: BorderRadius.circular(5)),
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            height: 50,
-                            width: double.infinity,
-                            child: TextFormField(
-                              textAlign: TextAlign.center,
-                              cursorColor: backgroundColor,
-                              decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.zero,
-                                // contentPadding: EdgeInsets.only(top: -17),
-                                hintText: 'Giờ',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: InputBorder.none,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment
+                                .start, // Align labels to the start
+                            children: [
+                              Text('Giờ vào',
+                                  style: TextStyle(color: Colors.grey[600])),
+                              const SizedBox(
+                                  height: 5), // Adjust spacing as needed
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: backgroundColor.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                height: 50,
+                                child: DropdownButton<String>(
+                                  value:
+                                      selectedGioVao, // Variable to hold selected time
+                                  isExpanded: true,
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 20,
+                                    color: Colors.grey,
+                                  ),
+                                  underline:
+                                      Container(), // Bỏ gạch dưới của dropdown
+                                  items: generateTimeOptions()
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: blueBlack,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedGioVao =
+                                          newValue!; // Update selected time
+                                    });
+                                  },
+                                ),
                               ),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp('[0-9]')),
-                                LengthLimitingTextInputFormatter(2),
-                              ],
-                            ),
+                            ],
                           ),
                         ),
                         const SizedBox(
-                          width: 40,
-                          child: Center(
-                              child: Text(
-                            ':',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                        ),
+                            width: 20), // Adjust spacing between dropdowns
                         Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: backgroundColor.withOpacity(0.4),
-                                borderRadius: BorderRadius.circular(5)),
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            height: 50,
-                            width: double.infinity,
-                            child: TextFormField(
-                              textAlign: TextAlign.center,
-                              cursorColor: backgroundColor,
-                              decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.zero,
-                                // contentPadding: EdgeInsets.only(top: -17),
-                                hintText: 'Phút',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: InputBorder.none,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Giờ ra',
+                                  style: TextStyle(color: Colors.grey[600])),
+                              const SizedBox(
+                                  height: 5), // Adjust spacing as needed
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: backgroundColor.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                height: 50,
+                                child: DropdownButton<String>(
+                                  value:
+                                      selectedGioRa, // Variable to hold selected time
+                                  isExpanded: true,
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 20,
+                                    color: Colors.grey,
+                                  ),
+                                  underline:
+                                      Container(), // Bỏ gạch dưới của dropdown
+                                  items: generateTimeOptions()
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: blueBlack,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedGioRa =
+                                          newValue!; // Update selected time
+                                    });
+                                  },
+                                ),
                               ),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp('[0-9]')),
-                                LengthLimitingTextInputFormatter(2),
-                              ],
-                            ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Text('Kết thúc lúc',
-                        style: TextStyle(color: Colors.grey[600])),
-                    const SizedBox(height: 10),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment
+                          .spaceBetween, // Space between elements
                       children: [
                         Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: backgroundColor.withOpacity(0.4),
-                                borderRadius: BorderRadius.circular(5)),
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            height: 50,
-                            width: double.infinity,
-                            child: TextFormField(
-                              textAlign: TextAlign.center,
-                              cursorColor: backgroundColor,
-                              decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.zero,
-                                // contentPadding: EdgeInsets.only(top: -17),
-                                hintText: 'Giờ',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: InputBorder.none,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment
+                                .start, // Align labels to the start
+                            children: [
+                              Text('Giờ bắt đầu nghỉ',
+                                  style: TextStyle(color: Colors.grey[600])),
+                              const SizedBox(
+                                  height: 5), // Adjust spacing as needed
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: backgroundColor.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                height: 50,
+                                child: DropdownButton<String>(
+                                  value:
+                                      selectedGioBDNghi, // Variable to hold selected time
+                                  isExpanded: true,
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 20,
+                                    color: Colors.grey,
+                                  ),
+                                  underline:
+                                      Container(), // Bỏ gạch dưới của dropdown
+                                  items: generateTimeOptions()
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: blueBlack,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedGioBDNghi = newValue!;
+                                    });
+                                  },
+                                ),
                               ),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp('[0-9]')),
-                                LengthLimitingTextInputFormatter(2),
-                              ],
-                            ),
+                            ],
                           ),
                         ),
                         const SizedBox(
-                          width: 40,
-                          child: Center(
-                              child: Text(
-                            ':',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                        ),
+                            width: 20), // Adjust spacing between dropdowns
                         Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: backgroundColor.withOpacity(0.4),
-                                borderRadius: BorderRadius.circular(5)),
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            height: 50,
-                            width: double.infinity,
-                            child: TextFormField(
-                              textAlign: TextAlign.center,
-                              cursorColor: backgroundColor,
-                              decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.zero,
-                                // contentPadding: EdgeInsets.only(top: -17),
-                                hintText: 'Phút',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: InputBorder.none,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Giờ kết thúc nghỉ',
+                                  style: TextStyle(color: Colors.grey[600])),
+                              const SizedBox(height: 5),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: backgroundColor.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                height: 50,
+                                child: DropdownButton<String>(
+                                  value:
+                                      selectedGioKTNghi, // Variable to hold selected time
+                                  isExpanded: true,
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 20,
+                                    color: Colors.grey,
+                                  ),
+                                  underline:
+                                      Container(), // Bỏ gạch dưới của dropdown
+                                  items: generateTimeOptions()
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: blueBlack,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedGioKTNghi = newValue!;
+                                    });
+                                  },
+                                ),
                               ),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp('[0-9]')),
-                                LengthLimitingTextInputFormatter(2),
-                              ],
-                            ),
+                            ],
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      'Thời gian làm việc',
+                      style: TextStyle(color: Colors.grey[600]),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: backgroundColor.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 50,
+                      width: double.infinity,
+                      child: TextFormField(
+                        cursorColor: backgroundColor,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.zero,
+                          // contentPadding: EdgeInsets.only(top: -17),
+                          hintText: 'Nhập chữ',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -388,12 +575,24 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
   }
 }
 
+List<String> generateTimeOptions() {
+  List<String> timeOptions = [];
+  for (int hour = 0; hour < 24; hour++) {
+    for (int minute = 0; minute < 60; minute += 30) {
+      String formattedTime =
+          '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}:00';
+      timeOptions.add(formattedTime);
+    }
+  }
+  return timeOptions;
+}
+
 // class CreateShiftSreen extends StatelessWidget {
 //   const CreateShiftSreen({Key? key}) : super(key: key);
 
 //   @override
 //   Widget build(BuildContext context) {
-    
+
 //   }
 // }
 

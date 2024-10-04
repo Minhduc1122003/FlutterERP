@@ -51,7 +51,8 @@ class RegionModel {
 
   String toJson() => json.encode(toMap());
 
-  factory RegionModel.fromJson(String source) => RegionModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory RegionModel.fromJson(String source) =>
+      RegionModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 // class RegionModel {
 //   int id;
@@ -105,15 +106,16 @@ class BranchModel {
 
   String toJson() => json.encode(toMap());
 
-  factory BranchModel.fromJson(String source) => BranchModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory BranchModel.fromJson(String source) =>
+      BranchModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 class LocationModel {
   int id;
   String name;
   String address;
-  String lat;
-  String lng;
+  double lat;
+  double lng;
   int branchID;
   // int radius;
   LocationModel({
@@ -140,26 +142,27 @@ class LocationModel {
 
   factory LocationModel.fromMap(Map<String, dynamic> map) {
     return LocationModel(
-      id: map['id'] as int,
-      name: map['name'] as String,
-      address: map['address'] as String,
-      lat: map['latitude'] as String,
-      lng: map['longitude'] as String,
-      branchID: map['branchID'] as int
-      // radius: map['radius'] as int,
-    );
+        id: map['id'] as int,
+        name: map['name'] as String,
+        address: map['address'] as String,
+        lat: map['latitude'] as double,
+        lng: map['longitude'] as double,
+        branchID: map['branchID'] as int
+        // radius: map['radius'] as int,
+        );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory LocationModel.fromJson(String source) => LocationModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory LocationModel.fromJson(String source) =>
+      LocationModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   LocationModel copyWith({
     int? id,
     String? name,
     String? address,
-    String? lat,
-    String? lng,
+    double? lat,
+    double? lng,
     int? branchID,
   }) {
     return LocationModel(
