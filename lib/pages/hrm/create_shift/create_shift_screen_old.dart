@@ -3,11 +3,11 @@ import 'package:erp/pages/hrm/shift_assignment/choose_list_branch_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../method/hrm_method.dart';
-import '../../model/hrm_model/company_model.dart';
-import '../../model/hrm_model/employee_model.dart';
-import '../../model/login_model.dart';
-import '../../network/api_provider.dart';
+import '../../../method/hrm_method.dart';
+import '../../../model/hrm_model/company_model.dart';
+import '../../../model/hrm_model/employee_model.dart';
+import '../../../model/login_model.dart';
+import '../../../network/api_provider.dart';
 
 class CreateShiftSreen extends StatefulWidget {
   const CreateShiftSreen({super.key});

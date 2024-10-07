@@ -1,4 +1,5 @@
 import 'package:erp/pages/hrm/account/bloc/account_bloc.dart';
+import 'package:erp/pages/hrm/create_shift/bloc/create_shift_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'pages/hrm/advance/bloc/advance_bloc.dart';
@@ -55,6 +56,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<WorkBloc>(create: (BuildContext context) => WorkBloc()),
         BlocProvider<AccountBloc>(
             create: (BuildContext context) => AccountBloc()),
+        BlocProvider<CreateShiftBloc>(
+            create: (BuildContext context) => CreateShiftBloc()),
       ],
       child: MaterialApp(
         title: 'CRM',

@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import '../../../model/hrm_model/shift_model.dart';
 import '../../../config/color.dart';
 import '../../../method/hrm_method.dart';
-import '../create_shift_screen.dart';
+import '../create_shift/create_shift_screen.dart';
 // RxInt filterKind = 2.obs;
 
 class AdministrativeShift {

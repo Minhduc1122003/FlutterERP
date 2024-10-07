@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:erp/model/hrm_model/employee_model.dart';
+import 'package:erp/pages/hrm/create_shift/create_shift_model.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import '../model/hrm_model/advance_model.dart';
@@ -226,6 +227,36 @@ class ApiProvider {
   Future<String> sendOnLeaveRequest(
       Map<String, dynamic> map, String token) async {
     response = await postConnect(sendOnLeaveRequestAPI, map, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      return response.body;
+    } else {
+      return '';
+    }
+  }
+
+  Future<String> createShift(CreateShift createShift, String token) async {
+    // Convert the CreateShift model into a map
+    var postData = {
+      'code': createShift.code,
+      'title': createShift.title,
+      'status': createShift.status,
+      'shiftType': createShift.shiftType,
+      'fromTime': createShift.fromTime,
+      'toTime': createShift.toTime,
+      'workTime': createShift.workTime,
+      'startBreak': createShift.startBreak,
+      'endBreak': createShift.endBreak,
+      'note': createShift.note,
+      'isCrossDay': createShift.isCrossDay,
+      'coefficient': createShift.coefficient,
+      'timeCalculate': createShift.timeCalculate,
+    };
+
+    // Make the POST request
+    final response = await postConnect(createShiftAPI, postData, token);
+    print(response.statusCode);
+    // Handle response
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       return response.body;

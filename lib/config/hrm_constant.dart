@@ -24,13 +24,12 @@ String loginAPI = '$serverURL/hrm/api/userv2/login';
 // const String loginAPI = 'http://api-rms.reetech.vn/api/Users/loginv1';
 
 // mduc edit
+const String createShiftAPI = '$serverURL/hrm/api/shift/';
 
 const String getInfoEmployeeAPI = '$serverURL/hrm/api/Employee/allInfo/';
-
 const String getInfoMobileAPI = '$serverURL/hrm/api/Employee/infoMobile/';
 const String GetInsuranceAreaByIdEmployeeAPI =
     '$serverURL/hrm/api/InsuranceArea/GetInsuranceAreaByIdEmployee/';
-
 const String getPositionAPI = '$serverURL/hrm/api/Position/';
 
 // const String getInfoEmployeeAPI = '$serverURL/hrm/api/employee/allInfo/';
@@ -38,7 +37,6 @@ const String getListOnLeaveRequestAPI = '$serverURL/hrm/api/onLeaveFileLine/';
 const String getListTimekeepingOffsetRequestAPI =
     '$serverURL/hrm/api/TimekeepingOffset/getByEmployee/';
 const String getListAdvanceRequestAPI = '$serverURL/hrm/api/Reduce/GetAll/';
-
 const String getOnLeaveKindAPI = '$serverURL/hrm/api/permissionType/getAll/';
 const String sendOnLeaveRequestAPI = '$serverURL/hrm/api/onLeaveFileLine';
 

@@ -9,7 +9,7 @@ import '../../../model/login_model.dart';
 import '../check_in_out.dart/bloc/check_in_out_bloc.dart';
 import '../check_in_out.dart/check_in _out_screen.dart';
 import '../personnel/add_personnel_screen.dart';
-import '../create_shift_screen.dart';
+import '../create_shift/create_shift_screen.dart';
 import '../../../method/hrm_method.dart';
 import '../request_management/request_management_screen.dart';
 import '../salary_advance/salary_advance_info_screen.dart';
