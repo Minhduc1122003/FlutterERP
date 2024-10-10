@@ -342,13 +342,14 @@ class ApiProvider {
   Future<List<AttendanceModel>> getListAttendance(
       String siteName, Map<String, dynamic> map, String token) async {
     response = await postConnect(getListAttendanceAPI + siteName, map, token);
+    print('data map: ${map}');
 
-    print('data: ${response.statusCode}');
+    print('data getListAttendance: ${response.statusCode}');
 
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       List responseList = json.decode(response.body);
-      print('body: ${response.body}');
+      print('body: $responseList');
 
       return responseList.map((val) => AttendanceModel.fromJson(val)).toList();
     } else {

@@ -354,11 +354,11 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                   SizedBox(
                     height: 300,
                     child: GoogleMap(
-                      zoomGesturesEnabled: false,
-                      scrollGesturesEnabled: false,
-                      tiltGesturesEnabled: false,
-                      rotateGesturesEnabled: false,
-                      zoomControlsEnabled: false,
+                      zoomGesturesEnabled: true,
+                      scrollGesturesEnabled: true,
+                      tiltGesturesEnabled: true,
+                      rotateGesturesEnabled: true,
+                      zoomControlsEnabled: true,
                       mapType: MapType.normal,
                       initialCameraPosition:
                           CameraPosition(target: position, zoom: 16.5),

@@ -63,7 +63,7 @@ Widget _buildChooseItem(BuildContext context, int id, SalaryPeriodModel model,
       alignment: Alignment.centerLeft,
       child: Text(
         // model.period,
-        '${model.salaryName}',
+        model.salaryName,
 
         // '${DateFormat('dd/MM/yyyy').format(model.fromDate)} - ${DateFormat('dd/MM/yyyy').format(model.toDate)} (Kỳ ${model.termInAMonth})',
         //capitalize(name),

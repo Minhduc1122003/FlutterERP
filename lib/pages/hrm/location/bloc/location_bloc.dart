@@ -13,7 +13,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       emit(LocationWaiting());
       List<LocationModel> locationList =
           await ApiProvider().getLocation(event.site, event.token);
-      print('locationList: ${locationList.length}');
+      print('locationList location: ${locationList.length}');
       emit(LocationSuccess(locationList: locationList));
     });
 

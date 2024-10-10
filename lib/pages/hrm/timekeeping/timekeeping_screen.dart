@@ -86,7 +86,7 @@ class _TimeKeepingScreenState extends State<TimeKeepingScreen> {
                               (state.salaryPeriodModel != null)
                                   ?
                                   // '${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.fromDate)} - ${DateFormat('dd/MM/yyyy').format(state.salaryPeriodModel!.toDate)} (Kỳ ${state.salaryPeriodModel!.termInAMonth == 1 ? 'Lương Ứng' : 'Lương Chính'})'
-                                  '${state.salaryPeriodModel!.period})'
+                                  '${state.salaryPeriodModel!.salaryName}'
                                   : 'Chọn kỳ lương',
                               style: const TextStyle(
                                   color: blueGrey1, fontSize: 15)),

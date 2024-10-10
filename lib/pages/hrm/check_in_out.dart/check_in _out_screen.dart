@@ -33,7 +33,7 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
   void initState() {
     bloc = BlocProvider.of<CheckInOutBloc>(context);
     bloc.add(InitialCheckInOutEvent());
-    //determinePosition();
+    determinePosition();
     super.initState();
   }
 
@@ -119,11 +119,11 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                           ? SizedBox(
                               height: 300,
                               child: GoogleMap(
-                                zoomGesturesEnabled: false,
-                                scrollGesturesEnabled: false,
-                                tiltGesturesEnabled: false,
-                                rotateGesturesEnabled: false,
-                                zoomControlsEnabled: false,
+                                zoomGesturesEnabled: true,
+                                scrollGesturesEnabled: true,
+                                tiltGesturesEnabled: true,
+                                rotateGesturesEnabled: true,
+                                zoomControlsEnabled: true,
                                 mapType: MapType.normal,
                                 initialCameraPosition: CameraPosition(
                                     target: LatLng(currentPosition!.latitude,

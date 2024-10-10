@@ -145,8 +145,12 @@ class LocationModel {
         id: map['id'] as int,
         name: map['name'] as String,
         address: map['address'] as String,
-        lat: map['latitude'] as double,
-        lng: map['longitude'] as double,
+        lat: (map['latitude'] is int)
+            ? (map['latitude'] as int).toDouble()
+            : map['latitude'] as double,
+        lng: (map['longitude'] is int)
+            ? (map['longitude'] as int).toDouble()
+            : map['longitude'] as double,
         branchID: map['branchID'] as int
         // radius: map['radius'] as int,
         );
