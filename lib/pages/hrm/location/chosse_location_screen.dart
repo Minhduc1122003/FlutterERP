@@ -17,7 +17,7 @@ class ChooseLocationScreen extends StatelessWidget {
       appBar: AppBar(
         // toolbarHeight: 0,
         title: const Text(
-          'Chọn',
+          'Chọn vị trí',
           style: TextStyle(color: blueBlack),
         ),
         backgroundColor: Colors.white,

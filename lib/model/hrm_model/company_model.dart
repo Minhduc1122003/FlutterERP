@@ -117,7 +117,7 @@ class LocationModel {
   double lat;
   double lng;
   int branchID;
-  // int radius;
+  int? radius;
   LocationModel({
     required this.id,
     required this.name,
@@ -125,7 +125,7 @@ class LocationModel {
     required this.lat,
     required this.lng,
     required this.branchID,
-    // required this.radius,
+    this.radius,
   });
 
   Map<String, dynamic> toMap() {
@@ -135,25 +135,27 @@ class LocationModel {
       'address': address,
       'latitude': lat,
       'longitude': lng,
-      'branchID': branchID
-      // 'radius': radius,
+      'branchID': branchID,
+      'radius': radius,
     };
   }
 
   factory LocationModel.fromMap(Map<String, dynamic> map) {
     return LocationModel(
-        id: map['id'] as int,
-        name: map['name'] as String,
-        address: map['address'] as String,
-        lat: (map['latitude'] is int)
-            ? (map['latitude'] as int).toDouble()
-            : map['latitude'] as double,
-        lng: (map['longitude'] is int)
-            ? (map['longitude'] as int).toDouble()
-            : map['longitude'] as double,
-        branchID: map['branchID'] as int
-        // radius: map['radius'] as int,
-        );
+      id: map['id'] as int,
+      name: map['name'] as String,
+      address: map['address'] as String,
+      lat: (map['latitude'] is int)
+          ? (map['latitude'] as int).toDouble()
+          : map['latitude'] as double,
+      lng: (map['longitude'] is int)
+          ? (map['longitude'] as int).toDouble()
+          : map['longitude'] as double,
+      branchID: map['branchID'] as int,
+      radius: (map['radius'] != null && map['radius'] is int)
+          ? (map['radius'] as int)
+          : map['radius'] as int?,
+    );
   }
 
   String toJson() => json.encode(toMap());
@@ -168,6 +170,7 @@ class LocationModel {
     double? lat,
     double? lng,
     int? branchID,
+    int? radius,
   }) {
     return LocationModel(
       id: id ?? this.id,
@@ -176,6 +179,7 @@ class LocationModel {
       lat: lat ?? this.lat,
       lng: lng ?? this.lng,
       branchID: branchID ?? this.branchID,
+      radius: radius ?? this.radius,
     );
   }
 }

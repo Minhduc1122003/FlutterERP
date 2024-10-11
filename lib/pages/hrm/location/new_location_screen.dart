@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:erp/config/color.dart';
 import 'package:erp/pages/hrm/location/locationSelectionScreen.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
       Completer<GoogleMapController>();
   LatLng position = LatLng(0, 0); // Default position
   Set<Marker> allMarkers = {};
+  GoogleMapController? mapController; // Khai báo mapController là nullable
 
   @override
   void initState() {
@@ -110,6 +112,74 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
     initMarker();
     _animateToUser(); // Animate camera to the new coordinates
     setState(() {});
+  }
+
+  Future<void> getCurrentLocation() async {
+    try {
+      // Kiểm tra quyền truy cập vị trí
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+
+      if (permission == LocationPermission.always ||
+          permission == LocationPermission.whileInUse) {
+        Position currentPosition = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+        setState(() {
+          position =
+              LatLng(currentPosition.latitude, currentPosition.longitude);
+          latitudeController.text = position.latitude.toString();
+          longitudeController.text = position.longitude.toString();
+
+          // Cập nhật marker mới cho vị trí hiện tại
+          allMarkers = {
+            Marker(
+              markerId: MarkerId('currentLocation'),
+              position: position,
+            ),
+          };
+
+          // Di chuyển camera đến vị trí hiện tại
+          moveCameraToPosition(position);
+        });
+      } else {
+        print('Permission denied');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void updateMapPosition() async {
+    double? latitude = double.tryParse(latitudeController.text);
+    double? longitude = double.tryParse(longitudeController.text);
+    latitudeController.text = latitude.toString();
+    longitudeController.text = longitude.toString();
+
+    // Update the position and trigger a rebuild
+    setState(() {
+      position = LatLng(latitude!, longitude!);
+
+      allMarkers = {
+        Marker(
+          markerId: MarkerId('selectedLocation'),
+          position: position, // Update the marker position
+        ),
+      };
+    });
+
+    // Move the camera to the new position
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newLatLng(position));
+  }
+
+  void moveCameraToPosition(LatLng targetPosition) {
+    if (mapController != null) {
+      mapController!.animateCamera(CameraUpdate.newLatLng(targetPosition));
+    } else {
+      print('mapController is not initialized');
+    }
   }
 
   @override
@@ -306,79 +376,118 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                 rotateGesturesEnabled: true,
                 zoomControlsEnabled: true,
                 mapType: MapType.normal,
-                initialCameraPosition:
-                    CameraPosition(target: position, zoom: 16.5),
+                initialCameraPosition: CameraPosition(
+                  target: position,
+                  zoom: 16.5,
+                ),
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
                 onMapCreated: (GoogleMapController controller) {
                   _controller.complete(controller);
                 },
-                markers: {
-                  ...allMarkers,
-                  Marker(
-                    markerId: MarkerId('selectedLocation'),
-                    position: position, // Update the position here
-                  ),
+                circles: {
+                  Circle(
+                    circleId: const CircleId("myCircle"),
+                    radius: 150,
+                    center: position,
+                    fillColor: const Color.fromRGBO(100, 100, 100, 0.3),
+                    strokeWidth: 0,
+                  )
                 },
+                markers: allMarkers,
               ),
             ),
             const SizedBox(height: 10),
-            TextButton(
-              onPressed: () async {
-                // Define the initial position for the map (you can adjust this as needed)
-                final result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LocationSelectionScreen(
-                      initialPosition: position,
+            Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () async {
+                      await getCurrentLocation(); // Lấy vị trí hiện tại
+                      updateMapPosition(); // Cập nhật vị trí trên bản đồ
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        side: BorderSide.none,
+                      ),
+                    ),
+                    child: const AutoSizeText(
+                      'Lấy vị trí hiện tại',
+                      style: TextStyle(fontSize: 16.0),
+                      maxLines: 1,
                     ),
                   ),
-                );
-
-                // Check if result is not null and update the text fields and map
-                if (result is LatLng) {
-                  print(
-                      "Selected Location: Latitude: ${result.latitude}, Longitude: ${result.longitude}");
-
-                  // Update the text fields with the selected coordinates
-                  latitudeController.text = result.latitude.toString();
-                  longitudeController.text = result.longitude.toString();
-
-                  // Update the position and trigger a rebuild
-                  setState(() {
-                    position =
-                        result; // Update the position to the selected location
-                    allMarkers = {
-                      Marker(
-                        markerId: MarkerId('selectedLocation'),
-                        position: position, // Update the marker position
-                      ),
-                    };
-                  });
-
-                  // Move the camera to the new position
-                  final GoogleMapController controller =
-                      await _controller.future;
-                  controller.animateCamera(CameraUpdate.newLatLng(position));
-                } else {
-                  print("No location selected.");
-                }
-              },
-              style: TextButton.styleFrom(
-                backgroundColor:
-                    Colors.blue, // Set the background color to blue
-                padding: EdgeInsets.symmetric(
-                    vertical: 12.0,
-                    horizontal: 24.0), // Add padding for better appearance
-                foregroundColor: Colors.white, // Set the text color to white
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(8.0), // Optional: rounded corners
-                  side: BorderSide.none, // Remove the border
                 ),
-              ),
-              child: const Text(
-                'Chọn vị trí',
-                style: TextStyle(fontSize: 16.0), // Adjust font size if needed
-              ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () async {
+                      // Define the initial position for the map (you can adjust this as needed)
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LocationSelectionScreen(
+                            initialPosition: position,
+                          ),
+                        ),
+                      );
+
+                      // Check if result is not null and update the text fields and map
+                      if (result is LatLng) {
+                        print(
+                            "Selected Location: Latitude: ${result.latitude}, Longitude: ${result.longitude}");
+
+                        // Update the text fields with the selected coordinates
+                        latitudeController.text = result.latitude.toString();
+                        longitudeController.text = result.longitude.toString();
+
+                        // Update the position and trigger a rebuild
+                        setState(() {
+                          position =
+                              result; // Update the position to the selected location
+                          allMarkers = {
+                            Marker(
+                              markerId: MarkerId('selectedLocation'),
+                              position: position, // Update the marker position
+                            ),
+                          };
+                        });
+
+                        // Move the camera to the new position
+                        final GoogleMapController controller =
+                            await _controller.future;
+                        controller
+                            .animateCamera(CameraUpdate.newLatLng(position));
+                      } else {
+                        print("No location selected.");
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor:
+                          Colors.blue, // Set the background color to blue
+                      padding: EdgeInsets.symmetric(
+                          vertical: 12.0), // Adjust padding
+                      foregroundColor:
+                          Colors.white, // Set the text color to white
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            8.0), // Optional: rounded corners
+                        side: BorderSide.none, // Remove the border
+                      ),
+                    ),
+                    child: const AutoSizeText(
+                      'Chọn vị trí cụ thể',
+                      style: TextStyle(
+                          fontSize: 16.0), // Đặt kích thước chữ tối đa
+                      maxLines: 1, // Chỉ cho phép 1 dòng
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
             const Row(

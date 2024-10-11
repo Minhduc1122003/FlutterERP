@@ -2,6 +2,7 @@ import 'package:erp/pages/hrm/account/bloc/account_bloc.dart';
 import 'package:erp/pages/hrm/create_shift/bloc/create_shift_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'pages/hrm/advance/bloc/advance_bloc.dart';
 import 'pages/hrm/branch/bloc/branch_bloc.dart';
 import 'pages/hrm/check_in_out.dart/bloc/check_in_out_bloc.dart';
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             useMaterial3: true),
         home: const SplashScreen(),
+        builder: EasyLoading.init(),
         locale: const Locale('vn'),
         supportedLocales: const [
           Locale('vi', 'VN'),

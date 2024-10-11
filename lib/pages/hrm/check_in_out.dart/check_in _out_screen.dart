@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../config/color.dart';
@@ -28,6 +29,7 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
   Position? currentPosition;
   bool loading = false;
   late CheckInOutBloc bloc;
+  LatLng positiontarget = LatLng(0, 0); // Default position
 
   @override
   void initState() {
@@ -106,6 +108,15 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
           padding: const EdgeInsets.all(10),
           child: BlocBuilder<CheckInOutBloc, CheckInOutState>(
             builder: (context, state) {
+              if (state.locationModel != null) {
+                positiontarget =
+                    LatLng(state.locationModel!.lat, state.locationModel!.lng);
+                print('positiontarget: $positiontarget');
+                print('currentPosition: $currentPosition');
+              } else {
+                print('locationModel hiện tại là null');
+                positiontarget = LatLng(0.0, 0.0);
+              }
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -129,6 +140,9 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                                     target: LatLng(currentPosition!.latitude,
                                         currentPosition!.longitude),
                                     zoom: 16.5),
+                                myLocationEnabled:
+                                    true, // Hiển thị vị trí của bản thân (chấm xanh)
+                                myLocationButtonEnabled: true,
                                 // onMapCreated: (GoogleMapController controller) {
                                 //   _controller.complete(controller);
                                 // },
@@ -390,16 +404,44 @@ class _CheckInOutScreenState extends State<CheckInOutScreen> {
                           //       });
                           //   return;
                           // }
+                          if (currentPosition == null) {
+                            showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return closeDialog(context, 'Thông báo',
+                                      'Không tìm thấy vị trí hiện tại');
+                                });
+                            return;
+                          }
+                          int distanceInMeters = Geolocator.distanceBetween(
+                            currentPosition!.latitude,
+                            currentPosition!.longitude,
+                            positiontarget.latitude,
+                            positiontarget.longitude,
+                          ).toInt();
 
-                          bloc.add(CheckInPostEvent(
-                              id: -1,
-                              employeeID: UserModel.id.toString(),
-                              authDate: DateTime.now().toString(),
-                              authTime: DateTime.now().toString(),
-                              locationID: 1,
-                              token: User.token));
+                          if (distanceInMeters <= 50) {
+                            print('Tọa độ chấm công $positiontarget');
+                            print('Tọa độ User $currentPosition');
+                            print('Khoản cách $distanceInMeters');
+                            EasyLoading.showSuccess("Chấm công thành công!");
+                          } else {
+                            print('Tọa độ chấm công $positiontarget');
+                            print('Tọa độ User $currentPosition');
+                            print('Khoản cách $distanceInMeters');
+
+                            EasyLoading.showError("Chấm công thất bại !");
+                          }
+                          // bloc.add(CheckInPostEvent(
+                          //     id: -1,
+                          //     employeeID: UserModel.id.toString(),
+                          //     authDate: DateTime.now().toString(),
+                          //     authTime: DateTime.now().toString(),
+                          //     locationID: 1,
+                          //     token: User.token));
                           // bloc.add(CheckInOutConfirmEvent());
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
                         },
                         child: const Text("Xác nhận",
                             style: TextStyle(fontSize: 18))),
