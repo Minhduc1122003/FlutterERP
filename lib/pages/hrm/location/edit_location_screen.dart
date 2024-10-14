@@ -1,22 +1,27 @@
 import 'dart:async';
 
+import 'package:erp/model/login_model.dart';
+import 'package:erp/pages/hrm/location/bloc/location_bloc.dart';
+import 'package:erp/pages/hrm/location/chosse_branch_screen.dart';
 import 'package:erp/pages/hrm/location/locationSelectionScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../model/hrm_model/company_model.dart';
 import '../../../config/color.dart';
+import '../../../model/hrm_model/employee_model.dart';
 import '../../../network/api_provider.dart';
 import '../../../widget/dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart'; // Import package
 
 class EditLocationScreen extends StatefulWidget {
   const EditLocationScreen(
-      {super.key, required this.locationModel, required this.branchName});
+      {super.key, required this.locationModel, required this.branch});
   final LocationModel locationModel;
-  final String branchName;
+  final BranchModel branch;
   @override
   State<EditLocationScreen> createState() => _EditLocationScreenState();
 }
@@ -33,7 +38,9 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
   LatLng position = const LatLng(10.927580515436906, 106.79012965530953);
   Set<Marker> allMarkers = {};
   GoogleMapController? mapController; // Khai báo mapController là nullable
-
+  BranchModel? branchModel;
+  int? branchId;
+  String? branchName;
   @override
   void initState() {
     position = LatLng(widget.locationModel.lat, widget.locationModel.lng);
@@ -42,6 +49,10 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
     longitudeController.text = widget.locationModel.lng.toString();
     addressController.text = widget.locationModel.address;
     radiusController.text = widget.locationModel.radius.toString();
+    if (widget.branch != null) {
+      branchId = widget.branch.id; // Lưu branch.id
+      branchName = widget.branch.name; // Lưu branch.name
+    }
     initMarker();
     super.initState();
   }
@@ -179,13 +190,28 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                     });
                 return;
               }
-              editLocation(
-                  widget.locationModel,
-                  locationController.text,
-                  addressController.text,
-                  position.latitude,
-                  position.longitude,
-                  int.parse(radiusController.text));
+
+              // Kiểm tra branchModel và sử dụng widget.branch.id nếu branchModel là null
+              int branchIdToUse = branchModel?.id ?? widget.branch.id;
+
+              print('branchid: $branchIdToUse'); // In ra branchId đã sử dụng
+              print(
+                  'longitudeController: ${longitudeController.text}'); // In ra branchId đã sử dụng
+              print(
+                  'latitudeController: ${latitudeController.text}'); // In ra branchId đã sử dụng
+              BlocProvider.of<LocationBloc>(context).add(LocationUpdateEvent(
+                id: widget.locationModel.id,
+                branchID: branchIdToUse,
+                site: User.site,
+                name: locationController.text,
+                address: addressController.text,
+                longitude: longitudeController.text,
+                latitude: latitudeController.text,
+                radius: int.parse(
+                    radiusController.text), // Đảm bảo bạn có giá trị radius
+                token: User.token,
+              ));
+
               Navigator.pop(context, 'edit');
             },
           )
@@ -334,7 +360,26 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Container(
+                  InkWell(
+                    onTap: () async {
+                      List<BranchModel> branchList = await ApiProvider()
+                          .getBranch(UserModel.siteName, User.token);
+                      if (!mounted) return;
+                      dynamic result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ChooseBranchScreen(branchList: branchList)),
+                      );
+                      if (result != null) {
+                        branchModel = result;
+                        branchId = branchModel?.id; // Lưu branch.id đã chọn
+                        branchName =
+                            branchModel?.name; // Lưu branch.name đã chọn
+                        setState(() {});
+                      }
+                    },
+                    child: Container(
                       decoration: BoxDecoration(
                           color: const Color(0xFFF3F6FF),
                           borderRadius: BorderRadius.circular(5)),
@@ -344,15 +389,21 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                       child: Row(
                         children: [
                           Expanded(
-                              child: Text(
-                            widget.branchName,
-                            style:
-                                const TextStyle(color: blueBlack, fontSize: 16),
-                          )),
+                            child: branchName == null
+                                ? const Text('Chọn chi nhánh',
+                                    style: TextStyle(
+                                        color: blueGrey2, fontSize: 16))
+                                : Text(branchName!, // Hiển thị branchName
+                                    style: const TextStyle(
+                                        color: blueBlack, fontSize: 16)),
+                          ),
                           const Icon(Icons.arrow_forward_ios,
                               color: blueGrey1, size: 22)
                         ],
-                      )),
+                      ),
+                    ),
+                  ),
+
                   const SizedBox(height: 20),
                   // const Text('Phòng ban', style: TextStyle(color: blueGrey1)),
                   // const SizedBox(height: 10),
@@ -553,7 +604,75 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(width: 10),
                     ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(color: Colors.red, width: 1),
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () {
+                          // Hiển thị popup xác nhận
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Xác nhận xóa'),
+                                content: const Text(
+                                    'Bạn có chắc chắn muốn xóa vị trí này không?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      // Đóng popup
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Hủy',
+                                        style: TextStyle(color: Colors.grey)),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      // Gọi sự kiện xóa vị trí
+                                      BlocProvider.of<LocationBloc>(context)
+                                          .add(LocationDeleteEvent(
+                                        id: widget.locationModel
+                                            .id, // ID của vị trí cần xóa
+                                        token: User.token, // Token xác thực
+                                      ));
+                                      // Đóng popup
+                                      Navigator.of(context).pop();
+
+                                      Navigator.pop(context, 'edit');
+                                      BlocProvider.of<LocationBloc>(context)
+                                          .add(
+                                        GetLocationEvent(
+                                            site: UserModel.siteName,
+                                            token: User.token),
+                                      );
+                                    },
+                                    child: const Text('Xóa',
+                                        style: TextStyle(color: Colors.red)),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: const Text('Xóa vị trí',
+                            style: TextStyle(color: Colors.red, fontSize: 22)),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -613,12 +732,13 @@ class _EditLocationScreenState extends State<EditLocationScreen> {
 }
 
 editLocation(LocationModel locationModel, String name, String address,
-    double lat, double lng, int radius) {
+    double lat, double lng, int radius, int branchId) {
   List<LocationModel> locationList = CompanyModel.locationList;
-  // for (int i = 0; i < locationList.length; i++) {
-  //   if (locationList[i].id == locationModel.id) {
-  //     CompanyModel.locationList[i] = locationModel.copyWith(
-  //         name: name, address: address, lat: lat, lng: lng);
-  //   }
-  // }
+  // Cập nhật thông tin vị trí với branchId
+  for (int i = 0; i < locationList.length; i++) {
+    if (locationList[i].id == locationModel.id) {
+      CompanyModel.locationList[i] = locationModel.copyWith(
+          name: name, address: address, lat: lat, lng: lng, branchID: branchId);
+    }
+  }
 }

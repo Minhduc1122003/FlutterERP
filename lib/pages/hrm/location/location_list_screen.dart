@@ -77,7 +77,7 @@ class LocationListScreen extends StatelessWidget {
                                       builder: (context) => EditLocationScreen(
                                           locationModel:
                                               state.locationList[index],
-                                          branchName: branch.name)),
+                                          branch: branch)),
                                 );
                               },
                               child: Container(

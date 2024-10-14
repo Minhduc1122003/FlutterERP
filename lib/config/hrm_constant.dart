@@ -65,5 +65,6 @@ const String postAddRegionAPI = '$serverURL/hrm/api/area';
 const String getBranchAPI = '$serverURL/hrm/api/branch/';
 const String postAddBranchAPI = '$serverURL/hrm/api/branch';
 const String getLocationAPI = '$serverURL/hrm/api/location/';
+const String updateLocationAPI = '$serverURL/hrm/api/location/';
 const String postCheckInAPI = '$serverURL/hrm/api/attendance/insert/';
 const String getScanByDay = '$serverURL/hrm/api/attendance/getScanByDay/';

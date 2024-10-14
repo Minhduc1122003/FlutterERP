@@ -221,6 +221,7 @@ class _NewLocationScreenState extends State<NewLocationScreen> {
                 address: addressController.text,
                 longitude: longitudeController.text,
                 latitude: latitudeController.text,
+                radius: int.parse(radiusController.text),
                 site: UserModel.siteName,
                 token: User.token,
               ));

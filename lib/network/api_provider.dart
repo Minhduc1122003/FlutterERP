@@ -53,15 +53,17 @@ class ApiProvider {
     }
   }
 
-  Future<Response> postConnectDuc(String url, Map<String, dynamic> map) async {
+  Future<Response> patchConnect(
+      String url, Map<String, dynamic> map, String token) async {
     var headers = {
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
     };
     final uri = Uri.parse(url);
     var body = jsonEncode(map);
     final encoding = Encoding.getByName('utf-8');
     try {
-      return await post(
+      return await patch(
         uri,
         headers: headers,
         body: body,
@@ -565,6 +567,37 @@ class ApiProvider {
     }
   }
 
+  Future<String> postUpdateLocation(
+      int id,
+      int branchID,
+      String name,
+      String address,
+      String longitude,
+      String latitude,
+      String site,
+      int radius,
+      String token) async {
+    var postData = {
+      "id": id,
+      "branchID": branchID,
+      "name": name,
+      "address": address,
+      "longitude": longitude,
+      "latitude": latitude,
+      "radius": radius,
+      "createdBy": site,
+    };
+
+    response = await patchConnect('$updateLocationAPI/$id', postData, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      print('Update OK');
+      return "OK";
+    } else {
+      return "";
+    }
+  }
+
   Future<String> postAddLocation(
       int id,
       int branchID,
@@ -572,6 +605,7 @@ class ApiProvider {
       String address,
       String longitude,
       String latitude,
+      int radius,
       String site,
       String token) async {
     var postData;
@@ -582,7 +616,8 @@ class ApiProvider {
         "name": name,
         "address": address,
         "longitude": longitude,
-        "latitude": latitude,
+        "latitude": radius,
+        "radius": latitude,
         "siteID": site
       };
     } else {
@@ -592,11 +627,22 @@ class ApiProvider {
         "address": address,
         "longitude": longitude,
         "latitude": latitude,
+        "radius": radius,
         "siteID": site
       };
     }
 
     response = await postConnect(getLocationAPI, postData, token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      return "OK";
+    } else {
+      return "";
+    }
+  }
+
+  Future<String> deleteLocation(int id, String token) async {
+    response = await deleteConnect('$getLocationAPI$id', token);
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {
       return "OK";

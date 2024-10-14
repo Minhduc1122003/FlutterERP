@@ -26,9 +26,34 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
           event.address,
           event.longitude,
           event.latitude,
+          event.radius,
           event.site,
           event.token);
       emit(LocationAddSuccess(mess: result));
+    });
+    on<LocationUpdateEvent>((event, emit) async {
+      emit(LocationWaiting());
+      String result = await ApiProvider().postUpdateLocation(
+          event.id,
+          event.branchID,
+          event.name,
+          event.address,
+          event.longitude,
+          event.latitude,
+          event.site,
+          event.radius, // Sử dụng radius từ sự kiện
+          event.token);
+      emit(LocationAddSuccess(
+          mess: result)); // Phát ra trạng thái cập nhật thành công
+    });
+    on<LocationDeleteEvent>((event, emit) async {
+      emit(LocationWaiting());
+      String result = await ApiProvider().deleteLocation(event.id, event.token);
+      if (result == "OK") {
+        emit(LocationDeleteSuccess(message: "Location deleted successfully"));
+      } else {
+        emit(LocationError(errorMessage: "Failed to delete location"));
+      }
     });
   }
 }
