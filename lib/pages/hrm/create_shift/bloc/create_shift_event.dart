@@ -9,7 +9,7 @@ abstract class CreateShiftEvent extends Equatable {
 
 // Event to add a new shift
 class AddCreateShiftEvent extends CreateShiftEvent {
-  final CreateShift createShift;
+  final CreateShiftModel createShift;
 
   const AddCreateShiftEvent(this.createShift);
 

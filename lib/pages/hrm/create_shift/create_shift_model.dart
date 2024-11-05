@@ -1,68 +1,80 @@
-class CreateShift {
+class CreateShiftModel {
   final String code;
+  final int status;
   final String title;
-  final String status;
   final int shiftType;
   final String fromTime;
   final String toTime;
-  final String workTime;
+  final double workTime;
+  final double timeCalculate;
+  final double coefficient;
   final String startBreak;
   final String endBreak;
+  final double totalBreak;
   final String note;
-  final String isCrossDay;
-  final String coefficient;
-  final String timeCalculate;
-
-  CreateShift({
+  final bool isCrossDay;
+  final String createdBy;
+  final String siteID;
+  CreateShiftModel({
     required this.code,
-    required this.title,
     required this.status,
+    required this.title,
     required this.shiftType,
     required this.fromTime,
     required this.toTime,
     required this.workTime,
+    required this.timeCalculate,
+    required this.coefficient,
     required this.startBreak,
     required this.endBreak,
+    required this.totalBreak,
     required this.note,
     required this.isCrossDay,
-    required this.coefficient,
-    required this.timeCalculate,
+    required this.createdBy,
+    required this.siteID,
   });
 
-  // Optional: Add factory or methods for JSON serialization if needed
-  factory CreateShift.fromJson(Map<String, dynamic> json) {
-    return CreateShift(
+  // Phương thức để khởi tạo từ JSON
+  factory CreateShiftModel.fromJson(Map<String, dynamic> json) {
+    return CreateShiftModel(
       code: json['code'],
-      title: json['title'],
       status: json['status'],
+      title: json['title'],
       shiftType: json['shiftType'],
       fromTime: json['fromTime'],
       toTime: json['toTime'],
-      workTime: json['workTime'],
+      workTime: (json['workTime'] as num).toDouble(),
+      timeCalculate: (json['timeCalculate'] as num).toDouble(),
+      coefficient: (json['coefficient'] as num).toDouble(),
       startBreak: json['startBreak'],
       endBreak: json['endBreak'],
+      totalBreak: (json['totalBreak'] as num).toDouble(),
       note: json['note'],
       isCrossDay: json['isCrossDay'],
-      coefficient: json['coefficient'],
-      timeCalculate: json['timeCalculate'],
+      createdBy: json['createdBy'],
+      siteID: json['siteID'],
     );
   }
 
+  // Phương thức để chuyển đổi model thành JSON (nếu cần)
   Map<String, dynamic> toJson() {
     return {
       'code': code,
-      'title': title,
       'status': status,
+      'title': title,
       'shiftType': shiftType,
       'fromTime': fromTime,
       'toTime': toTime,
       'workTime': workTime,
+      'timeCalculate': timeCalculate,
+      'coefficient': coefficient,
       'startBreak': startBreak,
       'endBreak': endBreak,
+      'totalBreak': totalBreak,
       'note': note,
       'isCrossDay': isCrossDay,
-      'coefficient': coefficient,
-      'timeCalculate': timeCalculate,
+      'createdBy': createdBy,
+      'siteID': siteID,
     };
   }
 }

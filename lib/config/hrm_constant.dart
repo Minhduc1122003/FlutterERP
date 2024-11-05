@@ -24,7 +24,8 @@ String loginAPI = '$serverURL/hrm/api/userv2/login';
 // const String loginAPI = 'http://api-rms.reetech.vn/api/Users/loginv1';
 
 // mduc edit
-const String createShiftAPI = '$serverURL/hrm/api/shift/';
+const String createShiftAPI = '$serverURL/hrm/api/shift';
+const String getAllListShiftAPI = '$serverURL/hrm/api/shift/';
 
 const String getInfoEmployeeAPI = '$serverURL/hrm/api/Employee/allInfo/';
 const String getInfoMobileAPI = '$serverURL/hrm/api/Employee/infoMobile/';

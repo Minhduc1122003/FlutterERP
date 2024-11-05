@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:erp/pages/hrm/notification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,11 +29,20 @@ class WorkScreen extends StatefulWidget {
 
 class _WorkScreenState extends State<WorkScreen> {
   late WorkBloc bloc;
+  late Timer _timer;
+  late String _currentTime;
   @override
   void initState() {
     //getCheckInStatus();
     bloc = BlocProvider.of<WorkBloc>(context);
     bloc.add(InitialWorkEvent());
+    _currentTime = _formatCurrentTime();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _currentTime = _formatCurrentTime();
+      });
+    });
+
     super.initState();
   }
 
@@ -39,6 +50,16 @@ class _WorkScreenState extends State<WorkScreen> {
   //   checkInStatus = await ApiProvider().getCheckInStatus();
   //   setState(() {});
   // }
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  String _formatCurrentTime() {
+    final now = DateTime.now();
+    return '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -342,13 +363,13 @@ class _WorkScreenState extends State<WorkScreen> {
               color: mainColor, borderRadius: BorderRadius.circular(15)),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Vào ca',
                     style: TextStyle(fontSize: 30, color: Colors.white)),
-                Text('23:31', style: TextStyle(color: Colors.white)),
+                Text(_currentTime, style: TextStyle(color: Colors.white)),
               ],
             ),
             Container(

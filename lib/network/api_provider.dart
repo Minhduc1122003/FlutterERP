@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:erp/model/hrm_model/employee_model.dart';
 import 'package:erp/pages/hrm/create_shift/create_shift_model.dart';
+import 'package:erp/pages/hrm/create_shift/get_list_shift_model.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import '../model/hrm_model/advance_model.dart';
@@ -237,27 +238,45 @@ class ApiProvider {
     }
   }
 
-  Future<String> createShift(CreateShift createShift, String token) async {
-    // Convert the CreateShift model into a map
+  Future<List<GetListShiftModel>> getAllListShift(String token) async {
+    final response = await getConnect('$getAllListShiftAPI/REEME', token);
+    if (response.statusCode == statusOk) {
+      List responseList = json.decode(response.body);
+      return responseList
+          .map((val) => GetListShiftModel.fromJson(val))
+          .toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<String> createShift(CreateShiftModel createShift, String token) async {
     var postData = {
       'code': createShift.code,
       'title': createShift.title,
-      'status': createShift.status,
       'shiftType': createShift.shiftType,
+      'status': createShift.status,
       'fromTime': createShift.fromTime,
       'toTime': createShift.toTime,
       'workTime': createShift.workTime,
+      'timeCalculate': createShift.timeCalculate,
+      'coefficient': createShift.coefficient,
       'startBreak': createShift.startBreak,
       'endBreak': createShift.endBreak,
-      'note': createShift.note,
+      'totalBreak': createShift.totalBreak,
       'isCrossDay': createShift.isCrossDay,
-      'coefficient': createShift.coefficient,
-      'timeCalculate': createShift.timeCalculate,
+      'createdBy': createShift.createdBy,
+      'siteID': createShift.siteID,
+      'note': createShift.note
     };
+
+    // Print postData
+    print('Post Data: $postData');
 
     // Make the POST request
     final response = await postConnect(createShiftAPI, postData, token);
-    print(response.statusCode);
+    print('Status Code: ${response.statusCode}');
+
     // Handle response
     if (response.statusCode == statusOk ||
         response.statusCode == statusCreated) {

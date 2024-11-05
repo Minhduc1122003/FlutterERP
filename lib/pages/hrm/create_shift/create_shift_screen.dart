@@ -1,11 +1,13 @@
 import 'package:erp/config/color.dart';
+import 'package:erp/model/login_model.dart';
 import 'package:erp/pages/hrm/create_shift/bloc/create_shift_bloc.dart';
 import 'package:erp/pages/hrm/create_shift/create_shift_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class CreateShiftSreen extends StatefulWidget {
-  const CreateShiftSreen({super.key});
+  const CreateShiftSreen({Key? key}) : super(key: key);
 
   @override
   State<CreateShiftSreen> createState() => _CreateShiftSreenState();
@@ -23,17 +25,8 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
   List day = [false, false, false, false, false, false, false];
 
   final TextEditingController _codeController = TextEditingController();
-  final TextEditingController _coefficientController =
-      TextEditingController(); //hệ số
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _shiftTypeController =
-      TextEditingController(); //loại ca
-  final TextEditingController _fromTimeController = TextEditingController();
-  final TextEditingController _toTimeController = TextEditingController();
   final TextEditingController _workingTimeController = TextEditingController();
-  final TextEditingController _startBreakController = TextEditingController();
-  final TextEditingController _endBreakController = TextEditingController();
-  final TextEditingController _totalBreakController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
   @override
@@ -44,7 +37,7 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
 
   void _updateWorkingTimeController() {
     setState(() {
-      _workingTimeController.text = '0';
+      _workingTimeController.text = '';
     });
   }
 
@@ -71,37 +64,37 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
     });
   }
 
-  void _handleShiftTypeChange(String shiftType) {
+  String _handleShiftTypeChange(String shiftType) {
     switch (shiftType) {
       case 'LOẠI CA CỐ ĐỊNH':
-        setState(() {
-          shiftType = '10';
-        });
-        break;
+        return '10';
       case 'TĂNG CA NGÀY THƯỜNG':
-        setState(() {
-          shiftType = '11';
-        });
-        break;
+        return '11';
       case 'TĂNG CA ĐÊM':
-        setState(() {
-          shiftType = '12';
-        });
-        break;
+        return '12';
       case 'TĂNG CHỦ NHẬT':
-        setState(() {
-          shiftType = '13';
-        });
-        break;
+        return '13';
       case 'TĂNG CA NGÀY LỄ':
-        setState(() {
-          shiftType = '14';
-        });
-        break;
+        return '14';
       default:
-        setState(() {
-          shiftType = '10';
-        });
+        return '15';
+    }
+  }
+
+  String _handleStatusChange(String status) {
+    switch (status) {
+      case 'New':
+        return '0';
+      case 'SendToManager':
+        return '1';
+      case 'Reopen':
+        return '2';
+      case 'Approved':
+        return '3';
+      case 'Rejected':
+        return '4';
+      default:
+        return '10';
     }
   }
 
@@ -130,6 +123,7 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
     double totalWorkHours = totalWorkMinutes / 60;
 
     setState(() {
+      _workingTimeController.text = totalWorkHours.toString();
       workingTime = totalWorkHours;
       _updateWorkingTimeController();
       double thoiGianTinhToan =
@@ -139,28 +133,53 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
   }
 
   void handleCreateShift(BuildContext context) {
-    // Create a new instance of CreateShift
-    CreateShift newShift = CreateShift(
-      code: 'SHIFT001',
-      title: 'Morning Shift',
-      status: 'Active',
-      shiftType: 1,
-      fromTime: '08:00',
-      toTime: '17:00',
-      workTime: '8',
-      startBreak: '12:00',
-      endBreak: '13:00',
-      note: 'Regular shift',
-      isCrossDay: 'false',
-      coefficient: '1.0',
-      timeCalculate: '8',
-    );
-    print(_codeController.text);
-    print(_titleController.text);
-    print(_codeController.text);
-    print(shiftType);
+    // CreateShiftModel newShift = CreateShiftModel();
+    DateTime GioBDNghi = DateTime.parse('2024-11-05 $selectedGioBDNghi');
+    DateTime GioKTNghi = DateTime.parse('2024-11-05 $selectedGioKTNghi');
+    Duration duration = GioKTNghi.difference(GioBDNghi);
+    double tongGioNghi =
+        duration.inHours.toDouble() + duration.inMinutes.remainder(60) / 60.0;
+    String convertedShiftType = _handleShiftTypeChange(shiftType!);
+    String convertedselectedTrangThai = _handleStatusChange(selectedTrangThai!);
 
-    // context.read<CreateShiftBloc>().add(AddCreateShiftEvent(newShift));
+    DateTime convertToDateTime(String timeString) {
+      DateTime today = DateTime.now();
+      return DateTime.parse(
+          '${DateFormat('yyyy-MM-dd').format(today)}T$timeString');
+    }
+
+    String formatDateTimeToUTC(DateTime dateTime) {
+      return '${dateTime.toIso8601String()}Z';
+    }
+
+    DateTime fromTime = convertToDateTime(selectedGioVao);
+    DateTime toTime = convertToDateTime(selectedGioRa);
+    DateTime startBreak = convertToDateTime(selectedGioBDNghi);
+    DateTime endBreak = convertToDateTime(selectedGioKTNghi);
+
+    String formattedFromTime = formatDateTimeToUTC(fromTime);
+    String formattedToTime = formatDateTimeToUTC(toTime);
+    String formattedStartBreak = formatDateTimeToUTC(startBreak);
+    String formattedEndBreak = formatDateTimeToUTC(endBreak);
+
+    CreateShiftModel newShift = CreateShiftModel(
+        code: _codeController.text,
+        title: _titleController.text,
+        shiftType: int.parse(convertedShiftType),
+        status: int.parse(convertedselectedTrangThai),
+        fromTime: formattedFromTime,
+        toTime: formattedToTime,
+        workTime: workingTime,
+        timeCalculate: double.parse(_workingTimeController.text),
+        coefficient: heSo,
+        startBreak: formattedStartBreak,
+        endBreak: formattedEndBreak,
+        totalBreak: tongGioNghi,
+        isCrossDay: false,
+        createdBy: User.no_,
+        siteID: User.site,
+        note: _noteController.text);
+    context.read<CreateShiftBloc>().add(AddCreateShiftEvent(newShift));
   }
 
   @override
@@ -199,8 +218,7 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
         body: BlocBuilder<CreateShiftBloc, CreateShiftState>(
             builder: (context, state) {
           if (state is CreateShiftWaiting) {
-            return const Center(
-                child: CircularProgressIndicator(color: mainColor));
+            Navigator.pop(context, true);
           }
           if (state is CreateShiftSuccess) {
             return const Center(
@@ -295,7 +313,7 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
                           height: 50,
                           width: double.infinity,
                           child: DropdownButton<String>(
-                            value: selectedValue,
+                            value: shiftType,
                             isExpanded: true,
                             icon: const Icon(
                               Icons.arrow_forward_ios,
@@ -305,7 +323,7 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
                             underline: Container(),
                             items: const <DropdownMenuItem<String>>[
                               DropdownMenuItem<String>(
-                                value: 'Chọn loại ca',
+                                value: null, // Mục không chọn
                                 enabled: false, // Không cho phép chọn mục này
                                 child: Text(
                                   'Chọn loại ca',
@@ -357,9 +375,10 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
                               ),
                             ],
                             onChanged: (String? newValue) {
-                              if (newValue != 'Chọn loại ca') {
+                              if (newValue != null &&
+                                  newValue != 'Chọn loại ca') {
                                 setState(() {
-                                  shiftType = newValue!;
+                                  shiftType = newValue; // Cập nhật loại ca
                                 });
                               }
                             },
@@ -637,8 +656,9 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
                         const SizedBox(height: 10),
                         Container(
                           decoration: BoxDecoration(
-                              color: backgroundColor.withOpacity(0.4),
-                              borderRadius: BorderRadius.circular(5)),
+                            color: backgroundColor.withOpacity(0.4),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           height: 50,
                           width: double.infinity,
@@ -647,13 +667,11 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
                             cursorColor: backgroundColor,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.zero,
-                              // contentPadding: EdgeInsets.only(top: -17),
                               hintText: workingTime == 0.0
-                                  ? '0'
+                                  ? ''
                                   : (workingTime % 1 == 0
                                       ? workingTime.toInt().toString()
                                       : workingTime.toString()),
-
                               hintStyle: const TextStyle(color: Colors.grey),
                               border: InputBorder.none,
                             ),
@@ -703,6 +721,7 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
                           height: 50,
                           width: double.infinity,
                           child: TextFormField(
+                            controller: _noteController,
                             cursorColor: backgroundColor,
                             decoration: const InputDecoration(
                               contentPadding: EdgeInsets.zero,

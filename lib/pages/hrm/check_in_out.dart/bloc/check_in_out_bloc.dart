@@ -20,6 +20,7 @@ class CheckInOutBloc extends Bloc<CheckInOutEvent, CheckInOutState> {
               // UserModel.id
               User.site,
               User.token);
+      print('getListShiftModelByUser ');
 
       List<LocationModel> locationList =
           await ApiProvider().getLocation(UserModel.siteName, User.token);

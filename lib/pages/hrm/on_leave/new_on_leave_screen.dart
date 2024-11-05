@@ -655,6 +655,7 @@ class _NewOnLeaveScreenState extends State<NewOnLeaveScreen> {
                                             Icons.numbers_outlined,
                                             color: blueGrey2,
                                           ),
+
                                           const SizedBox(width: 10),
                                           Expanded(
                                             child: TextFormField(

@@ -6,7 +6,7 @@ import 'company_screen.dart';
 import 'edit_working_hours_screen.dart';
 import 'personnel/list_personnel_screen.dart';
 import 'shift_assignment/shift_assignment_screen.dart';
-import 'shift_screen.dart';
+import 'create_shift/shift_screen.dart';
 
 class ManagementSettingScreen extends StatelessWidget {
   const ManagementSettingScreen({Key? key}) : super(key: key);
@@ -56,23 +56,29 @@ Widget buildRequestManagementItem(
   return InkWell(
     onTap: () {
       if (id == 3) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const ShiftScreen()));
-      } else if (id == 1) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const CompanyScreen()));
-      } else if (id == 4) {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ShiftAssignmentScreen()));
+            MaterialPageRoute(builder: (context) => const ShiftScreen()));
+      } else if (id == 1) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const CompanyScreen()));
+      } else if (id == 4) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ShiftAssignmentScreen()));
       } else if (id == 5) {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const AttendanceScreen()));
       } else if (id == 6) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const EditWorkingHoursScreen()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const EditWorkingHoursScreen()));
       } else if (id == 2) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ListPersonnelScreen()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ListPersonnelScreen()));
       }
     },
     child: Container(

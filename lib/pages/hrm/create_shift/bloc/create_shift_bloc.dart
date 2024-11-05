@@ -15,7 +15,7 @@ class CreateShiftBloc extends Bloc<CreateShiftEvent, CreateShiftState> {
         // Pass the CreateShift model to the API
         String response =
             await ApiProvider().createShift(event.createShift, User.token);
-
+        print(response);
         if (response.isNotEmpty) {
           emit(CreateShiftSuccess());
         } else {
