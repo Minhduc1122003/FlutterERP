@@ -26,5 +26,42 @@ class CreateShiftBloc extends Bloc<CreateShiftEvent, CreateShiftState> {
       }
       emit(CreateShiftSuccess());
     });
+    on<UpdateShiftEvent>((event, emit) async {
+      emit(CreateShiftWaiting());
+      try {
+        // Pass the CreateShift model to the API
+        String response = await ApiProvider().updateShift(
+            event.updatedShift, int.parse(event.idShift), User.token);
+        print(response);
+        if (response.isNotEmpty) {
+          emit(UpdateShiftSuccess());
+        } else {
+          emit(UpdateShiftError());
+        }
+      } catch (e) {
+        emit(UpdateShiftError());
+      }
+      emit(UpdateShiftSuccess());
+    });
+    on<ResetShiftState>((event, emit) async {
+      emit(CreateShiftInitial());
+    });
+    on<DeleteShiftEvent>((event, emit) async {
+      emit(DeleteShiftWaiting());
+      try {
+        // Pass the CreateShift model to the API
+        String response = await ApiProvider()
+            .deleteShift(int.parse(event.idShift), User.token);
+        print(response);
+        if (response.isNotEmpty) {
+          emit(DeleteShiftSuccess());
+        } else {
+          emit(DeleteShiftError());
+        }
+      } catch (e) {
+        emit(DeleteShiftError());
+      }
+      emit(DeleteShiftSuccess());
+    });
   }
 }

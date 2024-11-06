@@ -2,12 +2,16 @@ import 'package:erp/config/color.dart';
 import 'package:erp/model/login_model.dart';
 import 'package:erp/pages/hrm/create_shift/bloc/create_shift_bloc.dart';
 import 'package:erp/pages/hrm/create_shift/create_shift_model.dart';
+import 'package:erp/pages/hrm/create_shift/get_list_shift_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 
 class CreateShiftSreen extends StatefulWidget {
-  const CreateShiftSreen({Key? key}) : super(key: key);
+  final GetListShiftModel? shiftModel;
+
+  const CreateShiftSreen({Key? key, this.shiftModel}) : super(key: key);
 
   @override
   State<CreateShiftSreen> createState() => _CreateShiftSreenState();
@@ -33,6 +37,7 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
   void initState() {
     super.initState();
     _updateWorkingTimeController();
+    _checkModel(widget.shiftModel);
   }
 
   void _updateWorkingTimeController() {
@@ -81,6 +86,23 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
     }
   }
 
+  String mapShiftTypeToLabel(String shiftType) {
+    switch (shiftType) {
+      case '10':
+        return 'LOẠI CA CỐ ĐỊNH';
+      case '11':
+        return 'TĂNG CA NGÀY THƯỜNG';
+      case '12':
+        return 'TĂNG CA ĐÊM';
+      case '13':
+        return 'TĂNG CHỦ NHẬT';
+      case '14':
+        return 'TĂNG CA NGÀY LỄ';
+      default:
+        return 'Chọn loại ca'; // Default or placeholder value
+    }
+  }
+
   String _handleStatusChange(String status) {
     switch (status) {
       case 'New':
@@ -93,6 +115,23 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
         return '3';
       case 'Rejected':
         return '4';
+      default:
+        return '10';
+    }
+  }
+
+  String _handleStatusLabel(String status) {
+    switch (status) {
+      case '0':
+        return 'New';
+      case '1':
+        return 'SendToManager';
+      case '2':
+        return 'Reopen';
+      case '3':
+        return 'Approved';
+      case '4':
+        return 'Rejected';
       default:
         return '10';
     }
@@ -132,8 +171,27 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
     });
   }
 
-  void handleCreateShift(BuildContext context) {
-    // CreateShiftModel newShift = CreateShiftModel();
+  void _checkModel(GetListShiftModel? shift) {
+    if (shift != null) {
+      setState(() {
+        _codeController.text = shift.code ?? '';
+        _titleController.text = shift.title ?? '';
+        shiftType = mapShiftTypeToLabel(shift.shiftType.toString());
+        selectedTrangThai = _handleStatusLabel(shift.status.toString());
+        selectedGioVao = shift.fromTimeString ?? '00:00:00';
+        selectedGioRa = shift.toTimeString ?? '00:00:00';
+        selectedGioBDNghi = shift.startBreakString ?? '00:00:00';
+        selectedGioKTNghi = shift.endBreakString ?? '00:00:00';
+        workingTime = shift.workTime ?? 0.0;
+        _workingTimeController.text = shift.timeCalculate.toString() ?? '0';
+        heSo = shift.coefficient ?? 0.0;
+
+        _noteController.text = shift.note ?? '';
+      });
+    }
+  }
+
+  void handleCreateShift() {
     DateTime GioBDNghi = DateTime.parse('2024-11-05 $selectedGioBDNghi');
     DateTime GioKTNghi = DateTime.parse('2024-11-05 $selectedGioKTNghi');
     Duration duration = GioKTNghi.difference(GioBDNghi);
@@ -182,6 +240,57 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
     context.read<CreateShiftBloc>().add(AddCreateShiftEvent(newShift));
   }
 
+  void handleUpdate() {
+    DateTime GioBDNghi = DateTime.parse('2024-11-05 $selectedGioBDNghi');
+    DateTime GioKTNghi = DateTime.parse('2024-11-05 $selectedGioKTNghi');
+    Duration duration = GioKTNghi.difference(GioBDNghi);
+    double tongGioNghi =
+        duration.inHours.toDouble() + duration.inMinutes.remainder(60) / 60.0;
+    String convertedShiftType = _handleShiftTypeChange(shiftType!);
+    String convertedselectedTrangThai = _handleStatusChange(selectedTrangThai!);
+
+    DateTime convertToDateTime(String timeString) {
+      DateTime today = DateTime.now();
+      return DateTime.parse(
+          '${DateFormat('yyyy-MM-dd').format(today)}T$timeString');
+    }
+
+    String formatDateTimeToUTC(DateTime dateTime) {
+      return '${dateTime.toIso8601String()}Z';
+    }
+
+    DateTime fromTime = convertToDateTime(selectedGioVao);
+    DateTime toTime = convertToDateTime(selectedGioRa);
+    DateTime startBreak = convertToDateTime(selectedGioBDNghi);
+    DateTime endBreak = convertToDateTime(selectedGioKTNghi);
+
+    String formattedFromTime = formatDateTimeToUTC(fromTime);
+    String formattedToTime = formatDateTimeToUTC(toTime);
+    String formattedStartBreak = formatDateTimeToUTC(startBreak);
+    String formattedEndBreak = formatDateTimeToUTC(endBreak);
+
+    CreateShiftModel newShift = CreateShiftModel(
+        code: _codeController.text,
+        title: _titleController.text,
+        shiftType: int.parse(convertedShiftType),
+        status: int.parse(convertedselectedTrangThai),
+        fromTime: formattedFromTime,
+        toTime: formattedToTime,
+        workTime: workingTime,
+        timeCalculate: double.parse(_workingTimeController.text),
+        coefficient: heSo,
+        startBreak: formattedStartBreak,
+        endBreak: formattedEndBreak,
+        totalBreak: tongGioNghi,
+        isCrossDay: false,
+        createdBy: User.no_,
+        siteID: User.site,
+        note: _noteController.text);
+    context
+        .read<CreateShiftBloc>()
+        .add(UpdateShiftEvent(newShift, widget.shiftModel!.id.toString()));
+  }
+
   @override
   void dispose() {
     _workingTimeController.dispose();
@@ -194,36 +303,70 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Text(
-            'Tạo ca',
+          title: Text(
+            widget.shiftModel == null ? 'Tạo ca' : 'Thông tin ca làm',
             style: TextStyle(color: Colors.black),
           ),
           iconTheme: const IconThemeData(color: Colors.black),
           elevation: 0,
           actions: [
-            InkWell(
-              child: Center(
-                  child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: const Text(
-                        'TẠO',
-                        style: TextStyle(color: mainColor),
-                      ))),
-              onTap: () {
-                handleCreateShift(context);
-              },
-            )
+            widget.shiftModel == null
+                ? InkWell(
+                    child: Center(
+                        child: Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            child: const Text(
+                              'TẠO',
+                              style: TextStyle(color: mainColor),
+                            ))),
+                    onTap: () {
+                      handleCreateShift();
+                    },
+                  )
+                : InkWell(
+                    child: Center(
+                        child: Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            child: const Text(
+                              'Lưu',
+                              style: TextStyle(color: mainColor),
+                            ))),
+                    onTap: () {
+                      handleUpdate();
+                    },
+                  )
           ],
         ),
         body: BlocBuilder<CreateShiftBloc, CreateShiftState>(
             builder: (context, state) {
-          if (state is CreateShiftWaiting) {
-            Navigator.pop(context, true);
-          }
-          if (state is CreateShiftSuccess) {
-            return const Center(
-                child: Text('Trang này chưa có dữ liệu',
-                    style: TextStyle(fontSize: 17, color: Colors.blueGrey)));
+          if (state is CreateShiftWaiting ||
+              state is UpdateShiftWaiting ||
+              state is DeleteShiftWaiting) {
+            EasyLoading.show();
+          } else if (state is CreateShiftSuccess) {
+            EasyLoading.dismiss();
+            EasyLoading.showSuccess('Tạo ca làm thành công!').then((_) {
+              context.read<CreateShiftBloc>().add(ResetShiftState());
+              Navigator.pop(context, true);
+            });
+          } else if (state is UpdateShiftSuccess) {
+            EasyLoading.dismiss();
+            EasyLoading.showSuccess('Sửa ca làm thành công!').then((_) {
+              context.read<CreateShiftBloc>().add(ResetShiftState());
+              Navigator.pop(context, true);
+            });
+          } else if (state is DeleteShiftSuccess) {
+            EasyLoading.dismiss();
+            EasyLoading.showSuccess('Xóa ca làm thành công!').then((_) {
+              context.read<CreateShiftBloc>().add(ResetShiftState());
+              Navigator.pop(context, true);
+            });
+          } else if (state is DeleteShiftError) {
+            EasyLoading.dismiss();
+            EasyLoading.showError('Lỗi! không tìm thấy ca làm').then((_) {
+              context.read<CreateShiftBloc>().add(ResetShiftState());
+              Navigator.pop(context, true);
+            });
           }
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 10),
@@ -729,6 +872,63 @@ class _CreateShiftSreenState extends State<CreateShiftSreen> {
                               hintText: 'Nhập chữ',
                               hintStyle: TextStyle(color: Colors.grey),
                               border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 0),
+                          child: SizedBox(
+                            height: 40,
+                            width: double.infinity,
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(
+                                    color: Colors.red, width: 1),
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () {
+                                // Hiển thị popup xác nhận
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Xác nhận xóa'),
+                                      content: const Text(
+                                          'Bạn có chắc chắn muốn xóa vị trí này không?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Hủy',
+                                              style: TextStyle(
+                                                  color: Colors.grey)),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            context.read<CreateShiftBloc>().add(
+                                                DeleteShiftEvent(widget
+                                                    .shiftModel!.id
+                                                    .toString()));
+
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Xóa',
+                                              style:
+                                                  TextStyle(color: Colors.red)),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              child: const Text('Xóa ca làm',
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 18)),
                             ),
                           ),
                         ),

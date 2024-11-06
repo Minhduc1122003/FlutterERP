@@ -16,3 +16,19 @@ class AddCreateShiftEvent extends CreateShiftEvent {
   @override
   List<Object> get props => [createShift];
 }
+
+class UpdateShiftEvent extends CreateShiftEvent {
+  final CreateShiftModel updatedShift;
+  final String idShift;
+
+  const UpdateShiftEvent(this.updatedShift, this.idShift);
+
+  @override
+  List<Object> get props => [updatedShift];
+}
+
+class DeleteShiftEvent extends CreateShiftEvent {
+  final String idShift;
+
+  const DeleteShiftEvent(this.idShift);
+}

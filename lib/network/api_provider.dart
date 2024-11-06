@@ -286,6 +286,53 @@ class ApiProvider {
     }
   }
 
+  Future<String> updateShift(
+      CreateShiftModel updateShift, int id, String token) async {
+    var postData = {
+      'code': updateShift.code,
+      'title': updateShift.title,
+      'shiftType': updateShift.shiftType,
+      'status': updateShift.status,
+      'fromTime': updateShift.fromTime,
+      'toTime': updateShift.toTime,
+      'workTime': updateShift.workTime,
+      'timeCalculate': updateShift.timeCalculate,
+      'coefficient': updateShift.coefficient,
+      'startBreak': updateShift.startBreak,
+      'endBreak': updateShift.endBreak,
+      'totalBreak': updateShift.totalBreak,
+      'isCrossDay': updateShift.isCrossDay,
+      'createdBy': updateShift.createdBy,
+      'siteID': updateShift.siteID,
+      'note': updateShift.note
+    };
+
+    // Print postData
+    print('Post Data: $postData');
+
+    // Make the POST request
+    final response = await patchConnect('$createShiftAPI/$id', postData, token);
+    print('Status Code: ${response.statusCode}');
+
+    // Handle response
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      return response.body;
+    } else {
+      return '';
+    }
+  }
+
+  Future<String> deleteShift(int id, String token) async {
+    final response = await deleteConnect('$createShiftAPI/$id', token);
+    if (response.statusCode == statusOk ||
+        response.statusCode == statusCreated) {
+      return response.body;
+    } else {
+      return '';
+    }
+  }
+
   Future<List<ShiftModel>> getListShiftModel(
       String siteName, String token) async {
     response = await getConnect(getListShiftModelAPI + siteName, token);

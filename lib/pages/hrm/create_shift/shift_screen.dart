@@ -129,115 +129,120 @@ class _ShiftScreenState extends State<ShiftScreen> {
       }
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(
-            color: Colors.grey.withOpacity(0.5),
-            width: 1), // Border color and width
-        borderRadius: BorderRadius.circular(10), // Border radius
-      ),
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-      margin: const EdgeInsets.symmetric(vertical: 2),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              // Wrap this to allow scrolling
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    shift.title ?? '', // Tên ca
-                    style: const TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.calendar_month,
-                        size: 13,
-                        color: Colors.green,
-                      ),
-                      const SizedBox(width: 3),
-                      const Text(
-                        'Loại: ',
-                        style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey),
-                      ),
-                      Text(
-                        getShiftTypeDescription(shift.shiftType),
-                        style: const TextStyle(
-                            fontSize: 11, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                ],
-              ),
+    return InkWell(
+      onTap: () async {
+        final result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CreateShiftSreen(
+              shiftModel: shift,
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.access_time_outlined,
-                    size: 13,
-                    color: Colors.green,
-                  ),
-                  const SizedBox(width: 3),
-                  const Text(
-                    'Vào: ',
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                  ),
-                  Text(
-                    '${shift.fromTimeString}',
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                  Text(
-                    ' ra: ',
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                  ),
-                  Text(
-                    '${shift.toTimeString}',
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ],
+        );
+        if (result == true) {
+          refreshData(); // Reload dữ liệu nếu cần sau khi quay về
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+              color: Colors.grey.withOpacity(0.5),
+              width: 1), // Border color and width
+          borderRadius: BorderRadius.circular(10), // Border radius
+        ),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+        margin: const EdgeInsets.symmetric(vertical: 2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                // Wrap this to allow scrolling
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      shift.title ?? '', // Tên ca
+                      style: const TextStyle(
+                          fontSize: 13, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_month,
+                          size: 13,
+                          color: Colors.green,
+                        ),
+                        const SizedBox(width: 3),
+                        const Text(
+                          'Loại: ',
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                        ),
+                        Text(
+                          getShiftTypeDescription(shift.shiftType),
+                          style: const TextStyle(
+                              fontSize: 11, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 5),
+                  ],
+                ),
               ),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  const Text(
-                    'Thời gian làm việc: ',
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                  ),
-                  Text(
-                    '${shift.workTime} giờ',
-                    style: const TextStyle(
-                        fontSize: 11, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.access_time_outlined,
+                      size: 13,
+                      color: Colors.green,
+                    ),
+                    const SizedBox(width: 3),
+                    Text(
+                      '${shift.fromTimeString} - ${shift.toTimeString}',
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  children: [
+                    const Text(
+                      'Thời gian làm việc: ',
+                      style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                    ),
+                    Text(
+                      '${shift.workTime} giờ',
+                      style: const TextStyle(
+                          fontSize: 11, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Icon(
+              Icons.arrow_forward_ios_outlined,
+              color: Colors.grey,
+              size: 16,
+            ),
+          ],
+        ),
       ),
     );
   }
